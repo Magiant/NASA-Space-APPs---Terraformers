@@ -1,0 +1,8 @@
+[
+  { "objectID": "apollo-11", "name": "Apollo 11", "year": 1969, "description": "Primer alunizaje tripulado." },
+  { "objectID": "voyager-1", "name": "Voyager 1", "year": 1977, "description": "Sonda en el espacio interestelar." },
+  { "objectID": "hubble", "name": "Hubble", "year": 1990, "description": "Telescopio espacial en órbita baja." },
+  { "objectID": "curiosity", "name": "Curiosity", "year": 2011, "description": "Rover que explora el cráter Gale en Marte." },
+  { "objectID": "jwst", "name": "James Webb", "year": 2021, "description": "Telescopio infrarrojo en el punto L2." },
+  { "objectID": "artemis-1", "name": "Artemis I", "year": 2022, "description": "Vuelo de prueba no tripulado alrededor de la Luna." }
+]
