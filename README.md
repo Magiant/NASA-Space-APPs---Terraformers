@@ -90,9 +90,10 @@ _[Describe who benefits from the solution and how.]_
 
 _[Describe the innovative aspects of the project.]_
 
-## 4. Use facility
+## 5. Use facility
 
-_[Describe the ease of use of the solution.]_
+_[Describe the innovative aspects of the project.]_
+
 ---
 
 # 📄 AI declaration
