@@ -62,10 +62,10 @@ _[Describe the idea behind the project, how it works, and the value it provides.
 
 | Phase | Status |
 |---------|---------|
-| Research & Discovery | 🟢 Completed |
-| Problem Analysis | 🟢 Completed |
-| Solution Design | 🟡 In Progress |
-| Development | 🟡 In Progress |
+| Research & Discovery | ⚪ Pending |
+| Problem Analysis | ⚪ Pending |
+| Solution Design | ⚪ Pending |
+| Development | ⚪ Pending |
 | Testing | ⚪ Pending |
 | Documentation | ⚪ Pending |
 | Final Presentation | ⚪ Pending |
