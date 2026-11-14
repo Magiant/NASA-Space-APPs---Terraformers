@@ -19,8 +19,8 @@ Our project aims to address a real-world challenge through the analysis, interpr
 
 ### Terraformers
 
-| Member | Role | Responsibilities |
-|----------|----------|----------|
+| Member |
+|----------|
 | Poll Garro Vargas | 
 | Angelo Castro Piedra | 
 | Hector Leiva Gamboa | 
