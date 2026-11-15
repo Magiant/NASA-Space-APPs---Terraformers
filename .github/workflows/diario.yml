@@ -31,3 +31,8 @@ jobs:
       # Tema 1 · Clima (Open-Meteo, últimos 7 días, 492 distritos)
       - name: Clima Open-Meteo
         run: npm run extraer -- clima
+
+      # Tema 2 · Humedad del suelo (Open-Meteo, 3 profundidades, últimos 7 días)
+      - name: Humedad del suelo Open-Meteo
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- humedad-open-meteo
