@@ -1,3 +1,4 @@
+import { Tx } from './Iconos';
 import { useT } from '../contexto/PreferenciasContext';
 import type { Nivel } from '../tipos';
 
@@ -8,7 +9,7 @@ export default function InsigniaNivel({ nivel }: { nivel: Nivel }) {
   const t = useT();
   return (
     <span className={`insignia insignia-${nivel}`}>
-      <span aria-hidden>{ICONOS[nivel]}</span> {t.niveles[nivel]}
+      <span aria-hidden><Tx>{ICONOS[nivel]}</Tx></span> {t.niveles[nivel]}
     </span>
   );
 }

@@ -1,3 +1,4 @@
+import { Icono } from './Iconos';
 import { useT } from '../contexto/PreferenciasContext';
 import { fecha } from '../utilidades';
 
@@ -6,7 +7,7 @@ export default function AvisoActualizado({ que, cuando, fuente }: { que?: string
   const t = useT();
   return (
     <p className="actualizado">
-      🕒 {t.comun.actualizados(que ?? t.comun.datos)} <strong>{fecha(cuando)}</strong>
+      <Icono nombre="reloj" tam={16} /> {t.comun.actualizados(que ?? t.comun.datos)} <strong>{fecha(cuando)}</strong>
       {fuente && <> · {t.comun.fuente}: {fuente}</>}
     </p>
   );

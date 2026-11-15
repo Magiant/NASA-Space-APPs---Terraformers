@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import type { Idioma } from '../idiomas';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexto/AuthContext';
 import { usePreferencias } from '../contexto/PreferenciasContext';
 import { cola } from '../offline/cola';
 import { useEnLinea } from '../utilidades';
-import { BanderaCostaRica, BanderaEstadosUnidos } from './Iconos';
+import { Icono } from './Iconos';
 
 /** A dónde lleva "Volver" si no hay pantalla anterior (enlace abierto directo). */
 function pantallaPadre(ruta: string): string {
@@ -28,99 +27,25 @@ function BotonVolver() {
   );
 }
 
-const OPCIONES_IDIOMA: { valor: Idioma; nombre: string; Bandera: () => JSX.Element }[] = [
-  { valor: 'es', nombre: 'Español', Bandera: BanderaCostaRica },
-  { valor: 'en', nombre: 'English', Bandera: BanderaEstadosUnidos },
-];
-
-/** Botón "Idioma ▾" que despliega la lista de idiomas. */
-function MenuIdioma({ actual, etiqueta, ayuda, alElegir }: { actual: Idioma; etiqueta: string; ayuda: string; alElegir: (i: Idioma) => void }) {
-  const [abierto, setAbierto] = useState(false);
-  const caja = useRef<HTMLDivElement>(null);
-
-  // Cerrar al tocar fuera o con Escape.
-  useEffect(() => {
-    if (!abierto) return;
-    const fuera = (e: PointerEvent) => {
-      if (!caja.current?.contains(e.target as Node)) setAbierto(false);
-    };
-    const tecla = (e: KeyboardEvent) => e.key === 'Escape' && setAbierto(false);
-    document.addEventListener('pointerdown', fuera);
-    document.addEventListener('keydown', tecla);
-    return () => {
-      document.removeEventListener('pointerdown', fuera);
-      document.removeEventListener('keydown', tecla);
-    };
-  }, [abierto]);
-
-  return (
-    <div className="menu-idioma" ref={caja}>
-      <button type="button" className="boton-idioma" aria-haspopup="menu" aria-expanded={abierto} title={ayuda} onClick={() => setAbierto(!abierto)}>
-        <span aria-hidden>🌐</span>
-        <span className="boton-idioma-texto">{etiqueta}</span>
-        <span aria-hidden className={`flecha${abierto ? ' flecha-arriba' : ''}`}>▾</span>
-      </button>
-      {abierto && (
-        <ul className="menu-idioma-lista" role="menu" aria-label={ayuda}>
-          {OPCIONES_IDIOMA.map(({ valor, nombre, Bandera }) => (
-            <li key={valor} role="none">
-              <button
-                type="button"
-                role="menuitemradio"
-                aria-checked={actual === valor}
-                lang={valor}
-                onClick={() => {
-                  alElegir(valor);
-                  setAbierto(false);
-                }}
-              >
-                <Bandera />
-                <span>{nombre}</span>
-                {actual === valor && <span className="marca-elegido" aria-hidden>✔</span>}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-function Herramientas() {
-  const { t, idioma, tema, cambiarIdioma, cambiarTema } = usePreferencias();
-  return (
-    <>
-      <MenuIdioma actual={idioma} etiqueta={t.comun.idioma} ayuda={t.comun.cambiarIdioma} alElegir={cambiarIdioma} />
-      <button
-        type="button"
-        className="boton-icono"
-        onClick={() => cambiarTema(tema === 'crema' ? 'azul' : 'crema')}
-        aria-label={tema === 'crema' ? t.comun.temaOscuro : t.comun.temaClaro}
-        title={tema === 'crema' ? t.comun.temaOscuro : t.comun.temaClaro}
-      >
-        <span aria-hidden>{tema === 'crema' ? '🌙' : '☀️'}</span>
-      </button>
-    </>
-  );
-}
-
 export default function Plantilla() {
   const { usuario, salir } = useAuth();
   const { t } = usePreferencias();
   const enLinea = useEnLinea();
   const navegar = useNavigate();
   const { pathname } = useLocation();
-  const enInicio = pathname === '/';
+  // En la app de iPhone cada pestaña es una raíz: ahí no hace falta "Volver".
+  const raizNativa = !!document.documentElement.dataset.nativo && ['/precios', '/alertas', '/capacitaciones', '/mi-finca'].includes(pathname);
+  const enInicio = pathname === '/' || raizNativa;
   const [enCola, setEnCola] = useState(() => cola.pendientes().length);
   const [aviso, setAviso] = useState<number | null>(null);
 
   const pestanas = [
-    { a: '/', icono: '🌱', texto: t.nav.sembrar, fin: true },
-    { a: '/precios', icono: '💰', texto: t.nav.precios },
-    { a: '/alertas', icono: '⚠️', texto: t.nav.alertas },
-    { a: '/capacitaciones', icono: '🎓', texto: t.nav.cursos },
-    { a: '/mi-finca', icono: '🏡', texto: t.nav.miFinca },
-  ];
+    { a: '/', icono: 'sembrar', texto: t.nav.sembrar, fin: true },
+    { a: '/precios', icono: 'precios', texto: t.nav.precios },
+    { a: '/alertas', icono: 'alertas', texto: t.nav.alertas },
+    { a: '/capacitaciones', icono: 'cursos', texto: t.nav.cursos },
+    { a: '/mi-finca', icono: 'finca', texto: t.nav.miFinca },
+  ] as const;
 
   // Al cambiar de pantalla, volver arriba.
   // (Con llaves: en Chrome reciente scrollTo devuelve una promesa y un efecto no puede devolverla.)
@@ -152,14 +77,20 @@ export default function Plantilla() {
 
           <nav className="nav-principal" aria-label={t.nav.secciones}>
             {pestanas.map((p) => (
-              <NavLink key={p.a} to={p.a} end={p.fin}>
-                <span aria-hidden>{p.icono}</span> {p.texto}
+              <NavLink key={p.a} to={p.a} end={'fin' in p}>
+                <Icono nombre={p.icono} tam={20} /> {p.texto}
               </NavLink>
             ))}
           </nav>
 
           <div className="herramientas">
-            <Herramientas />
+            <span className={`estado-red ${enLinea ? 'estado-red-ok' : 'estado-red-sin'}`} role="status">
+              <Icono nombre={enLinea ? 'senal' : 'sinsenal'} tam={18} />
+              {enLinea ? (enCola ? t.conexion.porEnviar(enCola) : t.conexion.conSenal) : `${t.conexion.sinSenalCorto}${enCola ? ` · ${enCola}` : ''}`}
+            </span>
+            <Link to="/ajustes" className="boton-icono" aria-label={t.ajustes.abrir} title={t.ajustes.titulo}>
+              <Icono nombre="ajustes" tam={22} />
+            </Link>
             {usuario?.rol === 'admin' && (
               <NavLink to="/admin" className="boton boton-pequeno boton-secundario enlace-admin">{t.nav.administracion}</NavLink>
             )}
@@ -197,12 +128,12 @@ export default function Plantilla() {
 
       {!enLinea && (
         <p className="banda banda-sin-senal" role="status">
-          📵 {t.conexion.sinSenal}{enCola ? ` · ${t.conexion.porEnviar(enCola)}` : ''}.
+          <Icono nombre="sinsenal" tam={18} /> {t.conexion.sinSenal}{enCola ? ` · ${t.conexion.porEnviar(enCola)}` : ''}.
         </p>
       )}
       {aviso !== null && (
         <p className="banda banda-ok" role="status" onClick={() => setAviso(null)}>
-          ✅ {t.conexion.enviados(aviso)}
+          <Icono nombre="check" tam={18} /> {t.conexion.enviados(aviso)}
         </p>
       )}
       <p className="banda banda-ejemplo">{t.comun.datosEjemplo}</p>
@@ -219,10 +150,16 @@ export default function Plantilla() {
         </div>
       </footer>
 
+      {usuario && !pathname.startsWith('/reportar-plaga') && (
+        <Link to="/reportar-plaga" className="boton-flotante">
+          <Icono nombre="plaga" tam={22} /> {t.inicio.reportar}
+        </Link>
+      )}
+
       <nav className="pestanas" aria-label={t.nav.secciones}>
         {pestanas.map((p) => (
-          <NavLink key={p.a} to={p.a} end={p.fin}>
-            <span aria-hidden>{p.icono}</span>
+          <NavLink key={p.a} to={p.a} end={'fin' in p}>
+            <Icono nombre={p.icono} tam={26} />
             {p.texto}
           </NavLink>
         ))}

@@ -1,3 +1,4 @@
+import { Icono, Tx } from '../../componentes/Iconos';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
@@ -50,7 +51,7 @@ export default function EscaneoDron() {
   if (fincas.cargando || vuelos.cargando) return <Cargando />;
   if (!fincas.datos?.length) {
     return (
-      <Vacio icono="🛰️" titulo={t.fincas.primero}>
+      <Vacio icono={<Icono nombre="dron" tam={48} />} titulo={t.fincas.primero}>
         <Link to="/fincas/nueva" className="boton">{t.fincas.registrarFinca}</Link>
       </Vacio>
     );
@@ -65,7 +66,7 @@ export default function EscaneoDron() {
   return (
     <>
       <header className="cabecera-pagina">
-        <h1>{td.titulo}</h1>
+        <h1><Tx>{td.titulo}</Tx></h1>
         <label className="campo-suelto">
           {td.finca}
           <select value={fincaId} onChange={(e) => { setElegido(0); navegar(`/dron/${e.target.value}`); }}>
@@ -75,7 +76,7 @@ export default function EscaneoDron() {
       </header>
 
       {!v ? (
-        <Vacio icono="🛸" titulo={td.sinVuelos(finca?.nombre ?? td.esta)}>
+        <Vacio icono={<Icono nombre="dron" tam={48} />} titulo={td.sinVuelos(finca?.nombre ?? td.esta)}>
           <p>{td.sinVuelosTexto}</p>
           <button className="boton" disabled>{td.pedir}</button>
         </Vacio>
@@ -104,7 +105,7 @@ export default function EscaneoDron() {
             <AvisoActualizado que={td.datosVuelo} cuando={v.fecha} />
             <div className="fichas" style={{ gridTemplateColumns: '1fr' }}>
               <div className={`ficha salud-${s}`}>
-                <span className="ficha-icono" aria-hidden>🌿</span>
+                <span className="ficha-icono" aria-hidden><Icono nombre="hoja" tam={24} /></span>
                 <span className="ficha-titulo">{td.plantas}</span>
                 <strong className="ficha-valor">{td.salud[s!]}</strong>
                 <span className="ficha-detalle">
@@ -113,12 +114,12 @@ export default function EscaneoDron() {
                 </span>
               </div>
               <div className="ficha">
-                <span className="ficha-icono" aria-hidden>⚠️</span>
+                <span className="ficha-icono" aria-hidden><Icono nombre="alertas" tam={24} /></span>
                 <span className="ficha-titulo">{td.areaEstres}</span>
                 <strong className="ficha-valor">{v.area_estres_pct} %</strong>
               </div>
               <div className="ficha">
-                <span className="ficha-icono" aria-hidden>⛰️</span>
+                <span className="ficha-icono" aria-hidden><Icono nombre="montana" tam={24} /></span>
                 <span className="ficha-titulo">{td.pendiente}</span>
                 <strong className="ficha-valor">{v.pendiente_pct} %</strong>
                 <span className="ficha-detalle">{v.pendiente_pct > 30 ? td.pendienteFuerte : td.pendienteSuave}</span>

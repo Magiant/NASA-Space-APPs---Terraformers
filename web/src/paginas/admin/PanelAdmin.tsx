@@ -1,3 +1,4 @@
+import { Icono, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useAuth } from '../../contexto/AuthContext';
@@ -17,17 +18,17 @@ function Resumen() {
   if (r.error) return <ErrorCarga mensaje={r.error} />;
   const d = r.datos!;
   const fichas = [
-    { icono: '👥', titulo: ta.usuarios, valor: d.usuarios },
-    { icono: '🏡', titulo: ta.fincas, valor: d.fincas },
-    { icono: '🌱', titulo: ta.activas, valor: d.siembrasActivas },
-    { icono: '🐛', titulo: ta.porRevisar, valor: d.reportesPendientes },
+    { icono: 'usuarios', titulo: ta.usuarios, valor: d.usuarios },
+    { icono: 'finca', titulo: ta.fincas, valor: d.fincas },
+    { icono: 'sembrar', titulo: ta.activas, valor: d.siembrasActivas },
+    { icono: 'plaga', titulo: ta.porRevisar, valor: d.reportesPendientes },
   ];
   return (
     <>
       <div className="fichas">
         {fichas.map((f) => (
           <div key={f.titulo} className="ficha">
-            <span className="ficha-icono" aria-hidden>{f.icono}</span>
+            <span className="ficha-icono" aria-hidden><Icono nombre={f.icono} tam={24} /></span>
             <span className="ficha-titulo">{f.titulo}</span>
             <strong className="ficha-valor" style={{ fontSize: '1.8rem' }}>{f.valor}</strong>
           </div>
@@ -109,12 +110,12 @@ function Reportes() {
     <div className="lista-tarjetas">
       {lista.datos!.map((r) => (
         <article key={r.id} className="tarjeta">
-          <p className="etiqueta">{r.estado === 'pendiente' ? ta.pendiente : ta.confirmado} · {fecha(r.fecha)}</p>
-          <h3 className="tarjeta-h">🐛 {r.plaga_id ? nombrePlaga(t, r.plaga_id) : ta.sinIdentificar(r.tipo)}</h3>
+          <p className="etiqueta"><Tx>{r.estado === 'pendiente' ? ta.pendiente : ta.confirmado}</Tx> · {fecha(r.fecha)}</p>
+          <h3 className="tarjeta-h"><Icono nombre="plaga" tam={20} /> {r.plaga_id ? nombrePlaga(t, r.plaga_id) : ta.sinIdentificar(r.tipo)}</h3>
           <p>{r.sintomas || ta.sinDescripcion}</p>
           <p className="ayuda">
             {r.usuario} · {catalogo.zona(r.codigo_distrito)?.distrito} · {ta.dano}: {ta.gravedad[r.gravedad]}
-            {r.con_foto ? ` · ${ta.conFoto}` : ''}
+            {r.con_foto ? <> · <Tx>{ta.conFoto}</Tx></> : ''}
           </p>
           {r.estado === 'pendiente' && (
             <button className="boton boton-pequeno" onClick={async () => { await admin.confirmarReporte(r.id); lista.recargar(); }}>
@@ -144,7 +145,7 @@ function Extracciones() {
             <tr key={e.id} className={`fila-${e.estado}`}>
               <td><code>{e.extractor}</code></td>
               <td>{fecha(e.inicio)} {e.inicio.slice(11, 16)}</td>
-              <td>{ta.estado[e.estado]}</td>
+              <td><Tx>{ta.estado[e.estado]}</Tx></td>
               <td>{e.registros.toLocaleString(t.locale)}</td>
               <td>{e.mensaje ?? `${e.duracion_s} s`}</td>
             </tr>

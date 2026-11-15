@@ -1,3 +1,4 @@
+import { Icono, NombreIcono } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
@@ -6,10 +7,10 @@ import { datos } from '../../servicios/supabase';
 import type { ResultadoSiembra } from '../../tipos';
 import { nombreCultivo, useCargar } from '../../utilidades';
 
-const OPCIONES: { valor: ResultadoSiembra; icono: string }[] = [
-  { valor: 'exitosa', icono: '😀' },
-  { valor: 'regular', icono: '😐' },
-  { valor: 'perdida', icono: '😞' },
+const OPCIONES: { valor: ResultadoSiembra; icono: NombreIcono }[] = [
+  { valor: 'exitosa', icono: 'feliz' },
+  { valor: 'regular', icono: 'normal' },
+  { valor: 'perdida', icono: 'triste' },
 ];
 
 export default function CerrarSiembra() {
@@ -48,7 +49,7 @@ export default function CerrarSiembra() {
         <div className="opciones-cara" role="radiogroup">
           {OPCIONES.map((o) => (
             <button type="button" key={o.valor} role="radio" aria-checked={resultado === o.valor} onClick={() => setResultado(o.valor)}>
-              <span aria-hidden>{o.icono}</span>
+              <span aria-hidden><Icono nombre={o.icono} tam={36} /></span>
               {tc.opciones[o.valor]}
             </button>
           ))}

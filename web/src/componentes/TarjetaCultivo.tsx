@@ -4,7 +4,7 @@ import { catalogo } from '../servicios/algolia';
 import type { Notas, RegistroAptitud } from '../tipos';
 import { colones, mes, nombreCultivo, nombrePlaga } from '../utilidades';
 import InsigniaNivel from './InsigniaNivel';
-import { IconoCultivo } from './Iconos';
+import { Icono, IconoCultivo } from './Iconos';
 
 const PARTES = ['clima', 'suelo', 'agua', 'mercado'] as const;
 
@@ -71,12 +71,12 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
         <>
           <dl className="tc-datos">
             <div>
-              <dt>🗓️ {t.tarjeta.epoca}</dt>
+              <dt><Icono nombre="calendario" tam={16} /> {t.tarjeta.epoca}</dt>
               <dd>{mes(t, a.mes_siembra)}</dd>
             </div>
             {a.precio_referencia && (
               <div>
-                <dt>💰 {t.tarjeta.precio}</dt>
+                <dt><Icono nombre="moneda" tam={16} /> {t.tarjeta.precio}</dt>
                 <dd>
                   {colones(a.precio_referencia.valor)} <small>{t.tarjeta.por} {a.precio_referencia.unidad}</small>
                 </dd>
@@ -84,7 +84,7 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
             )}
             {plagas.length > 0 && (
               <div>
-                <dt>🐛 {t.tarjeta.cuidado}</dt>
+                <dt><Icono nombre="plaga" tam={16} /> {t.tarjeta.cuidado}</dt>
                 <dd className="tc-plagas">{plagas.map((id) => nombrePlaga(t, id)).join(', ')}</dd>
               </div>
             )}

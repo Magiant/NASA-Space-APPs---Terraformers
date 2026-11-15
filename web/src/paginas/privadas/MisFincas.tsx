@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
 import { useAuth } from '../../contexto/AuthContext';
-import { useT } from '../../contexto/PreferenciasContext';
+import { usePreferencias } from '../../contexto/PreferenciasContext';
 import { catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import { fecha, nombreCultivo, useCargar } from '../../utilidades';
-import { IconoCultivo } from '../../componentes/Iconos';
+import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 
 export default function MisFincas() {
-  const t = useT();
+  const { t } = usePreferencias();
   const tf = t.fincas;
   const { usuario } = useAuth();
   const fincas = useCargar(() => datos.misFincas(), []);
@@ -25,16 +25,18 @@ export default function MisFincas() {
         <h1>{tf.hola(usuario?.nombre.split(' ')[0] ?? '')}</h1>
         <p>{tf.subtitulo}</p>
       </header>
+      <FotoFranja foto="trabajadores" />
 
       <div className="accesos">
-        <Link to="/fincas/nueva" className="acceso"><span aria-hidden>➕</span>{tf.nueva}</Link>
-        <Link to="/siembras/nueva" className="acceso"><span aria-hidden>🌱</span>{tf.nuevaSiembra}</Link>
-        <Link to="/reportar-plaga" className="acceso"><span aria-hidden>🐛</span>{tf.reportar}</Link>
-        <Link to="/historial" className="acceso"><span aria-hidden>📒</span>{tf.historial}</Link>
+        <Link to="/fincas/nueva" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="mas" tam={28} /></span>{tf.nueva}</Link>
+        <Link to="/siembras/nueva" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="sembrar" tam={28} /></span>{tf.nuevaSiembra}</Link>
+        <Link to="/reportar-plaga" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="plaga" tam={28} /></span>{tf.reportar}</Link>
+        <Link to="/historial" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="libro" tam={28} /></span>{tf.historial}</Link>
+        <Link to="/ajustes" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="ajustes" tam={28} /></span>{t.ajustes.titulo}</Link>
       </div>
 
       {fincas.datos!.length === 0 ? (
-        <Vacio icono="🏡" titulo={tf.sinFincas}>
+        <Vacio icono={<Icono nombre="finca" tam={48} />} titulo={tf.sinFincas}>
           <p>{tf.sinFincasTexto}</p>
           <Link to="/fincas/nueva" className="boton">{tf.registrar}</Link>
         </Vacio>
@@ -46,7 +48,7 @@ export default function MisFincas() {
             return (
               <section key={f.id} className="tarjeta finca">
                 <div className="titulo-seccion">
-                  <h2 style={{ margin: '0.2em 0' }}>🏡 {f.nombre}</h2>
+                  <h2 style={{ margin: '0.2em 0' }}><Icono nombre="finca" tam={24} /> {f.nombre}</h2>
                   <Link to={`/zona/${f.codigo_distrito}`} className="boton boton-pequeno boton-secundario">{tf.verZona}</Link>
                 </div>
                 <p className="ayuda">
@@ -74,14 +76,15 @@ export default function MisFincas() {
                 )}
 
                 <div className="acciones">
-                  <Link to={`/siembras/nueva?finca=${f.id}`} className="boton boton-pequeno">{tf.sembrarAqui}</Link>
-                  <Link to={`/dron/${f.id}`} className="boton boton-pequeno boton-secundario">{tf.dron}</Link>
+                  <Link to={`/siembras/nueva?finca=${f.id}`} className="boton boton-pequeno"><Tx>{tf.sembrarAqui}</Tx></Link>
+                  <Link to={`/dron/${f.id}`} className="boton boton-pequeno boton-secundario"><Tx>{tf.dron}</Tx></Link>
                 </div>
               </section>
             );
           })}
         </div>
       )}
+
     </>
   );
 }
