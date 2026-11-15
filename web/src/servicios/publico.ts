@@ -160,6 +160,10 @@ export async function suelosDeTodos(): Promise<Map<string, number | null>> {
 }
 
 /** Alertas vigentes (CNE e IMN). */
+/** 'pronostico_subestacional' → 'Pronóstico subestacional' (los tipos llegan como claves del extractor). */
+const TIPOS_ALERTA: Record<string, string> = { pronostico_subestacional: 'Pronóstico subestacional' };
+const nombreTipo = (t: string) => TIPOS_ALERTA[t] ?? (t.charAt(0).toUpperCase() + t.slice(1)).replace(/_/g, ' ');
+
 export async function alertasReales(codigo?: string): Promise<RegistroAlerta[]> {
   let q = db().from('alertas').select('*').or(`fin.is.null,fin.gte.${new Date().toISOString()}`).order('inicio', { ascending: false });
   if (codigo) q = q.contains('codigos_distrito', [codigo]);
@@ -167,7 +171,7 @@ export async function alertasReales(codigo?: string): Promise<RegistroAlerta[]> 
   return filas.map((a) => ({
     objectID: `${a.fuente}-${a.id_externo}`,
     fuente: a.fuente.toUpperCase() === 'CNE' ? 'CNE' : 'IMN',
-    tipo: a.tipo, nivel: a.nivel ?? 'amarilla', titulo: a.titulo, descripcion: a.descripcion ?? '',
+    tipo: nombreTipo(a.tipo), nivel: a.nivel ?? 'verde' /* sin nivel (pronósticos) = informativo */, titulo: a.titulo, descripcion: a.descripcion ?? '',
     codigos_distrito: a.codigos_distrito ?? [], inicio: a.inicio ?? hoy(), fin: a.fin,
   }));
 }
