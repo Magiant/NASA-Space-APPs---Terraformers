@@ -5,7 +5,7 @@ import type { Evitado, Motivo, Razon, Sugerencia } from '../logica/recomendacion
 import { catalogo } from '../servicios/algolia';
 import { nombreCultivo, nombrePlaga } from '../utilidades';
 import InsigniaNivel from './InsigniaNivel';
-import { Icono, IconoCultivo } from './Iconos';
+import { FotoCultivo, Icono } from './Iconos';
 
 const minus = (s: string) => s.toLowerCase();
 
@@ -42,7 +42,7 @@ export default function ListaSugerencias({
           return (
             <article key={a.objectID} className={`tarjeta nivel-${a.nivel}`}>
               <div className="tarjeta-cabeza">
-                <span className="icono-cultivo" aria-hidden><IconoCultivo id={a.cultivo_id} /></span>
+                <span className="icono-cultivo" aria-hidden><FotoCultivo id={a.cultivo_id} /></span>
                 <span className="tarjeta-titulo">
                   <strong>{i + 1}. {nombre}</strong>
                   <InsigniaNivel nivel={a.nivel} />

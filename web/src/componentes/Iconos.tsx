@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { CREDITOS_FOTOS } from '../fotos/creditos-cultivos';
 // Íconos dibujados en SVG: se ven igual en todos los celulares y computadoras
 // (los emojis de bandera, por ejemplo, en Windows salen como letras).
 
@@ -161,5 +163,44 @@ export function FotoFranja({ foto }: { foto: 'agricultor' | 'mercado' | 'torment
     <div className="foto-parallax foto-franja" aria-hidden>
       <img src={`./imagenes/${foto}.jpg`} alt="" loading="lazy" />
     </div>
+  );
+}
+
+
+// ------------------------------------------------------------------
+// Fotos reales de los cultivos (web/public/imagenes/cultivos/)
+// ------------------------------------------------------------------
+
+/** Punto de enfoque de cada foto al recortarla (por defecto, el centro). */
+const ENFOQUE: Record<string, string> = { zanahoria: 'center 78%', yuca: 'center 60%', repollo: 'center 55%' };
+
+/**
+ * Foto real del cultivo. Si no hay foto (cultivo nuevo) o no carga, muestra el dibujo SVG.
+ * `prioridad` = se ve al abrir la pantalla (no se carga en diferido).
+ */
+export function FotoCultivo({ id, prioridad = false }: { id: string; prioridad?: boolean }) {
+  const [fallo, setFallo] = useState(false);
+  if (fallo || !CREDITOS_FOTOS[id]) return <IconoCultivo id={id} />;
+  return (
+    <img
+      className="foto-cultivo"
+      src={`./imagenes/cultivos/${id}.jpg`}
+      alt=""
+      loading={prioridad ? 'eager' : 'lazy'}
+      decoding="async"
+      style={ENFOQUE[id] ? { objectPosition: ENFOQUE[id] } : undefined}
+      onError={() => setFallo(true)}
+    />
+  );
+}
+
+/** Crédito del autor de la foto (lo exigen las licencias CC BY y CC BY-SA). */
+export function CreditoFoto({ id, etiqueta }: { id: string; etiqueta: string }) {
+  const c = CREDITOS_FOTOS[id];
+  if (!c) return null;
+  return (
+    <p className="credito-foto">
+      {etiqueta}: <a href={c.url} target="_blank" rel="noreferrer">{c.autor}</a> · {c.licencia} · Wikimedia Commons
+    </p>
   );
 }

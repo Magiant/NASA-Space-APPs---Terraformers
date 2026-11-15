@@ -635,3 +635,304 @@ select:disabled { opacity: 0.55; }
 .ajustes-peligro .ajustes-icono { background: var(--nor-fondo); color: var(--nor); }
 .ajustes-fila > svg:last-child { color: var(--texto-suave); flex: none; }
 .ajustes-fila[aria-checked='true'] > svg:last-child { color: var(--primario); }
+
+/* ================= Fotos reales de cultivos ================= */
+.foto-cultivo { display: block; width: 100%; height: 100%; object-fit: cover; }
+.icono-cultivo { overflow: hidden; }
+.icono-cultivo .foto-cultivo { border-radius: inherit; }
+
+/* Tarjeta: foto a todo lo ancho arriba, contenido debajo */
+.tarjeta.tarjeta-cultivo,
+.rejilla-productos .tarjeta.tarjeta-cultivo { padding: 0; overflow: hidden; gap: 0; }
+.tc-foto {
+  position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden;
+  background: var(--superficie-2); color: var(--texto-suave);
+}
+.tc-foto > svg { position: absolute; inset: 0; margin: auto; width: 45%; height: 45%; }
+.tc-foto .foto-cultivo { transition: transform 0.5s ease; }
+.tarjeta-cultivo:hover .tc-foto .foto-cultivo { transform: scale(1.05); }
+.tc-foto::after { content: ''; position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(to top, rgb(0 0 0 / 0.28), transparent); pointer-events: none; }
+.tc-puntaje, .tc-foto .tc-posicion {
+  position: absolute; z-index: 1; top: 10px; display: inline-flex; align-items: baseline; gap: 1px;
+  padding: 4px 10px; border-radius: 999px; font-weight: 800; font-variant-numeric: tabular-nums;
+  background: rgb(255 255 255 / 0.92); color: #16201a; box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+  backdrop-filter: blur(6px);
+}
+.tc-puntaje { right: 10px; font-size: 1.15rem; }
+.tc-puntaje small { font-size: 0.7rem; font-weight: 600; color: #5f6862; }
+.tc-foto .tc-posicion { left: 10px; min-width: 30px; height: 30px; justify-content: center; align-items: center; padding: 0 8px; font-size: 0.85rem; }
+.nivel-descartado .tc-foto .foto-cultivo, .nivel-no_recomendado .tc-foto .foto-cultivo { filter: grayscale(0.7) brightness(0.95); }
+.tc-cuerpo { display: flex; flex-direction: column; gap: 8px; flex: 1; padding: 14px 16px 16px; }
+.rejilla-productos .tc-cuerpo { padding: 12px 14px 14px; }
+@media (max-width: 699px) {
+  .rejilla-productos .tc-cuerpo { padding: 10px 10px 12px; }
+  .tc-puntaje { top: 8px; right: 8px; font-size: 0.95rem; padding: 3px 8px; }
+  .tc-foto .tc-posicion { top: 8px; left: 8px; min-width: 24px; height: 24px; font-size: 0.75rem; }
+}
+
+/* Ficha del cultivo: portada con foto grande y el nombre encima */
+.portada-cultivo {
+  position: relative; overflow: hidden; border-radius: 22px; aspect-ratio: 4 / 3;
+  background: var(--superficie-2); box-shadow: var(--sombra-fuerte);
+}
+@media (min-width: 700px) { .portada-cultivo { aspect-ratio: 21 / 8; } }
+.portada-cultivo > .foto-cultivo { position: absolute; inset: 0; }
+.portada-cultivo > svg { position: absolute; inset: 0; margin: auto; width: 30%; height: 30%; color: var(--texto-suave); }
+.portada-cultivo-texto {
+  position: absolute; inset: auto 0 0 0; padding: 48px 22px 18px; color: #fff;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.35) 55%, transparent);
+}
+.portada-cultivo-texto h1 { margin: 0; color: #fff; text-shadow: 0 2px 12px rgb(0 0 0 / 0.35); }
+.portada-cultivo-texto p { margin: 4px 0 0; color: rgb(255 255 255 / 0.9); }
+@media (min-width: 700px) { .portada-cultivo-texto { padding: 60px 32px 26px; } }
+.credito-foto { margin: 6px 4px 0; font-size: 0.75rem; color: var(--texto-suave); }
+.credito-foto a { color: inherit; font-weight: 600; }
+
+/* Título con foto pequeña redonda (Mi siembra) y cultivo elegido (Nueva siembra) */
+.titulo-con-foto { display: flex; align-items: center; gap: 14px; }
+.titulo-con-foto .icono-cultivo, .elegido .icono-cultivo { width: 64px; height: 64px; border-radius: 16px; font-size: 2rem; }
+
+/* ================= Secciones con foto de fondo (parallax) ================= */
+/* Salen del ancho del contenido y ocupan toda la pantalla; .app recorta el sobrante horizontal. */
+.app { overflow-x: clip; }
+.seccion-fondo {
+  position: relative; isolation: isolate; overflow: hidden;
+  width: 100vw; margin: 40px calc(50% - 50vw);
+  min-height: clamp(380px, 62vh, 620px);
+  display: grid; align-items: center;
+  background: #10241a; color: #fff;
+}
+.seccion-fondo-bajo { min-height: clamp(300px, 46vh, 460px); }
+.seccion-fondo-foto {
+  position: absolute; z-index: -2; left: 0; top: -18%;
+  width: 100%; height: 136%; object-fit: cover;
+  will-change: transform;
+}
+/* Velo oscuro de izquierda a derecha y de abajo hacia arriba: el texto siempre se lee. */
+.seccion-fondo::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(6 18 12 / 0.82) 0%, rgb(6 18 12 / 0.55) 45%, rgb(6 18 12 / 0.12) 100%),
+    linear-gradient(0deg, rgb(6 18 12 / 0.45), transparent 50%);
+}
+.seccion-fondo-contenido {
+  width: 100%; max-width: var(--ancho); margin: 0 auto; padding: 56px 16px;
+}
+.seccion-fondo-contenido > * { max-width: 34rem; }
+.seccion-fondo h2 {
+  margin: 0 0 12px; color: #fff; font-family: var(--fuente-titulos);
+  font-size: clamp(1.7rem, 1.2rem + 2.2vw, 3rem); line-height: 1.08; text-wrap: balance;
+  text-shadow: 0 2px 18px rgb(0 0 0 / 0.35);
+}
+.seccion-fondo p { margin: 0 0 20px; color: rgb(255 255 255 / 0.9); font-size: clamp(1rem, 0.95rem + 0.3vw, 1.18rem); line-height: 1.55; }
+.seccion-fondo .boton { box-shadow: 0 8px 26px rgb(0 0 0 / 0.3); }
+.seccion-fondo .boton-nota { display: block; width: 100%; font-size: 0.75rem; font-weight: 600; opacity: 0.85; color: inherit; }
+.seccion-fondo .boton:has(.boton-nota) { flex-wrap: wrap; }
+.seccion-fondo-credito {
+  position: absolute; right: 12px; bottom: 8px; max-width: calc(100% - 24px);
+  font-size: 0.68rem; font-weight: 500; color: rgb(255 255 255 / 0.72); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.seccion-fondo-credito:hover { color: #fff; text-decoration: underline; }
+@media (min-width: 900px) {
+  .seccion-fondo { margin: 56px calc(50% - 50vw); }
+  .seccion-fondo-contenido { padding: 72px 32px; }
+}
+@media (max-width: 599px) {
+  /* En celular el velo cubre parejo: el texto ocupa todo el ancho. */
+  .seccion-fondo::before { background: linear-gradient(0deg, rgb(6 18 12 / 0.88) 0%, rgb(6 18 12 / 0.55) 60%, rgb(6 18 12 / 0.3) 100%); }
+  .seccion-fondo { align-items: end; }
+  .seccion-fondo-contenido { padding: 48px 20px 40px; }
+}
+/* Dos secciones seguidas quedan pegadas, como una sola secuencia. */
+.seccion-fondo + .seccion-fondo { margin-top: calc(-1 * clamp(40px, 4vw, 56px)); }
+
+/* ================= Fondo de página: curvas de nivel (mapa topográfico) ================= */
+:root { --topo-color: #2e6a3f; --topo-opacidad: 0.075; }
+:root[data-tema='azul'] { --topo-color: #8fd1a4; --topo-opacidad: 0.06; }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-color: var(--topo-color); opacity: var(--topo-opacidad);
+  -webkit-mask: url('/imagenes/topografia.svg') center / cover no-repeat;
+  mask: url('/imagenes/topografia.svg') center / cover no-repeat;
+}
+
+/* ================= Inicio: cultivos sobre un paisaje ================= */
+.escenario {
+  position: relative; isolation: isolate; overflow: hidden;
+  margin: 28px -16px 0; padding: 20px 16px 24px;
+  border-radius: 0; border-block: 1px solid var(--borde);
+}
+/* La foto va en su propia capa recortada: con filtro y escala, Chrome no la recorta solo con overflow. */
+.escenario-fondo { position: absolute; inset: 0; z-index: -2; overflow: hidden; border-radius: inherit; }
+.escenario-fondo { clip-path: inset(0); }
+@media (min-width: 900px) { .escenario-fondo { clip-path: inset(0 round 28px); } }
+.escenario-foto {
+  display: block; width: 100%; height: 100%; max-width: none;
+  object-fit: cover; filter: blur(22px) saturate(1.25); transform: scale(1.2); opacity: 0.55;
+}
+.escenario::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--fondo) 50%, transparent), color-mix(in srgb, var(--fondo) 78%, transparent));
+}
+.escenario > .titulo-seccion h2 { margin-top: 0.4em; }
+@media (min-width: 900px) {
+  .escenario { margin: 36px 0 0; padding: 28px 32px 32px; border-radius: 28px; border: 1px solid var(--borde); box-shadow: var(--sombra); }
+}
+
+/* Tarjeta que llena el hueco de la rejilla: invita a ver la zona */
+.tarjeta-cta {
+  position: relative; isolation: isolate; overflow: hidden; min-height: 260px; padding: 0;
+  display: flex; align-items: flex-end; color: #fff; text-decoration: none;
+  border: 0; background: #10241a;
+}
+.tarjeta-cta > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.tarjeta-cta::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgb(6 18 12 / 0.88), rgb(6 18 12 / 0.35) 70%, rgb(6 18 12 / 0.15)); }
+.tarjeta-cta:hover > img { transform: scale(1.06); }
+.tarjeta-cta-texto { display: flex; flex-direction: column; gap: 8px; padding: 20px; }
+.tarjeta-cta-texto strong { font-family: var(--fuente-titulos); font-size: 1.45rem; line-height: 1.15; }
+.tarjeta-cta-texto span { color: rgb(255 255 255 / 0.88); font-size: 0.95rem; }
+.tarjeta-cta-texto .tarjeta-cta-boton {
+  align-self: flex-start; margin-top: 6px; padding: 8px 16px; border-radius: 999px;
+  background: #fff; color: #16201a; font-weight: 800; font-size: 0.9rem;
+}
+
+/* Accesos rápidos con foto arriba */
+.acceso-con-foto { position: relative; overflow: hidden; padding-top: 0; }
+.acceso-foto { display: block; width: calc(100% + 32px); max-width: none; height: 120px; margin: 0 -16px 0; object-fit: cover; transition: transform 0.5s ease; }
+.acceso-con-foto:hover .acceso-foto { transform: scale(1.06); }
+.acceso-con-foto .acceso-icono { margin-top: -26px; position: relative; z-index: 1; box-shadow: 0 4px 14px rgb(0 0 0 / 0.18); border: 3px solid var(--superficie); background: var(--primario-suave); }
+@media (max-width: 599px) { .acceso-foto { height: 90px; } }
+
+/* Cifras sobre la sección del satélite */
+.cifras { list-style: none; padding: 0; margin: 0 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: 34rem; }
+@media (min-width: 700px) { .cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.cifras li {
+  padding: 12px 14px; border-radius: 16px; font-size: 0.85rem; color: rgb(255 255 255 / 0.85);
+  background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.18); backdrop-filter: blur(8px);
+}
+.cifras strong { display: block; font-family: var(--fuente-titulos); font-size: 1.7rem; line-height: 1.1; color: #fff; }
+
+/* ================= Pie de página ================= */
+.pie {
+  position: relative; isolation: isolate; overflow: hidden; margin-top: 48px;
+  border-top: 0; color: rgb(255 255 255 / 0.78); background: #0f2a1c;
+}
+/* Si la página termina en una sección con fondo, el pie va pegado a ella (sin franja vacía). */
+.contenido:has(> .seccion-fondo:last-child) { padding-bottom: 0; }
+.contenido > .seccion-fondo:last-child { margin-bottom: 0; }
+.app:has(.contenido > .seccion-fondo:last-child) .pie { margin-top: 0;
+}
+.pie::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.12; background-color: #8fd1a4;
+  -webkit-mask: url('/imagenes/topografia.svg') center / cover no-repeat; mask: url('/imagenes/topografia.svg') center / cover no-repeat;
+}
+.pie .pie-interior { display: grid; gap: 28px; padding-top: 40px; padding-bottom: 28px; justify-content: stretch; }
+@media (min-width: 900px) { .pie .pie-interior { grid-template-columns: 2fr 1fr 1.4fr; } }
+.pie .marca { color: #fff; }
+.pie p { margin: 10px 0 0; max-width: 34rem; }
+.pie-aviso { font-size: 0.8rem; color: rgb(255 255 255 / 0.6); }
+.pie-columna { display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; }
+.pie-columna strong { color: #fff; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.pie-columna a { color: rgb(255 255 255 / 0.78); text-decoration: none; font-weight: 500; }
+.pie-columna a:hover { color: #fff; text-decoration: underline; }
+.pie-final { border-top: 1px solid rgb(255 255 255 / 0.12); padding: 14px 16px; text-align: center; font-size: 0.78rem; color: rgb(255 255 255 / 0.55); }
+
+/* ================= Mesa verde (tema crema): fondo verde bosque, tarjetas crema ================= */
+/* Lo que tiene fondo propio (tarjetas, fichas, formularios…) sigue con texto oscuro; todo lo que va
+   directo sobre el verde pasa a texto claro. La lista de "papel" está en el :not(...) de cada regla. */
+:root[data-tema='crema'] { --topo-color: #9ad9ae; --topo-opacidad: 0.08; }
+:root[data-tema='crema'] body { background: var(--mesa-degradado), var(--mesa); background-attachment: fixed; }
+
+:root[data-tema='crema'] .contenido :is(h1, h2, h3, p, li, label, legend, dt, dd, figcaption, .vacio, .secuencia, .leyenda, .cargando):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto)) {
+  color: var(--mesa-texto);
+}
+:root[data-tema='crema'] .contenido :is(small, .ayuda, .actualizado, .separador, .ajustes-grupo h2):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .seccion-fondo, .tarjeta-cta) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto)) {
+  color: var(--mesa-texto-suave);
+}
+:root[data-tema='crema'] .contenido .separador:not(:is(.tarjeta, .formulario-centrado, .portada) *)::before,
+:root[data-tema='crema'] .contenido .separador:not(:is(.tarjeta, .formulario-centrado, .portada) *)::after { background: var(--mesa-borde); }
+
+/* Enlaces y botones sobre el verde */
+:root[data-tema='crema'] .contenido a:not(.boton, .tarjeta, .acceso, .alerta-corta, .tarjeta-cta, .seccion-fondo-credito):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces, .fila-precio, .alerta, .aviso, .tabla-envoltura, .linea-tiempo li, .portada, .ajustes-lista) *) { color: var(--mesa-primario); }
+:root[data-tema='crema'] .contenido .boton:not(.boton-secundario):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *) {
+  background: var(--mesa-primario); border-color: var(--mesa-primario); color: var(--mesa-primario-texto);
+}
+:root[data-tema='crema'] .contenido .boton:not(.boton-secundario):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *):hover { background: var(--mesa-primario-fuerte); border-color: var(--mesa-primario-fuerte); }
+:root[data-tema='crema'] .contenido .boton-secundario:not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *) {
+  color: var(--mesa-primario); border-color: var(--mesa-primario); background: rgb(134 214 160 / 0.06);
+}
+:root[data-tema='crema'] .contenido .boton-secundario:not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *):hover { background: rgb(134 214 160 / 0.16); }
+
+/* Los formularios centrados son siempre una tarjeta crema (también en celular). */
+:root[data-tema='crema'] .formulario-centrado {
+  padding: 24px 20px; border: 1px solid var(--borde); border-radius: 22px; background: var(--superficie); box-shadow: var(--sombra-fuerte);
+}
+@media (min-width: 900px) { :root[data-tema='crema'] .formulario-centrado { padding: 32px 40px; } }
+
+/* Panel de cultivos: vidrio verde sobre el paisaje difuminado */
+:root[data-tema='crema'] .escenario { border-color: var(--mesa-borde); box-shadow: 0 20px 60px rgb(0 0 0 / 0.25); }
+:root[data-tema='crema'] .escenario::before { background: linear-gradient(180deg, rgb(15 42 28 / 0.5), rgb(11 34 22 / 0.78)); }
+:root[data-tema='crema'] .escenario-foto { opacity: 0.6; }
+
+/* Tablas, separadores y el mapa del dron sobre el verde */
+:root[data-tema='crema'] .contenido .linea-tiempo { border-left-color: var(--mesa-borde); }
+:root[data-tema='crema'] .contenido .linea-tiempo li::before { border-color: var(--mesa); }
+:root[data-tema='crema'] .contenido .tarjeta, :root[data-tema='crema'] .contenido .acceso, :root[data-tema='crema'] .contenido .ficha { box-shadow: 0 6px 22px rgb(0 0 0 / 0.22); border-color: transparent; }
+/* Encabezado crema casi opaco sobre la mesa verde (si no, el verde detrás lo vuelve gris). */
+:root[data-tema='crema'] .encabezado { background: color-mix(in srgb, var(--superficie) 97%, transparent); box-shadow: 0 4px 20px rgb(0 0 0 / 0.18); }
+
+/* ================= Ajustes: desplegable pegado a la esquina superior derecha ================= */
+.menu-ajustes { position: relative; }
+.boton-ajustes {
+  display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 10px;
+  border: 1px solid var(--borde); border-radius: 999px; background: var(--superficie);
+  color: var(--texto); cursor: pointer; transition: background 0.15s, border-color 0.15s;
+}
+.boton-ajustes:hover, .boton-ajustes[aria-expanded='true'] { background: var(--superficie-2); border-color: var(--borde-fuerte); }
+.boton-ajustes.con-sesion { padding: 0 4px 0 10px; }
+.boton-ajustes svg { transition: transform 0.35s ease; }
+.boton-ajustes[aria-expanded='true'] svg { transform: rotate(60deg); }
+.avatar-chico { width: 34px; height: 34px; font-size: 0.9rem; }
+
+.panel-ajustes {
+  position: fixed; z-index: 50; top: 64px; right: max(12px, env(safe-area-inset-right));
+  width: min(380px, calc(100vw - 24px)); max-height: calc(100dvh - 80px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 6px 14px 14px; border: 1px solid var(--borde); border-radius: 22px;
+  background: var(--superficie); color: var(--texto); box-shadow: 0 24px 60px rgb(0 0 0 / 0.3);
+  transform-origin: top right; animation: desplegar 0.18s ease-out;
+}
+@keyframes desplegar { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .panel-ajustes { animation: none; } }
+.panel-ajustes .ajustes-grupo h2 { margin: 14px 4px 8px; }
+.panel-ajustes .ajustes-lista { box-shadow: none; }
+.panel-ajustes .ajustes-fila { min-height: 52px; padding: 8px 12px; }
+
+/* Apariencia e idioma: dos botones lado a lado (segmentado), no una lista larga */
+.ajustes-segmentado { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; border-radius: 16px; background: var(--superficie-2); }
+.ajustes-opcion {
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 6px 10px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--texto-suave);
+  font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+}
+.ajustes-opcion .ajustes-icono { width: 30px; height: 30px; background: transparent; }
+.ajustes-opcion[aria-checked='true'] { background: var(--superficie); color: var(--primario); box-shadow: var(--sombra); }
+.ajustes-opcion[aria-checked='true'] .ajustes-icono { background: var(--primario-suave); }
+
+/* Celular: el panel ocupa el ancho de la pantalla debajo del encabezado */
+@media (max-width: 599px) {
+  .panel-ajustes { top: 60px; left: 8px; right: 8px; width: auto; border-radius: 20px; }
+}
+
+/* ================= Aprovechar el ancho: las cuadrículas se estiran para llenar la fila ================= */
+.fichas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); }
+.lista-tarjetas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); }
+.lista-alertas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.lista-precios { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.interruptor, .interruptor-4, .buscador, .filtros { max-width: none; }
+.filtros { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+/* Las rejillas de productos y la columna lateral mantienen sus columnas fijas. */
+.rejilla-productos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) { .rejilla-productos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .rejilla-productos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 599px) { .rejilla-productos { grid-template-columns: 1fr; } }

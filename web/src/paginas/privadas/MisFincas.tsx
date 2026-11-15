@@ -32,7 +32,6 @@ export default function MisFincas() {
         <Link to="/siembras/nueva" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="sembrar" tam={28} /></span>{tf.nuevaSiembra}</Link>
         <Link to="/reportar-plaga" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="plaga" tam={28} /></span>{tf.reportar}</Link>
         <Link to="/historial" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="libro" tam={28} /></span>{tf.historial}</Link>
-        <Link to="/ajustes" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="ajustes" tam={28} /></span>{t.ajustes.titulo}</Link>
       </div>
 
       {fincas.datos!.length === 0 ? (
@@ -41,7 +40,7 @@ export default function MisFincas() {
           <Link to="/fincas/nueva" className="boton">{tf.registrar}</Link>
         </Vacio>
       ) : (
-        <div className="lista-tarjetas" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 440px), 1fr))' }}>
+        <div className="lista-tarjetas" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))' }}>
           {fincas.datos!.map((f) => {
             const zona = catalogo.zona(f.codigo_distrito);
             const deLaFinca = activas.filter((s) => s.finca_id === f.id);

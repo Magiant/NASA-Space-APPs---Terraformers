@@ -6,7 +6,7 @@ import { catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import type { Seguimiento } from '../../tipos';
 import { fecha, hoy, nombreCultivo, useCargar } from '../../utilidades';
-import { IconoCultivo, Tx } from '../../componentes/Iconos';
+import { FotoCultivo, Tx } from '../../componentes/Iconos';
 
 export default function MiSiembra() {
   const t = useT();
@@ -35,7 +35,7 @@ export default function MiSiembra() {
   return (
     <>
       <header className="cabecera-pagina">
-        <h1><span aria-hidden><IconoCultivo id={s.cultivo_id} /></span> {nombreCultivo(t, s.cultivo_id, c?.nombre)}</h1>
+        <h1 className="titulo-con-foto"><span className="icono-cultivo" aria-hidden><FotoCultivo id={s.cultivo_id} prioridad /></span> {nombreCultivo(t, s.cultivo_id, c?.nombre)}</h1>
         <p>{s.area_ha} ha · {ts.sembrado(fecha(s.fecha_siembra))}</p>
       </header>
 

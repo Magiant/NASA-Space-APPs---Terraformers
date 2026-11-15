@@ -4,7 +4,7 @@ import { catalogo } from '../servicios/algolia';
 import type { Notas, RegistroAptitud } from '../tipos';
 import { colones, mes, nombreCultivo, nombrePlaga } from '../utilidades';
 import InsigniaNivel from './InsigniaNivel';
-import { Icono, IconoCultivo } from './Iconos';
+import { FotoCultivo, Icono } from './Iconos';
 
 const PARTES = ['clima', 'suelo', 'agua', 'mercado'] as const;
 
@@ -48,19 +48,23 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
   const plagas = (c?.plagas ?? []).filter((id) => a.plagas_zona.includes(catalogo.plaga(id)?.nombre ?? ''));
   return (
     <article className={`tarjeta tarjeta-cultivo nivel-${a.nivel}`}>
+      {/* Foto arriba, a todo lo ancho; el enlace de texto de abajo es el que usan teclado y lector de pantalla. */}
+      <Link to={`/cultivo/${a.cultivo_id}?zona=${a.codigo_distrito}`} className="tc-foto" aria-hidden tabIndex={-1}>
+        <FotoCultivo id={a.cultivo_id} />
+        {a.nivel !== 'descartado' && (
+          <span className="tc-puntaje">
+            {a.puntaje}
+            <small>/100</small>
+          </span>
+        )}
+        {posicion ? <span className="tc-posicion">{posicion}</span> : null}
+      </Link>
+
+      <div className="tc-cuerpo">
       <Link to={`/cultivo/${a.cultivo_id}?zona=${a.codigo_distrito}`} className="tc-enlace">
-        <span className="tc-arriba">
-          <span className="icono-cultivo" aria-hidden><IconoCultivo id={a.cultivo_id} /></span>
-          {a.nivel !== 'descartado' && (
-            <span className="puntaje" aria-label={t.tarjeta.puntaje(a.puntaje)}>
-              {a.puntaje}
-              <small>/100</small>
-            </span>
-          )}
-        </span>
         <strong className="tc-nombre">
-          {posicion ? <span className="tc-posicion">{posicion}</span> : null}
           {nombreCultivo(t, a.cultivo_id, a.cultivo)}
+          {a.nivel !== 'descartado' && <span className="oculto">{t.tarjeta.puntaje(a.puntaje)}</span>}
         </strong>
         <InsigniaNivel nivel={a.nivel} />
       </Link>
@@ -95,6 +99,7 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
           </details>
         </>
       )}
+      </div>
     </article>
   );
 }

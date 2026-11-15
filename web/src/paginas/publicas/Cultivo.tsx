@@ -11,7 +11,7 @@ import { series } from '../../servicios/supabase';
 import type { RegistroCultivo } from '../../tipos';
 import { colones, nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
 import { Tendencia } from './Precios';
-import { Icono, IconoCultivo } from '../../componentes/Iconos';
+import { CreditoFoto, FotoCultivo, Icono, IconoCultivo } from '../../componentes/Iconos';
 
 function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
   const { t } = usePreferencias();
@@ -33,8 +33,14 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
   return (
     <>
       <header className="cabecera-pagina">
-        <h1><span aria-hidden><IconoCultivo id={c.id} /></span> {nombre}</h1>
-        <p><em>{c.nombre_cientifico}</em> · {tc.familia} {c.familia}</p>
+        <div className="portada-cultivo">
+          <FotoCultivo id={c.id} prioridad />
+          <div className="portada-cultivo-texto">
+            <h1>{nombre}</h1>
+            <p><em>{c.nombre_cientifico}</em> · {tc.familia} {c.familia}</p>
+          </div>
+        </div>
+        <CreditoFoto id={c.id} etiqueta={tc.foto} />
       </header>
 
       <div className="columnas">

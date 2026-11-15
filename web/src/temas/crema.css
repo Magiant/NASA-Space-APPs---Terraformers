@@ -29,4 +29,17 @@
   --sombra: 0 1px 2px rgb(16 24 20 / 0.04), 0 2px 8px rgb(16 24 20 / 0.04);
   --sombra-fuerte: 0 4px 10px rgb(16 24 20 / 0.06), 0 16px 36px rgb(16 24 20 / 0.08);
   color-scheme: light;
+
+  /* "Mesa" verde bosque: el fondo de toda la página. Las tarjetas siguen en crema encima. */
+  --mesa: #0f2a1c;
+  --mesa-degradado:
+    radial-gradient(1100px 700px at 8% -8%, #1e4c32 0%, transparent 62%),
+    radial-gradient(900px 650px at 105% 35%, #173f2a 0%, transparent 60%),
+    linear-gradient(180deg, #11301f 0%, #0b2216 100%);
+  --mesa-texto: #eef4ec;           /* texto que va directo sobre el verde */
+  --mesa-texto-suave: #b5c9b9;
+  --mesa-borde: rgb(255 255 255 / 0.16);
+  --mesa-primario: #86d6a0;        /* enlaces y botones sobre el verde */
+  --mesa-primario-fuerte: #a8e6bc;
+  --mesa-primario-texto: #0b2216;
 }

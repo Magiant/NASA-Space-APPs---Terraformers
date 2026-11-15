@@ -31,6 +31,10 @@ export const es = {
     cambiarIdioma: 'Cambiar idioma',
     idioma: 'Idioma',
     pie: 'Datos: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
+    pieLema: 'Datos de satélite al servicio del agricultor costarricense.',
+    pieSecciones: 'Secciones',
+    pieFuentes: 'Fuentes de datos',
+    pieAviso: 'Esta herramienta apoya su decisión; no reemplaza el criterio del agricultor ni de los técnicos del MAG.',
   },
 
   ajustes: {
@@ -118,7 +122,33 @@ export const es = {
     eligeDistrito: 'Elija un distrito',
   },
 
+  fondos: {
+    credito: 'Foto',
+    satelite: {
+      titulo: 'Vemos su zona desde el espacio',
+      texto: 'Usamos satélites de la NASA para medir la lluvia, la temperatura, la humedad del suelo y qué tan sanas están las plantas en cada distrito de Costa Rica.',
+      cifras: [{ numero: '492', texto: 'distritos' }, { numero: '7', texto: 'provincias' }, { numero: '13', texto: 'cultivos' }, { numero: '+10', texto: 'fuentes de datos' }],
+    },
+    dron: {
+      titulo: 'Drones que miden su finca',
+      texto: 'Un vuelo de dron muestra, parcela por parcela, dónde falta agua, dónde hay una plaga o dónde las plantas están débiles.',
+      boton: 'Ver el escaneo con dron',
+    },
+    ndvi: {
+      titulo: 'Así ve el dron su finca',
+      texto: 'Una cámara especial del dron mide el índice verde (NDVI): cada color dice qué tan sanas están las plantas, y así se ven las zonas con estrés antes de que se noten a simple vista.',
+    },
+    cafetal: {
+      titulo: 'Hecho para el agricultor costarricense',
+      texto: 'La herramienta apoya su decisión: su experiencia y la de los técnicos del MAG siguen siendo lo más importante.',
+    },
+  },
+
   inicio: {
+    cta: {
+      titulo: (d: string) => `Todo sobre ${d}`,
+      texto: 'Clima, suelo, agua, riesgos y lo que ya siembran sus vecinos.',
+    },
     titulo: '¿Qué sembrar en su zona?',
     subtitulo: 'Elija dónde está su finca y le mostramos los cultivos que mejor se dan ahí.',
     mejores: (distrito: string) => `Mejores cultivos en ${distrito}`,
@@ -187,6 +217,7 @@ export const es = {
     evite: 'Evite:',
     dondeMejor: 'Dónde se da mejor',
     cursos: 'Cursos recomendados',
+    foto: 'Foto',
     noExiste: 'No encontramos ese cultivo',
   },
 

@@ -5,6 +5,7 @@ import { usePreferencias } from '../contexto/PreferenciasContext';
 import { cola } from '../offline/cola';
 import { useEnLinea } from '../utilidades';
 import { Icono } from './Iconos';
+import MenuAjustes from './MenuAjustes';
 
 /** A dónde lleva "Volver" si no hay pantalla anterior (enlace abierto directo). */
 function pantallaPadre(ruta: string): string {
@@ -28,10 +29,9 @@ function BotonVolver() {
 }
 
 export default function Plantilla() {
-  const { usuario, salir } = useAuth();
+  const { usuario } = useAuth();
   const { t } = usePreferencias();
   const enLinea = useEnLinea();
-  const navegar = useNavigate();
   const { pathname } = useLocation();
   // En la app de iPhone cada pestaña es una raíz: ahí no hace falta "Volver".
   const raizNativa = !!document.documentElement.dataset.nativo && ['/precios', '/alertas', '/capacitaciones', '/mi-finca'].includes(pathname);
@@ -88,40 +88,12 @@ export default function Plantilla() {
               <Icono nombre={enLinea ? 'senal' : 'sinsenal'} tam={18} />
               {enLinea ? (enCola ? t.conexion.porEnviar(enCola) : t.conexion.conSenal) : `${t.conexion.sinSenalCorto}${enCola ? ` · ${enCola}` : ''}`}
             </span>
-            <Link to="/ajustes" className="boton-icono" aria-label={t.ajustes.abrir} title={t.ajustes.titulo}>
-              <Icono nombre="ajustes" tam={22} />
-            </Link>
             {usuario?.rol === 'admin' && (
               <NavLink to="/admin" className="boton boton-pequeno boton-secundario enlace-admin">{t.nav.administracion}</NavLink>
             )}
-            {usuario ? (
-              <details className="menu-cuenta">
-                <summary aria-label={t.nav.miCuenta}>
-                  <span className="avatar" aria-hidden>{usuario.nombre.charAt(0)}</span>
-                </summary>
-                <div className="menu-cuenta-panel">
-                  <p>
-                    <strong>{usuario.nombre}</strong>
-                    <br />
-                    <small>{usuario.correo} · {usuario.rol}</small>
-                  </p>
-                  <Link to="/mi-finca">{t.nav.misFincas}</Link>
-                  <Link to="/historial">{t.nav.miHistorial}</Link>
-                  {usuario.rol === 'admin' && <Link to="/admin">{t.nav.administracion}</Link>}
-                  <button
-                    className="boton boton-secundario"
-                    onClick={async () => {
-                      await salir();
-                      navegar('/');
-                    }}
-                  >
-                    {t.nav.salir}
-                  </button>
-                </div>
-              </details>
-            ) : (
-              <Link to="/ingresar" className="boton boton-pequeno">{t.nav.entrar}</Link>
-            )}
+            {!usuario && <Link to="/ingresar" className="boton boton-pequeno">{t.nav.entrar}</Link>}
+            {/* Ajustes y cuenta en un desplegable pegado a la esquina (ya no es otra pantalla). */}
+            <MenuAjustes />
           </div>
         </div>
       </header>
@@ -145,9 +117,24 @@ export default function Plantilla() {
 
       <footer className="pie">
         <div className="pie-interior">
-          <span>© 2026 Terraformes · NASA Space Apps</span>
-          <span>{t.comun.pie}</span>
+          <div className="pie-marca">
+            <Link to="/" className="marca">
+              <img src="./icono.svg" alt="" width="34" height="34" />
+              <span>Terraformes</span>
+            </Link>
+            <p>{t.comun.pieLema}</p>
+            <p className="pie-aviso">{t.comun.pieAviso}</p>
+          </div>
+          <nav className="pie-columna" aria-label={t.comun.pieSecciones}>
+            <strong>{t.comun.pieSecciones}</strong>
+            {pestanas.map((p) => <Link key={p.a} to={p.a}>{p.texto}</Link>)}
+          </nav>
+          <div className="pie-columna">
+            <strong>{t.comun.pieFuentes}</strong>
+            <span>{t.comun.pie.replace(/^[^:]+:\s*/, '')}</span>
+          </div>
         </div>
+        <div className="pie-final">© 2026 Terraformes · NASA Space Apps Challenge · Costa Rica</div>
       </footer>
 
       {usuario && !pathname.startsWith('/reportar-plaga') && (
