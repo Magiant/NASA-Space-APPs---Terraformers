@@ -691,3 +691,58 @@ select:disabled { opacity: 0.55; }
 /* Título con foto pequeña redonda (Mi siembra) y cultivo elegido (Nueva siembra) */
 .titulo-con-foto { display: flex; align-items: center; gap: 14px; }
 .titulo-con-foto .icono-cultivo, .elegido .icono-cultivo { width: 64px; height: 64px; border-radius: 16px; font-size: 2rem; }
+
+/* ================= Secciones con foto de fondo (parallax) ================= */
+/* Salen del ancho del contenido y ocupan toda la pantalla; .app recorta el sobrante horizontal. */
+.app { overflow-x: clip; }
+.seccion-fondo {
+  position: relative; isolation: isolate; overflow: hidden;
+  width: 100vw; margin: 40px calc(50% - 50vw);
+  min-height: clamp(380px, 62vh, 620px);
+  display: grid; align-items: center;
+  background: #10241a; color: #fff;
+}
+.seccion-fondo-bajo { min-height: clamp(300px, 46vh, 460px); }
+.seccion-fondo-foto {
+  position: absolute; z-index: -2; left: 0; top: -18%;
+  width: 100%; height: 136%; object-fit: cover;
+  will-change: transform;
+}
+/* Velo oscuro de izquierda a derecha y de abajo hacia arriba: el texto siempre se lee. */
+.seccion-fondo::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(6 18 12 / 0.82) 0%, rgb(6 18 12 / 0.55) 45%, rgb(6 18 12 / 0.12) 100%),
+    linear-gradient(0deg, rgb(6 18 12 / 0.45), transparent 50%);
+}
+.seccion-fondo-contenido {
+  width: 100%; max-width: var(--ancho); margin: 0 auto; padding: 56px 16px;
+}
+.seccion-fondo-contenido > * { max-width: 34rem; }
+.seccion-fondo h2 {
+  margin: 0 0 12px; color: #fff; font-family: var(--fuente-titulos);
+  font-size: clamp(1.7rem, 1.2rem + 2.2vw, 3rem); line-height: 1.08; text-wrap: balance;
+  text-shadow: 0 2px 18px rgb(0 0 0 / 0.35);
+}
+.seccion-fondo p { margin: 0 0 20px; color: rgb(255 255 255 / 0.9); font-size: clamp(1rem, 0.95rem + 0.3vw, 1.18rem); line-height: 1.55; }
+.seccion-fondo .boton { box-shadow: 0 8px 26px rgb(0 0 0 / 0.3); }
+.seccion-fondo .boton-nota { display: block; width: 100%; font-size: 0.75rem; font-weight: 600; opacity: 0.85; color: inherit; }
+.seccion-fondo .boton:has(.boton-nota) { flex-wrap: wrap; }
+.seccion-fondo-credito {
+  position: absolute; right: 12px; bottom: 8px; max-width: calc(100% - 24px);
+  font-size: 0.68rem; font-weight: 500; color: rgb(255 255 255 / 0.72); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.seccion-fondo-credito:hover { color: #fff; text-decoration: underline; }
+@media (min-width: 900px) {
+  .seccion-fondo { margin: 56px calc(50% - 50vw); }
+  .seccion-fondo-contenido { padding: 72px 32px; }
+}
+@media (max-width: 599px) {
+  /* En celular el velo cubre parejo: el texto ocupa todo el ancho. */
+  .seccion-fondo::before { background: linear-gradient(0deg, rgb(6 18 12 / 0.88) 0%, rgb(6 18 12 / 0.55) 60%, rgb(6 18 12 / 0.3) 100%); }
+  .seccion-fondo { align-items: end; }
+  .seccion-fondo-contenido { padding: 48px 20px 40px; }
+}
+/* Dos secciones seguidas quedan pegadas, como una sola secuencia. */
+.seccion-fondo + .seccion-fondo { margin-top: calc(-1 * clamp(40px, 4vw, 56px)); }
