@@ -122,6 +122,20 @@ export const es = {
     eligeProvincia: 'Elija una provincia',
     eligeCanton: 'Elija un cantón',
     eligeDistrito: 'Elija un distrito',
+    cargando: 'Cargando la lista…',
+    oMapaLista: 'o toque el mapa o elija en la lista',
+    errorLista: 'No se pudo cargar la lista de lugares. Revise la señal e intente de nuevo.',
+  },
+
+  mapa: {
+    titulo: 'Mapa de Costa Rica',
+    migas: 'Dónde está en el mapa',
+    toqueProvincia: 'Toque su provincia',
+    toqueCanton: 'Toque su cantón',
+    toqueDistrito: 'Toque su distrito',
+    cargando: 'Cargando el mapa…',
+    error: 'No se pudo cargar el mapa. Use la lista.',
+    fuenteRelieve: 'Relieve: NASA ASTER GDEM (GIBS)',
   },
 
   fondos: {
@@ -165,6 +179,7 @@ export const es = {
     preciosHoy: 'Precios de hoy',
     eligeZona: 'Elija una zona para ver qué sembrar',
     eligeZonaTexto: 'Use su ubicación o elija provincia, cantón y distrito.',
+    sinDatos: (d: string) => `Todavía no tenemos los cultivos recomendados para ${d}. Estamos cargando los datos de todos los distritos.`,
   },
 
   zona: {

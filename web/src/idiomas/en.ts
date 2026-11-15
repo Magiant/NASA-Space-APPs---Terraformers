@@ -121,6 +121,20 @@ export const en: Textos = {
     eligeProvincia: 'Choose a province',
     eligeCanton: 'Choose a canton',
     eligeDistrito: 'Choose a district',
+    cargando: 'Loading the list…',
+    oMapaLista: 'or tap the map or choose from the list',
+    errorLista: 'Could not load the list of places. Check your signal and try again.',
+  },
+
+  mapa: {
+    titulo: 'Map of Costa Rica',
+    migas: 'Where you are on the map',
+    toqueProvincia: 'Tap your province',
+    toqueCanton: 'Tap your canton',
+    toqueDistrito: 'Tap your district',
+    cargando: 'Loading the map…',
+    error: 'Could not load the map. Use the list.',
+    fuenteRelieve: 'Relief: NASA ASTER GDEM (GIBS)',
   },
 
   fondos: {
@@ -164,6 +178,7 @@ export const en: Textos = {
     preciosHoy: 'Today’s prices',
     eligeZona: 'Choose an area to see what to plant',
     eligeZonaTexto: 'Use your location or choose province, canton and district.',
+    sinDatos: (d: string) => `We do not have crop recommendations for ${d} yet. We are loading data for every district.`,
   },
 
   zona: {
