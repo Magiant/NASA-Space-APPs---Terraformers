@@ -1,3 +1,4 @@
+import { Icono } from './Iconos';
 import type { ReactNode } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
 
@@ -14,7 +15,7 @@ export function ErrorCarga({ mensaje, reintentar }: { mensaje: string; reintenta
   const t = useT();
   return (
     <div className="aviso aviso-error" role="alert">
-      <p>⚠️ {mensaje}</p>
+      <p><Icono nombre="alertas" tam={20} /> {mensaje}</p>
       {reintentar && (
         <button className="boton boton-secundario" onClick={reintentar}>
           {t.comun.reintentar}
@@ -24,7 +25,7 @@ export function ErrorCarga({ mensaje, reintentar }: { mensaje: string; reintenta
   );
 }
 
-export function Vacio({ icono, titulo, children }: { icono: string; titulo: string; children?: ReactNode }) {
+export function Vacio({ icono, titulo, children }: { icono: ReactNode; titulo: string; children?: ReactNode }) {
   return (
     <section className="vacio">
       <p className="vacio-icono" aria-hidden>{icono}</p>

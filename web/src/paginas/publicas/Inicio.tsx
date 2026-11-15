@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
+import { Icono, Tx } from '../../componentes/Iconos';
 import SelectorUbicacion from '../../componentes/SelectorUbicacion';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
 import { useAuth } from '../../contexto/AuthContext';
@@ -21,17 +22,18 @@ export default function Inicio() {
   const otros = lista.filter((a) => a.nivel === 'no_recomendado' || a.nivel === 'descartado');
 
   const accesos = [
-    { a: '/reportar-plaga', icono: '🐛', texto: t.inicio.reportar, privado: true },
-    { a: '/mi-finca', icono: '🏡', texto: t.inicio.fincas, privado: true },
-    { a: '/dron', icono: '🛰️', texto: t.inicio.dron, privado: true },
-    { a: '/precios', icono: '💰', texto: t.inicio.preciosHoy, privado: false },
-  ];
+    { a: '/reportar-plaga', icono: 'plaga', texto: t.inicio.reportar, privado: true },
+    { a: '/mi-finca', icono: 'finca', texto: t.inicio.fincas, privado: true },
+    { a: '/dron', icono: 'dron', texto: t.inicio.dron, privado: true },
+    { a: '/precios', icono: 'precios', texto: t.inicio.preciosHoy, privado: false },
+  ] as const;
 
   return (
     <>
       <section className="portada">
+        <img className="portada-foto" src="./imagenes/cr-colinas.jpg" alt="" aria-hidden />
         <div className="portada-texto">
-          <span className="portada-sello">🌎 NASA Space Apps · Costa Rica</span>
+          <span className="portada-sello"><Icono nombre="globo" tam={16} /> NASA Space Apps · Costa Rica</span>
           <h1>{t.inicio.titulo}</h1>
           <p>{t.inicio.subtitulo}</p>
         </div>
@@ -42,7 +44,7 @@ export default function Inicio() {
         <>
           {(alertas.datos ?? []).map((a) => (
             <Link key={a.objectID} to="/alertas" className={`alerta-corta alerta-${a.nivel}`}>
-              ⚠️ <strong>{a.titulo}</strong>
+              <Icono nombre="alertas" tam={18} /> <strong>{a.titulo}</strong>
             </Link>
           ))}
 
@@ -81,9 +83,9 @@ export default function Inicio() {
         <div className="accesos">
           {accesos.map((x) => (
             <Link key={x.a} to={x.a} className="acceso">
-              <span aria-hidden>{x.icono}</span>
+              <span className="acceso-icono" aria-hidden><Icono nombre={x.icono} tam={28} /></span>
               {x.texto}
-              {x.privado && !usuario && <small>{t.comun.pideEntrar}</small>}
+              {x.privado && !usuario && <small><Tx>{t.comun.pideEntrar}</Tx></small>}
             </Link>
           ))}
         </div>

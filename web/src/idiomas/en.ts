@@ -48,6 +48,8 @@ export const en: Textos = {
   },
 
   conexion: {
+    conSenal: 'Online',
+    sinSenalCorto: 'Offline',
     sinSenal: 'No signal. You are seeing the last saved data',
     porEnviar: (n) => `${n} report(s) waiting to send`,
     enviados: (n) => `${n} saved report(s) were sent.`,
@@ -263,6 +265,11 @@ export const en: Textos = {
     fuenteAgua: { lluvia: 'Rain', rio: 'River or stream', pozo: 'Well', acueducto: 'Water main', otra: 'Other' },
     primero: 'First register a farm',
     registrarFinca: 'Register farm',
+    config: 'Settings',
+    apariencia: 'Appearance',
+    aparienciaAyuda: 'Choose how the app looks. It is saved on this device.',
+    temaClaro: 'Light',
+    temaOscuro: 'Dark',
   },
 
   nuevaFinca: {

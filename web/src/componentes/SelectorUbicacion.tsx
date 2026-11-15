@@ -1,3 +1,4 @@
+import { Icono } from './Iconos';
 import { useEffect, useMemo, useState } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
 import { algolia, catalogo } from '../servicios/algolia';
@@ -47,7 +48,7 @@ export default function SelectorUbicacion({
       {conGps && (
         <>
           <button type="button" className="boton boton-ancho" onClick={usarGps} disabled={gps === 'buscando'}>
-            📍 {gps === 'buscando' ? t.ubicacion.buscando : t.ubicacion.usarMia}
+            <Icono nombre="pin" tam={20} /> {gps === 'buscando' ? t.ubicacion.buscando : t.ubicacion.usarMia}
           </button>
           {gps === 'error' && <p className="ayuda">{t.ubicacion.errorGps}</p>}
           <p className="separador"><span>{t.ubicacion.oLista}</span></p>

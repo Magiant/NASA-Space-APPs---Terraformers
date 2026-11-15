@@ -2,19 +2,19 @@
    Para cambiar colores del tema claro, solo se toca este archivo. */
 :root,
 :root[data-tema='crema'] {
-  --fondo: #f7f7f4;                 /* fondo general: blanco roto, casi neutro */
-  --fondo-degradado: linear-gradient(180deg, #fbfbf9 0%, #f4f4f0 100%);
-  --superficie: #ffffff;            /* tarjetas */
-  --superficie-2: #f2f2ee;          /* campos, chips, fondos secundarios */
-  --superficie-3: #e9e9e3;
-  --texto: #16201a;
-  --texto-suave: #5f6862;
-  --borde: #e4e4de;
-  --borde-fuerte: #cfd0c8;
+  --fondo: #f4f1e8;                 /* Campo: tierra clara, cálida */
+  --fondo-degradado: linear-gradient(180deg, #f8f5ed 0%, #f1eee3 100%);
+  --superficie: #fffdf8;            /* tarjetas */
+  --superficie-2: #efebdf;          /* campos, chips, fondos secundarios */
+  --superficie-3: #e5e0d1;
+  --texto: #1b241d;
+  --texto-suave: #55605a;
+  --borde: #ddd8c8;
+  --borde-fuerte: #bdb7a3;
 
-  --primario: #1d6b42;              /* verde bosque */
-  --primario-fuerte: #145233;
-  --primario-suave: #e6f2ea;
+  --primario: #1f5a35;              /* verde bosque profundo (8:1 sobre superficie) */
+  --primario-fuerte: #143f25;
+  --primario-suave: #e1eddf;
   --primario-texto: #ffffff;
   --acento: #1e3a5f;
   --tierra: #8a6a46;

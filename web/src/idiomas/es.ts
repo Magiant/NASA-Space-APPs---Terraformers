@@ -49,6 +49,8 @@ export const es = {
   },
 
   conexion: {
+    conSenal: 'Con señal',
+    sinSenalCorto: 'Sin señal',
     sinSenal: 'Sin señal. Está viendo lo último que se guardó',
     porEnviar: (n: number) => `${n} reporte(s) por enviar`,
     enviados: (n: number) => `Se enviaron ${n} reporte(s) que estaban guardados.`,
@@ -264,6 +266,11 @@ export const es = {
     fuenteAgua: { lluvia: 'Lluvia', rio: 'Río o quebrada', pozo: 'Pozo', acueducto: 'Acueducto', otra: 'Otra' },
     primero: 'Primero registre una finca',
     registrarFinca: 'Registrar finca',
+    config: 'Configuración',
+    apariencia: 'Apariencia',
+    aparienciaAyuda: 'Elija cómo se ve la aplicación. Se guarda en este aparato.',
+    temaClaro: 'Claro',
+    temaOscuro: 'Oscuro',
   },
 
   nuevaFinca: {

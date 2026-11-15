@@ -6,7 +6,7 @@ import { catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import type { Seguimiento } from '../../tipos';
 import { fecha, hoy, nombreCultivo, useCargar } from '../../utilidades';
-import { IconoCultivo } from '../../componentes/Iconos';
+import { IconoCultivo, Tx } from '../../componentes/Iconos';
 
 export default function MiSiembra() {
   const t = useT();
@@ -49,13 +49,13 @@ export default function MiSiembra() {
               </div>
               <p className="ayuda">{ts.lleva(avance)}</p>
               <div className="acciones">
-                <Link to={`/reportar-plaga?siembra=${s.id}`} className="boton boton-secundario">{ts.reportar}</Link>
-                <Link to={`/siembras/${s.id}/cerrar`} className="boton">{ts.yaCoseche}</Link>
+                <Link to={`/reportar-plaga?siembra=${s.id}`} className="boton boton-secundario"><Tx>{ts.reportar}</Tx></Link>
+                <Link to={`/siembras/${s.id}/cerrar`} className="boton"><Tx>{ts.yaCoseche}</Tx></Link>
               </div>
             </section>
           ) : (
             <section className="tarjeta">
-              <p><strong>{s.resultado && ts.resultado[s.resultado]}</strong> · {ts.cerradaEl(fecha(s.fecha_cierre))}</p>
+              <p><strong>{s.resultado && <Tx>{ts.resultado[s.resultado]}</Tx>}</strong> · {ts.cerradaEl(fecha(s.fecha_cierre))}</p>
               {s.cantidad !== null && <p>{ts.cosecho(s.cantidad, t.cerrar.unidades[s.unidad ?? ''] ?? s.unidad ?? '')}</p>}
               {s.motivo && <p className="ayuda">{s.motivo}</p>}
               <Link to={`/siembras/nueva?finca=${s.finca_id}`} className="boton">{ts.queAhora}</Link>
@@ -67,7 +67,7 @@ export default function MiSiembra() {
               <div className="chips" role="radiogroup" aria-label={ts.tipoNota}>
                 {(Object.keys(ts.tipos) as Seguimiento['tipo'][]).map((k) => (
                   <button type="button" key={k} role="radio" aria-checked={tipo === k} className="chip" onClick={() => setTipo(k)}>
-                    {ts.tipos[k]}
+                    <Tx>{ts.tipos[k]}</Tx>
                   </button>
                 ))}
               </div>
@@ -86,7 +86,7 @@ export default function MiSiembra() {
           <ol className="linea-tiempo">
             {notas.datos?.map((g) => (
               <li key={g.id}>
-                <small>{fecha(g.fecha)} · {ts.tipos[g.tipo]}</small>
+                <small>{fecha(g.fecha)} · <Tx>{ts.tipos[g.tipo]}</Tx></small>
                 <p>{g.nota}</p>
               </li>
             ))}
