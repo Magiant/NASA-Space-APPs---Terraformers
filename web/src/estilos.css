@@ -1120,13 +1120,13 @@ body::before {
 }
 
 /* ===== Página principal: módulos como botones grandes (mismos íconos y nombres del encabezado) ===== */
-.portada.portada-inicio {
+.portada:is(.portada-inicio, .portada-ancha) {
   display: block; width: 100vw; margin: -16px calc(50% - 50vw) 0; padding: clamp(32px, 6vw, 72px) var(--margen);
   border-radius: 0; border-width: 0 0 1px; box-shadow: none;
 }
-.portada.portada-inicio h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); margin-bottom: 10px; }
-.portada.portada-inicio .portada-texto p { max-width: 56ch; }
-@media (min-width: 900px) { .portada.portada-inicio { margin-top: -28px; display: block; } }
+.portada:is(.portada-inicio, .portada-ancha) h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); margin-bottom: 10px; }
+.portada:is(.portada-inicio, .portada-ancha) .portada-texto p { max-width: 56ch; }
+@media (min-width: 900px) { .portada:is(.portada-inicio, .portada-ancha) { margin-top: -28px; display: block; } }
 .portada-zona {
   display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 18px; min-height: 52px; padding: 10px 18px;
   border: 1px solid var(--borde); border-radius: 999px; background: var(--superficie); box-shadow: var(--sombra);
@@ -1186,3 +1186,111 @@ body::before {
 .marca-texto { display: flex; flex-direction: column; line-height: 1.05; }
 .marca-texto small { margin-top: 2px; font: 700 0.58rem/1 var(--fuente); letter-spacing: 0.14em; text-transform: uppercase; color: var(--texto-suave); }
 .pie .marca-texto small { color: rgb(255 255 255 / 0.72); }
+
+/* ===== Escaneo con dron ===== */
+.dron-controles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 24px; margin-top: 18px; }
+.dron-control { display: flex; flex-direction: column; gap: 6px; font-size: 0.95rem; font-weight: 700; }
+.dron-control select { min-height: 48px; min-width: 220px; }
+.dron-control .chips { margin: 0; }
+.interruptor button[aria-checked='true'] { background: var(--superficie); color: var(--primario); box-shadow: var(--sombra); }
+
+.dron-resumen { display: grid; gap: 16px; margin: 24px 0 28px; }
+@media (min-width: 900px) { .dron-resumen { grid-template-columns: minmax(0, 1.15fr) minmax(0, 2fr); align-items: stretch; } }
+.dron-veredicto { display: flex; align-items: flex-start; gap: 16px; padding: 20px; }
+.dron-veredicto h2 { margin: 0 0 6px; font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+.dron-veredicto p { margin: 0 0 4px; }
+.dron-veredicto-icono { flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 16px; background: var(--superficie); color: var(--exc); }
+.dron-veredicto-icono.estado-estres { color: var(--bue); }
+.dron-veredicto-icono.estado-critica { color: var(--nor); }
+.dron-tendencia { font-weight: 700; }
+.tendencia-mejor { color: var(--exc); }
+.tendencia-peor { color: var(--nor); }
+.dron-fichas { margin: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+
+.dron-vistas { margin: 0; min-width: 240px; }
+.dron-mapa-zona { display: grid; gap: 16px; align-items: start; margin-bottom: 16px; }
+@media (min-width: 1000px) { .dron-mapa-zona { grid-template-columns: minmax(0, 1.7fr) minmax(300px, 1fr); } }
+.dron-mapa { margin: 0; padding: 16px; }
+.dron-mapa-ayuda { margin: 0 0 12px; color: var(--texto-suave); font-size: 0.95rem; }
+.dron-rejilla { display: grid; gap: 4px; padding: 10px; border-radius: var(--radio-chico); background: var(--tierra); }
+.dron-eje { display: grid; place-items: center; min-width: 18px; font-size: 0.85rem; font-weight: 800; color: var(--fondo); }
+.dron-celda {
+  display: grid; place-items: center; aspect-ratio: 1; min-width: 0; padding: 0; border: 0; border-radius: 6px;
+  font: inherit; font-size: clamp(0.85rem, 2vw, 1.3rem); font-weight: 900; color: #fff; cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.dron-celda:hover { transform: scale(1.06); }
+.dron-celda:focus-visible { outline: 3px solid var(--texto); outline-offset: 2px; }
+.dron-celda.activa { position: relative; z-index: 1; outline: 4px solid var(--texto); outline-offset: 1px; transform: scale(1.08); }
+.dron-celda.estado-sana, .dron-celda.estado-mejor { background: #2f8a3e; }
+.dron-celda.estado-estres { background: #d9a400; color: #2b2100; }
+.dron-celda.estado-critica, .dron-celda.estado-peor { background: #c0391b; }
+.dron-celda.estado-igual { background: color-mix(in srgb, var(--texto) 18%, var(--superficie)); color: var(--texto); }
+.dron-leyenda { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 12px; font-size: 0.9rem; color: var(--texto); }
+.dron-leyenda span { display: inline-flex; align-items: center; gap: 8px; }
+:is(.dron-leyenda, .dron-estado) .dron-celda { display: inline-grid; width: 22px; height: 22px; aspect-ratio: auto; font-size: 0.8rem; font-style: normal; cursor: default; }
+:is(.dron-leyenda, .dron-estado) .dron-celda:hover { transform: none; }
+
+.dron-lateral { display: grid; gap: 16px; }
+.dron-detalle h3, .dron-que-hacer h3 { margin: 0 0 8px; font-size: 1.25rem; }
+.dron-detalle p { margin: 0 0 8px; }
+.dron-estado { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.dron-detalle-antes { color: var(--texto-suave); }
+.dron-detalle-vacio { display: flex; align-items: center; gap: 10px; color: var(--texto-suave); }
+.dron-que-hacer ul { margin: 0 0 14px; padding-left: 20px; }
+.dron-que-hacer li { margin-bottom: 6px; }
+@media (prefers-reduced-motion: reduce) { .dron-celda { transition: none; } .dron-celda:hover, .dron-celda.activa { transform: none; } }
+/* Secciones plegables: en el tema claro el título heredaba el texto claro de la "mesa" verde y no se leía. */
+.plegable { color: var(--texto); }
+
+/* Mapa 3D de la finca (SVG isométrico, sin WebGL) */
+.dron-mapa-opciones { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.dron-mapa-opciones .dron-vistas { min-width: 180px; }
+.mapa3d { position: relative; }
+.mapa3d svg {
+  display: block; width: 100%; height: auto; max-height: min(70vh, 640px);
+  touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab;
+}
+.mapa3d svg:active { cursor: grabbing; }
+.mapa3d-celda polygon { stroke: rgb(0 0 0 / 0.22); stroke-width: 0.03; stroke-linejoin: round; transition: filter 0.12s; }
+.mapa3d-celda { cursor: pointer; outline: none; }
+.mapa3d-celda:hover polygon { filter: brightness(1.15); }
+.mapa3d-celda:focus-visible polygon { stroke: var(--texto); stroke-width: 0.09; }
+.mapa3d-simbolo { fill: #fff; font-weight: 900; text-anchor: middle; dominant-baseline: central; pointer-events: none; paint-order: stroke; stroke: rgb(0 0 0 / 0.35); stroke-width: 0.06; }
+.mapa3d-eje { fill: var(--texto); font-weight: 800; text-anchor: middle; dominant-baseline: central; pointer-events: none; paint-order: stroke; stroke: var(--superficie); stroke-width: 0.1; }
+.mapa3d-marca { pointer-events: none; }
+.mapa3d-marca polygon { fill: rgb(255 255 255 / 0.18); stroke: var(--texto); stroke-width: 0.1; stroke-linejoin: round; }
+.mapa3d-marca text { fill: var(--texto); font-weight: 900; text-anchor: middle; paint-order: stroke; stroke: var(--superficie); stroke-width: 0.12; }
+.mapa3d-controles { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.mapa3d-controles .boton { min-width: 48px; min-height: 44px; font-size: 1.1rem; }
+.mapa3d-ayuda { color: var(--texto-suave); font-size: 0.85rem; }
+.dron-relieve-nota { margin: 6px 0 0; color: var(--texto-suave); font-size: 0.85rem; }
+@media (prefers-reduced-motion: reduce) { .mapa3d-celda polygon { transition: none; } }
+
+/* Elementos de la finca (ríos, caminos, agua, árboles, casas) y zonas de protección */
+.mapa3d-lienzo { overflow: hidden; border-radius: var(--radio-chico); }
+.mapa3d-lienzo.acercado { overflow: auto; max-height: min(70vh, 640px); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.mapa3d-lienzo.acercado svg { max-width: none; max-height: none; touch-action: pan-x pan-y; cursor: default; }
+.mapa3d-linea, .mapa3d-area, .mapa3d-punto, .mapa3d-arbol { pointer-events: none; }
+.mapa3d-linea { stroke-linecap: round; }
+.mapa3d-linea.linea-camino { stroke-dasharray: none; opacity: 0.95; }
+.mapa3d-area.area-lago { opacity: 0.85; }
+.mapa3d-area.area-invernadero { opacity: 0.75; stroke: #ffffff; stroke-width: 0.04; }
+.mapa3d-arbol line { stroke: #5a3d22; stroke-width: 0.07; }
+.mapa3d-arbol circle { fill: #2c6b3c; stroke: #173f23; stroke-width: 0.03; }
+.mapa3d-punto line { stroke: #2a2a2a; stroke-width: 0.05; }
+.mapa3d-punto rect, .mapa3d-punto polygon, .mapa3d-punto circle { stroke: rgb(0 0 0 / 0.35); stroke-width: 0.03; }
+.mapa3d-celda.proteccion polygon { stroke: rgb(143 208 255 / 0.75); stroke-width: 0.045; stroke-dasharray: 0.14 0.12; }
+.mapa3d-controles .boton:disabled { opacity: 0.45; }
+
+.dron-rejilla-scroll { overflow-x: auto; overscroll-behavior-x: contain; }
+.dron-rejilla { position: relative; }
+.dron-rejilla-capa { position: relative; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+.dron-celda.estado-otro { color: #fff; }
+.dron-celda.proteccion { box-shadow: inset 0 0 0 3px #8fd0ff; }
+.dron-elementos { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--borde); font-size: 0.9rem; }
+.dron-elementos-titulo { font-weight: 700; }
+.dron-elemento { display: inline-flex; align-items: center; gap: 6px; }
+.dron-elemento i { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; color: #fff; font-style: normal; font-size: 0.8rem; font-weight: 900; }
+
+.dron-aviso-ejemplo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 0; }
