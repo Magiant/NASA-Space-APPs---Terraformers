@@ -145,9 +145,24 @@ export default function Plantilla() {
 
       <footer className="pie">
         <div className="pie-interior">
-          <span>© 2026 Terraformes · NASA Space Apps</span>
-          <span>{t.comun.pie}</span>
+          <div className="pie-marca">
+            <Link to="/" className="marca">
+              <img src="./icono.svg" alt="" width="34" height="34" />
+              <span>Terraformes</span>
+            </Link>
+            <p>{t.comun.pieLema}</p>
+            <p className="pie-aviso">{t.comun.pieAviso}</p>
+          </div>
+          <nav className="pie-columna" aria-label={t.comun.pieSecciones}>
+            <strong>{t.comun.pieSecciones}</strong>
+            {pestanas.map((p) => <Link key={p.a} to={p.a}>{p.texto}</Link>)}
+          </nav>
+          <div className="pie-columna">
+            <strong>{t.comun.pieFuentes}</strong>
+            <span>{t.comun.pie.replace(/^[^:]+:\s*/, '')}</span>
+          </div>
         </div>
+        <div className="pie-final">© 2026 Terraformes · NASA Space Apps Challenge · Costa Rica</div>
       </footer>
 
       {usuario && !pathname.startsWith('/reportar-plaga') && (
