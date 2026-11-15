@@ -161,6 +161,14 @@ export const es = {
     },
   },
 
+  app: {
+    titulo: 'TerraFarm en su celular Android',
+    texto: 'Instale la app gratis: abre rápido y sirve sin señal en el campo.',
+    boton: 'Descargar para Android',
+    ayuda: 'Al abrir el archivo, el teléfono le pedirá permitir instalar apps de este origen: acepte para instalarla.',
+    pie: 'Descargar la app para Android',
+  },
+
   portal: {
     titulo: '¿Qué quiere hacer hoy?',
     subtitulo: 'Datos de satélites de la NASA y de fuentes de Costa Rica para decidir qué sembrar, cuándo hacerlo y a qué precio vender.',

@@ -1,0 +1,104 @@
+# App de Android: compila la web y el APK. En dev, además lo publica como versión del repo
+# (etiqueta "app-android") para que la página tenga un enlace fijo de descarga:
+#   https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk
+#
+# Secretos opcionales (Settings > Secrets and variables > Actions):
+#   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_ALGOLIA_APP_ID, VITE_ALGOLIA_SEARCH_KEY
+#     → llaves PÚBLICAS de la web: la app abre con datos reales (sin ellas, en modo demo).
+#   ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD
+#     → llave de firma del equipo: versión optimizada que se actualiza sin desinstalar.
+#     Sin llave se firma con una de prueba: funciona, pero para actualizar hay que desinstalar la anterior.
+name: App Android
+
+on:
+  push:
+    branches: [dev]
+    paths: ['android/**', 'web/**', 'packages/compartido/**', 'package-lock.json', '.github/workflows/android.yml']
+  pull_request:
+    paths: ['android/**', 'web/**', 'packages/compartido/**', 'package-lock.json', '.github/workflows/android.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: app-android-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # publicar el APK como versión del repo
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Compilar la web (va empaquetada dentro de la app)
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_ALGOLIA_APP_ID: ${{ secrets.VITE_ALGOLIA_APP_ID }}
+          VITE_ALGOLIA_SEARCH_KEY: ${{ secrets.VITE_ALGOLIA_SEARCH_KEY }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      # El repo no trae gradlew: se usa esta versión de Gradle (la misma de gradle-wrapper.properties).
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+
+      - name: Llave de firma
+        id: llave
+        env:
+          LLAVE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$LLAVE" ]; then
+            echo "$LLAVE" | base64 -d > "$RUNNER_TEMP/terrafarm.jks"
+            echo "TERRAFARM_KEYSTORE=$RUNNER_TEMP/terrafarm.jks" >> "$GITHUB_ENV"
+            echo "tarea=assembleRelease" >> "$GITHUB_OUTPUT"
+            echo "apk=release/app-release.apk" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Sin ANDROID_KEYSTORE_BASE64: el APK se firma con una llave de prueba."
+            echo "tarea=assembleDebug" >> "$GITHUB_OUTPUT"
+            echo "apk=debug/app-debug.apk" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Compilar el APK
+        env:
+          TAREA: ${{ steps.llave.outputs.tarea }}
+          TERRAFARM_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          TERRAFARM_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          TERRAFARM_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: gradle -p android "$TAREA" --no-daemon
+
+      - name: Dejar el APK con su nombre
+        env:
+          APK: ${{ steps.llave.outputs.apk }}
+        run: cp "android/app/build/outputs/apk/$APK" TerraFarm.apk
+
+      # En los PR solo se comprueba que compila; el APK queda como artefacto para probarlo.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TerraFarm-apk
+          path: TerraFarm.apk
+          retention-days: 14
+
+      - name: Publicar para descargar desde la página
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/dev'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NOTAS="App de TerraFarm para Android, compilada de dev (${GITHUB_SHA::7}). Descargue TerraFarm.apk en el teléfono y ábralo; Android pedirá permitir instalar apps de este origen."
+          if gh release view app-android >/dev/null 2>&1; then
+            gh release edit app-android --notes "$NOTAS"
+          else
+            gh release create app-android --title "TerraFarm para Android" --notes "$NOTAS" --target "$GITHUB_SHA"
+          fi
+          gh release upload app-android TerraFarm.apk --clobber

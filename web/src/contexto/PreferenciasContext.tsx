@@ -62,10 +62,15 @@ export function PreferenciasProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Dentro de la app de iPhone: avisa a la parte nativa para que la barra de pestañas use el mismo idioma y tema.
+  // Dentro de las apps de iPhone y Android: avisa a la parte nativa para que la barra de pestañas use el
+  // mismo idioma y tema. iOS recibe un objeto (WKScriptMessageHandler); Android, texto JSON (WebMessageListener).
   useEffect(() => {
-    (window as unknown as { webkit?: { messageHandlers?: { preferencias?: { postMessage: (m: unknown) => void } } } })
-      .webkit?.messageHandlers?.preferencias?.postMessage({ idioma, tema });
+    const w = window as unknown as {
+      webkit?: { messageHandlers?: { preferencias?: { postMessage: (m: unknown) => void } } };
+      preferencias?: { postMessage?: (m: string) => void };
+    };
+    w.webkit?.messageHandlers?.preferencias?.postMessage({ idioma, tema });
+    w.preferencias?.postMessage?.(JSON.stringify({ idioma, tema }));
   }, [idioma, tema]);
 
   const cambiarIdioma = useCallback((i: Idioma) => {

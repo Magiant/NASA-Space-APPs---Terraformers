@@ -160,6 +160,14 @@ export const en: Textos = {
     },
   },
 
+  app: {
+    titulo: 'TerraFarm on your Android phone',
+    texto: 'Install the free app: it opens fast and works without signal in the field.',
+    boton: 'Download for Android',
+    ayuda: 'When you open the file, your phone will ask you to allow installing apps from this source: accept to install it.',
+    pie: 'Download the Android app',
+  },
+
   portal: {
     titulo: 'What would you like to do today?',
     subtitulo: 'Data from NASA satellites and Costa Rican sources to decide what to plant, when to plant it and at what price to sell.',

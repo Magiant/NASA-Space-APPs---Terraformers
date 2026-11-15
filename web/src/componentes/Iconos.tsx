@@ -19,6 +19,8 @@ function GranoCafe() {
 
 /** Íconos de navegación y accesos: mismo trazo en todo el producto (reemplazan emojis). */
 const TRAZOS: Record<string, string> = {
+  descargar: 'M12 4v11M7 10l5 5 5-5M5 20h14',
+  celular: 'M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1ZM11 18.5h2',
   inicio: 'M4 4h7v7H4ZM13 4h7v7h-7ZM4 13h7v7H4ZM13 13h7v7h-7Z',
   sembrar: 'M12 21v-8M12 13c0-4 2.5-6.5 7-6.5 0 4-2.5 6.5-7 6.5ZM12 15c0-3-2-5-6-5 0 3 2 5 6 5Z',
   precios: 'M4 19V9M10 19V5M16 19v-7M22 19H2M20 5l-4 4-3-2',

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { TarjetaDescargaApp } from '../../componentes/DescargarApp';
 import { Icono, Tx } from '../../componentes/Iconos';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
@@ -79,6 +80,8 @@ export default function Inicio() {
           ))}
         </div>
       </section>
+
+      <TarjetaDescargaApp />
     </>
   );
 }

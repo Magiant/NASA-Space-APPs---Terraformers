@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- La hoja de web/public/icono.svg (lienzo de 1024), reducida y centrada en la zona segura del ícono adaptable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.085"
+        android:scaleY="0.085"
+        android:translateX="11.16"
+        android:translateY="9.2">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M284,740C270,470 460,262 770,250C786,560 604,760 284,740Z" />
+        <path
+            android:pathData="M318,706C430,560 560,430 690,318"
+            android:strokeColor="#FF2C8A50"
+            android:strokeWidth="26"
+            android:strokeLineCap="round" />
+        <path
+            android:pathData="M284,740L222,804"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="40"
+            android:strokeLineCap="round" />
+    </group>
+</vector>
