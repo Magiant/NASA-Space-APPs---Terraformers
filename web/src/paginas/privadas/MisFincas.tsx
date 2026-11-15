@@ -8,7 +8,7 @@ import { fecha, nombreCultivo, useCargar } from '../../utilidades';
 import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 
 export default function MisFincas() {
-  const { t, tema, cambiarTema } = usePreferencias();
+  const { t } = usePreferencias();
   const tf = t.fincas;
   const { usuario } = useAuth();
   const fincas = useCargar(() => datos.misFincas(), []);
@@ -32,6 +32,7 @@ export default function MisFincas() {
         <Link to="/siembras/nueva" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="sembrar" tam={28} /></span>{tf.nuevaSiembra}</Link>
         <Link to="/reportar-plaga" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="plaga" tam={28} /></span>{tf.reportar}</Link>
         <Link to="/historial" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="libro" tam={28} /></span>{tf.historial}</Link>
+        <Link to="/ajustes" className="acceso"><span className="acceso-icono" aria-hidden><Icono nombre="ajustes" tam={28} /></span>{t.ajustes.titulo}</Link>
       </div>
 
       {fincas.datos!.length === 0 ? (
@@ -84,14 +85,6 @@ export default function MisFincas() {
         </div>
       )}
 
-      <section className="config" aria-labelledby="config-titulo">
-        <h2 id="config-titulo">{tf.config}</h2>
-        <p className="ayuda">{tf.aparienciaAyuda}</p>
-        <div className="interruptor" role="tablist" aria-label={tf.apariencia}>
-          <button type="button" role="tab" aria-selected={tema === 'crema'} onClick={() => cambiarTema('crema')}><Icono nombre="sol" tam={18} /> {tf.temaClaro}</button>
-          <button type="button" role="tab" aria-selected={tema === 'azul'} onClick={() => cambiarTema('azul')}><Icono nombre="luna" tam={18} /> {tf.temaOscuro}</button>
-        </div>
-      </section>
     </>
   );
 }

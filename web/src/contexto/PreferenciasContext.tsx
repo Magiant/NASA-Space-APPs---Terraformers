@@ -43,6 +43,12 @@ export function PreferenciasProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = idioma;
   }, [idioma]);
 
+  // Dentro de la app de iPhone: avisa a la parte nativa para que la barra de pestañas use el mismo idioma y tema.
+  useEffect(() => {
+    (window as unknown as { webkit?: { messageHandlers?: { preferencias?: { postMessage: (m: unknown) => void } } } })
+      .webkit?.messageHandlers?.preferencias?.postMessage({ idioma, tema });
+  }, [idioma, tema]);
+
   const cambiarIdioma = useCallback((i: Idioma) => {
     setIdioma(i);
     guardar(CLAVE_IDIOMA, i);

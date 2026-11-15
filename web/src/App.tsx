@@ -15,6 +15,7 @@ import MisFincas from './paginas/privadas/MisFincas';
 import NuevaFinca from './paginas/privadas/NuevaFinca';
 import NuevaSiembra from './paginas/privadas/NuevaSiembra';
 import ReportarPlaga from './paginas/privadas/ReportarPlaga';
+import Ajustes from './paginas/publicas/Ajustes';
 import Alertas from './paginas/publicas/Alertas';
 import Capacitaciones from './paginas/publicas/Capacitaciones';
 import Cultivo from './paginas/publicas/Cultivo';
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="cultivo/:id" element={<Cultivo />} />
             <Route path="precios" element={<Precios />} />
             <Route path="alertas" element={<Alertas />} />
+            <Route path="ajustes" element={<Ajustes />} />
             <Route path="capacitaciones" element={<Capacitaciones />} />
             <Route path="ingresar" element={<Ingresar />} />
             <Route path="registrarse" element={<Registrarse />} />
