@@ -10,6 +10,7 @@ on:
         required: true
         type: choice
         options:
+          - distritos              # tema 0 · HDX/INEC: CORRER PRIMERO (todo depende de esta tabla)
           - clima-historico        # tema 1 · Open-Meteo (cupo limitado, reanudable)
           - temperatura-historica  # tema 7 · NASA POWER (por defecto desde 2021)
           - agua-historica         # tema 4 · agrega clima_diario (correr después de los dos anteriores)
