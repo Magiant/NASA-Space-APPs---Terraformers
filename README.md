@@ -56,7 +56,13 @@ It turns scientific and geographic information into practical questions a farmer
 
 The initial geographic focus is **Costa Rica**. TerraFarm combines NASA Earth-observation data with national agricultural, geographic and market information for each of the country's **492 districts**. The approach can be adapted to other countries that have compatible satellite products, local data and agricultural demand. That requires local validation, not just moving the map.
 
-TerraFarm is a **web application** (a Progressive Web App) that works on desktop and mobile browsers and keeps working with a weak signal. The repository also contains a **native iOS shell** (`ios/`, SwiftUI + WebKit) that packages the same web app inside an iPhone app with native tabs. That shell builds in Xcode but **has not been published on the App Store**.
+TerraFarm is available in three ways, all showing the same screens and data:
+
+- **Web application** (a Progressive Web App) that works on desktop and mobile browsers and keeps working with a weak signal.
+- **Android app** (`android/`, Kotlin + Jetpack Compose). It packages the web app with native Material 3 tabs, works without internet, and is built automatically by GitHub Actions. The APK can be downloaded from the web ("Download the app" button) or directly: [TerraFarm.apk](https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk). It is **not on Google Play**.
+- **iOS app** (`ios/`, SwiftUI + WebKit), with native tabs. It builds in Xcode but **has not been published on the App Store**.
+
+A **28-second demo video** for the judges is produced in code with Remotion (`video/`).
 
 TerraFarm is meant to **support** a farmer's own experience, laboratory soil tests, local agronomists (MAG/INTA technicians) and official warnings. It does not replace any of them. Every screen says where its data comes from and what is estimated.
 
@@ -119,6 +125,8 @@ Legumes such as beans return nitrogen to the soil. Repeating the same family (po
 | Recommendation engine | Rotation rules, crop suitability scoring per district and per crop, sowing month. | `extractores/src/cultivos/catalogo.ts`, `extractores/src/aptitud/calcular.ts` |
 | Tests | 100 automated tests for the extractors (no internet needed). | `extractores/test/` |
 | Deployment | Public site on GitHub Pages. | `npm run deploy` → branch `gh-pages` |
+| Mobile apps | Native Android shell (APK built and published by GitHub Actions) and native iOS shell. | `android/`, `ios/`, `.github/workflows/android.yml` |
+| Demo video | 28-second video: map zoom, drone scan, real app footage, storm alert, globe; subtitles and an "AI-assisted" watermark. | `video/`, `docs/video/guion.md` |
 | Next stage | Agronomic validation, CNP prices, NDVI, census, real users. | [Next steps](#development-status-and-next-steps) |
 
 The Git history of this repository starts on **November 14, 2026**. No earlier founding date, completed farmer pilot, award, institutional partnership or measured yield increase is claimed.
@@ -379,7 +387,9 @@ NASA-Space-APPs---Terraformers/
 │   ├── datos/               Hand-reviewed inputs (hazards CSV, IMN/CNE templates)
 │   └── test/                100 offline tests
 ├── supabase/                SQL migrations, migration runner, demo data loader
+├── android/                 Native Android shell (Kotlin + Jetpack Compose + WebView) that packages the web app
 ├── ios/                     Native iOS shell (SwiftUI + WKWebView) that packages the web app
+├── video/                   Remotion project of the 28-second demo video (scenes, music, subtitles)
 ├── docs/                    Technical documentation per topic
 └── .github/workflows/       Migrations, daily / weekly / one-time extractions, Pages deployment
 ```
@@ -394,7 +404,9 @@ NASA-Space-APPs---Terraformers/
 | Database & auth | Supabase (PostgreSQL, Auth, RLS) | 14 migrations, roles farmer / technician / admin |
 | Automation | GitHub Actions | Migrations on push, daily and weekly extractions, manual one-time loads |
 | Hosting | GitHub Pages (branch `gh-pages`) | `npm run deploy` |
+| Android | Kotlin, Jetpack Compose, Material 3, WebView | One web view per tab with the packaged web; same language/theme bridge as iOS; location permission, photo picker and Back button; APK built by GitHub Actions |
 | iOS | SwiftUI + WebKit | One web view per tab, shared session; `ios/preparar-web.sh` copies the built web into the app |
+| Demo video | Remotion (React video), Node scripts for audio and voice cleanup | `npm run render` inside `video/` produces `out/terrafarm-demo.mp4` |
 
 **Extractor commands available** (`extractores/src/main.ts`):
 `distritos`, `clima`, `clima-historico`, `humedad-open-meteo`, `humedad-power`, `agua-open-meteo`, `agua-ecostress`, `agua-historica`, `temperatura-power`, `temperatura-historica`, `temperatura-comparar`, `olas-calor`, `imn-subestacional`, `cne`, `imn`, `amenazas-estimar`, `amenazas`, `soilgrids`, `ecocrop`, `gaez`, `areas-protegidas`, `censo`, `capacidad-uso`, `precios-pima`, `cultivos`, `terreno`, `aptitud`, `capacitacion-ina-web`, `capacitacion-ina`.
@@ -411,6 +423,7 @@ NASA-Space-APPs---Terraformers/
 | `semanal.yml` | Mondays 02:00 | INA courses |
 | `semanal.yml` | Mondays 04:00 | NASA POWER soil moisture and temperature, heat waves, ECOSTRESS, and finally the **suitability score** |
 | `unica-vez.yml` | By hand from the Actions tab | Districts, historical climate and temperature, soils, EcoCrop, GAEZ, crop catalog, terrain, hazards, land-use capability, protected areas, suitability |
+| `android.yml` | On every push to `dev` that changes the web or the Android app, and on pull requests | Builds the Android APK and, from `dev`, publishes it in the `app-android` release |
 | `deploy-pages.yml` | — | Empty for now: the site is published by hand with `npm run deploy` |
 
 Secrets live in **Settings → Secrets and variables → Actions** and are never in the code.
@@ -444,7 +457,7 @@ These are stated openly so nobody mistakes the prototype for a finished product:
 8. **NDVI, ECOSTRESS, the agricultural census and protected areas** are coded but not loaded, because they need credentials or files from a person.
 9. **Email confirmation** depends on Supabase's default mail service, which has a low sending limit.
 10. **Drone flights** in the prototype are demonstration data; no real drone has flown over a real farm for TerraFarm yet.
-11. **The iOS shell** is not published on the App Store.
+11. **The mobile apps are not in the stores:** the Android APK is installed by hand from GitHub (the phone asks to allow apps from unknown sources), and the iOS app is not on the App Store.
 
 ---
 
@@ -573,6 +586,9 @@ A simple before/after change alone cannot prove that TerraFarm caused it.
 | Area | Status |
 |---|---|
 | Web interface (public, private and admin screens, ES/EN, two themes, offline) | ✅ Working |
+| Android app (APK) | ✅ Built automatically and downloadable |
+| iOS app | 🟡 Builds in Xcode; not published |
+| 28-second demo video | ✅ Produced (Remotion) |
 | Accounts, roles and personal records in a real database | ✅ Working |
 | NASA POWER climate, temperature and soil moisture | ✅ Loaded and updated automatically |
 | SRTM terrain and slope | ✅ Loaded |
@@ -640,7 +656,11 @@ Never put a private key in a `VITE_*` variable: everything with that prefix ends
 
 **Demo account (farmer):** `agricultor@demo.cr` / `demo1234`, with sample farms, plantings, notes, reports and drone flights. It can be loaded with `node --env-file=.env supabase/demo/cargar-demo.mjs`.
 
-**iOS shell:** run `ios/preparar-web.sh` to copy the built web into the app, then open `ios/Terraformes.xcodeproj` in Xcode.
+**Android app:** run `android/preparar-web.sh` to copy the built web into the app, then build with Android Studio or Gradle (details in `android/README.md`).
+
+**iOS app:** run `ios/preparar-web.sh` to copy the built web into the app, then open `ios/Terraformes.xcodeproj` in Xcode.
+
+**Demo video:** `cd video && npm install && npm run dev` opens Remotion Studio; `npm run render` produces the MP4 (script and timing in `docs/video/guion.md`).
 
 **More documentation:** `docs/migraciones.md` (database migrations), `docs/temas-2-y-10.md` (soil moisture and compatibility), `docs/temas-3-5-8-9.md` (prices, crops, hazards, terrain and suitability), `docs/fenomenos-naturales.md` (IMN and CNE), `docs/temperatura-termica.md` (altitude correction and heat waves), `docs/capacitacion/` (INA courses), `docs/contexto-web.md` (web design rules).
 
@@ -685,6 +705,7 @@ The team used AI assistants during development and documentation: **Claude (incl
 - AI-generated text and code are not a substitute for NASA data, government statistics or agronomic verification.
 - **All the data shown in TerraFarm comes from the sources listed above, not from an AI model.**
 - The crop and pest photos are real photographs from Wikimedia Commons, not AI-generated images.
+- **Demo video:** its music and sound effects are generated, and the video carries a visible **"AI-assisted" watermark**. The voice-over is a real voice recorded with a phone, cleaned with audio filters (`video/scripts/voz.mjs`).
 
 **Disclosure checklist for the 2026 submission:**
 
@@ -737,3 +758,7 @@ The team used AI assistants during development and documentation: **Claude (incl
 </h2>
 
 <p align="center"><b>https://magiant.github.io/NASA-Space-APPs---Terraformers/</b></p>
+
+<h3 align="center">
+  📱 <a href="https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk">Download the Android app (APK)</a>
+</h3>
