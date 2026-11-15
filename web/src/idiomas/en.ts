@@ -30,6 +30,10 @@ export const en: Textos = {
     cambiarIdioma: 'Change language',
     idioma: 'Language',
     pie: 'Data: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
+    pieLema: 'Satellite data serving Costa Rican farmers.',
+    pieSecciones: 'Sections',
+    pieFuentes: 'Data sources',
+    pieAviso: 'This tool supports your decision; it does not replace the judgment of farmers or MAG technicians.',
   },
 
   ajustes: {
@@ -122,6 +126,7 @@ export const en: Textos = {
     satelite: {
       titulo: 'We see your area from space',
       texto: 'We use NASA satellites to measure rain, temperature, soil moisture and plant health in every district of Costa Rica.',
+      cifras: [{ numero: '492', texto: 'districts' }, { numero: '7', texto: 'provinces' }, { numero: '13', texto: 'crops' }, { numero: '10+', texto: 'data sources' }],
     },
     dron: {
       titulo: 'Drones that measure your farm',
@@ -139,6 +144,10 @@ export const en: Textos = {
   },
 
   inicio: {
+    cta: {
+      titulo: (d) => `All about ${d}`,
+      texto: 'Climate, soil, water, risks and what your neighbors already plant.',
+    },
     titulo: 'What should you plant in your area?',
     subtitulo: 'Choose where your farm is and we will show you the crops that grow best there.',
     mejores: (d) => `Best crops in ${d}`,
