@@ -1,4 +1,4 @@
-import { Icono, NombreIcono, Tx } from '../../componentes/Iconos';
+import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Cargando } from '../../componentes/Estados';
@@ -35,6 +35,7 @@ function Resultado({ plaga, distrito, anterior, enCola }: { plaga: RegistroPlaga
       {plaga ? (
         <>
           <h2>{tp.comoControlar(nombrePlaga(t, plaga.id, plaga.nombre).toLowerCase())}</h2>
+          <FotoPlaga id={plaga.id} etiqueta={t.cultivo.foto} />
           <p>{plaga.sintomas}</p>
           <ol className="pasos-control">
             <li>
@@ -169,6 +170,9 @@ export default function ReportarPlaga() {
             </select>
             {plagaId && <small className="ayuda">{catalogo.plaga(plagaId)?.sintomas}</small>}
           </label>
+        )}
+        {tipo && plagaId && (
+          <FotoPlaga key={plagaId} id={plagaId} etiqueta={t.cultivo.foto} />
         )}
 
         <label>
