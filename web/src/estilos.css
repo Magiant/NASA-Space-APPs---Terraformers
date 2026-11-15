@@ -994,10 +994,7 @@ body::before {
 
 .filtros, .interruptor, .interruptor-4, .buscador, .linea-tiempo, .mapa-dron, .campo-suelto, .config, .ajustes { max-width: none; }
 .formulario-centrado, .vacio { max-width: none; }
-/* Los formularios (Entrar, Crear cuenta, Nueva finca, Nueva siembra, Reportar plaga…) van sobre un panel claro y plano:
-   sus letras son oscuras, así que sin este fondo no se leen sobre el verde de la página. */
-.formulario-centrado { padding: 24px var(--margen); border: 1px solid var(--borde); border-radius: 0; background: var(--superficie); box-shadow: none; }
-@media (min-width: 900px) { .formulario-centrado { padding: 32px clamp(24px, 3vw, 48px); } }
+.formulario-centrado { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 @media (min-width: 900px) {
   .formulario-centrado :is(.formulario), .formulario-centrado.formulario {
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; align-items: start;
@@ -1015,7 +1012,25 @@ body::before {
 .aviso { border-radius: 0; }
 .aviso-error { border-left: 4px solid var(--nor); }
 :root[data-tema='crema'] .contenido :is(.tarjeta, .ficha, .acceso) { border-color: var(--borde); box-shadow: none; }
-:root[data-tema='crema'] .contenido .formulario-centrado { border: 1px solid var(--borde); border-radius: 0; background: var(--superficie); box-shadow: none; }
+:root[data-tema='crema'] .contenido .formulario-centrado { border: 0; border-radius: 0; background: transparent; box-shadow: none; padding: 0; }
+
+/* Formularios (Entrar, Crear cuenta, Nueva finca, Nueva siembra, Reportar plaga…) directo sobre el verde:
+   letras claras. Las cajas para escribir siguen claras con letra oscura, y lo que tiene fondo propio
+   (avisos, opciones Sí/No, la sección de usuarios de prueba) no cambia. */
+:root[data-tema='crema'] .contenido .formulario-centrado :is(h1, h2, h3, p, label, legend, strong, dt, dd, li):not(:is(.aviso, .plegable, .opciones-grandes label, .opciones-cara, .chips, .elegido, .subir-foto, .tarjeta, .ficha) *):not(.aviso, .opciones-grandes label, .subir-foto) {
+  color: var(--mesa-texto);
+}
+:root[data-tema='crema'] .contenido .formulario-centrado :is(small, .ayuda, .separador):not(:is(.aviso, .plegable, .tarjeta, .ficha, .elegido) *) { color: var(--mesa-texto-suave); }
+:root[data-tema='crema'] .contenido .formulario-centrado .separador::before,
+:root[data-tema='crema'] .contenido .formulario-centrado .separador::after { background: var(--mesa-borde); }
+:root[data-tema='crema'] .contenido .formulario-centrado a:not(.boton):not(:is(.aviso, .plegable, .tarjeta) *) { color: var(--mesa-primario); }
+:root[data-tema='crema'] .contenido .formulario-centrado .boton:not(.boton-secundario):not(:is(.plegable, .tarjeta, .aviso) *) {
+  background: var(--mesa-primario); border-color: var(--mesa-primario); color: var(--mesa-primario-texto);
+}
+:root[data-tema='crema'] .contenido .formulario-centrado .boton-secundario:not(:is(.plegable, .tarjeta, .aviso) *) {
+  color: var(--mesa-primario); border-color: var(--mesa-primario); background: rgb(134 214 160 / 0.06);
+}
+:root[data-tema='crema'] .contenido .formulario-centrado .chip:not([aria-checked='true']) { color: var(--mesa-texto); border-color: var(--mesa-borde); background: transparent; }
 .vacio { text-align: left; padding: 24px 0; }
 .portada, .portada-sello, .cifras li, .lista-enlaces a, .foto-parallax, .seccion-fondo, .tarjeta-cta,
 .tc-foto, .foto-alerta img, .foto-descriptiva img { border-radius: 0; }
