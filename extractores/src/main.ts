@@ -34,6 +34,7 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'temperatura-power': extraerTemperaturaPower,     // semanal.yml
   'temperatura-historica': cargarTemperaturaHistorica, // unica-vez.yml
   'temperatura-comparar': compararTemperatura,      // a mano: POWER vs Open-Meteo en distritos de montaña
+  'olas-calor': async (a) => (await import('./clima/olas.ts')).extraerOlasCalor(a), // semanal.yml (después de temperatura-power; sin APIs)
   // Tema 8 · Fenómenos naturales (docs/fenomenos-naturales.md): boletines revisados, no scraping
   'cne': async (a) => (await import('./riesgos/cne.ts')).extraerCNE(a),                     // diario.yml
   'imn': async (a) => (await import('./riesgos/imn.ts')).extraerIMN(a),                     // diario.yml

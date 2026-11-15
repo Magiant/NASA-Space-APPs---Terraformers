@@ -283,6 +283,21 @@ export const Aptitud = z.object({
 });
 
 // ---------------------------------------------------------------------
+// 7. Olas de calor (013_olas_calor.sql, calculadas sobre clima_diario)
+// ---------------------------------------------------------------------
+export const OlaCalor = z.object({
+  codigo_distrito: CodigoDistrito,
+  fuente: z.enum(["open-meteo", "nasa-power"]),
+  inicio: fecha,
+  fin: fecha,
+  dias: z.number().int().min(1),
+  temp_max_media_c: rango(-10, 50),
+  temp_max_pico_c: rango(-10, 50),
+  umbral_c: rango(-10, 50),
+  abierta: z.boolean().default(false), // la regla fin >= inicio la revisa la base (check en 013)
+});
+
+// ---------------------------------------------------------------------
 // Tabla de Supabase ↔ esquema, y su llave para el upsert.
 // ejecutarExtractor() usa esto para no equivocarse de tabla ni de llave.
 // ---------------------------------------------------------------------
@@ -304,6 +319,7 @@ export const TABLAS = {
   censo_canton:       { esquema: CensoCanton,      claveUnica: "codigo_canton,cultivo_id" },
   capacitaciones:     { esquema: Capacitacion,     claveUnica: "url" },
   aptitud:            { esquema: Aptitud,          claveUnica: "codigo_distrito,cultivo_id" },
+  olas_calor:         { esquema: OlaCalor,         claveUnica: "codigo_distrito,fuente,inicio" },
 } as const;
 
 export type NombreTabla = keyof typeof TABLAS;
@@ -326,3 +342,4 @@ export type GaezZona = z.infer<typeof GaezZona>;
 export type CensoCanton = z.infer<typeof CensoCanton>;
 export type Capacitacion = z.infer<typeof Capacitacion>;
 export type Aptitud = z.infer<typeof Aptitud>;
+export type OlaCalor = z.infer<typeof OlaCalor>;
