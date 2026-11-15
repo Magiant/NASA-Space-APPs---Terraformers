@@ -7,7 +7,7 @@ import { recomendarSiguiente } from '../../logica/recomendacion';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import { hoy, nombreCultivo, sumarDias, useCargar } from '../../utilidades';
-import { Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
+import { FotoCultivo, Icono, Tx } from '../../componentes/Iconos';
 
 export default function NuevaSiembra() {
   const t = useT();
@@ -99,7 +99,7 @@ export default function NuevaSiembra() {
       {cultivo && (
         <form className="formulario formulario-centrado" onSubmit={enviar}>
           <div className="elegido">
-            <span aria-hidden><IconoCultivo id={cultivo.id} /></span>
+            <span className="icono-cultivo" aria-hidden><FotoCultivo id={cultivo.id} prioridad /></span>
             <strong>{nombreCultivo(t, cultivo.id, cultivo.nombre)}</strong>
             <button type="button" className="enlace" onClick={() => setCultivoId('')}>{ts.cambiar}</button>
           </div>
