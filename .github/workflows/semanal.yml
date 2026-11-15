@@ -59,6 +59,11 @@ jobs:
         if: ${{ !cancelled() }}
         run: npm run extraer -- temperatura-power
 
+      # Tema 7 · Olas de calor: lee clima_diario (sin APIs) y guarda olas_calor
+      - name: Olas de calor
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- olas-calor
+
       # Tema 4 · ECOSTRESS (ET real y estrés hídrico) vía AppEEARS
       - name: Agua ECOSTRESS
         if: ${{ !cancelled() }}
