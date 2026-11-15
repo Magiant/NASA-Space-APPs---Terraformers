@@ -4,7 +4,8 @@
 //   npm run extraer -- clima-historico --desde=2025-01-01 --hasta=2025-12-31
 //
 // Opciones comunes: --simulacion (no escribe en Supabase), --distritos=CR10101,CR30110,
-// --distritos-archivo=<json> (probar sin la tabla distritos), --puntos-max=N, --desde, --hasta.
+// --distritos-archivo=<json> (probar sin la tabla distritos), --puntos-max=N, --desde, --hasta,
+// --archivo=<ruta> y --regiones-archivo=<ruta> (cargas desde archivos revisados, temas 6 y 8).
 import { leerArgumentos, type Argumentos } from './comun/argumentos.ts'
 import { extraerClimaOpenMeteo } from './clima/open-meteo.ts'
 import { cargarClimaHistorico } from './cargas-unicas/clima-historico.ts'
@@ -27,10 +28,16 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'agua-open-meteo': extraerAguaOpenMeteo,          // diario.yml (después de 'clima'; suma clima_diario, sin APIs)
   'agua-ecostress': extraerAguaEcostress,           // semanal.yml (AppEEARS; necesita EARTHDATA_USERNAME/PASSWORD)
   'agua-historica': cargarAguaHistorica,            // unica-vez.yml
+  // Tema 6 · Capacitación del agricultor (docs/capacitacion/README.md). Carga solo sus dependencias al ejecutarse.
+  'capacitacion-ina': async (a) => (await import('./capacitacion/ina.ts')).extraerIna(a), // semanal.yml
   // Tema 7 · Temperatura del sector
   'temperatura-power': extraerTemperaturaPower,     // semanal.yml
   'temperatura-historica': cargarTemperaturaHistorica, // unica-vez.yml
   'temperatura-comparar': compararTemperatura,      // a mano: POWER vs Open-Meteo en distritos de montaña
+  // Tema 8 · Fenómenos naturales (docs/fenomenos-naturales.md): boletines revisados, no scraping
+  'cne': async (a) => (await import('./riesgos/cne.ts')).extraerCNE(a),                     // diario.yml
+  'imn': async (a) => (await import('./riesgos/imn.ts')).extraerIMN(a),                     // diario.yml
+  'amenazas': async (a) => (await import('./cargas-unicas/amenazas.ts')).cargarAmenazas(a), // unica-vez.yml
   // Tema 10 · Compatibilidad del sector. Orden: soilgrids → ecocrop, gaez, areas-protegidas, censo → capacidad-uso
   'soilgrids': temas2y10.soilgrids,                 // unica-vez.yml
   'ecocrop': temas2y10.ecocrop,                     // unica-vez.yml (necesita cultivos, tema 5)

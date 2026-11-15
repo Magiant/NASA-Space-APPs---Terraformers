@@ -1,4 +1,4 @@
-# Extractores SEMANALES → Supabase. Cada tema agrega su paso en el job `extraer`.
+# Extractores SEMANALES → Supabase. Cada tema agrega su paso en el job que le toca.
 # Secretos necesarios (Settings > Secrets and variables > Actions):
 #   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite):
 #   ECOSTRESS (AppEEARS) necesita EARTHDATA_USERNAME y EARTHDATA_PASSWORD (AppEEARS rechaza el token).
@@ -6,20 +6,42 @@ name: Extractores semanales
 
 on:
   schedule:
-    - cron: '0 10 * * 1'   # lunes 04:00 hora de Costa Rica (UTC-6)
+    - cron: '0 8 * * 1'    # lunes 02:00 Costa Rica (UTC-6): capacitación INA
+    - cron: '0 10 * * 1'   # lunes 04:00 Costa Rica: humedad, temperatura y ECOSTRESS
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: extractores-semanales
   cancel-in-progress: false
 
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
 jobs:
+  # Tema 6 · Capacitación del agricultor: carga el CSV revisado del INA (docs/capacitacion/README.md)
+  capacitacion-ina:
+    if: github.event.schedule == '0 8 * * 1' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node --test extractores/test/capacitacion-ina.test.ts
+      - name: Cargar CSV revisado del INA
+        run: npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv
+
   extraer:
+    if: github.event.schedule == '0 10 * * 1' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 240   # ECOSTRESS espera a que AppEEARS procese (hasta 90 min por tarea)
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

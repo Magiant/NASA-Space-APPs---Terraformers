@@ -3,6 +3,8 @@ export function leerArgumentos(argv = process.argv.slice(2)) {
   const valor = (nombre: string) => argv.find((a) => a.startsWith(`--${nombre}=`))?.split('=').slice(1).join('=')
   const lista = (nombre: string) => valor(nombre)?.split(',').map((s) => s.trim()).filter(Boolean)
   return {
+    archivo: valor('archivo'),
+    regionesArchivo: valor('regiones-archivo'),
     nombre: argv.find((a) => !a.startsWith('--')),
     simulacion: argv.includes('--simulacion'),
     distritos: lista('distritos'),

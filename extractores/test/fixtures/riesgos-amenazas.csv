@@ -1,0 +1,4 @@
+codigo_distrito,tipo,nivel,meses_riesgo,fuente
+CR10101,inundacion,medio,,PRUEBA: ficticia
+CR30110,deslizamiento,alto,9;10,PRUEBA: ficticia
+CR50501,sequia,bajo,,PRUEBA: ficticia

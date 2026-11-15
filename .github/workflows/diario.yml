@@ -8,14 +8,14 @@ name: Extractores diarios
 
 on:
   schedule:
-    - cron: '0 11 * * *'   # 05:00 Costa Rica (UTC-6): clima + estudio hídrico
+    - cron: '0 11 * * *'   # 05:00 Costa Rica (UTC-6): clima + estudio hídrico + riesgos
     - cron: '0 14 * * *'   # 08:00 Costa Rica: humedad del suelo
   workflow_dispatch:
     inputs:
       grupo:
         description: 'Qué correr a mano'
         type: choice
-        options: [clima-y-agua, humedad]
+        options: [clima-y-agua, humedad, riesgos]
         default: clima-y-agua
 
 concurrency:
@@ -63,3 +63,26 @@ jobs:
       # Tema 2 · Humedad del suelo (Open-Meteo, 3 profundidades, últimos 7 días)
       - name: Humedad del suelo Open-Meteo
         run: npm run extraer -- humedad-open-meteo
+
+  # Tema 8 · Fenómenos naturales: importa boletines revisados de CNE e IMN (no es scraping web).
+  # Habilitar solo después de preparar boletines revisados: variable del repositorio
+  # RIESGOS_REVISADOS_HABILITADOS = true (Settings > Secrets and variables > Actions > Variables).
+  riesgos:
+    if: vars.RIESGOS_REVISADOS_HABILITADOS == 'true' && (github.event.schedule == '0 11 * * *' || inputs.grupo == 'riesgos')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        extractor: [cne, imn]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Importar boletín revisado
+        env:
+          EXTRACTOR: ${{ matrix.extractor }}
+        run: npm run extraer -- "$EXTRACTOR"

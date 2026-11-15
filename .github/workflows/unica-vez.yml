@@ -13,6 +13,7 @@ on:
           - clima-historico        # tema 1 · Open-Meteo (cupo limitado, reanudable)
           - temperatura-historica  # tema 7 · NASA POWER (por defecto desde 2021)
           - agua-historica         # tema 4 · agrega clima_diario (correr después de los dos anteriores)
+          - amenazas               # tema 8 · amenazas por distrito desde la plantilla revisada
           # Tema 10 · Compatibilidad del sector. Orden recomendado:
           # soilgrids → ecocrop, gaez, areas-protegidas → capacidad-uso (al final).
           # El censo se corre en local con el Excel del INEC (CENSO_EXCEL=ruta.xlsx npm run extraer -- censo).
