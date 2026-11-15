@@ -635,3 +635,59 @@ select:disabled { opacity: 0.55; }
 .ajustes-peligro .ajustes-icono { background: var(--nor-fondo); color: var(--nor); }
 .ajustes-fila > svg:last-child { color: var(--texto-suave); flex: none; }
 .ajustes-fila[aria-checked='true'] > svg:last-child { color: var(--primario); }
+
+/* ================= Fotos reales de cultivos ================= */
+.foto-cultivo { display: block; width: 100%; height: 100%; object-fit: cover; }
+.icono-cultivo { overflow: hidden; }
+.icono-cultivo .foto-cultivo { border-radius: inherit; }
+
+/* Tarjeta: foto a todo lo ancho arriba, contenido debajo */
+.tarjeta.tarjeta-cultivo,
+.rejilla-productos .tarjeta.tarjeta-cultivo { padding: 0; overflow: hidden; gap: 0; }
+.tc-foto {
+  position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden;
+  background: var(--superficie-2); color: var(--texto-suave);
+}
+.tc-foto > svg { position: absolute; inset: 0; margin: auto; width: 45%; height: 45%; }
+.tc-foto .foto-cultivo { transition: transform 0.5s ease; }
+.tarjeta-cultivo:hover .tc-foto .foto-cultivo { transform: scale(1.05); }
+.tc-foto::after { content: ''; position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(to top, rgb(0 0 0 / 0.28), transparent); pointer-events: none; }
+.tc-puntaje, .tc-foto .tc-posicion {
+  position: absolute; z-index: 1; top: 10px; display: inline-flex; align-items: baseline; gap: 1px;
+  padding: 4px 10px; border-radius: 999px; font-weight: 800; font-variant-numeric: tabular-nums;
+  background: rgb(255 255 255 / 0.92); color: #16201a; box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+  backdrop-filter: blur(6px);
+}
+.tc-puntaje { right: 10px; font-size: 1.15rem; }
+.tc-puntaje small { font-size: 0.7rem; font-weight: 600; color: #5f6862; }
+.tc-foto .tc-posicion { left: 10px; min-width: 30px; height: 30px; justify-content: center; align-items: center; padding: 0 8px; font-size: 0.85rem; }
+.nivel-descartado .tc-foto .foto-cultivo, .nivel-no_recomendado .tc-foto .foto-cultivo { filter: grayscale(0.7) brightness(0.95); }
+.tc-cuerpo { display: flex; flex-direction: column; gap: 8px; flex: 1; padding: 14px 16px 16px; }
+.rejilla-productos .tc-cuerpo { padding: 12px 14px 14px; }
+@media (max-width: 699px) {
+  .rejilla-productos .tc-cuerpo { padding: 10px 10px 12px; }
+  .tc-puntaje { top: 8px; right: 8px; font-size: 0.95rem; padding: 3px 8px; }
+  .tc-foto .tc-posicion { top: 8px; left: 8px; min-width: 24px; height: 24px; font-size: 0.75rem; }
+}
+
+/* Ficha del cultivo: portada con foto grande y el nombre encima */
+.portada-cultivo {
+  position: relative; overflow: hidden; border-radius: 22px; aspect-ratio: 4 / 3;
+  background: var(--superficie-2); box-shadow: var(--sombra-fuerte);
+}
+@media (min-width: 700px) { .portada-cultivo { aspect-ratio: 21 / 8; } }
+.portada-cultivo > .foto-cultivo { position: absolute; inset: 0; }
+.portada-cultivo > svg { position: absolute; inset: 0; margin: auto; width: 30%; height: 30%; color: var(--texto-suave); }
+.portada-cultivo-texto {
+  position: absolute; inset: auto 0 0 0; padding: 48px 22px 18px; color: #fff;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.35) 55%, transparent);
+}
+.portada-cultivo-texto h1 { margin: 0; color: #fff; text-shadow: 0 2px 12px rgb(0 0 0 / 0.35); }
+.portada-cultivo-texto p { margin: 4px 0 0; color: rgb(255 255 255 / 0.9); }
+@media (min-width: 700px) { .portada-cultivo-texto { padding: 60px 32px 26px; } }
+.credito-foto { margin: 6px 4px 0; font-size: 0.75rem; color: var(--texto-suave); }
+.credito-foto a { color: inherit; font-weight: 600; }
+
+/* Título con foto pequeña redonda (Mi siembra) y cultivo elegido (Nueva siembra) */
+.titulo-con-foto { display: flex; align-items: center; gap: 14px; }
+.titulo-con-foto .icono-cultivo, .elegido .icono-cultivo { width: 64px; height: 64px; border-radius: 16px; font-size: 2rem; }
