@@ -1,94 +1,127 @@
 import { Icono } from './Iconos';
 import { useEffect, useMemo, useState } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
-import { algolia, catalogo } from '../servicios/algolia';
+import { masCercana, useUbicaciones, type Ubicacion } from '../servicios/ubicaciones';
 
-/**
- * Provincia → cantón → distrito, con selects grandes.
- * Con Algolia se alimenta de ubicacion.lvl0/lvl1/lvl2 (HierarchicalMenu).
- */
-export default function SelectorUbicacion({
-  valor, alCambiar, conGps = false,
-}: { valor: string | null; alCambiar: (codigo: string | null) => void; conGps?: boolean }) {
-  const t = useT();
-  const zonas = catalogo.zonas;
-  const actual = zonas.find((z) => z.codigo_distrito === valor);
-  const [provincia, setProvincia] = useState(actual?.provincia ?? '');
-  const [canton, setCanton] = useState(actual?.canton ?? '');
-  const [gps, setGps] = useState<'listo' | 'buscando' | 'error'>('listo');
+export interface Opcion { codigo: string; nombre: string }
 
-  // Si el valor cambia desde fuera (por ejemplo, con el GPS), seguirlo.
+/** Estado compartido provincia → cantón → distrito (lo usan la lista y el mapa a la vez). */
+export interface SeleccionUbicacion {
+  lista: Ubicacion[];
+  cargando: boolean;
+  error: boolean;
+  provincia: string; // código, '' si no hay
+  canton: string;
+  distrito: string | null;
+  provincias: Opcion[];
+  cantones: Opcion[];
+  distritos: Opcion[];
+  elegirProvincia: (codigo: string) => void;
+  elegirCanton: (codigo: string) => void;
+  elegirDistrito: (codigo: string | null) => void;
+}
+
+const porNombre = (a: Opcion, b: Opcion) => a.nombre.localeCompare(b.nombre, 'es');
+function unicos(lista: Ubicacion[], codigo: keyof Ubicacion, nombre: keyof Ubicacion): Opcion[] {
+  const m = new Map<string, string>();
+  for (const u of lista) m.set(String(u[codigo]), String(u[nombre]));
+  return [...m].map(([c, n]) => ({ codigo: c, nombre: n })).sort(porNombre);
+}
+
+export function useSeleccionUbicacion(valor: string | null, alCambiar: (codigo: string | null) => void): SeleccionUbicacion {
+  const { lista, cargando, error } = useUbicaciones();
+  const actual = valor ? lista.find((u) => u.codigo_distrito === valor) : undefined;
+  const [provincia, setProvincia] = useState(actual?.codigo_provincia ?? '');
+  const [canton, setCanton] = useState(actual?.codigo_canton ?? '');
+
+  // Si el distrito cambia desde fuera (GPS, mapa, copia guardada) o la lista termina de cargar, seguirlo.
   useEffect(() => {
     if (actual) {
-      setProvincia(actual.provincia);
-      setCanton(actual.canton);
+      setProvincia(actual.codigo_provincia);
+      setCanton(actual.codigo_canton);
     }
-  }, [valor]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [actual]);
 
-  const provincias = useMemo(() => [...new Set(zonas.map((z) => z.provincia))].sort(), [zonas]);
-  const cantones = useMemo(() => [...new Set(zonas.filter((z) => z.provincia === provincia).map((z) => z.canton))].sort(), [zonas, provincia]);
-  const distritos = zonas.filter((z) => z.provincia === provincia && z.canton === canton);
+  const provincias = useMemo(() => unicos(lista, 'codigo_provincia', 'provincia'), [lista]);
+  const cantones = useMemo(() => unicos(lista.filter((u) => u.codigo_provincia === provincia), 'codigo_canton', 'canton'), [lista, provincia]);
+  const distritos = useMemo(() => unicos(lista.filter((u) => u.codigo_canton === canton), 'codigo_distrito', 'distrito'), [lista, canton]);
+
+  return {
+    lista, cargando, error, provincia, canton, distrito: actual ? valor : null,
+    provincias, cantones, distritos,
+    elegirProvincia: (c) => { setProvincia(c); setCanton(''); alCambiar(null); },
+    elegirCanton: (c) => { setCanton(c); alCambiar(null); },
+    elegirDistrito: (c) => alCambiar(c),
+  };
+}
+
+/**
+ * Provincia → cantón → distrito, con selects grandes y "Usar mi ubicación".
+ * Los 492 distritos vienen de Supabase (tabla `distritos`) o del respaldo en ./mapas/.
+ * Si se le pasa `seleccion`, comparte el estado con otro componente (el mapa de la portada).
+ */
+export default function SelectorUbicacion({
+  valor, alCambiar, conGps = false, seleccion, conMapa = false,
+}: {
+  valor: string | null;
+  alCambiar: (codigo: string | null) => void;
+  conGps?: boolean;
+  seleccion?: SeleccionUbicacion;
+  conMapa?: boolean;
+}) {
+  const t = useT();
+  const propia = useSeleccionUbicacion(valor, alCambiar);
+  const s = seleccion ?? propia;
+  const [gps, setGps] = useState<'listo' | 'buscando' | 'error'>('listo');
+  const sinLista = s.lista.length === 0;
+  const siguiente = !s.provincia ? 'provincia' : !s.canton ? 'canton' : !s.distrito ? 'distrito' : null;
 
   function usarGps() {
-    if (!('geolocation' in navigator)) return setGps('error');
+    if (!('geolocation' in navigator) || sinLista) return setGps('error');
     setGps('buscando');
     navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const z = await algolia.zonaCercana(pos.coords.latitude, pos.coords.longitude);
+      (pos) => {
         setGps('listo');
-        alCambiar(z.codigo_distrito);
+        s.elegirDistrito(masCercana(s.lista, pos.coords.latitude, pos.coords.longitude).codigo_distrito);
       },
       () => setGps('error'),
       { timeout: 10000, maximumAge: 600000 },
     );
   }
 
+  const cargandoOpcion = <option value="">{t.ubicacion.cargando}</option>;
+
   return (
     <div className="selector-ubicacion">
       {conGps && (
         <>
-          <button type="button" className="boton boton-ancho" onClick={usarGps} disabled={gps === 'buscando'}>
+          <button type="button" className="boton boton-ancho" onClick={usarGps} disabled={gps === 'buscando' || sinLista}>
             <Icono nombre="pin" tam={20} /> {gps === 'buscando' ? t.ubicacion.buscando : t.ubicacion.usarMia}
           </button>
-          {gps === 'error' && <p className="ayuda">{t.ubicacion.errorGps}</p>}
-          <p className="separador"><span>{t.ubicacion.oLista}</span></p>
+          {gps === 'error' && <p className="ayuda" role="alert">{t.ubicacion.errorGps}</p>}
+          <p className="separador"><span>{conMapa ? t.ubicacion.oMapaLista : t.ubicacion.oLista}</span></p>
         </>
       )}
-      <label>
+      {s.error && <p className="ayuda" role="alert">{t.ubicacion.errorLista}</p>}
+      <label className={siguiente === 'provincia' ? 'campo-siguiente' : undefined}>
         {t.ubicacion.provincia}
-        <select
-          value={provincia}
-          onChange={(e) => {
-            setProvincia(e.target.value);
-            setCanton('');
-            alCambiar(null);
-          }}
-        >
-          <option value="">{t.ubicacion.eligeProvincia}</option>
-          {provincias.map((p) => <option key={p}>{p}</option>)}
+        <select value={s.provincia} disabled={sinLista} onChange={(e) => s.elegirProvincia(e.target.value)}>
+          {sinLista ? cargandoOpcion : <option value="">{t.ubicacion.eligeProvincia}</option>}
+          {s.provincias.map((p) => <option key={p.codigo} value={p.codigo}>{p.nombre}</option>)}
         </select>
       </label>
-      <label>
+      <label className={siguiente === 'canton' ? 'campo-siguiente' : undefined}>
         {t.ubicacion.canton}
-        <select
-          value={canton}
-          disabled={!provincia}
-          onChange={(e) => {
-            setCanton(e.target.value);
-            alCambiar(null);
-          }}
-        >
+        <select value={s.canton} disabled={!s.provincia} onChange={(e) => s.elegirCanton(e.target.value)}>
           <option value="">{t.ubicacion.eligeCanton}</option>
-          {cantones.map((c) => <option key={c}>{c}</option>)}
+          {s.cantones.map((c) => <option key={c.codigo} value={c.codigo}>{c.nombre}</option>)}
         </select>
       </label>
-      <label>
+      <label className={siguiente === 'distrito' ? 'campo-siguiente' : undefined}>
         {t.ubicacion.distrito}
-        <select value={valor ?? ''} disabled={!canton} onChange={(e) => alCambiar(e.target.value || null)}>
+        <select value={s.distrito ?? ''} disabled={!s.canton} onChange={(e) => s.elegirDistrito(e.target.value || null)}>
           <option value="">{t.ubicacion.eligeDistrito}</option>
-          {distritos.map((d) => (
-            <option key={d.codigo_distrito} value={d.codigo_distrito}>{d.distrito}</option>
-          ))}
+          {s.distritos.map((d) => <option key={d.codigo} value={d.codigo}>{d.nombre}</option>)}
         </select>
       </label>
     </div>

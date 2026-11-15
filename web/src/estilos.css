@@ -282,6 +282,63 @@ select:disabled { opacity: 0.55; }
     margin: 0; padding: 24px; border-radius: 20px; background: var(--superficie); border: 1px solid var(--borde); box-shadow: var(--sombra);
   }
 }
+/* Portada con mapa: celular = texto, mapa, lista; escritorio = mapa a la izquierda, texto y lista a la derecha */
+.campo-siguiente select:not(:disabled) { border-color: var(--primario); box-shadow: 0 0 0 1px var(--primario); }
+.portada.con-mapa .mapa-ubicacion { height: clamp(260px, 72vw, 340px); margin-top: 16px; }
+@media (min-width: 900px) {
+  .portada.con-mapa {
+    grid-template-columns: 1.15fr 1fr; grid-template-areas: 'mapa texto' 'mapa selector';
+    grid-template-rows: auto 1fr; align-items: start; gap: 20px 40px;
+  }
+  .portada.con-mapa .portada-texto { grid-area: texto; }
+  .portada.con-mapa .portada-texto h1 { font-size: clamp(1.9rem, 2.6vw, 2.4rem); margin-bottom: 8px; }
+  .portada.con-mapa .selector-ubicacion { grid-area: selector; }
+  .portada.con-mapa .mapa-ubicacion { grid-area: mapa; height: auto; min-height: 520px; align-self: stretch; margin: 0; }
+}
+.mapa-ubicacion {
+  position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--borde);
+  background: color-mix(in srgb, var(--fondo) 62%, transparent); box-shadow: var(--sombra);
+}
+.mapa-ubicacion svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+.mapa-forma {
+  fill: color-mix(in srgb, var(--primario) 24%, var(--superficie)); stroke: var(--fondo); stroke-width: 1.5;
+  vector-effect: non-scaling-stroke; cursor: pointer; transition: fill 0.15s;
+}
+.mapa-forma.tono-1 { fill: color-mix(in srgb, var(--primario) 32%, var(--superficie)); }
+.mapa-forma.tono-2 { fill: color-mix(in srgb, var(--primario) 18%, var(--superficie)); }
+.mapa-forma.tono-3 { fill: color-mix(in srgb, var(--primario) 40%, var(--superficie)); }
+.mapa-forma:hover, .mapa-forma:focus-visible { fill: color-mix(in srgb, var(--primario) 62%, var(--superficie)); outline: none; }
+.mapa-forma:focus-visible { stroke: var(--texto); stroke-width: 3; }
+.mapa-forma.apagada { fill: color-mix(in srgb, var(--texto) 7%, transparent); stroke: color-mix(in srgb, var(--texto) 14%, transparent); cursor: default; pointer-events: none; }
+.mapa-relieve-fondo { fill: var(--superficie); }
+.mapa-distrito {
+  fill: transparent; stroke: #fff; stroke-width: 1.6; vector-effect: non-scaling-stroke; cursor: pointer; transition: fill 0.15s;
+}
+.mapa-distrito:hover, .mapa-distrito:focus-visible { fill: color-mix(in srgb, var(--primario) 35%, transparent); outline: none; }
+.mapa-distrito:focus-visible { stroke-width: 3.5; }
+.mapa-distrito.elegida { fill: color-mix(in srgb, var(--primario) 62%, transparent); stroke-width: 3.5; }
+.mapa-etiqueta {
+  fill: var(--texto); stroke: var(--fondo); paint-order: stroke; stroke-linejoin: round;
+  font-weight: 700; text-anchor: middle; dominant-baseline: middle; pointer-events: none;
+}
+.mapa-migas {
+  position: absolute; top: 10px; left: 10px; right: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  color: var(--texto-suave); font-size: 0.9rem; pointer-events: none;
+}
+.mapa-miga {
+  pointer-events: auto; display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--borde); background: color-mix(in srgb, var(--superficie) 92%, transparent);
+  color: var(--texto); font: inherit; font-weight: 600; cursor: pointer;
+}
+.mapa-miga.actual { background: var(--primario-suave); border-color: transparent; color: var(--primario); cursor: default; }
+.mapa-pie {
+  position: absolute; left: 10px; bottom: 10px; margin: 0; padding: 6px 10px; border-radius: 10px; max-width: calc(100% - 20px);
+  background: color-mix(in srgb, var(--superficie) 92%, transparent); color: var(--texto); font-size: 0.9rem; font-weight: 600; pointer-events: none;
+}
+.mapa-pie small { color: var(--texto-suave); font-weight: 400; font-size: 0.75rem; }
+.titulo-resultado { scroll-margin-top: 96px; }
+.titulo-resultado:focus { outline: none; }
+
 .titulo-seccion { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .titulo-seccion h2 small { display: block; font-size: 0.9rem; font-weight: 400; margin-top: 2px; }
 
@@ -1047,4 +1104,24 @@ body::before {
   .alerta-fechas, .alerta-ubicaciones { gap: 4px; font-size: 0.72rem; }
   .alerta-fechas .icono-svg, .alerta-ubicaciones .icono-svg { flex: none; width: 14px; height: 14px; }
   .alerta-ubicaciones a { padding: 2px 5px; font-size: 0.7rem; }
+}
+
+/* ===== Portada con mapa a todo el ancho de la pantalla (mismo patrón que .alertas-portada) =====
+   Sale del ancho de .contenido: borde a borde, sin esquinas, con el margen lateral de la app.
+   overflow-x: clip en .app evita la barra horizontal que deja 100vw cuando hay barra de desplazamiento. */
+.app { overflow-x: clip; }
+.portada.con-mapa {
+  width: 100vw; margin: -16px calc(50% - 50vw) 0; padding: 24px var(--margen) 28px;
+  border-radius: 0; border-width: 0 0 1px; box-shadow: none;
+}
+@media (min-width: 900px) {
+  .portada.con-mapa {
+    margin-top: -28px; padding: clamp(28px, 3vw, 48px) var(--margen);
+    grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 500px); column-gap: clamp(24px, 3vw, 56px);
+  }
+  .portada.con-mapa .mapa-ubicacion { min-height: clamp(520px, calc(100vh - 210px), 860px); }
+}
+@media (max-width: 599px) {
+  .mapa-migas.largo .miga-pais { display: none; }
+  .mapa-miga { padding: 8px 12px; font-size: 0.85rem; }
 }
