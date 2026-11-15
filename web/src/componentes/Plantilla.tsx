@@ -6,6 +6,7 @@ import { cola } from '../offline/cola';
 import { useEnLinea } from '../utilidades';
 import { Icono } from './Iconos';
 import MenuAjustes from './MenuAjustes';
+import { modoReal } from '../servicios/cliente';
 
 /** A dónde lleva "Volver" si no hay pantalla anterior (enlace abierto directo). */
 function pantallaPadre(ruta: string): string {
@@ -108,7 +109,7 @@ export default function Plantilla() {
           <Icono nombre="check" tam={18} /> {t.conexion.enviados(aviso)}
         </p>
       )}
-      <p className="banda banda-ejemplo">{t.comun.datosEjemplo}</p>
+      <p className="banda banda-ejemplo">{modoReal ? t.comun.datosReales : t.comun.datosEjemplo}</p>
 
       <main className="contenido">
         {!enInicio && <BotonVolver />}
