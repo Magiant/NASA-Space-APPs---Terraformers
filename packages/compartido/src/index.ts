@@ -1,1 +1,1 @@
-export * from "./esquemas/datos";
+export * from "./esquemas/datos.ts";

@@ -4,11 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "workspaces": [
-    "web"
+    "web",
+    "packages/compartido",
+    "extractores"
   ],
   "scripts": {
     "dev": "npm run dev -w web",
     "build": "npm run build -w web",
-    "preview": "npm run preview -w web"
+    "preview": "npm run preview -w web",
+    "extraer": "npm run extraer -w extractores --",
+    "test:extractores": "npm test -w extractores"
   }
 }

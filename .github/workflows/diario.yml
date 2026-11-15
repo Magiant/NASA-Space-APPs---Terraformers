@@ -1,0 +1,33 @@
+# Generated with assistance from Claude (SI)
+# Extractores DIARIOS → Supabase. Cada tema agrega su paso en el job `extraer`.
+# Secretos necesarios (Settings > Secrets and variables > Actions):
+#   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
+name: Extractores diarios
+
+on:
+  schedule:
+    - cron: '0 11 * * *'   # 05:00 hora de Costa Rica (UTC-6)
+  workflow_dispatch:
+
+concurrency:
+  group: extractores-diarios
+  cancel-in-progress: false
+
+jobs:
+  extraer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      # Tema 1 · Clima (Open-Meteo, últimos 7 días, 492 distritos)
+      - name: Clima Open-Meteo
+        run: npm run extraer -- clima
