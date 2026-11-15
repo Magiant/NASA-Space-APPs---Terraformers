@@ -23,10 +23,10 @@ export default function Inicio() {
   const otros = lista.filter((a) => a.nivel === 'no_recomendado' || a.nivel === 'descartado');
 
   const accesos = [
-    { a: '/reportar-plaga', icono: 'plaga', texto: t.inicio.reportar, privado: true },
-    { a: '/mi-finca', icono: 'finca', texto: t.inicio.fincas, privado: true },
-    { a: '/dron', icono: 'dron', texto: t.inicio.dron, privado: true },
-    { a: '/precios', icono: 'precios', texto: t.inicio.preciosHoy, privado: false },
+    { a: '/reportar-plaga', icono: 'plaga', texto: t.inicio.reportar, privado: true, foto: 'cultivos/tomate.jpg' },
+    { a: '/mi-finca', icono: 'finca', texto: t.inicio.fincas, privado: true, foto: 'trabajadores.jpg' },
+    { a: '/dron', icono: 'dron', texto: t.inicio.dron, privado: true, foto: 'fondos/dron.jpg' },
+    { a: '/precios', icono: 'precios', texto: t.inicio.preciosHoy, privado: false, foto: 'mercado.jpg' },
   ] as const;
 
   return (
@@ -42,7 +42,10 @@ export default function Inicio() {
       </section>
 
       {zona && (
-        <>
+        <section className="escenario">
+          <div className="escenario-fondo" aria-hidden>
+            <img className="escenario-foto" src="./imagenes/cr-campos.jpg" alt="" loading="lazy" />
+          </div>
           {(alertas.datos ?? []).map((a) => (
             <Link key={a.objectID} to="/alertas" className={`alerta-corta alerta-${a.nivel}`}>
               <Icono nombre="alertas" tam={18} /> <strong>{a.titulo}</strong>
@@ -65,6 +68,17 @@ export default function Inicio() {
 
           <div className="lista-tarjetas rejilla-productos">
             {buenos.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
+            {buenos.length > 0 && (
+              <Link to={`/zona/${zona.codigo_distrito}`} className="tarjeta tarjeta-cta">
+                <img src="./imagenes/fondos/satelite.jpg" alt="" aria-hidden loading="lazy" />
+                <span className="tarjeta-cta-texto">
+                  <Icono nombre="mapa" tam={28} />
+                  <strong>{t.inicio.cta.titulo(zona.distrito)}</strong>
+                  <span>{t.inicio.cta.texto}</span>
+                  <span className="tarjeta-cta-boton">{t.inicio.verZona} →</span>
+                </span>
+              </Link>
+            )}
           </div>
           {!aptitud.cargando && buenos.length === 0 && <p>{t.inicio.ninguno}</p>}
 
@@ -76,11 +90,16 @@ export default function Inicio() {
               </div>
             </details>
           )}
-        </>
+        </section>
       )}
 
       <SeccionFondo foto="satelite" titulo={t.fondos.satelite.titulo} etiquetaCredito={t.fondos.credito}>
         <p>{t.fondos.satelite.texto}</p>
+        <ul className="cifras">
+          {t.fondos.satelite.cifras.map((c) => (
+            <li key={c.texto}><strong>{c.numero}</strong> {c.texto}</li>
+          ))}
+        </ul>
       </SeccionFondo>
 
       <SeccionFondo foto="dron" titulo={t.fondos.dron.titulo} etiquetaCredito={t.fondos.credito}>
@@ -95,7 +114,8 @@ export default function Inicio() {
         <h2>{t.inicio.paraFinca}</h2>
         <div className="accesos">
           {accesos.map((x) => (
-            <Link key={x.a} to={x.a} className="acceso">
+            <Link key={x.a} to={x.a} className="acceso acceso-con-foto">
+              <img className="acceso-foto" src={`./imagenes/${x.foto}`} alt="" aria-hidden loading="lazy" />
               <span className="acceso-icono" aria-hidden><Icono nombre={x.icono} tam={28} /></span>
               {x.texto}
               {x.privado && !usuario && <small><Tx>{t.comun.pideEntrar}</Tx></small>}
