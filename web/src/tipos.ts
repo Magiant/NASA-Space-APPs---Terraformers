@@ -249,4 +249,24 @@ export interface VueloDron {
   area_estres_pct: number;
   /** Cuadrícula de la finca, fila por fila, con el NDVI de cada parcela. */
   cuadricula: number[][];
+  /**
+   * Opcional: alturas medidas por el dron (modelo de superficie), en metros, en cada esquina de las
+   * parcelas: (filas + 1) × (columnas + 1). Si no viene, el mapa 3D arma un relieve aproximado con la pendiente.
+   */
+  alturas?: number[][];
+  /** Opcional: ríos, caminos, construcciones, agua y bosque que se ven en el vuelo. */
+  elementos?: ElementoFinca[];
 }
+
+/**
+ * Lo que hay en la finca además de cultivos. Las coordenadas van en "parcelas": x = columna, y = fila,
+ * con decimales (0,0 es la esquina de la parcela A1; x = columnas es el borde derecho).
+ *   linea → río, quebrada, canal de riego o camino (una línea que sigue esos puntos)
+ *   area  → lago o reservorio, bosque, invernadero (un polígono)
+ *   punto → casa, bodega, pozo, tanque o naciente
+ */
+export type ElementoFinca =
+  | { tipo: 'rio' | 'quebrada' | 'canal' | 'camino'; puntos: [number, number][]; nombre?: string }
+  | { tipo: 'lago' | 'bosque' | 'invernadero'; puntos: [number, number][]; nombre?: string }
+  | { tipo: 'casa' | 'bodega' | 'pozo' | 'tanque' | 'naciente'; en: [number, number]; nombre?: string };
+export type TipoElemento = ElementoFinca['tipo'];
