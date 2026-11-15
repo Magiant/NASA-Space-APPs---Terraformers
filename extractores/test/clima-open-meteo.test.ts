@@ -11,10 +11,10 @@ import { mesesEntre } from '../src/cargas-unicas/clima-historico.ts'
 // Cuadrado de ~11 km × 11 km cerca de San José.
 const cuadrado = turf.polygon([[[-84.1, 9.9], [-84.0, 9.9], [-84.0, 10.0], [-84.1, 10.0], [-84.1, 9.9]]]).geometry
 
-test('cantidad de puntos: 5 en distritos pequeños, hasta 20 en grandes', () => {
+test('cantidad de puntos: regla PTS-01: 5 + 1 por cada 25 km², máximo 20', () => {
   assert.equal(cantidadPuntos(1), 5)
   assert.equal(cantidadPuntos(null), 5)
-  assert.equal(cantidadPuntos(150), 10)
+  assert.equal(cantidadPuntos(150), 11)
   assert.equal(cantidadPuntos(2000), 20)
 })
 

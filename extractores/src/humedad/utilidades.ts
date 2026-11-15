@@ -1,31 +1,17 @@
 // Ayudantes de los temas 2 y 10: puntos dentro del distrito, consultas con reintento y promedios.
-import { bbox, booleanPointInPolygon } from '@turf/turf'
+import { cantidadPuntos, puntosDentro } from '../comun/puntos.ts'
 import type { Distrito } from '../../../packages/compartido/src/esquemas/datos.ts'
 
 export type Punto = { codigo: string; lng: number; lat: number }
 
 /**
  * Regla PTS-01 (docs/temas-2-y-10.md): 5 puntos + 1 por cada 25 km², máximo 20.
- * Rejilla regular dentro del polígono: el mismo distrito da siempre los mismos puntos,
- * así correr dos veces da los mismos valores. Sin polígono: el punto del distrito.
+ * Ahora vive en comun/puntos.ts como regla única de todos los temas; esto solo la adapta a la forma
+ * {codigo, lng, lat}. Sin polígono: el punto del distrito.
  */
 export function puntosDelDistrito(d: Distrito): Punto[] {
-  const n = Math.min(20, 5 + Math.floor((d.area_km2 ?? 0) / 25))
-  const unico = [{ codigo: d.codigo_distrito, lng: d.lng, lat: d.lat }]
-  const pol = d.poligono as any
-  if (!pol?.type) return unico
-  const [x0, y0, x1, y1] = bbox(pol)
-  for (let k = Math.ceil(Math.sqrt(n)); k <= 60; k++) {
-    const dentro: Punto[] = []
-    for (let i = 0; i < k; i++)
-      for (let j = 0; j < k; j++) {
-        const lng = x0 + ((i + 0.5) * (x1 - x0)) / k
-        const lat = y0 + ((j + 0.5) * (y1 - y0)) / k
-        if (booleanPointInPolygon([lng, lat], pol)) dentro.push({ codigo: d.codigo_distrito, lng: +lng.toFixed(5), lat: +lat.toFixed(5) })
-      }
-    if (dentro.length >= n) return Array.from({ length: n }, (_, i) => dentro[Math.floor((i * dentro.length) / n)]!)
-  }
-  return unico
+  if (!(d.poligono as { type?: string } | null)?.type) return [{ codigo: d.codigo_distrito, lng: d.lng, lat: d.lat }]
+  return puntosDentro(d.poligono, cantidadPuntos(d.area_km2)).map(([lng, lat]) => ({ codigo: d.codigo_distrito, lng, lat }))
 }
 
 export const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms))

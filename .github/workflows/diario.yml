@@ -1,25 +1,37 @@
 # Generated with assistance from Claude (SI)
-# Extractores DIARIOS → Supabase. Cada tema agrega su paso en el job `extraer`.
+# Extractores DIARIOS → Supabase. Cada tema agrega su paso en el job que le toca.
 # Secretos necesarios (Settings > Secrets and variables > Actions):
 #   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
+#
+# Open-Meteo gratis permite 10 000 llamadas/día y 5 000/hora. Clima (tema 1) y humedad (tema 2)
+# consultan ~4 000 puntos cada uno: corren en horarios separados para no pasar el límite por hora.
 name: Extractores diarios
 
 on:
   schedule:
-    - cron: '0 11 * * *'   # 05:00 hora de Costa Rica (UTC-6)
+    - cron: '0 11 * * *'   # 05:00 Costa Rica (UTC-6): clima + estudio hídrico
+    - cron: '0 14 * * *'   # 08:00 Costa Rica: humedad del suelo
   workflow_dispatch:
+    inputs:
+      grupo:
+        description: 'Qué correr a mano'
+        type: choice
+        options: [clima-y-agua, humedad]
+        default: clima-y-agua
 
 concurrency:
   group: extractores-diarios
   cancel-in-progress: false
 
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
 jobs:
-  extraer:
+  clima-y-agua:
+    if: github.event.schedule == '0 11 * * *' || inputs.grupo == 'clima-y-agua'
     runs-on: ubuntu-latest
     timeout-minutes: 120
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,7 +44,23 @@ jobs:
       - name: Clima Open-Meteo
         run: npm run extraer -- clima
 
+      # Tema 4 · Estudio hídrico: suma lo que el paso anterior guardó en clima_diario (sin llamadas a APIs)
+      - name: Agua Open-Meteo
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- agua-open-meteo
+
+  humedad:
+    if: github.event.schedule == '0 14 * * *' || inputs.grupo == 'humedad'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
       # Tema 2 · Humedad del suelo (Open-Meteo, 3 profundidades, últimos 7 días)
       - name: Humedad del suelo Open-Meteo
-        if: ${{ !cancelled() }}
         run: npm run extraer -- humedad-open-meteo
