@@ -38,10 +38,12 @@ export function fetchConReintentos(
   };
 }
 
-export function crearDestino(): Destino {
-  const url = process.env.SUPABASE_URL;
+/** `fuente` es el nombre de la corrida en `extracciones` ('ina-csv' para el CSV, 'ina-web' para la página). */
+export function crearDestino(fuente = 'ina-csv'): Destino {
+  // SUPABASE_URL es el nombre del PDF; VITE_SUPABASE_URL se acepta como en el resto de extractores.
+  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) throw new Error('Faltan SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY');
+  if (!url || !key) throw new Error('Faltan SUPABASE_URL (o VITE_SUPABASE_URL) o SUPABASE_SERVICE_ROLE_KEY');
   const cliente = createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
     global: { fetch: fetchConReintentos() },
@@ -53,22 +55,21 @@ export function crearDestino(): Destino {
     async iniciar() {
       // No reintentar INSERT: si se pierde la respuesta podría duplicarse el registro.
       const { data, error } = await cliente.from('extracciones').insert({
-        fuente: 'ina-csv', inicio: new Date().toISOString(), estado: 'en_curso', registros: 0,
+        fuente, inicio: new Date().toISOString(), estado: 'en_curso', registros: 0,
       }).select('id').single();
       comprobar(error, 'iniciar extracciones');
       if (!data) throw new Error('Supabase no devolvió el id de extracciones');
       return data.id as number;
     },
-    async comprobarCultivos(ids) {
+    async cultivosExistentes(ids) {
+      const encontrados: string[] = [];
       for (let i = 0; i < ids.length; i += 100) {
         if (i > 0) await esperar(500);
-        const lote = ids.slice(i, i + 100);
-        const { data, error } = await cliente.from('cultivos').select('id').in('id', lote);
+        const { data, error } = await cliente.from('cultivos').select('id').in('id', ids.slice(i, i + 100));
         comprobar(error, 'consultar cultivos');
-        const encontrados = new Set((data ?? []).map(fila => fila.id as string));
-        const faltantes = lote.filter(id => !encontrados.has(id));
-        if (faltantes.length) throw new Error(`cultivo_id inexistente: ${faltantes.join(', ')}`);
+        encontrados.push(...(data ?? []).map(fila => fila.id as string));
       }
+      return encontrados;
     },
     async upsert(filas, clave) {
       const { error } = await cliente.from('capacitaciones').upsert(filas, { onConflict: clave });

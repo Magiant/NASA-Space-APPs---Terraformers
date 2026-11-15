@@ -14,7 +14,7 @@ function memoria() {
   const resultados: Resultado[] = [];
   const destino: Destino = {
     async iniciar() { return 1; },
-    async comprobarCultivos(ids) { assert.deepEqual(ids, ['papa']); },
+    async cultivosExistentes(ids) { assert.deepEqual(ids, ['papa']); return ids; },
     async upsert(datos, clave) {
       assert.equal(clave, 'url');
       lotes.push(datos.length);
@@ -51,10 +51,13 @@ test('rechaza horas inválidas, modalidad y códigos de provincia', () => {
     assert.throws(() => normalizarCsv(`${cabecera}\n${invalida}`));
 });
 
-test('rechaza cabeceras duplicadas, URLs repetidas y página general', () => {
+test('rechaza cabeceras duplicadas, URLs repetidas y página general sin ancla', () => {
   assert.throws(() => normalizarCsv(cabecera.replace('tema', 'titulo')), /Cabecera/);
   assert.throws(() => normalizarCsv(`${csv()}\n${fila(0)}`), /URL repetida/);
   assert.throws(() => normalizarCsv(`${cabecera}\n${fila(0).replace('/prueba-local/0', '/SitePages/nucleos/Agropecuario.aspx')}`), /página general/);
+  // Con #ancla del curso (lo que genera ina-web.ts) sí identifica un curso.
+  const conAncla = normalizarCsv(`${cabecera}\n${fila(0).replace('/prueba-local/0', '/SitePages/nucleos/Agropecuario.aspx#agricultura-capacitacion-curso-0')}`);
+  assert.match(conAncla[0].url, /#agricultura-capacitacion-curso-0$/);
 });
 
 test('251 filas: lotes 250 + 1; segunda ejecución no duplica cursos', async () => {
@@ -75,13 +78,17 @@ test('fila inválida en segundo lote impide TODAS las escrituras y registra erro
   assert.equal(m.resultados[0].registros, 0);
 });
 
-test('cultivo inexistente y archivo ilegible se registran sin guardar cursos', async () => {
+test('cultivo inexistente se guarda como null y se avisa; archivo ilegible no guarda nada', async () => {
   const m = memoria();
-  m.destino.comprobarCultivos = async () => { throw new Error('cultivo_id inexistente'); };
-  await assert.rejects(cargarIna(async () => csv(), m.destino), /inexistente/);
+  m.destino.cultivosExistentes = async () => []; // la tabla cultivos todavía no tiene 'papa'
+  const r = await cargarIna(async () => csv(), m.destino);
+  assert.equal(r.estado, 'ok');
+  assert.match(r.mensaje, /papa/);
+  assert.ok([...m.filas.values()].every(f => f.cultivo_id === null));
+  const antes = m.lotes.length;
   await assert.rejects(cargarIna(async () => { throw new Error('Archivo ilegible'); }, m.destino), /ilegible/);
-  assert.equal(m.lotes.length, 0);
-  assert.equal(m.resultados.length, 2);
+  assert.equal(m.lotes.length, antes);
+  assert.equal(m.resultados.at(-1)!.estado, 'error');
 });
 
 test('fallo en lote posterior registra cuántas filas sí se guardaron', async () => {
@@ -98,7 +105,7 @@ test('fallo en lote posterior registra cuántas filas sí se guardaron', async (
 
 test('cabecera sola produce sin_cambios; archivo vacío produce error', async () => {
   const m = memoria();
-  m.destino.comprobarCultivos = async ids => { assert.deepEqual(ids, []); };
+  m.destino.cultivosExistentes = async () => { assert.fail('Sin cultivos no se consulta la tabla'); };
   assert.equal((await cargarIna(async () => cabecera, m.destino)).estado, 'sin_cambios');
   await assert.rejects(cargarIna(async () => '', m.destino), /cabecera/);
 });

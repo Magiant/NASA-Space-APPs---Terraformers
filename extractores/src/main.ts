@@ -29,15 +29,17 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'agua-ecostress': extraerAguaEcostress,           // semanal.yml (AppEEARS; necesita EARTHDATA_USERNAME/PASSWORD)
   'agua-historica': cargarAguaHistorica,            // unica-vez.yml
   // Tema 6 · Capacitación del agricultor (docs/capacitacion/README.md). Carga solo sus dependencias al ejecutarse.
-  'capacitacion-ina': async (a) => (await import('./capacitacion/ina.ts')).extraerIna(a), // semanal.yml
+  'capacitacion-ina-web': async (a) => (await import('./capacitacion/ina-web.ts')).extraerInaWeb(a), // semanal.yml: página del Núcleo Agropecuario
+  'capacitacion-ina': async (a) => (await import('./capacitacion/ina.ts')).extraerIna(a),             // a mano: CSV revisado (otros cursos/instituciones)
   // Tema 7 · Temperatura del sector
   'temperatura-power': extraerTemperaturaPower,     // semanal.yml
   'temperatura-historica': cargarTemperaturaHistorica, // unica-vez.yml
   'temperatura-comparar': compararTemperatura,      // a mano: POWER vs Open-Meteo en distritos de montaña
   'olas-calor': async (a) => (await import('./clima/olas.ts')).extraerOlasCalor(a), // semanal.yml (después de temperatura-power; sin APIs)
-  // Tema 8 · Fenómenos naturales (docs/fenomenos-naturales.md): boletines revisados, no scraping
-  'cne': async (a) => (await import('./riesgos/cne.ts')).extraerCNE(a),                     // diario.yml
-  'imn': async (a) => (await import('./riesgos/imn.ts')).extraerIMN(a),                     // diario.yml
+  // Tema 8 · Fenómenos naturales (docs/fenomenos-naturales.md)
+  'imn-subestacional': async (a) => (await import('./riesgos/imn-subestacional.ts')).extraerImnSubestacional(a), // diario.yml: automático
+  'cne': async (a) => (await import('./riesgos/cne.ts')).extraerCNE(a),                     // diario.yml: boletín revisado a mano
+  'imn': async (a) => (await import('./riesgos/imn.ts')).extraerIMN(a),                     // diario.yml: avisos revisados a mano
   'amenazas': async (a) => (await import('./cargas-unicas/amenazas.ts')).cargarAmenazas(a), // unica-vez.yml
   // Tema 10 · Compatibilidad del sector. Orden: soilgrids → ecocrop, gaez, areas-protegidas, censo → capacidad-uso
   'soilgrids': temas2y10.soilgrids,                 // unica-vez.yml

@@ -2,7 +2,26 @@
 
 ## Estado real de las fuentes
 
-CNE e IMN se ejecutan diariamente como **importadores de boletines revisados**. No descargan páginas: no se verificaron permisos/robots de CNE ni una ruta estable del IMN. El acceso consultado devolvió 403 para CNE y 410 para varias rutas del IMN. No existe aquí una API inventada ni scraping con selectores supuestos. Se necesitará una revisión posterior para automatizar la descarga; esta entrega no cumple extracción web autónoma.
+Revisión del 14-nov-2026 (robots.txt y acceso real):
+
+| Fuente | Cómo entra | Por qué |
+|---|---|---|
+| **IMN · pronóstico subestacional** | **Automático, diario** (`imn-subestacional`) | `robots.txt` del IMN solo prohíbe `/test` y `/busqueda`; la página [pronóstico subestacional](https://www.imn.ac.cr/pronostico-subestacional) es texto con periodo de validez, comentario general y pronóstico por semana |
+| IMN · avisos meteorológicos | Boletín revisado a mano (`imn`) | Varias rutas de avisos devuelven 404/410; no hay una ruta estable |
+| CNE · alertas | Boletín revisado a mano (`cne`) | Su `robots.txt` permite el acceso general, pero un bloqueo antibots (Cloudflare) devuelve 403 a consultas automáticas. **No se evade**: carga manual |
+| CNE · amenazas por distrito | Plantilla CSV revisada (`amenazas`) | Solo se publican mapas en PDF por cantón |
+
+### Pronóstico subestacional automático (`extractores/src/riesgos/imn-subestacional.ts`)
+
+Una consulta diaria a la página. Guarda en `alertas` una fila por el periodo completo y una por cada semana:
+`fuente='imn'`, `tipo='pronostico_subestacional'`, `nivel=null` (el IMN no asigna color a un pronóstico),
+`inicio`/`fin` = fechas de validez (hora de Costa Rica), `descripcion` = comentario general (+ eventos extremos)
+o el texto de la semana, `codigos_distrito=null` (alcance nacional: no hay catálogo revisado de regiones del IMN →
+distritos) y `url` = la página oficial. `id_externo` es estable por periodo (`subestacional-2026-11-16_2026-12-13`,
+`…-semana-1`…): correrlo cada día no duplica y los periodos anteriores quedan como historial.
+Si la página cambia y no aparece "Válido del …" o el comentario general, falla en lugar de guardar algo incompleto.
+Lee fechas como "16 al 22 de noviembre de 2026", "30 de noviembre- 6 de diciembre de 2026", "7-13 de diciembre
+de 2026" y periodos que cruzan de año.
 
 Fuentes consultadas:
 - https://www.cne.go.cr/
@@ -22,6 +41,17 @@ No se confirmaron cuotas, parámetros de API ni claves para CNE/IMN. Como estos 
 - Estas tablas pertenecen al tema 8: se envían sus campos del esquema, sin extraido_en ni campos ajenos. No es necesario recortar campos de otro tema con pick().
 
 ## Probar localmente sin Supabase
+
+Pronóstico subestacional (página real o copia guardada, sin escribir):
+
+```bash
+npm run extraer -- imn-subestacional --simulacion
+```
+```bash
+npm run extraer -- imn-subestacional --simulacion --archivo=test/fixtures/imn-subestacional.html
+```
+
+Boletines revisados:
 
 Requiere Node 22.18+ (el workflow usa 24). Ejecutar desde la raíz del repositorio:
 
@@ -91,7 +121,7 @@ npm run extraer -- imn
 npm run extraer -- amenazas --archivo=datos/riesgos/amenazas.csv
 ```
 
-main.ts registra cne → extraerCNE, imn → extraerIMN y amenazas → cargarAmenazas. diario.yml agrega un job independiente con matriz cne/imn. Se habilita con la variable de repositorio RIESGOS_REVISADOS_HABILITADOS=true cuando los boletines revisados estén versionados en extractores/datos/riesgos/. El job usa el horario existente de 05:00 Costa Rica; no actualiza los boletines por sí solo. unica-vez.yml agrega amenazas a las opciones manuales; opciones puede contener --archivo=datos/riesgos/amenazas.csv.
+main.ts registra imn-subestacional → extraerImnSubestacional (automático), cne → extraerCNE, imn → extraerIMN y amenazas → cargarAmenazas. diario.yml tiene el job `imn-subestacional` (corre siempre a las 05:00) y un job independiente con matriz cne/imn para los boletines revisados. Se habilita con la variable de repositorio RIESGOS_REVISADOS_HABILITADOS=true cuando los boletines revisados estén versionados en extractores/datos/riesgos/. El job usa el horario existente de 05:00 Costa Rica; no actualiza los boletines por sí solo. unica-vez.yml agrega amenazas a las opciones manuales; opciones puede contener --archivo=datos/riesgos/amenazas.csv.
 
 ## Límites de verificación
 

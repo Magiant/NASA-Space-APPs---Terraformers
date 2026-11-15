@@ -64,7 +64,22 @@ jobs:
       - name: Humedad del suelo Open-Meteo
         run: npm run extraer -- humedad-open-meteo
 
-  # Tema 8 · Fenómenos naturales: importa boletines revisados de CNE e IMN (no es scraping web).
+  # Tema 8 · Pronóstico subestacional del IMN: automático (una consulta a su página pública por día).
+  imn-subestacional:
+    if: github.event.schedule == '0 11 * * *' || inputs.grupo == 'riesgos'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Pronóstico subestacional IMN
+        run: npm run extraer -- imn-subestacional
+
+  # Tema 8 · Boletines revisados a mano de CNE e IMN (la CNE bloquea el acceso automático).
   # Habilitar solo después de preparar boletines revisados: variable del repositorio
   # RIESGOS_REVISADOS_HABILITADOS = true (Settings > Secrets and variables > Actions > Variables).
   riesgos:
