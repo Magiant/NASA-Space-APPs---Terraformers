@@ -1,4 +1,3 @@
-# Generated with assistance from Claude (SI)
 # Cargas que se corren UNA VEZ (o pocas veces), a mano desde la pestaña Actions.
 # Elegir el extractor y, si aplica, sus opciones (p. ej. --desde=2025-01-01 --hasta=2025-12-31).
 name: Cargas únicas
@@ -11,9 +10,10 @@ on:
         required: true
         type: choice
         options:
-          - clima-historico
-          - amenazas
-          # Los demás temas agregan aquí su carga única (distritos, elevacion, soilgrids...).
+          - clima-historico        # tema 1 · Open-Meteo (cupo limitado, reanudable)
+          - temperatura-historica  # tema 7 · NASA POWER (por defecto desde 2021)
+          - agua-historica         # tema 4 · agrega clima_diario (correr después de los dos anteriores)
+          - amenazas               # tema 8 · amenazas por distrito desde la plantilla revisada
           # Tema 10 · Compatibilidad del sector. Orden recomendado:
           # soilgrids → ecocrop, gaez, areas-protegidas → capacidad-uso (al final).
           # El censo se corre en local con el Excel del INEC (CENSO_EXCEL=ruta.xlsx npm run extraer -- censo).
@@ -23,7 +23,6 @@ on:
           - areas-protegidas
           - capacidad-uso
           # Los demás temas agregan aquí su carga única (distritos, elevacion...).
-
       opciones:
         description: 'Opciones extra, ej. --desde=2025-01-01 --hasta=2025-12-31 --presupuesto=9000'
         required: false

@@ -21,7 +21,14 @@ export async function cargarDistritos(o: { codigos?: string[]; archivo?: string 
       if (data.length < 1000) break
     }
   }
-  const distritos = Distrito.array().parse(lista)
+  // Se valida distrito por distrito: uno que no pase el esquema (p. ej. Isla del Coco, lat 5.5, fuera
+  // del rango de `Distrito`) se omite con aviso, en vez de detener todo el extractor.
+  const distritos: TDistrito[] = []
+  for (const fila of lista) {
+    const r = Distrito.safeParse(fila)
+    if (r.success) distritos.push(r.data)
+    else console.warn(`  ⚠ distrito omitido (${(fila as { codigo_distrito?: string }).codigo_distrito ?? '?'}): ${r.error.issues[0]?.message}`)
+  }
   const elegidos = o.codigos?.length ? distritos.filter((d) => o.codigos!.includes(d.codigo_distrito)) : distritos
   if (!elegidos.length) {
     throw new Error('No hay distritos. ¿Ya se cargó el tema 0 (tabla distritos)? Para probar sin base usa --distritos-archivo.')
