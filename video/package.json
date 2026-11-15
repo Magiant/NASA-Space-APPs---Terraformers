@@ -1,0 +1,22 @@
+{
+  "name": "terrafarm-video",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "prep": "node scripts/prep.mjs",
+    "audio": "node scripts/audio.mjs",
+    "dev": "npm run prep && remotion studio",
+    "render": "npm run prep && remotion render TerraFarmDemo out/terrafarm-demo.mp4",
+    "still": "npm run prep && remotion still"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.528",
+    "@remotion/google-fonts": "4.0.528",
+    "d3-geo": "3.1.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.528",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2"
+  }
+}
