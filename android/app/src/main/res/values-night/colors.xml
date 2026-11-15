@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Token `fondo` del tema oscuro de la web -->
+    <color name="fondo">#0B1120</color>
+</resources>

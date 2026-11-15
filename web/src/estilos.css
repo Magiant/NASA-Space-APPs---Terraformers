@@ -646,10 +646,12 @@ select:disabled { opacity: 0.55; }
   .boton-flotante { background: var(--primario); }
 }
 
-/* Dentro de la app de iPhone (data-nativo lo pone la app): iOS dibuja la barra de pestañas y el botón
-   "Reportar una plaga" con vidrio líquido real, así que se ocultan los de la web. */
+/* Dentro de las apps de iPhone y Android (data-nativo lo pone la app): la app dibuja la barra de pestañas
+   y el botón "Reportar una plaga" nativos (vidrio líquido en iOS, Material 3 en Android), así que se
+   ocultan los de la web. En Android el botón flota sobre la página: se deja espacio para leer lo último. */
 [data-nativo] .pestanas, [data-nativo] .boton-flotante { display: none; }
 [data-nativo] .app { padding-bottom: 24px; }
+[data-nativo='android'] .app { padding-bottom: 96px; }
 
 /* ================= Ajustes (como la pantalla de Ajustes del teléfono) ================= */
 .ajustes { max-width: 640px; margin: 0 auto; }
@@ -1294,3 +1296,12 @@ body::before {
 .dron-elemento i { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; color: #fff; font-style: normal; font-size: 0.8rem; font-weight: 900; }
 
 .dron-aviso-ejemplo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 0; }
+
+/* Descarga de la app de Android (Inicio y pie de página) */
+.descarga-app { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; margin: 8px 0 24px; padding: 20px; }
+.descarga-app-icono { flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 16px; background: var(--primario-suave); color: var(--primario); }
+.descarga-app-texto { flex: 1 1 260px; min-width: 0; }
+.descarga-app-texto h2 { margin: 0 0 6px; }
+.descarga-app-texto p { margin: 0 0 12px; }
+.descarga-app-ayuda { color: var(--texto-suave); font-size: 0.9rem; }
+.pie-descarga { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; font-weight: 700; }

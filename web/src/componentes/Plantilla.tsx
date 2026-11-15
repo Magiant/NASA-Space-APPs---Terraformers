@@ -4,6 +4,7 @@ import { useAuth } from '../contexto/AuthContext';
 import { usePreferencias } from '../contexto/PreferenciasContext';
 import { cola } from '../offline/cola';
 import { useEnLinea } from '../utilidades';
+import { EnlaceDescargaApp } from './DescargarApp';
 import { Icono } from './Iconos';
 import MenuAjustes from './MenuAjustes';
 import { modoReal } from '../servicios/cliente';
@@ -101,6 +102,7 @@ export default function Plantilla() {
             </Link>
             <p>{t.comun.pieLema}</p>
             <p className="pie-aviso">{t.comun.pieAviso}</p>
+            <EnlaceDescargaApp />
           </div>
           <nav className="pie-columna" aria-label={t.comun.pieSecciones}>
             <strong>{t.comun.pieSecciones}</strong>
