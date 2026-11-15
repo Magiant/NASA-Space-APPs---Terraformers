@@ -4,6 +4,7 @@
 import type { Extraccion, Finca, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron } from '../tipos';
 import { datosDe, modoReal, supa } from './cliente';
 import * as demo from './demo';
+import { seriePrecio } from './publico';
 
 const db = () => supa!;
 const hoy = () => new Date().toISOString().slice(0, 10);
@@ -132,8 +133,11 @@ const seriesReales = {
     const serie = [...porFecha].sort(([a], [b]) => a.localeCompare(b)).map(([fecha, valor]) => ({ fecha, valor: Math.round(valor * 10) / 10 }));
     return serie.length >= 2 ? serie : demo.series.temperatura(codigo, tempMedia, dias);
   },
-  /** Precios: hasta que el extractor de precios (tema 3) llene precios_historico, se usan los de ejemplo. */
-  precio: demo.series.precio,
+  /** Precio diario del producto en el boletín PIMA-CENADA (precios_historico). Sin datos: la serie de ejemplo. */
+  precio: async (producto: string, actual: number, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
+    const serie = await seriePrecio(producto, dias);
+    return serie.length >= 2 ? serie : demo.series.precio(producto, actual, dias);
+  },
 };
 
 const ESTADO_EXTRACCION: Record<string, Extraccion['estado']> = { ok: 'ok', sin_cambios: 'ok', error: 'error', en_curso: 'parcial' };
