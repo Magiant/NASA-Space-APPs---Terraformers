@@ -48,8 +48,9 @@ export const Distrito = z.object({
   canton: z.string().min(1),
   codigo_provincia: CodigoProvincia,
   provincia: z.string().min(1),
-  lat: z.number().min(8).max(11.5),
-  lng: z.number().min(-86.5).max(-82.5),
+  // Incluye la Isla del Coco (CR60110: lat 5,53, lng −87,06), que también es un distrito.
+  lat: z.number().min(5).max(11.5),
+  lng: z.number().min(-87.5).max(-82.5),
   area_km2: num(),
   poligono: z.record(z.string(), z.unknown()).nullable(), // GeoJSON
 });
