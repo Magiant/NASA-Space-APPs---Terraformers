@@ -730,6 +730,7 @@ The team used AI assistants during development and documentation: **Claude (incl
 - [SoilGrids / ISRIC](https://soilgrids.org/) — modeled soil properties.
 - [Open-Meteo](https://open-meteo.com/) — weather, soil moisture and elevation APIs.
 - [USDA-NRCS Conservation Crop Rotation Standard](https://www.nrcs.usda.gov/sites/default/files/2022-09/Conservation_Crop_Rotation_328_CPS.pdf) — agronomic basis and limits of rotation practices.
+- [NASA GEOS-FP — GMAO](https://gmao.gsfc.nasa.gov/gmao-products/geos-near-real-time-data-products/) and [NCCS OPeNDAP](https://opendap.nccs.nasa.gov/dods/GEOS-5/fp/0.25_deg/fcast/tavg1_2d_slv_Nx) — experimental hourly air-temperature forecasts at 2 meters (`T2M`), used to derive daily mean, maximum and minimum temperatures in the TerraFarm temperature module.
 
 ### Costa Rican context
 
