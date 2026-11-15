@@ -1297,3 +1297,11 @@ body::before {
 
 .dron-aviso-ejemplo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 0; }
 
+/* Descarga de la app de Android (Inicio y pie de página) */
+.descarga-app { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px; margin: 8px 0 24px; padding: 20px; }
+.descarga-app-icono { flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 16px; background: var(--primario-suave); color: var(--primario); }
+.descarga-app-texto { flex: 1 1 260px; min-width: 0; }
+.descarga-app-texto h2 { margin: 0 0 6px; }
+.descarga-app-texto p { margin: 0 0 12px; }
+.descarga-app-ayuda { color: var(--texto-suave); font-size: 0.9rem; }
+.pie-descarga { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; font-weight: 700; }
