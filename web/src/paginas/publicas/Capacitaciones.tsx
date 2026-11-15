@@ -1,3 +1,4 @@
+import { FotoFranja, Icono, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
@@ -26,6 +27,7 @@ export default function Capacitaciones() {
         <h1>{tc.titulo}</h1>
         <p>{tc.subtitulo}</p>
       </header>
+      <FotoFranja foto="agricultor" />
 
       <div className="filtros">
         <label>
@@ -53,9 +55,9 @@ export default function Capacitaciones() {
             <p className="etiqueta">{c.tema}</p>
             <h2 className="tarjeta-h">{c.titulo}</h2>
             <ul className="datos-rapidos">
-              <li>{tc.modalidad[c.modalidad]} · {c.duracion_horas} {tc.horas}</li>
-              <li>📍 {c.provincias.join(', ')}</li>
-              {c.plaga_id && <li>🐛 {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
+              <li><Tx>{tc.modalidad[c.modalidad]}</Tx> · {c.duracion_horas} {tc.horas}</li>
+              <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>
+              {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
             </ul>
             <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">
               {tc.verEn(c.institucion)}

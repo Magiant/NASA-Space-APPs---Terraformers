@@ -1,3 +1,4 @@
+import { Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexto/AuthContext';
@@ -36,7 +37,7 @@ export default function Ingresar() {
   return (
     <section className="formulario-centrado">
       <h1>{ta.entrar}</h1>
-      {desde ? <p className="aviso">{ta.necesita}</p> : <p>{ta.paraQue}</p>}
+      {desde ? <p className="aviso"><Tx>{ta.necesita}</Tx></p> : <p>{ta.paraQue}</p>}
 
       <form onSubmit={enviar} className="formulario">
         <label>

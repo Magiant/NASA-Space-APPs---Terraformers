@@ -11,7 +11,7 @@ import { series } from '../../servicios/supabase';
 import type { RegistroCultivo } from '../../tipos';
 import { colones, nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
 import { Tendencia } from './Precios';
-import { IconoCultivo } from '../../componentes/Iconos';
+import { Icono, IconoCultivo } from '../../componentes/Iconos';
 
 function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
   const { t } = usePreferencias();
@@ -54,7 +54,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
               return (
                 <span key={m} role="listitem" className={si ? 'mes-si' : ''} aria-label={`${m}: ${si ? tc.buenaEpoca : tc.noRecomendado}`}>
                   {m.slice(0, 3)}
-                  {si && <span aria-hidden> ✔</span>}
+                  {si && <span aria-hidden> <Icono nombre="marca" tam={16} /></span>}
                 </span>
               );
             })}
@@ -63,11 +63,11 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
 
           <h2>{tc.necesita}</h2>
           <ul className="lista-simple">
-            <li>🌡️ {tc.req.temp(c.temp_opt_min_c, c.temp_opt_max_c)}</li>
-            <li>⛰️ {tc.req.altura(num(c.altitud_min_m), num(c.altitud_max_m))}</li>
-            <li>🌧️ {tc.req.agua(c.lluvia_opt_min_mm, c.lluvia_opt_max_mm)}</li>
-            <li>🟫 {tc.req.ph(c.ph_opt_min, c.ph_opt_max)}</li>
-            <li>♻️ {c.efecto_suelo}</li>
+            <li><Icono nombre="termometro" tam={18} /> {tc.req.temp(c.temp_opt_min_c, c.temp_opt_max_c)}</li>
+            <li><Icono nombre="montana" tam={18} /> {tc.req.altura(num(c.altitud_min_m), num(c.altitud_max_m))}</li>
+            <li><Icono nombre="lluvia" tam={18} /> {tc.req.agua(c.lluvia_opt_min_mm, c.lluvia_opt_max_mm)}</li>
+            <li><Icono nombre="tierra" tam={18} /> {tc.req.ph(c.ph_opt_min, c.ph_opt_max)}</li>
+            <li><Icono nombre="reciclar" tam={18} /> {c.efecto_suelo}</li>
           </ul>
 
           {plagas.length > 0 && (
@@ -75,7 +75,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
               <h2>{tc.plagas}</h2>
               {plagas.map((p) => (
                 <details key={p.id} className="plegable">
-                  <summary>🐛 {nombrePlaga(t, p.id, p.nombre)}</summary>
+                  <summary><Icono nombre="plaga" tam={18} /> {nombrePlaga(t, p.id, p.nombre)}</summary>
                   <p>{p.sintomas}</p>
                   <p><strong>{tc.comoControlar}</strong></p>
                   <ol className="lista-control">
@@ -102,7 +102,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
               </p>
               <p className="ayuda">{rotacion.porque}</p>
               {rotacion.evitar.length > 0 && (
-                <p className="ayuda">✕ {tc.evite} {rotacion.evitar.map((id) => nombreCultivo(t, id)).join(', ')}.</p>
+                <p className="ayuda"><Icono nombre="cruz" tam={14} /> {tc.evite} {rotacion.evitar.map((id) => nombreCultivo(t, id)).join(', ')}.</p>
               )}
             </>
           )}
@@ -144,7 +144,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
                 {cursosDelCultivo.map((k) => (
                   <li key={k.objectID}>
                     <a href={k.url} target="_blank" rel="noreferrer">
-                      <span>🎓 {k.titulo}</span>
+                      <span><Icono nombre="cursos" tam={18} /> {k.titulo}</span>
                       <small>{k.institucion} · {k.duracion_horas} h</small>
                     </a>
                   </li>
@@ -165,6 +165,6 @@ export default function Cultivo() {
   const cultivo = useCargar(() => algolia.cultivo(id), [id]);
   if (cultivo.cargando) return <Cargando />;
   if (cultivo.error) return <ErrorCarga mensaje={cultivo.error} reintentar={cultivo.recargar} />;
-  if (!cultivo.datos) return <Vacio icono="🌱" titulo={t.cultivo.noExiste}><Link className="boton" to="/">{t.comun.irInicio}</Link></Vacio>;
+  if (!cultivo.datos) return <Vacio icono={<Icono nombre="sembrar" tam={48} />} titulo={t.cultivo.noExiste}><Link className="boton" to="/">{t.comun.irInicio}</Link></Vacio>;
   return <Contenido c={cultivo.datos} zona={params.get('zona')} />;
 }

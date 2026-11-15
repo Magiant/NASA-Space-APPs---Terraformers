@@ -1,3 +1,4 @@
+import { Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Cargando } from '../../componentes/Estados';
@@ -10,13 +11,13 @@ import { datos } from '../../servicios/supabase';
 import type { Gravedad, RegistroPlaga, TipoPlaga } from '../../tipos';
 import { hoy, nombreCultivo, nombrePlaga, useCargar, useEnLinea } from '../../utilidades';
 
-const TIPOS: { valor: TipoPlaga | 'no_se'; icono: string }[] = [
-  { valor: 'insecto', icono: '🐛' },
-  { valor: 'hongo', icono: '🍄' },
-  { valor: 'virus', icono: '🧬' },
-  { valor: 'nematodo', icono: '🪱' },
-  { valor: 'maleza', icono: '🌾' },
-  { valor: 'no_se', icono: '❓' },
+const TIPOS: { valor: TipoPlaga | 'no_se'; icono: NombreIcono }[] = [
+  { valor: 'insecto', icono: 'plaga' },
+  { valor: 'hongo', icono: 'hongo' },
+  { valor: 'virus', icono: 'adn' },
+  { valor: 'nematodo', icono: 'gusano' },
+  { valor: 'maleza', icono: 'maleza' },
+  { valor: 'no_se', icono: 'pregunta' },
 ];
 
 const GRAVEDADES: Gravedad[] = ['leve', 'moderada', 'grave'];
@@ -29,7 +30,7 @@ function Resultado({ plaga, distrito, anterior, enCola }: { plaga: RegistroPlaga
 
   return (
     <>
-      <div className="aviso aviso-ok" role="status">{enCola ? tp.enCola : tp.enviado}</div>
+      <div className="aviso aviso-ok" role="status"><Tx>{enCola ? tp.enCola : tp.enviado}</Tx></div>
 
       {plaga ? (
         <>
@@ -60,7 +61,7 @@ function Resultado({ plaga, distrito, anterior, enCola }: { plaga: RegistroPlaga
       {aptitud.cargando ? <Cargando /> : <ListaSugerencias sugerencias={sugerencias} evitados={evitados} />}
 
       <div className="acciones" style={{ maxWidth: 560 }}>
-        <Link to="/capacitaciones" className="boton boton-secundario">{tp.cursos}</Link>
+        <Link to="/capacitaciones" className="boton boton-secundario"><Tx>{tp.cursos}</Tx></Link>
         <Link to="/mi-finca" className="boton">{tp.volverFincas}</Link>
       </div>
     </>
@@ -152,7 +153,7 @@ export default function ReportarPlaga() {
           <div className="opciones-cara" role="radiogroup">
             {TIPOS.map((x) => (
               <button type="button" key={x.valor} role="radio" aria-checked={tipo === x.valor} onClick={() => { setTipo(x.valor); setPlagaId(''); }}>
-                <span aria-hidden>{x.icono}</span>
+                <span aria-hidden><Icono nombre={x.icono} tam={36} /></span>
                 {tp.tipos[x.valor]}
               </button>
             ))}
@@ -187,7 +188,7 @@ export default function ReportarPlaga() {
         </fieldset>
 
         <label className="subir-foto">
-          📷 {foto ? tp.cambiarFoto : tp.foto}
+          <Icono nombre="camara" tam={22} /> {foto ? tp.cambiarFoto : tp.foto}
           <input
             type="file" accept="image/*" capture="environment"
             onChange={(e) => {

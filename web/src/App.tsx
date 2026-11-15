@@ -1,3 +1,4 @@
+import { Icono } from './componentes/Iconos';
 import { HashRouter, Link, Route, Routes } from 'react-router-dom';
 import { Vacio } from './componentes/Estados';
 import Plantilla from './componentes/Plantilla';
@@ -25,7 +26,7 @@ import RutaPrivada from './rutas/RutaPrivada';
 function NoEncontrada() {
   const t = useT();
   return (
-    <Vacio icono="🧭" titulo={t.comun.noEncontrada}>
+    <Vacio icono={<Icono nombre="brujula" tam={48} />} titulo={t.comun.noEncontrada}>
       <Link to="/" className="boton">{t.comun.irInicio}</Link>
     </Vacio>
   );
