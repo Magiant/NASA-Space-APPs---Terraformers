@@ -17,7 +17,7 @@ export const es = {
     noEncontrada: 'No encontramos esa página',
     irInicio: 'Ir al inicio',
     datosEjemplo: 'Versión de prueba: los datos son de ejemplo.',
-    datosReales: 'Clima, suelo y agua: datos reales (NASA, Open-Meteo, SoilGrids). Cultivos, precios y recomendaciones: estimación de prueba.',
+    datosReales: 'Datos reales: clima (NASA, Open-Meteo), suelo (SoilGrids), terreno (SRTM), cultivos (FAO, MAG) y precios (PIMA-CENADA). Las amenazas son estimadas y las fichas de plagas, de referencia.',
     sinDato: 'Sin dato',
     actualizados: (que: string) => `${que} actualizados:`,
     datos: 'Datos',
