@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { setTimeout as esperar } from 'node:timers/promises';
-import type { Destino } from './ina.js';
+import type { Destino } from './ina.ts';
 
 /** Retries solo para lecturas y escrituras idempotentes. Respeta Retry-After. */
 export function fetchConReintentos(

@@ -1,7 +1,8 @@
 import { readFile } from 'node:fs/promises';
 import { setTimeout as esperar } from 'node:timers/promises';
-import { parse } from 'csv-parse/sync';
-import { Capacitacion, TABLAS } from '@terraformes/compartido/esquemas/datos';
+import { leerCsv } from './csv.ts';
+import type { Argumentos } from '../comun/argumentos.ts';
+import { Capacitacion, TABLAS } from '@terraformes/compartido';
 
 export const COLUMNAS = [
   'institucion', 'titulo', 'tema', 'cultivo_id', 'modalidad',
@@ -47,18 +48,14 @@ function texto(valor: string): string | null {
 
 /** No se deduce modalidad, ubicación ni cultivo a partir de títulos ambiguos. */
 export function normalizarCsv(contenido: string): Fila[] {
-  let cabeceraVista = false;
-  const registros = parse(contenido, {
-    bom: true, trim: true, skip_empty_lines: true,
-    columns: (cabecera: string[]) => {
-      cabeceraVista = true;
-      if (cabecera.length !== COLUMNAS.length || new Set(cabecera).size !== COLUMNAS.length ||
-          COLUMNAS.some(columna => !cabecera.includes(columna)))
-        throw new Error(`Cabecera incorrecta. Columnas: ${COLUMNAS.join(',')}`);
-      return cabecera;
-    },
-  }) as Record<(typeof COLUMNAS)[number], string>[];
-  if (!cabeceraVista) throw new Error('CSV vacío: falta la cabecera');
+  const [cabecera, ...datos] = leerCsv(contenido);
+  if (!cabecera) throw new Error('CSV vacío: falta la cabecera');
+  if (cabecera.length !== COLUMNAS.length || new Set(cabecera).size !== COLUMNAS.length || COLUMNAS.some(c => !cabecera.includes(c)))
+    throw new Error('Cabecera incorrecta. Columnas: ' + COLUMNAS.join(','));
+  const registros = datos.map((fila, i) => {
+    if (fila.length !== cabecera.length) throw new Error('CSV: número de columnas incorrecto en fila ' + (i + 2));
+    return Object.fromEntries(cabecera.map((c, j) => [c, fila[j]])) as Record<(typeof COLUMNAS)[number], string>;
+  });
   const normalizados = registros.map(registro => {
     const horas = texto(registro.duracion_horas);
     const provincias = texto(registro.provincias);
@@ -91,7 +88,7 @@ export function validarEnlacesReales(filas: Fila[]): void {
     const host = new URL(fila.url).hostname;
     if (host === 'localhost' || /(^|\.)(invalid|test|example|localhost)$/.test(host) ||
         /(^|\.)example\.(com|org|net)$/.test(host))
-      throw new Error('Los enlaces de ejemplo solo se permiten en --dry-run');
+      throw new Error('Los enlaces de ejemplo solo se permiten en --simulacion');
   }
 }
 
@@ -138,9 +135,15 @@ export function mensajeSeguro(error: unknown): string {
 export async function ejecutarIna(ruta: string, dryRun = true): Promise<void> {
   if (dryRun) {
     const filas = normalizarCsv(await readFile(ruta, 'utf8'));
-    console.log(JSON.stringify({ modo: 'dry-run', registros: filas.length, filas }, null, 2));
+    console.log(JSON.stringify({ modo: 'simulacion', registros: filas.length, filas }, null, 2));
     return;
   }
-  const { crearDestino } = await import('./supabase.js');
+  const { crearDestino } = await import('./supabase.ts');
   console.log(await cargarIna(() => readFile(ruta, 'utf8'), crearDestino()));
+}
+
+/** Mismo CLI que los demás extractores; rutas relativas a extractores/. */
+export async function extraerIna(args: Argumentos): Promise<void> {
+  if (args.distritos?.length || args.distritosArchivo) throw new Error('Capacitaciones no tiene distritos: usar una muestra de cursos');
+  await ejecutarIna(args.archivo ?? '../docs/capacitacion/plantilla.csv', args.simulacion);
 }

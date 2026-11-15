@@ -31,3 +31,27 @@ jobs:
       # Tema 1 · Clima (Open-Meteo, últimos 7 días, 492 distritos)
       - name: Clima Open-Meteo
         run: npm run extraer -- clima
+
+  riesgos:
+    # Habilitar solo después de preparar boletines revisados; no es scraping web.
+    if: ${{ vars.RIESGOS_REVISADOS_HABILITADOS == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        extractor: [cne, imn]
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Importar boletín revisado
+        env:
+          EXTRACTOR: ${{ matrix.extractor }}
+        run: npm run extraer -- "$EXTRACTOR"

@@ -36,27 +36,26 @@ Vacío, `null`, `sin dato` y `-999` se convierten a `null`; los valores incorrec
 
 ## Ejecutar localmente (PowerShell, desde la raíz del repositorio)
 
-Requiere Node.js 22 o posterior y npm.
+Requiere Node.js 22.18 o posterior (24 en Actions) y npm.
 
 ```powershell
 npm ci
-npm run check -w extractores
-npm test -w extractores
-npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/ejemplo-prueba.csv --dry-run
+node --test extractores/test/capacitacion-ina.test.ts
+npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/ejemplo-prueba.csv --simulacion
 ```
 
-La muestra tiene tres títulos y duraciones tomados de la página del INA: aguacate 60, café 80 y cacao 96 horas. Tema e IDs son ejemplos de normalización; las URLs de `example.invalid` son ficticias y quedan bloqueadas con `--guardar`. No se han obtenido enlaces individuales verificados. La prueba rápida no requiere credenciales, no consulta Supabase y no escribe en `extracciones`. No valida la existencia de cultivos: eso se comprueba en la carga real.
+La muestra tiene tres títulos y duraciones tomados de la página del INA: aguacate 60, café 80 y cacao 96 horas. Tema e IDs son ejemplos de normalización; las URLs de `example.invalid` son ficticias y quedan bloqueadas en cargas reales. No se han obtenido enlaces individuales verificados. La prueba rápida no requiere credenciales, no consulta Supabase y no escribe en `extracciones`. No valida la existencia de cultivos: eso se comprueba en la carga real.
 
 Después de llenar la plantilla con datos y enlaces verificados:
 
 ```powershell
-npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/plantilla.csv --dry-run
+npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv --simulacion
 $env:SUPABASE_URL = 'https://TU-PROYECTO.supabase.co'
 $env:SUPABASE_SERVICE_ROLE_KEY = 'TU-CLAVE-SOLO-LOCAL'
-npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/plantilla.csv --guardar
+npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv
 ```
 
-También se admite `.env` en la raíz (ignorado por Git). Nunca pegar las claves en archivos versionados. No se usa `VITE_SUPABASE_URL` para este cargador. Las rutas relativas a CSV siempre se resuelven desde la raíz. Sin `--guardar`, el modo predeterminado es simulación.
+También se admite `.env` en la raíz (ignorado por Git). Nunca pegar las claves en archivos versionados. No se usa `VITE_SUPABASE_URL` para este cargador. Las rutas de --archivo son relativas a extractores/ cuando se usa npm run extraer. Con --simulacion no se escribe en Supabase. Sin esa opción se ejecuta la carga real.
 
 ## Qué hace cada parte
 
@@ -83,11 +82,15 @@ await ejecutarIna(ruta, !values.guardar);
 En `.github/workflows/semanal.yml`:
 
 ```yaml
-run: npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/plantilla.csv --guardar
+run: npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv
 ```
 
 Se ejecuta los lunes a las 02:00 de Costa Rica, o manualmente con `workflow_dispatch`. Registrar los secretos `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` en GitHub Actions y subir los cambios a la rama predeterminada. El CSV debe mantenerse revisado en el repositorio; la ejecución semanal no descubre nuevos cursos. No se ha publicado ni ejecutado el workflow desde esta implementación.
 
-Se agregaron los workspaces `extractores` y `packages/compartido` al monorepo y sus dependencias. El chequeo TypeScript cubre este extractor, su entrada y esquemas importados; otros extractores no forman parte de este chequeo. Se conserva el cliente común existente para no alterar otros temas.
+Se conservaron los workspaces y dependencias existentes. La revisión de tipos cubrió los módulos de capacitación y sus pruebas; no se verificó todo el monorepo. Se conserva el cliente común de otros temas.
 
-Documentación técnica consultada: [Supabase upsert](https://supabase.com/docs/reference/javascript/upsert), [inicialización](https://supabase.com/docs/reference/javascript/initializing) y [opciones de csv-parse](https://csv.js.org/parse/options/).
+El CSV se lee con csv.ts, sin dependencias adicionales. Las pruebas incluyen BOM, comillas, campos multilínea y filas mal formadas.
+
+## Integración corregida
+
+El comando es `npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv --simulacion`. Quitar `--simulacion` únicamente para cargar el CSV revisado. Se corrigieron imports para Node TypeScript nativo y se usa un lector CSV local sin dependencias adicionales. El workflow semanal conserva lunes a las 02:00 de Costa Rica y ejecuta la prueba específica antes de importar. La plantilla contiene solo cabecera: hasta llenarla, registra sin_cambios. No descarga automáticamente el catálogo INA.

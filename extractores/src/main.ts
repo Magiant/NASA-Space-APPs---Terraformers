@@ -6,13 +6,18 @@
 // Opciones comunes: --simulacion (no escribe en Supabase), --distritos=CR10101,CR30110,
 // --distritos-archivo=<json> (probar sin la tabla distritos), --puntos-max=N.
 import { leerArgumentos, type Argumentos } from './comun/argumentos.ts'
-import { extraerClimaOpenMeteo } from './clima/open-meteo.ts'
-import { cargarClimaHistorico } from './cargas-unicas/clima-historico.ts'
+// Cada comando carga solo sus dependencias al ejecutarse.
+
+
 
 const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   // Tema 1 · Clima
-  'clima': extraerClimaOpenMeteo,          // diario.yml
-  'clima-historico': cargarClimaHistorico, // unica-vez.yml
+  'clima': async a => (await import('./clima/open-meteo.ts')).extraerClimaOpenMeteo(a),          // diario.yml
+  'clima-historico': async a => (await import('./cargas-unicas/clima-historico.ts')).cargarClimaHistorico(a), // unica-vez.yml
+  'cne': async a => (await import('./riesgos/cne.ts')).extraerCNE(a), // diario.yml: boletines revisados
+  'imn': async a => (await import('./riesgos/imn.ts')).extraerIMN(a), // diario.yml: boletines revisados
+  'amenazas': async a => (await import('./cargas-unicas/amenazas.ts')).cargarAmenazas(a), // unica-vez.yml
+  'capacitacion-ina': async a => (await import('./capacitacion/ina.ts')).extraerIna(a), // semanal.yml
   // Los demás temas agregan su línea aquí.
 }
 

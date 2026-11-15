@@ -21,13 +21,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
       - run: npm ci
-      - run: npm run check -w extractores
-      - run: npm test -w extractores
+      - run: node --test extractores/test/capacitacion-ina.test.ts
       - name: Cargar CSV revisado del INA
-        run: npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/plantilla.csv --guardar
+        run: npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

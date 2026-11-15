@@ -1,0 +1,27 @@
+{
+  "revisado_en": "2026-11-14T12:00:00-06:00",
+  "prueba": true,
+  "registros": [
+    {
+      "alerta": {
+        "fuente": "cne",
+        "id_externo": "prueba-001",
+        "tipo": "inundacion",
+        "nivel": "amarilla",
+        "titulo": "PRUEBA FICTICIA — no es una alerta real",
+        "descripcion": "Solo para comprobar normalización.",
+        "codigos_distrito": null,
+        "inicio": null,
+        "fin": null,
+        "url": "https://www.cne.go.cr/"
+      },
+      "zonas": {
+        "distritos": [
+          "CR10101",
+          "CR30110",
+          "CR50501"
+        ]
+      }
+    }
+  ]
+}

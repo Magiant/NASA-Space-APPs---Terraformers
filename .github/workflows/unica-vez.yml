@@ -12,6 +12,7 @@ on:
         type: choice
         options:
           - clima-historico
+          - amenazas
           # Los demás temas agregan aquí su carga única (distritos, elevacion, soilgrids...).
       opciones:
         description: 'Opciones extra, ej. --desde=2025-01-01 --hasta=2025-12-31 --presupuesto=9000'

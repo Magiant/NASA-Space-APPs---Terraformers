@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { COLUMNAS, cargarIna, normalizarCsv, type Destino, type Fila, type Resultado } from './ina.js';
-import { crearDestino, fetchConReintentos } from './supabase.js';
+import { COLUMNAS, cargarIna, normalizarCsv, type Destino, type Fila, type Resultado } from './ina.ts';
+import { crearDestino, fetchConReintentos } from './supabase.ts';
 
 const cabecera = COLUMNAS.join(',');
 // Enlaces sintéticos usados únicamente con el destino simulado: nunca se consultan.
@@ -160,4 +160,13 @@ test('adaptador Supabase envía on_conflict=url, columnas esperadas y auditoría
     if (urlAnterior === undefined) delete process.env.SUPABASE_URL; else process.env.SUPABASE_URL = urlAnterior;
     if (keyAnterior === undefined) delete process.env.SUPABASE_SERVICE_ROLE_KEY; else process.env.SUPABASE_SERVICE_ROLE_KEY = keyAnterior;
   }
+});
+
+test('CSV conserva comillas escapadas y campos multilínea', () => {
+  const entrada = cabecera + '\nINA,"Cultivo ""especial""\nsegunda línea",cultivo,,,40,,https://example.invalid/curso';
+  assert.equal(normalizarCsv(entrada)[0].titulo, 'Cultivo "especial"\nsegunda línea');
+});
+test('CSV rechaza comillas sin cerrar, columnas faltantes y fila vacía explícita', () => {
+  for (const contenido of [cabecera + '\nINA,"sin cerrar', cabecera + '\nINA,curso', cabecera + '\n,,,,,,,'])
+    assert.throws(() => normalizarCsv(contenido));
 });
