@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.base.json",
+  "include": ["src", "test"],
+  "exclude": [
+    "src/comun/algolia.ts",
+    "src/comun/supabase.ts",
+    "src/comun/verificar-servicios.ts",
+    "src/precios",
+    "src/aptitud"
+  ]
+}

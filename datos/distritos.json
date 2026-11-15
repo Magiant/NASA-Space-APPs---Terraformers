@@ -1,0 +1,6890 @@
+[
+ {
+  "codigo": "CR10101",
+  "nombre": "Carmen",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.93632,
+  "lon": -84.07001
+ },
+ {
+  "codigo": "CR10102",
+  "nombre": "Merced",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94001,
+  "lon": -84.08846
+ },
+ {
+  "codigo": "CR10103",
+  "nombre": "Hospital",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.92645,
+  "lon": -84.08937
+ },
+ {
+  "codigo": "CR10104",
+  "nombre": "Catedral",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.9242,
+  "lon": -84.07414
+ },
+ {
+  "codigo": "CR10105",
+  "nombre": "Zapote",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.92111,
+  "lon": -84.06011
+ },
+ {
+  "codigo": "CR10106",
+  "nombre": "San Francisco de Dos Ríos",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.90831,
+  "lon": -84.05973
+ },
+ {
+  "codigo": "CR10107",
+  "nombre": "Uruca",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95746,
+  "lon": -84.11578
+ },
+ {
+  "codigo": "CR10108",
+  "nombre": "Mata Redonda",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.93524,
+  "lon": -84.1106
+ },
+ {
+  "codigo": "CR10109",
+  "nombre": "Pavas",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94957,
+  "lon": -84.13622
+ },
+ {
+  "codigo": "CR10110",
+  "nombre": "Hatillo",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91876,
+  "lon": -84.10028
+ },
+ {
+  "codigo": "CR10111",
+  "nombre": "San Sebastián",
+  "canton": {
+   "codigo": "CR101",
+   "nombre": "San José"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91034,
+  "lon": -84.07996
+ },
+ {
+  "codigo": "CR10201",
+  "nombre": "Escazú",
+  "canton": {
+   "codigo": "CR102",
+   "nombre": "Escazú"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91621,
+  "lon": -84.15214
+ },
+ {
+  "codigo": "CR10202",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR102",
+   "nombre": "Escazú"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88972,
+  "lon": -84.14122
+ },
+ {
+  "codigo": "CR10203",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR102",
+   "nombre": "Escazú"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94495,
+  "lon": -84.15649
+ },
+ {
+  "codigo": "CR10301",
+  "nombre": "Desamparados",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.89662,
+  "lon": -84.07059
+ },
+ {
+  "codigo": "CR10302",
+  "nombre": "San Miguel",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.84777,
+  "lon": -84.0525
+ },
+ {
+  "codigo": "CR10303",
+  "nombre": "San Juan de Dios",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88003,
+  "lon": -84.08766
+ },
+ {
+  "codigo": "CR10304",
+  "nombre": "San Rafael Arriba",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.8778,
+  "lon": -84.07508
+ },
+ {
+  "codigo": "CR10305",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.89899,
+  "lon": -84.04652
+ },
+ {
+  "codigo": "CR10306",
+  "nombre": "Frailes",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.75469,
+  "lon": -84.06601
+ },
+ {
+  "codigo": "CR10307",
+  "nombre": "Patarrá",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.86441,
+  "lon": -84.02335
+ },
+ {
+  "codigo": "CR10308",
+  "nombre": "San Cristobal",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.74993,
+  "lon": -84.00394
+ },
+ {
+  "codigo": "CR10309",
+  "nombre": "Rosario",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.79757,
+  "lon": -84.08599
+ },
+ {
+  "codigo": "CR10310",
+  "nombre": "Damas",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88882,
+  "lon": -84.04463
+ },
+ {
+  "codigo": "CR10311",
+  "nombre": "San Rafael Abajo",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.89434,
+  "lon": -84.08186
+ },
+ {
+  "codigo": "CR10312",
+  "nombre": "Gravilias",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88607,
+  "lon": -84.05695
+ },
+ {
+  "codigo": "CR10313",
+  "nombre": "Los Guido",
+  "canton": {
+   "codigo": "CR103",
+   "nombre": "Desamparados"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.87045,
+  "lon": -84.04809
+ },
+ {
+  "codigo": "CR10401",
+  "nombre": "Santiago",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.82904,
+  "lon": -84.30671
+ },
+ {
+  "codigo": "CR10402",
+  "nombre": "Mercedes Sur",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.76868,
+  "lon": -84.41349
+ },
+ {
+  "codigo": "CR10403",
+  "nombre": "Barbacoas",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.85742,
+  "lon": -84.36345
+ },
+ {
+  "codigo": "CR10404",
+  "nombre": "Grifo Alto",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.87866,
+  "lon": -84.39136
+ },
+ {
+  "codigo": "CR10405",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.86194,
+  "lon": -84.30063
+ },
+ {
+  "codigo": "CR10406",
+  "nombre": "Candelarita",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.78852,
+  "lon": -84.34048
+ },
+ {
+  "codigo": "CR10407",
+  "nombre": "Desamparaditos",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.87881,
+  "lon": -84.34633
+ },
+ {
+  "codigo": "CR10408",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.8252,
+  "lon": -84.27825
+ },
+ {
+  "codigo": "CR10409",
+  "nombre": "Chires",
+  "canton": {
+   "codigo": "CR104",
+   "nombre": "Puriscal"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.652,
+  "lon": -84.3922
+ },
+ {
+  "codigo": "CR10501",
+  "nombre": "San Marcos",
+  "canton": {
+   "codigo": "CR105",
+   "nombre": "Tarrazú"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.66966,
+  "lon": -84.00997
+ },
+ {
+  "codigo": "CR10502",
+  "nombre": "San Lorenzo",
+  "canton": {
+   "codigo": "CR105",
+   "nombre": "Tarrazú"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.55343,
+  "lon": -84.03082
+ },
+ {
+  "codigo": "CR10503",
+  "nombre": "San Carlos",
+  "canton": {
+   "codigo": "CR105",
+   "nombre": "Tarrazú"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.60865,
+  "lon": -84.10456
+ },
+ {
+  "codigo": "CR10601",
+  "nombre": "Aserrí",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.85374,
+  "lon": -84.11428
+ },
+ {
+  "codigo": "CR10602",
+  "nombre": "Tarbaca",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.82607,
+  "lon": -84.12254
+ },
+ {
+  "codigo": "CR10603",
+  "nombre": "Vuelta de Jorco",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.77251,
+  "lon": -84.14407
+ },
+ {
+  "codigo": "CR10604",
+  "nombre": "San Gabriel",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.78767,
+  "lon": -84.10858
+ },
+ {
+  "codigo": "CR10605",
+  "nombre": "Legua",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.68573,
+  "lon": -84.16864
+ },
+ {
+  "codigo": "CR10606",
+  "nombre": "Monterrey",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.74782,
+  "lon": -84.12522
+ },
+ {
+  "codigo": "CR10607",
+  "nombre": "Salitrillos",
+  "canton": {
+   "codigo": "CR106",
+   "nombre": "Aserrí"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.84717,
+  "lon": -84.08404
+ },
+ {
+  "codigo": "CR10701",
+  "nombre": "Colón",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.90975,
+  "lon": -84.26338
+ },
+ {
+  "codigo": "CR10702",
+  "nombre": "Guayabo",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.8613,
+  "lon": -84.2683
+ },
+ {
+  "codigo": "CR10703",
+  "nombre": "Tabarcia",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.84713,
+  "lon": -84.23717
+ },
+ {
+  "codigo": "CR10704",
+  "nombre": "Piedras Negras",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.89741,
+  "lon": -84.31016
+ },
+ {
+  "codigo": "CR10705",
+  "nombre": "Picagres",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.90713,
+  "lon": -84.36931
+ },
+ {
+  "codigo": "CR10706",
+  "nombre": "Jaris",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.87433,
+  "lon": -84.28223
+ },
+ {
+  "codigo": "CR10707",
+  "nombre": "Quitirrisí",
+  "canton": {
+   "codigo": "CR107",
+   "nombre": "Mora"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88126,
+  "lon": -84.2322
+ },
+ {
+  "codigo": "CR10801",
+  "nombre": "Guadalupe",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94937,
+  "lon": -84.05086
+ },
+ {
+  "codigo": "CR10802",
+  "nombre": "San Francisco",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94207,
+  "lon": -84.07163
+ },
+ {
+  "codigo": "CR10803",
+  "nombre": "Calle Blancos",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94901,
+  "lon": -84.06681
+ },
+ {
+  "codigo": "CR10804",
+  "nombre": "Mata de Plátano",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95523,
+  "lon": -83.97624
+ },
+ {
+  "codigo": "CR10805",
+  "nombre": "Ipís",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.96395,
+  "lon": -84.02249
+ },
+ {
+  "codigo": "CR10806",
+  "nombre": "Rancho Redondo",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.96165,
+  "lon": -83.93733
+ },
+ {
+  "codigo": "CR10807",
+  "nombre": "Purral",
+  "canton": {
+   "codigo": "CR108",
+   "nombre": "Goicoechea"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95934,
+  "lon": -84.01156
+ },
+ {
+  "codigo": "CR10901",
+  "nombre": "Santa Ana",
+  "canton": {
+   "codigo": "CR109",
+   "nombre": "Santa Ana"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.93203,
+  "lon": -84.17431
+ },
+ {
+  "codigo": "CR10902",
+  "nombre": "Salitral",
+  "canton": {
+   "codigo": "CR109",
+   "nombre": "Santa Ana"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.89435,
+  "lon": -84.17316
+ },
+ {
+  "codigo": "CR10903",
+  "nombre": "Pozos",
+  "canton": {
+   "codigo": "CR109",
+   "nombre": "Santa Ana"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95345,
+  "lon": -84.1971
+ },
+ {
+  "codigo": "CR10904",
+  "nombre": "Uruca",
+  "canton": {
+   "codigo": "CR109",
+   "nombre": "Santa Ana"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.92053,
+  "lon": -84.19001
+ },
+ {
+  "codigo": "CR10905",
+  "nombre": "Piedades",
+  "canton": {
+   "codigo": "CR109",
+   "nombre": "Santa Ana"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91598,
+  "lon": -84.20975
+ },
+ {
+  "codigo": "CR10906",
+  "nombre": "Brasil",
+  "canton": {
+   "codigo": "CR109",
+   "nombre": "Santa Ana"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.93791,
+  "lon": -84.22786
+ },
+ {
+  "codigo": "CR11001",
+  "nombre": "Alajuelita",
+  "canton": {
+   "codigo": "CR110",
+   "nombre": "Alajuelita"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.90348,
+  "lon": -84.10009
+ },
+ {
+  "codigo": "CR11002",
+  "nombre": "San Josecito",
+  "canton": {
+   "codigo": "CR110",
+   "nombre": "Alajuelita"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88874,
+  "lon": -84.10274
+ },
+ {
+  "codigo": "CR11003",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR110",
+   "nombre": "Alajuelita"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.87183,
+  "lon": -84.12367
+ },
+ {
+  "codigo": "CR11004",
+  "nombre": "Concepción",
+  "canton": {
+   "codigo": "CR110",
+   "nombre": "Alajuelita"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.88979,
+  "lon": -84.09165
+ },
+ {
+  "codigo": "CR11005",
+  "nombre": "San Felipe",
+  "canton": {
+   "codigo": "CR110",
+   "nombre": "Alajuelita"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91247,
+  "lon": -84.11501
+ },
+ {
+  "codigo": "CR11101",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR111",
+   "nombre": "Vázquez de Coronado"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.97379,
+  "lon": -83.9998
+ },
+ {
+  "codigo": "CR11102",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR111",
+   "nombre": "Vázquez de Coronado"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.97824,
+  "lon": -83.95638
+ },
+ {
+  "codigo": "CR11103",
+  "nombre": "Dulce Nombre de Jesús",
+  "canton": {
+   "codigo": "CR111",
+   "nombre": "Vázquez de Coronado"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 10.0853,
+  "lon": -83.98577
+ },
+ {
+  "codigo": "CR11104",
+  "nombre": "Patalillo",
+  "canton": {
+   "codigo": "CR111",
+   "nombre": "Vázquez de Coronado"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.976,
+  "lon": -84.01858
+ },
+ {
+  "codigo": "CR11105",
+  "nombre": "Cascajal",
+  "canton": {
+   "codigo": "CR111",
+   "nombre": "Vázquez de Coronado"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 10.05854,
+  "lon": -83.93253
+ },
+ {
+  "codigo": "CR11201",
+  "nombre": "San Ignacio",
+  "canton": {
+   "codigo": "CR112",
+   "nombre": "Acosta"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.79978,
+  "lon": -84.16347
+ },
+ {
+  "codigo": "CR11202",
+  "nombre": "Guaitil",
+  "canton": {
+   "codigo": "CR112",
+   "nombre": "Acosta"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.7926,
+  "lon": -84.23055
+ },
+ {
+  "codigo": "CR11203",
+  "nombre": "Palmichal",
+  "canton": {
+   "codigo": "CR112",
+   "nombre": "Acosta"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.83415,
+  "lon": -84.17911
+ },
+ {
+  "codigo": "CR11204",
+  "nombre": "Cangrejal",
+  "canton": {
+   "codigo": "CR112",
+   "nombre": "Acosta"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.74053,
+  "lon": -84.18969
+ },
+ {
+  "codigo": "CR11205",
+  "nombre": "Sabanillas",
+  "canton": {
+   "codigo": "CR112",
+   "nombre": "Acosta"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.69803,
+  "lon": -84.24242
+ },
+ {
+  "codigo": "CR11301",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR113",
+   "nombre": "Tibás"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.96096,
+  "lon": -84.08142
+ },
+ {
+  "codigo": "CR11302",
+  "nombre": "Cinco Esquinas",
+  "canton": {
+   "codigo": "CR113",
+   "nombre": "Tibás"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94644,
+  "lon": -84.08391
+ },
+ {
+  "codigo": "CR11303",
+  "nombre": "Anselmo Llorente",
+  "canton": {
+   "codigo": "CR113",
+   "nombre": "Tibás"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95594,
+  "lon": -84.07077
+ },
+ {
+  "codigo": "CR11304",
+  "nombre": "León XIII",
+  "canton": {
+   "codigo": "CR113",
+   "nombre": "Tibás"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95899,
+  "lon": -84.10001
+ },
+ {
+  "codigo": "CR11305",
+  "nombre": "Colima",
+  "canton": {
+   "codigo": "CR113",
+   "nombre": "Tibás"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.95662,
+  "lon": -84.08814
+ },
+ {
+  "codigo": "CR11401",
+  "nombre": "San Vicente",
+  "canton": {
+   "codigo": "CR114",
+   "nombre": "Moravia"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.96366,
+  "lon": -84.04847
+ },
+ {
+  "codigo": "CR11402",
+  "nombre": "San Jerónimo",
+  "canton": {
+   "codigo": "CR114",
+   "nombre": "Moravia"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 10.02841,
+  "lon": -84.00034
+ },
+ {
+  "codigo": "CR11403",
+  "nombre": "La Trinidad",
+  "canton": {
+   "codigo": "CR114",
+   "nombre": "Moravia"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.98026,
+  "lon": -84.03445
+ },
+ {
+  "codigo": "CR11501",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR115",
+   "nombre": "Montes de Oca"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.93316,
+  "lon": -84.04493
+ },
+ {
+  "codigo": "CR11502",
+  "nombre": "Sabanilla",
+  "canton": {
+   "codigo": "CR115",
+   "nombre": "Montes de Oca"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94313,
+  "lon": -84.03015
+ },
+ {
+  "codigo": "CR11503",
+  "nombre": "Mercedes",
+  "canton": {
+   "codigo": "CR115",
+   "nombre": "Montes de Oca"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94375,
+  "lon": -84.04427
+ },
+ {
+  "codigo": "CR11504",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR115",
+   "nombre": "Montes de Oca"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.94553,
+  "lon": -83.99568
+ },
+ {
+  "codigo": "CR11601",
+  "nombre": "San Pablo",
+  "canton": {
+   "codigo": "CR116",
+   "nombre": "Turrubares"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.9051,
+  "lon": -84.45301
+ },
+ {
+  "codigo": "CR11602",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR116",
+   "nombre": "Turrubares"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.86957,
+  "lon": -84.44365
+ },
+ {
+  "codigo": "CR11603",
+  "nombre": "San Juan de Mata",
+  "canton": {
+   "codigo": "CR116",
+   "nombre": "Turrubares"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.83304,
+  "lon": -84.51953
+ },
+ {
+  "codigo": "CR11604",
+  "nombre": "San Luis",
+  "canton": {
+   "codigo": "CR116",
+   "nombre": "Turrubares"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.83443,
+  "lon": -84.45364
+ },
+ {
+  "codigo": "CR11605",
+  "nombre": "Carara",
+  "canton": {
+   "codigo": "CR116",
+   "nombre": "Turrubares"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.68271,
+  "lon": -84.53504
+ },
+ {
+  "codigo": "CR11701",
+  "nombre": "Santa María",
+  "canton": {
+   "codigo": "CR117",
+   "nombre": "Dota"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.55438,
+  "lon": -83.97125
+ },
+ {
+  "codigo": "CR11702",
+  "nombre": "Jardín",
+  "canton": {
+   "codigo": "CR117",
+   "nombre": "Dota"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.69328,
+  "lon": -83.95144
+ },
+ {
+  "codigo": "CR11703",
+  "nombre": "Copey",
+  "canton": {
+   "codigo": "CR117",
+   "nombre": "Dota"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.55987,
+  "lon": -83.87733
+ },
+ {
+  "codigo": "CR11801",
+  "nombre": "Curridabat",
+  "canton": {
+   "codigo": "CR118",
+   "nombre": "Curridabat"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91602,
+  "lon": -84.0392
+ },
+ {
+  "codigo": "CR11802",
+  "nombre": "Granadilla",
+  "canton": {
+   "codigo": "CR118",
+   "nombre": "Curridabat"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.93091,
+  "lon": -84.01808
+ },
+ {
+  "codigo": "CR11803",
+  "nombre": "Sánchez",
+  "canton": {
+   "codigo": "CR118",
+   "nombre": "Curridabat"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.91307,
+  "lon": -84.02109
+ },
+ {
+  "codigo": "CR11804",
+  "nombre": "Tirrases",
+  "canton": {
+   "codigo": "CR118",
+   "nombre": "Curridabat"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.90146,
+  "lon": -84.03126
+ },
+ {
+  "codigo": "CR11901",
+  "nombre": "San Isidro de El General",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.33887,
+  "lon": -83.73016
+ },
+ {
+  "codigo": "CR11902",
+  "nombre": "El General",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.35307,
+  "lon": -83.63826
+ },
+ {
+  "codigo": "CR11903",
+  "nombre": "Daniel Flores",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.30815,
+  "lon": -83.66205
+ },
+ {
+  "codigo": "CR11904",
+  "nombre": "Rivas",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.48612,
+  "lon": -83.59009
+ },
+ {
+  "codigo": "CR11905",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.32091,
+  "lon": -83.51703
+ },
+ {
+  "codigo": "CR11906",
+  "nombre": "Platanares",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.19062,
+  "lon": -83.64263
+ },
+ {
+  "codigo": "CR11907",
+  "nombre": "Pejibaye",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.14706,
+  "lon": -83.57258
+ },
+ {
+  "codigo": "CR11908",
+  "nombre": "Cajón",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.33115,
+  "lon": -83.5964
+ },
+ {
+  "codigo": "CR11909",
+  "nombre": "Barú",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.31684,
+  "lon": -83.81247
+ },
+ {
+  "codigo": "CR11910",
+  "nombre": "Río Nuevo",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.45147,
+  "lon": -83.85438
+ },
+ {
+  "codigo": "CR11911",
+  "nombre": "Páramo",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.49306,
+  "lon": -83.76164
+ },
+ {
+  "codigo": "CR11912",
+  "nombre": "La Amistad",
+  "canton": {
+   "codigo": "CR119",
+   "nombre": "Pérez Zeledón"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.20055,
+  "lon": -83.5472
+ },
+ {
+  "codigo": "CR12001",
+  "nombre": "San Pablo",
+  "canton": {
+   "codigo": "CR120",
+   "nombre": "León Cortés Castro"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.68339,
+  "lon": -84.04646
+ },
+ {
+  "codigo": "CR12002",
+  "nombre": "San Andrés",
+  "canton": {
+   "codigo": "CR120",
+   "nombre": "León Cortés Castro"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.72356,
+  "lon": -84.08131
+ },
+ {
+  "codigo": "CR12003",
+  "nombre": "Llano Bonito",
+  "canton": {
+   "codigo": "CR120",
+   "nombre": "León Cortés Castro"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.67348,
+  "lon": -84.12477
+ },
+ {
+  "codigo": "CR12004",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR120",
+   "nombre": "León Cortés Castro"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.67595,
+  "lon": -84.08274
+ },
+ {
+  "codigo": "CR12005",
+  "nombre": "Santa Cruz",
+  "canton": {
+   "codigo": "CR120",
+   "nombre": "León Cortés Castro"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.72331,
+  "lon": -84.0082
+ },
+ {
+  "codigo": "CR12006",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR120",
+   "nombre": "León Cortés Castro"
+  },
+  "provincia": {
+   "codigo": "CR1",
+   "nombre": "San José"
+  },
+  "lat": 9.72422,
+  "lon": -84.05604
+ },
+ {
+  "codigo": "CR20101",
+  "nombre": "Alajuela",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.03109,
+  "lon": -84.20333
+ },
+ {
+  "codigo": "CR20102",
+  "nombre": "San José",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.00403,
+  "lon": -84.24925
+ },
+ {
+  "codigo": "CR20103",
+  "nombre": "Carrizal",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.08801,
+  "lon": -84.1723
+ },
+ {
+  "codigo": "CR20104",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.98483,
+  "lon": -84.25048
+ },
+ {
+  "codigo": "CR20105",
+  "nombre": "Guácima",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.96086,
+  "lon": -84.25974
+ },
+ {
+  "codigo": "CR20106",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.09093,
+  "lon": -84.19066
+ },
+ {
+  "codigo": "CR20107",
+  "nombre": "Sabanilla",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.11771,
+  "lon": -84.19886
+ },
+ {
+  "codigo": "CR20108",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.9594,
+  "lon": -84.22896
+ },
+ {
+  "codigo": "CR20109",
+  "nombre": "Río Segundo",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.00123,
+  "lon": -84.19612
+ },
+ {
+  "codigo": "CR20110",
+  "nombre": "Desamparados",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.03157,
+  "lon": -84.18516
+ },
+ {
+  "codigo": "CR20111",
+  "nombre": "Turrúcares",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.94213,
+  "lon": -84.3251
+ },
+ {
+  "codigo": "CR20112",
+  "nombre": "Tambor",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.02849,
+  "lon": -84.25004
+ },
+ {
+  "codigo": "CR20113",
+  "nombre": "Garita",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.98977,
+  "lon": -84.30588
+ },
+ {
+  "codigo": "CR20114",
+  "nombre": "Sarapiquí",
+  "canton": {
+   "codigo": "CR201",
+   "nombre": "Alajuela"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.29662,
+  "lon": -84.17837
+ },
+ {
+  "codigo": "CR20201",
+  "nombre": "San Ramón",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.08673,
+  "lon": -84.46981
+ },
+ {
+  "codigo": "CR20202",
+  "nombre": "Santiago",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.03804,
+  "lon": -84.53918
+ },
+ {
+  "codigo": "CR20203",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.10569,
+  "lon": -84.46204
+ },
+ {
+  "codigo": "CR20204",
+  "nombre": "Piedades Norte",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.13977,
+  "lon": -84.55475
+ },
+ {
+  "codigo": "CR20205",
+  "nombre": "Piedades Sur",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.0978,
+  "lon": -84.57424
+ },
+ {
+  "codigo": "CR20206",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.03178,
+  "lon": -84.4741
+ },
+ {
+  "codigo": "CR20207",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.08302,
+  "lon": -84.45011
+ },
+ {
+  "codigo": "CR20208",
+  "nombre": "Ángeles",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.16804,
+  "lon": -84.50441
+ },
+ {
+  "codigo": "CR20209",
+  "nombre": "Alfaro",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.0896,
+  "lon": -84.49914
+ },
+ {
+  "codigo": "CR20210",
+  "nombre": "Volio",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.15169,
+  "lon": -84.44867
+ },
+ {
+  "codigo": "CR20211",
+  "nombre": "Concepción",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.12671,
+  "lon": -84.43604
+ },
+ {
+  "codigo": "CR20212",
+  "nombre": "Zapotal",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.13511,
+  "lon": -84.63816
+ },
+ {
+  "codigo": "CR20213",
+  "nombre": "Peñas Blancas",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.36298,
+  "lon": -84.69994
+ },
+ {
+  "codigo": "CR20214",
+  "nombre": "San Lorenzo",
+  "canton": {
+   "codigo": "CR202",
+   "nombre": "San Ramón"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.27204,
+  "lon": -84.59611
+ },
+ {
+  "codigo": "CR20301",
+  "nombre": "Grecia",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.06956,
+  "lon": -84.31481
+ },
+ {
+  "codigo": "CR20302",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.13129,
+  "lon": -84.26233
+ },
+ {
+  "codigo": "CR20303",
+  "nombre": "San José",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.09975,
+  "lon": -84.27451
+ },
+ {
+  "codigo": "CR20304",
+  "nombre": "San Roque",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.10843,
+  "lon": -84.29612
+ },
+ {
+  "codigo": "CR20305",
+  "nombre": "Tacares",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.03145,
+  "lon": -84.30673
+ },
+ {
+  "codigo": "CR20307",
+  "nombre": "Puente de Piedra",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.02936,
+  "lon": -84.34255
+ },
+ {
+  "codigo": "CR20308",
+  "nombre": "Bolivar",
+  "canton": {
+   "codigo": "CR203",
+   "nombre": "Grecia"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.13259,
+  "lon": -84.3023
+ },
+ {
+  "codigo": "CR20401",
+  "nombre": "San Mateo",
+  "canton": {
+   "codigo": "CR204",
+   "nombre": "San Mateo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.96772,
+  "lon": -84.5268
+ },
+ {
+  "codigo": "CR20402",
+  "nombre": "Desmonte",
+  "canton": {
+   "codigo": "CR204",
+   "nombre": "San Mateo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.96426,
+  "lon": -84.47445
+ },
+ {
+  "codigo": "CR20403",
+  "nombre": "Jesús María",
+  "canton": {
+   "codigo": "CR204",
+   "nombre": "San Mateo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.95826,
+  "lon": -84.58375
+ },
+ {
+  "codigo": "CR20404",
+  "nombre": "Labrador",
+  "canton": {
+   "codigo": "CR204",
+   "nombre": "San Mateo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.93341,
+  "lon": -84.63151
+ },
+ {
+  "codigo": "CR20501",
+  "nombre": "Atenas",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.97892,
+  "lon": -84.37403
+ },
+ {
+  "codigo": "CR20502",
+  "nombre": "Jesús",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.95653,
+  "lon": -84.45494
+ },
+ {
+  "codigo": "CR20503",
+  "nombre": "Mercedes",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.98691,
+  "lon": -84.3942
+ },
+ {
+  "codigo": "CR20504",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.99469,
+  "lon": -84.42871
+ },
+ {
+  "codigo": "CR20505",
+  "nombre": "Concepción",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.95684,
+  "lon": -84.37532
+ },
+ {
+  "codigo": "CR20506",
+  "nombre": "San José",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.01555,
+  "lon": -84.41047
+ },
+ {
+  "codigo": "CR20507",
+  "nombre": "Santa Eulalia",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.01586,
+  "lon": -84.37903
+ },
+ {
+  "codigo": "CR20508",
+  "nombre": "Escobal",
+  "canton": {
+   "codigo": "CR205",
+   "nombre": "Atenas"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.94494,
+  "lon": -84.42472
+ },
+ {
+  "codigo": "CR20601",
+  "nombre": "Naranjo",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.10061,
+  "lon": -84.38909
+ },
+ {
+  "codigo": "CR20602",
+  "nombre": "San Miguel",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.06393,
+  "lon": -84.39935
+ },
+ {
+  "codigo": "CR20603",
+  "nombre": "San José",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.15081,
+  "lon": -84.40237
+ },
+ {
+  "codigo": "CR20604",
+  "nombre": "Cirrí Sur",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.14416,
+  "lon": -84.36829
+ },
+ {
+  "codigo": "CR20605",
+  "nombre": "San Jerónimo",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.12846,
+  "lon": -84.35599
+ },
+ {
+  "codigo": "CR20606",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.11858,
+  "lon": -84.41542
+ },
+ {
+  "codigo": "CR20607",
+  "nombre": "El Rosario",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.04499,
+  "lon": -84.38024
+ },
+ {
+  "codigo": "CR20608",
+  "nombre": "Palmitos",
+  "canton": {
+   "codigo": "CR206",
+   "nombre": "Naranjo"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.09493,
+  "lon": -84.42072
+ },
+ {
+  "codigo": "CR20701",
+  "nombre": "Palmares",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.05454,
+  "lon": -84.43315
+ },
+ {
+  "codigo": "CR20702",
+  "nombre": "Zaragoza",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.034,
+  "lon": -84.45737
+ },
+ {
+  "codigo": "CR20703",
+  "nombre": "Buenos Aires",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.07048,
+  "lon": -84.4373
+ },
+ {
+  "codigo": "CR20704",
+  "nombre": "Santiago",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.02163,
+  "lon": -84.44807
+ },
+ {
+  "codigo": "CR20705",
+  "nombre": "Candelaria",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.02596,
+  "lon": -84.42604
+ },
+ {
+  "codigo": "CR20706",
+  "nombre": "Esquipulas",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.05719,
+  "lon": -84.4184
+ },
+ {
+  "codigo": "CR20707",
+  "nombre": "La Granja",
+  "canton": {
+   "codigo": "CR207",
+   "nombre": "Palmares"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.05605,
+  "lon": -84.44743
+ },
+ {
+  "codigo": "CR20801",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR208",
+   "nombre": "Poás"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.08202,
+  "lon": -84.23988
+ },
+ {
+  "codigo": "CR20802",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR208",
+   "nombre": "Poás"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.13563,
+  "lon": -84.23461
+ },
+ {
+  "codigo": "CR20803",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR208",
+   "nombre": "Poás"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.09846,
+  "lon": -84.2607
+ },
+ {
+  "codigo": "CR20804",
+  "nombre": "Carrillos",
+  "canton": {
+   "codigo": "CR208",
+   "nombre": "Poás"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.03682,
+  "lon": -84.27146
+ },
+ {
+  "codigo": "CR20805",
+  "nombre": "Sabana Redonda",
+  "canton": {
+   "codigo": "CR208",
+   "nombre": "Poás"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.14945,
+  "lon": -84.20933
+ },
+ {
+  "codigo": "CR20901",
+  "nombre": "Orotina",
+  "canton": {
+   "codigo": "CR209",
+   "nombre": "Orotina"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.90234,
+  "lon": -84.52618
+ },
+ {
+  "codigo": "CR20902",
+  "nombre": "El Mastate",
+  "canton": {
+   "codigo": "CR209",
+   "nombre": "Orotina"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.91687,
+  "lon": -84.55547
+ },
+ {
+  "codigo": "CR20903",
+  "nombre": "Hacienda Vieja",
+  "canton": {
+   "codigo": "CR209",
+   "nombre": "Orotina"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.92339,
+  "lon": -84.48706
+ },
+ {
+  "codigo": "CR20904",
+  "nombre": "Coyolar",
+  "canton": {
+   "codigo": "CR209",
+   "nombre": "Orotina"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.87485,
+  "lon": -84.57519
+ },
+ {
+  "codigo": "CR20905",
+  "nombre": "La Ceiba",
+  "canton": {
+   "codigo": "CR209",
+   "nombre": "Orotina"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 9.89814,
+  "lon": -84.63161
+ },
+ {
+  "codigo": "CR21001",
+  "nombre": "Quesada",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.34392,
+  "lon": -84.41892
+ },
+ {
+  "codigo": "CR21002",
+  "nombre": "Florencia",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.36726,
+  "lon": -84.48657
+ },
+ {
+  "codigo": "CR21003",
+  "nombre": "Buenavista",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.28251,
+  "lon": -84.47751
+ },
+ {
+  "codigo": "CR21004",
+  "nombre": "Aguas Zarcas",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.41872,
+  "lon": -84.32492
+ },
+ {
+  "codigo": "CR21005",
+  "nombre": "Venecia",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.3362,
+  "lon": -84.28927
+ },
+ {
+  "codigo": "CR21006",
+  "nombre": "Pital",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.60279,
+  "lon": -84.23666
+ },
+ {
+  "codigo": "CR21007",
+  "nombre": "La Fortuna",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.44981,
+  "lon": -84.71028
+ },
+ {
+  "codigo": "CR21008",
+  "nombre": "La Tigra",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.35472,
+  "lon": -84.58685
+ },
+ {
+  "codigo": "CR21009",
+  "nombre": "La Palmera",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.36612,
+  "lon": -84.36741
+ },
+ {
+  "codigo": "CR21010",
+  "nombre": "Venado",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.56865,
+  "lon": -84.76672
+ },
+ {
+  "codigo": "CR21011",
+  "nombre": "Cutris",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.69426,
+  "lon": -84.32909
+ },
+ {
+  "codigo": "CR21012",
+  "nombre": "Monterrey",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.57682,
+  "lon": -84.63139
+ },
+ {
+  "codigo": "CR21013",
+  "nombre": "Pocosol",
+  "canton": {
+   "codigo": "CR210",
+   "nombre": "San Carlos"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.751,
+  "lon": -84.48098
+ },
+ {
+  "codigo": "CR21101",
+  "nombre": "Zarcero",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.18869,
+  "lon": -84.37768
+ },
+ {
+  "codigo": "CR21102",
+  "nombre": "Laguna",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.2188,
+  "lon": -84.46758
+ },
+ {
+  "codigo": "CR21103",
+  "nombre": "Tapesco",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.21903,
+  "lon": -84.40493
+ },
+ {
+  "codigo": "CR21104",
+  "nombre": "Guadalupe",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.18977,
+  "lon": -84.43757
+ },
+ {
+  "codigo": "CR21105",
+  "nombre": "Palmira",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.20803,
+  "lon": -84.35266
+ },
+ {
+  "codigo": "CR21106",
+  "nombre": "Zapote",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.24293,
+  "lon": -84.45538
+ },
+ {
+  "codigo": "CR21107",
+  "nombre": "Brisas",
+  "canton": {
+   "codigo": "CR211",
+   "nombre": "Zarcero"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.24282,
+  "lon": -84.37925
+ },
+ {
+  "codigo": "CR21201",
+  "nombre": "Sarchí Norte",
+  "canton": {
+   "codigo": "CR212",
+   "nombre": "Sarchí"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.12571,
+  "lon": -84.33596
+ },
+ {
+  "codigo": "CR21202",
+  "nombre": "Sarchí Sur",
+  "canton": {
+   "codigo": "CR212",
+   "nombre": "Sarchí"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.07455,
+  "lon": -84.3445
+ },
+ {
+  "codigo": "CR21203",
+  "nombre": "Toro Amarillo",
+  "canton": {
+   "codigo": "CR212",
+   "nombre": "Sarchí"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.22278,
+  "lon": -84.28135
+ },
+ {
+  "codigo": "CR21204",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR212",
+   "nombre": "Sarchí"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.13704,
+  "lon": -84.32078
+ },
+ {
+  "codigo": "CR21205",
+  "nombre": "Rodríguez",
+  "canton": {
+   "codigo": "CR212",
+   "nombre": "Sarchí"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.11784,
+  "lon": -84.34985
+ },
+ {
+  "codigo": "CR21301",
+  "nombre": "Upala",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.8655,
+  "lon": -84.9992
+ },
+ {
+  "codigo": "CR21302",
+  "nombre": "Aguas Claras",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.86463,
+  "lon": -85.25602
+ },
+ {
+  "codigo": "CR21303",
+  "nombre": "San José O Pizote",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.94698,
+  "lon": -85.16937
+ },
+ {
+  "codigo": "CR21304",
+  "nombre": "Bijagua",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.747,
+  "lon": -85.04894
+ },
+ {
+  "codigo": "CR21305",
+  "nombre": "Delicias",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.96332,
+  "lon": -85.05107
+ },
+ {
+  "codigo": "CR21306",
+  "nombre": "Dos Ríos",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.93437,
+  "lon": -85.37418
+ },
+ {
+  "codigo": "CR21307",
+  "nombre": "Yolillal",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.90065,
+  "lon": -84.93921
+ },
+ {
+  "codigo": "CR21308",
+  "nombre": "Canalete",
+  "canton": {
+   "codigo": "CR213",
+   "nombre": "Upala"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.82786,
+  "lon": -85.05835
+ },
+ {
+  "codigo": "CR21401",
+  "nombre": "Los Chiles",
+  "canton": {
+   "codigo": "CR214",
+   "nombre": "Los Chiles"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.964,
+  "lon": -84.60339
+ },
+ {
+  "codigo": "CR21402",
+  "nombre": "Caño Negro",
+  "canton": {
+   "codigo": "CR214",
+   "nombre": "Los Chiles"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.92627,
+  "lon": -84.80676
+ },
+ {
+  "codigo": "CR21403",
+  "nombre": "El Amparo",
+  "canton": {
+   "codigo": "CR214",
+   "nombre": "Los Chiles"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.83471,
+  "lon": -84.65696
+ },
+ {
+  "codigo": "CR21404",
+  "nombre": "San Jorge",
+  "canton": {
+   "codigo": "CR214",
+   "nombre": "Los Chiles"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.71084,
+  "lon": -84.60385
+ },
+ {
+  "codigo": "CR21501",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR215",
+   "nombre": "Guatuso"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.67868,
+  "lon": -84.78616
+ },
+ {
+  "codigo": "CR21502",
+  "nombre": "Buenavista",
+  "canton": {
+   "codigo": "CR215",
+   "nombre": "Guatuso"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.77619,
+  "lon": -84.79811
+ },
+ {
+  "codigo": "CR21503",
+  "nombre": "Cote",
+  "canton": {
+   "codigo": "CR215",
+   "nombre": "Guatuso"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.61769,
+  "lon": -84.90651
+ },
+ {
+  "codigo": "CR21504",
+  "nombre": "Katira",
+  "canton": {
+   "codigo": "CR215",
+   "nombre": "Guatuso"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.74746,
+  "lon": -84.91404
+ },
+ {
+  "codigo": "CR21601",
+  "nombre": "Río Cuarto",
+  "canton": {
+   "codigo": "CR216",
+   "nombre": "Río Cuarto"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.32032,
+  "lon": -84.21881
+ },
+ {
+  "codigo": "CR21602",
+  "nombre": "Santa Rita",
+  "canton": {
+   "codigo": "CR216",
+   "nombre": "Río Cuarto"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.40615,
+  "lon": -84.21263
+ },
+ {
+  "codigo": "CR21603",
+  "nombre": "Santa Isabel",
+  "canton": {
+   "codigo": "CR216",
+   "nombre": "Río Cuarto"
+  },
+  "provincia": {
+   "codigo": "CR2",
+   "nombre": "Alajuela"
+  },
+  "lat": 10.5035,
+  "lon": -84.19568
+ },
+ {
+  "codigo": "CR30101",
+  "nombre": "Oriental",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.86092,
+  "lon": -83.91562
+ },
+ {
+  "codigo": "CR30102",
+  "nombre": "Occidental",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.86265,
+  "lon": -83.92576
+ },
+ {
+  "codigo": "CR30103",
+  "nombre": "Carmen",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.88148,
+  "lon": -83.91372
+ },
+ {
+  "codigo": "CR30104",
+  "nombre": "San Nicolás",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.89683,
+  "lon": -83.93807
+ },
+ {
+  "codigo": "CR30105",
+  "nombre": "Aguacaliente o San Francisco",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.72653,
+  "lon": -83.86682
+ },
+ {
+  "codigo": "CR30106",
+  "nombre": "Guadalupe o Arenilla",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.8654,
+  "lon": -83.95841
+ },
+ {
+  "codigo": "CR30107",
+  "nombre": "Corralillo",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.78971,
+  "lon": -84.05615
+ },
+ {
+  "codigo": "CR30108",
+  "nombre": "Tierra Blanca",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.92929,
+  "lon": -83.89055
+ },
+ {
+  "codigo": "CR30109",
+  "nombre": "Dulce Nombre",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.67713,
+  "lon": -83.81438
+ },
+ {
+  "codigo": "CR30110",
+  "nombre": "Llano Grande",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.933,
+  "lon": -83.92325
+ },
+ {
+  "codigo": "CR30111",
+  "nombre": "Quebradilla",
+  "canton": {
+   "codigo": "CR301",
+   "nombre": "Cartago"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.84993,
+  "lon": -83.99244
+ },
+ {
+  "codigo": "CR30201",
+  "nombre": "Paraíso",
+  "canton": {
+   "codigo": "CR302",
+   "nombre": "Paraíso"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.8366,
+  "lon": -83.84571
+ },
+ {
+  "codigo": "CR30202",
+  "nombre": "Santiago",
+  "canton": {
+   "codigo": "CR302",
+   "nombre": "Paraíso"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.87005,
+  "lon": -83.80931
+ },
+ {
+  "codigo": "CR30203",
+  "nombre": "Orosi",
+  "canton": {
+   "codigo": "CR302",
+   "nombre": "Paraíso"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.68622,
+  "lon": -83.7454
+ },
+ {
+  "codigo": "CR30204",
+  "nombre": "Cachí",
+  "canton": {
+   "codigo": "CR302",
+   "nombre": "Paraíso"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.83425,
+  "lon": -83.78596
+ },
+ {
+  "codigo": "CR30205",
+  "nombre": "Llanos de Santa Lucía",
+  "canton": {
+   "codigo": "CR302",
+   "nombre": "Paraíso"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.84819,
+  "lon": -83.88116
+ },
+ {
+  "codigo": "CR30206",
+  "nombre": "Birrisito",
+  "canton": {
+   "codigo": "CR302",
+   "nombre": "Paraíso"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.85921,
+  "lon": -83.85402
+ },
+ {
+  "codigo": "CR30301",
+  "nombre": "Tres Ríos",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.90687,
+  "lon": -83.98921
+ },
+ {
+  "codigo": "CR30302",
+  "nombre": "San Diego",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.89188,
+  "lon": -83.99358
+ },
+ {
+  "codigo": "CR30303",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.91032,
+  "lon": -84.00441
+ },
+ {
+  "codigo": "CR30304",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.90342,
+  "lon": -83.96912
+ },
+ {
+  "codigo": "CR30305",
+  "nombre": "Concepción",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.92381,
+  "lon": -83.99497
+ },
+ {
+  "codigo": "CR30306",
+  "nombre": "Dulce Nombre",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.93273,
+  "lon": -83.96377
+ },
+ {
+  "codigo": "CR30307",
+  "nombre": "San Ramón",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.93717,
+  "lon": -83.99084
+ },
+ {
+  "codigo": "CR30308",
+  "nombre": "Río Azul",
+  "canton": {
+   "codigo": "CR303",
+   "nombre": "La Unión"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.88713,
+  "lon": -84.02194
+ },
+ {
+  "codigo": "CR30401",
+  "nombre": "Juan Viñas",
+  "canton": {
+   "codigo": "CR304",
+   "nombre": "Jiménez"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.89929,
+  "lon": -83.75378
+ },
+ {
+  "codigo": "CR30402",
+  "nombre": "Tucurrique",
+  "canton": {
+   "codigo": "CR304",
+   "nombre": "Jiménez"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.84661,
+  "lon": -83.73486
+ },
+ {
+  "codigo": "CR30403",
+  "nombre": "Pejibaye",
+  "canton": {
+   "codigo": "CR304",
+   "nombre": "Jiménez"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.77359,
+  "lon": -83.67566
+ },
+ {
+  "codigo": "CR30404",
+  "nombre": "La Victoria",
+  "canton": {
+   "codigo": "CR304",
+   "nombre": "Jiménez"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.91666,
+  "lon": -83.73928
+ },
+ {
+  "codigo": "CR30501",
+  "nombre": "Turrialba",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.88969,
+  "lon": -83.68442
+ },
+ {
+  "codigo": "CR30502",
+  "nombre": "La Suiza",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.76815,
+  "lon": -83.60838
+ },
+ {
+  "codigo": "CR30503",
+  "nombre": "Peralta",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.96711,
+  "lon": -83.62236
+ },
+ {
+  "codigo": "CR30504",
+  "nombre": "Santa Cruz",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 10.01334,
+  "lon": -83.75136
+ },
+ {
+  "codigo": "CR30505",
+  "nombre": "Santa Teresita",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.98756,
+  "lon": -83.66054
+ },
+ {
+  "codigo": "CR30506",
+  "nombre": "Pavones",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.91439,
+  "lon": -83.62222
+ },
+ {
+  "codigo": "CR30507",
+  "nombre": "Tuis",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.84668,
+  "lon": -83.57433
+ },
+ {
+  "codigo": "CR30508",
+  "nombre": "Tayutic",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.81326,
+  "lon": -83.54079
+ },
+ {
+  "codigo": "CR30509",
+  "nombre": "Santa Rosa",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.93775,
+  "lon": -83.71838
+ },
+ {
+  "codigo": "CR30510",
+  "nombre": "Tres Equis",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.94839,
+  "lon": -83.56382
+ },
+ {
+  "codigo": "CR30511",
+  "nombre": "La Isabel",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.92771,
+  "lon": -83.66259
+ },
+ {
+  "codigo": "CR30512",
+  "nombre": "Chirripó",
+  "canton": {
+   "codigo": "CR305",
+   "nombre": "Turrialba"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.733,
+  "lon": -83.50118
+ },
+ {
+  "codigo": "CR30601",
+  "nombre": "Pacayas",
+  "canton": {
+   "codigo": "CR306",
+   "nombre": "Alvarado"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.93764,
+  "lon": -83.81715
+ },
+ {
+  "codigo": "CR30602",
+  "nombre": "Cervantes",
+  "canton": {
+   "codigo": "CR306",
+   "nombre": "Alvarado"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.89694,
+  "lon": -83.80236
+ },
+ {
+  "codigo": "CR30603",
+  "nombre": "Capellades",
+  "canton": {
+   "codigo": "CR306",
+   "nombre": "Alvarado"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.9543,
+  "lon": -83.78796
+ },
+ {
+  "codigo": "CR30701",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR307",
+   "nombre": "Oreamuno"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.87011,
+  "lon": -83.89705
+ },
+ {
+  "codigo": "CR30702",
+  "nombre": "Cot",
+  "canton": {
+   "codigo": "CR307",
+   "nombre": "Oreamuno"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.88863,
+  "lon": -83.8726
+ },
+ {
+  "codigo": "CR30703",
+  "nombre": "Potrero Cerrado",
+  "canton": {
+   "codigo": "CR307",
+   "nombre": "Oreamuno"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.9307,
+  "lon": -83.87295
+ },
+ {
+  "codigo": "CR30704",
+  "nombre": "Cipreses",
+  "canton": {
+   "codigo": "CR307",
+   "nombre": "Oreamuno"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.89439,
+  "lon": -83.83856
+ },
+ {
+  "codigo": "CR30705",
+  "nombre": "Santa Rosa",
+  "canton": {
+   "codigo": "CR307",
+   "nombre": "Oreamuno"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 10.02615,
+  "lon": -83.84116
+ },
+ {
+  "codigo": "CR30801",
+  "nombre": "El Tejar",
+  "canton": {
+   "codigo": "CR308",
+   "nombre": "El Guarco"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.84385,
+  "lon": -83.9481
+ },
+ {
+  "codigo": "CR30802",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR308",
+   "nombre": "El Guarco"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.7261,
+  "lon": -83.91668
+ },
+ {
+  "codigo": "CR30803",
+  "nombre": "Tobosi",
+  "canton": {
+   "codigo": "CR308",
+   "nombre": "El Guarco"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.81745,
+  "lon": -83.99805
+ },
+ {
+  "codigo": "CR30804",
+  "nombre": "Patio de Agua",
+  "canton": {
+   "codigo": "CR308",
+   "nombre": "El Guarco"
+  },
+  "provincia": {
+   "codigo": "CR3",
+   "nombre": "Cartago"
+  },
+  "lat": 9.78957,
+  "lon": -84.00944
+ },
+ {
+  "codigo": "CR40101",
+  "nombre": "Heredia",
+  "canton": {
+   "codigo": "CR401",
+   "nombre": "Heredia"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.99862,
+  "lon": -84.11713
+ },
+ {
+  "codigo": "CR40102",
+  "nombre": "Mercedes",
+  "canton": {
+   "codigo": "CR401",
+   "nombre": "Heredia"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.00619,
+  "lon": -84.1299
+ },
+ {
+  "codigo": "CR40103",
+  "nombre": "San Francisco",
+  "canton": {
+   "codigo": "CR401",
+   "nombre": "Heredia"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.98555,
+  "lon": -84.11541
+ },
+ {
+  "codigo": "CR40104",
+  "nombre": "Ulloa",
+  "canton": {
+   "codigo": "CR401",
+   "nombre": "Heredia"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.97517,
+  "lon": -84.1386
+ },
+ {
+  "codigo": "CR40105",
+  "nombre": "Varablanca",
+  "canton": {
+   "codigo": "CR401",
+   "nombre": "Heredia"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.17806,
+  "lon": -84.05784
+ },
+ {
+  "codigo": "CR40201",
+  "nombre": "Barva",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.02045,
+  "lon": -84.12387
+ },
+ {
+  "codigo": "CR40202",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.03491,
+  "lon": -84.137
+ },
+ {
+  "codigo": "CR40203",
+  "nombre": "San Pablo",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.04968,
+  "lon": -84.10762
+ },
+ {
+  "codigo": "CR40204",
+  "nombre": "San Roque",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.01602,
+  "lon": -84.13643
+ },
+ {
+  "codigo": "CR40205",
+  "nombre": "Santa Lucía",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.02634,
+  "lon": -84.11276
+ },
+ {
+  "codigo": "CR40206",
+  "nombre": "San José de la Montaña",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.08624,
+  "lon": -84.10851
+ },
+ {
+  "codigo": "CR40207",
+  "nombre": "Puente Salas",
+  "canton": {
+   "codigo": "CR402",
+   "nombre": "Barva"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.04938,
+  "lon": -84.13013
+ },
+ {
+  "codigo": "CR40301",
+  "nombre": "Santo Domingo",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.9795,
+  "lon": -84.09063
+ },
+ {
+  "codigo": "CR40302",
+  "nombre": "San Vicente",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.99066,
+  "lon": -84.07922
+ },
+ {
+  "codigo": "CR40303",
+  "nombre": "San Miguel",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.98256,
+  "lon": -84.05165
+ },
+ {
+  "codigo": "CR40304",
+  "nombre": "Paracito",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.00224,
+  "lon": -84.02652
+ },
+ {
+  "codigo": "CR40305",
+  "nombre": "Santo Tomás",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.97832,
+  "lon": -84.07547
+ },
+ {
+  "codigo": "CR40306",
+  "nombre": "Santa Rosa",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.97254,
+  "lon": -84.10076
+ },
+ {
+  "codigo": "CR40307",
+  "nombre": "Tures",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.99223,
+  "lon": -84.05705
+ },
+ {
+  "codigo": "CR40308",
+  "nombre": "Pará",
+  "canton": {
+   "codigo": "CR403",
+   "nombre": "Santo Domingo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.00436,
+  "lon": -84.03526
+ },
+ {
+  "codigo": "CR40401",
+  "nombre": "Santa Bárbara",
+  "canton": {
+   "codigo": "CR404",
+   "nombre": "Santa Bárbara"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.03826,
+  "lon": -84.15935
+ },
+ {
+  "codigo": "CR40402",
+  "nombre": "San Pedro",
+  "canton": {
+   "codigo": "CR404",
+   "nombre": "Santa Bárbara"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.02908,
+  "lon": -84.16774
+ },
+ {
+  "codigo": "CR40403",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR404",
+   "nombre": "Santa Bárbara"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.0194,
+  "lon": -84.1618
+ },
+ {
+  "codigo": "CR40404",
+  "nombre": "Jesús",
+  "canton": {
+   "codigo": "CR404",
+   "nombre": "Santa Bárbara"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.0551,
+  "lon": -84.14445
+ },
+ {
+  "codigo": "CR40405",
+  "nombre": "Santo Domingo",
+  "canton": {
+   "codigo": "CR404",
+   "nombre": "Santa Bárbara"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.10833,
+  "lon": -84.14621
+ },
+ {
+  "codigo": "CR40406",
+  "nombre": "Purabá",
+  "canton": {
+   "codigo": "CR404",
+   "nombre": "Santa Bárbara"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.0663,
+  "lon": -84.15492
+ },
+ {
+  "codigo": "CR40501",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR405",
+   "nombre": "San Rafael"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.01565,
+  "lon": -84.0998
+ },
+ {
+  "codigo": "CR40502",
+  "nombre": "San Josecito",
+  "canton": {
+   "codigo": "CR405",
+   "nombre": "San Rafael"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.01266,
+  "lon": -84.1105
+ },
+ {
+  "codigo": "CR40503",
+  "nombre": "Santiago",
+  "canton": {
+   "codigo": "CR405",
+   "nombre": "San Rafael"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.00466,
+  "lon": -84.10138
+ },
+ {
+  "codigo": "CR40504",
+  "nombre": "Ángeles",
+  "canton": {
+   "codigo": "CR405",
+   "nombre": "San Rafael"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.06999,
+  "lon": -84.08353
+ },
+ {
+  "codigo": "CR40505",
+  "nombre": "Concepción",
+  "canton": {
+   "codigo": "CR405",
+   "nombre": "San Rafael"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.04501,
+  "lon": -84.05992
+ },
+ {
+  "codigo": "CR40601",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR406",
+   "nombre": "San Isidro"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.01349,
+  "lon": -84.05261
+ },
+ {
+  "codigo": "CR40602",
+  "nombre": "San José",
+  "canton": {
+   "codigo": "CR406",
+   "nombre": "San Isidro"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.03241,
+  "lon": -84.02072
+ },
+ {
+  "codigo": "CR40603",
+  "nombre": "Concepción",
+  "canton": {
+   "codigo": "CR406",
+   "nombre": "San Isidro"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.04214,
+  "lon": -84.03533
+ },
+ {
+  "codigo": "CR40604",
+  "nombre": "San Francisco",
+  "canton": {
+   "codigo": "CR406",
+   "nombre": "San Isidro"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.00995,
+  "lon": -84.0656
+ },
+ {
+  "codigo": "CR40701",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR407",
+   "nombre": "Belén"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.97801,
+  "lon": -84.18553
+ },
+ {
+  "codigo": "CR40702",
+  "nombre": "La Ribera",
+  "canton": {
+   "codigo": "CR407",
+   "nombre": "Belén"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.9938,
+  "lon": -84.17918
+ },
+ {
+  "codigo": "CR40703",
+  "nombre": "La Asunción",
+  "canton": {
+   "codigo": "CR407",
+   "nombre": "Belén"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.97893,
+  "lon": -84.16773
+ },
+ {
+  "codigo": "CR40801",
+  "nombre": "San Joaquín",
+  "canton": {
+   "codigo": "CR408",
+   "nombre": "Flores"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.00584,
+  "lon": -84.15878
+ },
+ {
+  "codigo": "CR40802",
+  "nombre": "Barrantes",
+  "canton": {
+   "codigo": "CR408",
+   "nombre": "Flores"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.01444,
+  "lon": -84.15234
+ },
+ {
+  "codigo": "CR40803",
+  "nombre": "Llorente",
+  "canton": {
+   "codigo": "CR408",
+   "nombre": "Flores"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.99724,
+  "lon": -84.15998
+ },
+ {
+  "codigo": "CR40901",
+  "nombre": "San Pablo",
+  "canton": {
+   "codigo": "CR409",
+   "nombre": "San Pablo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.99866,
+  "lon": -84.09194
+ },
+ {
+  "codigo": "CR40902",
+  "nombre": "Rincón de Sabanilla",
+  "canton": {
+   "codigo": "CR409",
+   "nombre": "San Pablo"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 9.98221,
+  "lon": -84.10466
+ },
+ {
+  "codigo": "CR41001",
+  "nombre": "Puerto Viejo",
+  "canton": {
+   "codigo": "CR410",
+   "nombre": "Sarapiquí"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.57352,
+  "lon": -83.92559
+ },
+ {
+  "codigo": "CR41002",
+  "nombre": "La Virgen",
+  "canton": {
+   "codigo": "CR410",
+   "nombre": "Sarapiquí"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.43432,
+  "lon": -84.09525
+ },
+ {
+  "codigo": "CR41003",
+  "nombre": "Las Horquetas",
+  "canton": {
+   "codigo": "CR410",
+   "nombre": "Sarapiquí"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.32166,
+  "lon": -83.94832
+ },
+ {
+  "codigo": "CR41004",
+  "nombre": "Llanuras del Gaspar",
+  "canton": {
+   "codigo": "CR410",
+   "nombre": "Sarapiquí"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.67621,
+  "lon": -83.85442
+ },
+ {
+  "codigo": "CR41005",
+  "nombre": "Cureña",
+  "canton": {
+   "codigo": "CR410",
+   "nombre": "Sarapiquí"
+  },
+  "provincia": {
+   "codigo": "CR4",
+   "nombre": "Heredia"
+  },
+  "lat": 10.68305,
+  "lon": -84.06795
+ },
+ {
+  "codigo": "CR50101",
+  "nombre": "Liberia",
+  "canton": {
+   "codigo": "CR501",
+   "nombre": "Liberia"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.61519,
+  "lon": -85.44673
+ },
+ {
+  "codigo": "CR50102",
+  "nombre": "Cañas Dulces",
+  "canton": {
+   "codigo": "CR501",
+   "nombre": "Liberia"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.74573,
+  "lon": -85.45479
+ },
+ {
+  "codigo": "CR50103",
+  "nombre": "Mayorga",
+  "canton": {
+   "codigo": "CR501",
+   "nombre": "Liberia"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.84894,
+  "lon": -85.49693
+ },
+ {
+  "codigo": "CR50104",
+  "nombre": "Nacascolo",
+  "canton": {
+   "codigo": "CR501",
+   "nombre": "Liberia"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.69911,
+  "lon": -85.59477
+ },
+ {
+  "codigo": "CR50105",
+  "nombre": "Curubandé",
+  "canton": {
+   "codigo": "CR501",
+   "nombre": "Liberia"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.73312,
+  "lon": -85.39175
+ },
+ {
+  "codigo": "CR50201",
+  "nombre": "Nicoya",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.10605,
+  "lon": -85.50238
+ },
+ {
+  "codigo": "CR50202",
+  "nombre": "Mansión",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.12043,
+  "lon": -85.32625
+ },
+ {
+  "codigo": "CR50203",
+  "nombre": "San Antonio",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.25344,
+  "lon": -85.38044
+ },
+ {
+  "codigo": "CR50204",
+  "nombre": "Quebrada Honda",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.19023,
+  "lon": -85.28102
+ },
+ {
+  "codigo": "CR50205",
+  "nombre": "Sámara",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.91185,
+  "lon": -85.53232
+ },
+ {
+  "codigo": "CR50206",
+  "nombre": "Nosara",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.97834,
+  "lon": -85.62778
+ },
+ {
+  "codigo": "CR50207",
+  "nombre": "Belén de Nosarita",
+  "canton": {
+   "codigo": "CR502",
+   "nombre": "Nicoya"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.99915,
+  "lon": -85.51696
+ },
+ {
+  "codigo": "CR50301",
+  "nombre": "Santa Cruz",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.21485,
+  "lon": -85.57787
+ },
+ {
+  "codigo": "CR50302",
+  "nombre": "Bolsón",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.34719,
+  "lon": -85.45074
+ },
+ {
+  "codigo": "CR50303",
+  "nombre": "Veintisiete de Abril",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.21632,
+  "lon": -85.73262
+ },
+ {
+  "codigo": "CR50304",
+  "nombre": "Tempate",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.3949,
+  "lon": -85.73832
+ },
+ {
+  "codigo": "CR50305",
+  "nombre": "Cartagena",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.36456,
+  "lon": -85.68669
+ },
+ {
+  "codigo": "CR50306",
+  "nombre": "Cuajiniquil",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.06181,
+  "lon": -85.6852
+ },
+ {
+  "codigo": "CR50307",
+  "nombre": "Diriá",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.28335,
+  "lon": -85.52605
+ },
+ {
+  "codigo": "CR50308",
+  "nombre": "Cabo Velas",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.3767,
+  "lon": -85.81996
+ },
+ {
+  "codigo": "CR50309",
+  "nombre": "Tamarindo",
+  "canton": {
+   "codigo": "CR503",
+   "nombre": "Santa Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.29212,
+  "lon": -85.80285
+ },
+ {
+  "codigo": "CR50401",
+  "nombre": "Bagaces",
+  "canton": {
+   "codigo": "CR504",
+   "nombre": "Bagaces"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.44678,
+  "lon": -85.29608
+ },
+ {
+  "codigo": "CR50402",
+  "nombre": "La Fortuna",
+  "canton": {
+   "codigo": "CR504",
+   "nombre": "Bagaces"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.64102,
+  "lon": -85.17635
+ },
+ {
+  "codigo": "CR50403",
+  "nombre": "Mogote",
+  "canton": {
+   "codigo": "CR504",
+   "nombre": "Bagaces"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.70046,
+  "lon": -85.27229
+ },
+ {
+  "codigo": "CR50404",
+  "nombre": "Río Naranjo",
+  "canton": {
+   "codigo": "CR504",
+   "nombre": "Bagaces"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.66164,
+  "lon": -85.11078
+ },
+ {
+  "codigo": "CR50501",
+  "nombre": "Filadelfia",
+  "canton": {
+   "codigo": "CR505",
+   "nombre": "Carrillo"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.41899,
+  "lon": -85.42897
+ },
+ {
+  "codigo": "CR50502",
+  "nombre": "Palmira",
+  "canton": {
+   "codigo": "CR505",
+   "nombre": "Carrillo"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.54539,
+  "lon": -85.59383
+ },
+ {
+  "codigo": "CR50503",
+  "nombre": "Sardinal",
+  "canton": {
+   "codigo": "CR505",
+   "nombre": "Carrillo"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.53434,
+  "lon": -85.67044
+ },
+ {
+  "codigo": "CR50504",
+  "nombre": "Belén",
+  "canton": {
+   "codigo": "CR505",
+   "nombre": "Carrillo"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.40617,
+  "lon": -85.59762
+ },
+ {
+  "codigo": "CR50601",
+  "nombre": "Cañas",
+  "canton": {
+   "codigo": "CR506",
+   "nombre": "Cañas"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.44514,
+  "lon": -85.09325
+ },
+ {
+  "codigo": "CR50602",
+  "nombre": "Palmira",
+  "canton": {
+   "codigo": "CR506",
+   "nombre": "Cañas"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.59333,
+  "lon": -85.08843
+ },
+ {
+  "codigo": "CR50603",
+  "nombre": "San Miguel",
+  "canton": {
+   "codigo": "CR506",
+   "nombre": "Cañas"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.34327,
+  "lon": -85.07237
+ },
+ {
+  "codigo": "CR50604",
+  "nombre": "Bebedero",
+  "canton": {
+   "codigo": "CR506",
+   "nombre": "Cañas"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.37631,
+  "lon": -85.15317
+ },
+ {
+  "codigo": "CR50605",
+  "nombre": "Porozal",
+  "canton": {
+   "codigo": "CR506",
+   "nombre": "Cañas"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.26996,
+  "lon": -85.18654
+ },
+ {
+  "codigo": "CR50701",
+  "nombre": "Las Juntas",
+  "canton": {
+   "codigo": "CR507",
+   "nombre": "Abangares"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.23799,
+  "lon": -85.01713
+ },
+ {
+  "codigo": "CR50702",
+  "nombre": "Sierra",
+  "canton": {
+   "codigo": "CR507",
+   "nombre": "Abangares"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.32681,
+  "lon": -84.8962
+ },
+ {
+  "codigo": "CR50703",
+  "nombre": "San Juan",
+  "canton": {
+   "codigo": "CR507",
+   "nombre": "Abangares"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.2229,
+  "lon": -84.93089
+ },
+ {
+  "codigo": "CR50704",
+  "nombre": "Colorado",
+  "canton": {
+   "codigo": "CR507",
+   "nombre": "Abangares"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.21322,
+  "lon": -85.11722
+ },
+ {
+  "codigo": "CR50801",
+  "nombre": "Tilarán",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.48116,
+  "lon": -84.94545
+ },
+ {
+  "codigo": "CR50802",
+  "nombre": "Quebrada Grande",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.41465,
+  "lon": -84.92924
+ },
+ {
+  "codigo": "CR50803",
+  "nombre": "Tronadora",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.41943,
+  "lon": -84.81916
+ },
+ {
+  "codigo": "CR50804",
+  "nombre": "Santa Rosa",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.50698,
+  "lon": -85.00189
+ },
+ {
+  "codigo": "CR50805",
+  "nombre": "Líbano",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.41027,
+  "lon": -84.9891
+ },
+ {
+  "codigo": "CR50806",
+  "nombre": "Tierras Morenas",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.58726,
+  "lon": -84.99872
+ },
+ {
+  "codigo": "CR50807",
+  "nombre": "Arenal",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.52942,
+  "lon": -84.85868
+ },
+ {
+  "codigo": "CR50808",
+  "nombre": "Cabeceras",
+  "canton": {
+   "codigo": "CR508",
+   "nombre": "Tilarán"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.36666,
+  "lon": -84.86487
+ },
+ {
+  "codigo": "CR50901",
+  "nombre": "Carmona",
+  "canton": {
+   "codigo": "CR509",
+   "nombre": "Nandayure"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.99196,
+  "lon": -85.26065
+ },
+ {
+  "codigo": "CR50902",
+  "nombre": "Santa Rita",
+  "canton": {
+   "codigo": "CR509",
+   "nombre": "Nandayure"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.03999,
+  "lon": -85.28171
+ },
+ {
+  "codigo": "CR50903",
+  "nombre": "Zapotal",
+  "canton": {
+   "codigo": "CR509",
+   "nombre": "Nandayure"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.93515,
+  "lon": -85.32349
+ },
+ {
+  "codigo": "CR50904",
+  "nombre": "San Pablo",
+  "canton": {
+   "codigo": "CR509",
+   "nombre": "Nandayure"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.02064,
+  "lon": -85.20203
+ },
+ {
+  "codigo": "CR50905",
+  "nombre": "Porvenir",
+  "canton": {
+   "codigo": "CR509",
+   "nombre": "Nandayure"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.91828,
+  "lon": -85.29629
+ },
+ {
+  "codigo": "CR50906",
+  "nombre": "Bejuco",
+  "canton": {
+   "codigo": "CR509",
+   "nombre": "Nandayure"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.82645,
+  "lon": -85.26289
+ },
+ {
+  "codigo": "CR51001",
+  "nombre": "La Cruz",
+  "canton": {
+   "codigo": "CR510",
+   "nombre": "La Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 11.08447,
+  "lon": -85.63477
+ },
+ {
+  "codigo": "CR51002",
+  "nombre": "Santa Cecilia",
+  "canton": {
+   "codigo": "CR510",
+   "nombre": "La Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 11.0309,
+  "lon": -85.4031
+ },
+ {
+  "codigo": "CR51003",
+  "nombre": "La Garita",
+  "canton": {
+   "codigo": "CR510",
+   "nombre": "La Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 11.06924,
+  "lon": -85.51355
+ },
+ {
+  "codigo": "CR51004",
+  "nombre": "Santa Elena",
+  "canton": {
+   "codigo": "CR510",
+   "nombre": "La Cruz"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.8923,
+  "lon": -85.72911
+ },
+ {
+  "codigo": "CR51101",
+  "nombre": "Hojancha",
+  "canton": {
+   "codigo": "CR511",
+   "nombre": "Hojancha"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.04566,
+  "lon": -85.42878
+ },
+ {
+  "codigo": "CR51102",
+  "nombre": "Monte Romo",
+  "canton": {
+   "codigo": "CR511",
+   "nombre": "Hojancha"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.96368,
+  "lon": -85.39339
+ },
+ {
+  "codigo": "CR51103",
+  "nombre": "Puerto Carrillo",
+  "canton": {
+   "codigo": "CR511",
+   "nombre": "Hojancha"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 9.92482,
+  "lon": -85.4348
+ },
+ {
+  "codigo": "CR51104",
+  "nombre": "Huacas",
+  "canton": {
+   "codigo": "CR511",
+   "nombre": "Hojancha"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.0356,
+  "lon": -85.35756
+ },
+ {
+  "codigo": "CR51105",
+  "nombre": "Matambú",
+  "canton": {
+   "codigo": "CR511",
+   "nombre": "Hojancha"
+  },
+  "provincia": {
+   "codigo": "CR5",
+   "nombre": "Guanacaste"
+  },
+  "lat": 10.08612,
+  "lon": -85.41751
+ },
+ {
+  "codigo": "CR60101",
+  "nombre": "Puntarenas",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.01477,
+  "lon": -84.76257
+ },
+ {
+  "codigo": "CR60102",
+  "nombre": "Pitahaya",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.0449,
+  "lon": -84.82496
+ },
+ {
+  "codigo": "CR60103",
+  "nombre": "Chomes",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.09893,
+  "lon": -84.91422
+ },
+ {
+  "codigo": "CR60104",
+  "nombre": "Lepanto",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.88805,
+  "lon": -85.11769
+ },
+ {
+  "codigo": "CR60105",
+  "nombre": "Paquera",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.82645,
+  "lon": -84.99518
+ },
+ {
+  "codigo": "CR60106",
+  "nombre": "Manzanillo",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.14819,
+  "lon": -85.02523
+ },
+ {
+  "codigo": "CR60107",
+  "nombre": "Guacimal",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.21485,
+  "lon": -84.83943
+ },
+ {
+  "codigo": "CR60108",
+  "nombre": "Barranca",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.00116,
+  "lon": -84.72584
+ },
+ {
+  "codigo": "CR60110",
+  "nombre": "Isla del Coco",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 5.52819,
+  "lon": -87.05932
+ },
+ {
+  "codigo": "CR60111",
+  "nombre": "Cóbano",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.68488,
+  "lon": -85.11565
+ },
+ {
+  "codigo": "CR60112",
+  "nombre": "Chacarita",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.98433,
+  "lon": -84.76903
+ },
+ {
+  "codigo": "CR60113",
+  "nombre": "Chira",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.09948,
+  "lon": -85.15558
+ },
+ {
+  "codigo": "CR60114",
+  "nombre": "Acapulco",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.17108,
+  "lon": -84.79811
+ },
+ {
+  "codigo": "CR60115",
+  "nombre": "El Roble",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.97734,
+  "lon": -84.74185
+ },
+ {
+  "codigo": "CR60116",
+  "nombre": "Arancibia",
+  "canton": {
+   "codigo": "CR601",
+   "nombre": "Puntarenas"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.22533,
+  "lon": -84.71627
+ },
+ {
+  "codigo": "CR60201",
+  "nombre": "Espíritu Santo",
+  "canton": {
+   "codigo": "CR602",
+   "nombre": "Esparza"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.99061,
+  "lon": -84.67994
+ },
+ {
+  "codigo": "CR60202",
+  "nombre": "San Juan Grande",
+  "canton": {
+   "codigo": "CR602",
+   "nombre": "Esparza"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.96949,
+  "lon": -84.65511
+ },
+ {
+  "codigo": "CR60203",
+  "nombre": "Macacona",
+  "canton": {
+   "codigo": "CR602",
+   "nombre": "Esparza"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.01556,
+  "lon": -84.61671
+ },
+ {
+  "codigo": "CR60204",
+  "nombre": "San Rafael",
+  "canton": {
+   "codigo": "CR602",
+   "nombre": "Esparza"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.98472,
+  "lon": -84.5994
+ },
+ {
+  "codigo": "CR60205",
+  "nombre": "San Jerónimo",
+  "canton": {
+   "codigo": "CR602",
+   "nombre": "Esparza"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.07174,
+  "lon": -84.65386
+ },
+ {
+  "codigo": "CR60206",
+  "nombre": "Caldera",
+  "canton": {
+   "codigo": "CR602",
+   "nombre": "Esparza"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.9195,
+  "lon": -84.68951
+ },
+ {
+  "codigo": "CR60301",
+  "nombre": "Buenos Aires",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.19513,
+  "lon": -83.27284
+ },
+ {
+  "codigo": "CR60302",
+  "nombre": "Volcán",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.24694,
+  "lon": -83.46251
+ },
+ {
+  "codigo": "CR60303",
+  "nombre": "Potrero Grande",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.10062,
+  "lon": -83.128
+ },
+ {
+  "codigo": "CR60304",
+  "nombre": "Boruca",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.01482,
+  "lon": -83.33227
+ },
+ {
+  "codigo": "CR60305",
+  "nombre": "Pilas",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.09897,
+  "lon": -83.44164
+ },
+ {
+  "codigo": "CR60306",
+  "nombre": "Colinas",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.03032,
+  "lon": -83.43224
+ },
+ {
+  "codigo": "CR60307",
+  "nombre": "Chánguena",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.88687,
+  "lon": -83.17776
+ },
+ {
+  "codigo": "CR60308",
+  "nombre": "Biolley",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.05775,
+  "lon": -83.02564
+ },
+ {
+  "codigo": "CR60309",
+  "nombre": "Brunka",
+  "canton": {
+   "codigo": "CR603",
+   "nombre": "Buenos Aires"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.22851,
+  "lon": -83.38517
+ },
+ {
+  "codigo": "CR60401",
+  "nombre": "Miramar",
+  "canton": {
+   "codigo": "CR604",
+   "nombre": "Montes de Oro"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.11008,
+  "lon": -84.74695
+ },
+ {
+  "codigo": "CR60402",
+  "nombre": "La Unión",
+  "canton": {
+   "codigo": "CR604",
+   "nombre": "Montes de Oro"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.20867,
+  "lon": -84.68845
+ },
+ {
+  "codigo": "CR60403",
+  "nombre": "San Isidro",
+  "canton": {
+   "codigo": "CR604",
+   "nombre": "Montes de Oro"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.05012,
+  "lon": -84.72358
+ },
+ {
+  "codigo": "CR60501",
+  "nombre": "Puerto Cortés",
+  "canton": {
+   "codigo": "CR605",
+   "nombre": "Osa"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.02333,
+  "lon": -83.56574
+ },
+ {
+  "codigo": "CR60502",
+  "nombre": "Palmar",
+  "canton": {
+   "codigo": "CR605",
+   "nombre": "Osa"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.93804,
+  "lon": -83.42853
+ },
+ {
+  "codigo": "CR60503",
+  "nombre": "Sierpe",
+  "canton": {
+   "codigo": "CR605",
+   "nombre": "Osa"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.80938,
+  "lon": -83.49385
+ },
+ {
+  "codigo": "CR60504",
+  "nombre": "Bahía Ballena",
+  "canton": {
+   "codigo": "CR605",
+   "nombre": "Osa"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.17899,
+  "lon": -83.71882
+ },
+ {
+  "codigo": "CR60505",
+  "nombre": "Piedras Blancas",
+  "canton": {
+   "codigo": "CR605",
+   "nombre": "Osa"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.81268,
+  "lon": -83.25663
+ },
+ {
+  "codigo": "CR60506",
+  "nombre": "Bahía Drake",
+  "canton": {
+   "codigo": "CR605",
+   "nombre": "Osa"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.64557,
+  "lon": -83.60183
+ },
+ {
+  "codigo": "CR60601",
+  "nombre": "Quepos",
+  "canton": {
+   "codigo": "CR606",
+   "nombre": "Quepos"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.45879,
+  "lon": -84.15476
+ },
+ {
+  "codigo": "CR60602",
+  "nombre": "Savegre",
+  "canton": {
+   "codigo": "CR606",
+   "nombre": "Quepos"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.35178,
+  "lon": -83.95154
+ },
+ {
+  "codigo": "CR60603",
+  "nombre": "Naranjito",
+  "canton": {
+   "codigo": "CR606",
+   "nombre": "Quepos"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.4829,
+  "lon": -84.10131
+ },
+ {
+  "codigo": "CR60701",
+  "nombre": "Golfito",
+  "canton": {
+   "codigo": "CR607",
+   "nombre": "Golfito"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.65247,
+  "lon": -83.16503
+ },
+ {
+  "codigo": "CR60703",
+  "nombre": "Guaycará",
+  "canton": {
+   "codigo": "CR607",
+   "nombre": "Golfito"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.68663,
+  "lon": -83.09696
+ },
+ {
+  "codigo": "CR60704",
+  "nombre": "Pavón",
+  "canton": {
+   "codigo": "CR607",
+   "nombre": "Golfito"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.29805,
+  "lon": -83.02935
+ },
+ {
+  "codigo": "CR60801",
+  "nombre": "San Vito",
+  "canton": {
+   "codigo": "CR608",
+   "nombre": "Coto Brus"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.83997,
+  "lon": -82.96804
+ },
+ {
+  "codigo": "CR60802",
+  "nombre": "Sabalito",
+  "canton": {
+   "codigo": "CR608",
+   "nombre": "Coto Brus"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.88271,
+  "lon": -82.80774
+ },
+ {
+  "codigo": "CR60803",
+  "nombre": "Aguabuena",
+  "canton": {
+   "codigo": "CR608",
+   "nombre": "Coto Brus"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.73727,
+  "lon": -82.94705
+ },
+ {
+  "codigo": "CR60804",
+  "nombre": "Limoncito",
+  "canton": {
+   "codigo": "CR608",
+   "nombre": "Coto Brus"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.85201,
+  "lon": -83.0514
+ },
+ {
+  "codigo": "CR60805",
+  "nombre": "Pittier",
+  "canton": {
+   "codigo": "CR608",
+   "nombre": "Coto Brus"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.99689,
+  "lon": -82.94758
+ },
+ {
+  "codigo": "CR60806",
+  "nombre": "Gutiérrez Braun",
+  "canton": {
+   "codigo": "CR608",
+   "nombre": "Coto Brus"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.97029,
+  "lon": -82.84131
+ },
+ {
+  "codigo": "CR60901",
+  "nombre": "Parrita",
+  "canton": {
+   "codigo": "CR609",
+   "nombre": "Parrita"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.54849,
+  "lon": -84.35868
+ },
+ {
+  "codigo": "CR61001",
+  "nombre": "Corredor",
+  "canton": {
+   "codigo": "CR610",
+   "nombre": "Corredores"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.60838,
+  "lon": -82.93055
+ },
+ {
+  "codigo": "CR61002",
+  "nombre": "La Cuesta",
+  "canton": {
+   "codigo": "CR610",
+   "nombre": "Corredores"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.47299,
+  "lon": -82.87098
+ },
+ {
+  "codigo": "CR61003",
+  "nombre": "Canoas",
+  "canton": {
+   "codigo": "CR610",
+   "nombre": "Corredores"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.56349,
+  "lon": -82.88518
+ },
+ {
+  "codigo": "CR61004",
+  "nombre": "Laurel",
+  "canton": {
+   "codigo": "CR610",
+   "nombre": "Corredores"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.44437,
+  "lon": -82.9376
+ },
+ {
+  "codigo": "CR61101",
+  "nombre": "Jacó",
+  "canton": {
+   "codigo": "CR611",
+   "nombre": "Garabito"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.62094,
+  "lon": -84.5968
+ },
+ {
+  "codigo": "CR61102",
+  "nombre": "Tárcoles",
+  "canton": {
+   "codigo": "CR611",
+   "nombre": "Garabito"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.74325,
+  "lon": -84.61187
+ },
+ {
+  "codigo": "CR61103",
+  "nombre": "Lagunillas",
+  "canton": {
+   "codigo": "CR611",
+   "nombre": "Garabito"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 9.82869,
+  "lon": -84.62175
+ },
+ {
+  "codigo": "CR61201",
+  "nombre": "Monteverde",
+  "canton": {
+   "codigo": "CR612",
+   "nombre": "Monteverde"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 10.29078,
+  "lon": -84.81326
+ },
+ {
+  "codigo": "CR61301",
+  "nombre": "Puerto Jiménez",
+  "canton": {
+   "codigo": "CR613",
+   "nombre": "Puerto Jiménez"
+  },
+  "provincia": {
+   "codigo": "CR6",
+   "nombre": "Puntarenas"
+  },
+  "lat": 8.53371,
+  "lon": -83.4585
+ },
+ {
+  "codigo": "CR70101",
+  "nombre": "Limón",
+  "canton": {
+   "codigo": "CR701",
+   "nombre": "Limón"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.00292,
+  "lon": -83.05461
+ },
+ {
+  "codigo": "CR70102",
+  "nombre": "Valle La Estrella",
+  "canton": {
+   "codigo": "CR701",
+   "nombre": "Limón"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.68993,
+  "lon": -83.16635
+ },
+ {
+  "codigo": "CR70103",
+  "nombre": "Río Blanco",
+  "canton": {
+   "codigo": "CR701",
+   "nombre": "Limón"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.98039,
+  "lon": -83.14389
+ },
+ {
+  "codigo": "CR70104",
+  "nombre": "Matama",
+  "canton": {
+   "codigo": "CR701",
+   "nombre": "Limón"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.86855,
+  "lon": -83.12703
+ },
+ {
+  "codigo": "CR70201",
+  "nombre": "Guápiles",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.21114,
+  "lon": -83.83954
+ },
+ {
+  "codigo": "CR70202",
+  "nombre": "Jiménez",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.18177,
+  "lon": -83.76857
+ },
+ {
+  "codigo": "CR70203",
+  "nombre": "Rita",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.4343,
+  "lon": -83.79749
+ },
+ {
+  "codigo": "CR70204",
+  "nombre": "Roxana",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.35905,
+  "lon": -83.66095
+ },
+ {
+  "codigo": "CR70205",
+  "nombre": "Cariari",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.43484,
+  "lon": -83.69194
+ },
+ {
+  "codigo": "CR70206",
+  "nombre": "Colorado",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.65473,
+  "lon": -83.67196
+ },
+ {
+  "codigo": "CR70207",
+  "nombre": "La Colonia",
+  "canton": {
+   "codigo": "CR702",
+   "nombre": "Pococí"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.27182,
+  "lon": -83.82289
+ },
+ {
+  "codigo": "CR70301",
+  "nombre": "Siquirres",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.08762,
+  "lon": -83.51907
+ },
+ {
+  "codigo": "CR70302",
+  "nombre": "Pacuarito",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.10689,
+  "lon": -83.42735
+ },
+ {
+  "codigo": "CR70303",
+  "nombre": "Florida",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.04671,
+  "lon": -83.64975
+ },
+ {
+  "codigo": "CR70304",
+  "nombre": "Germania",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.16902,
+  "lon": -83.57473
+ },
+ {
+  "codigo": "CR70305",
+  "nombre": "El Cairo",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.19345,
+  "lon": -83.52557
+ },
+ {
+  "codigo": "CR70306",
+  "nombre": "Alegría",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.11802,
+  "lon": -83.58389
+ },
+ {
+  "codigo": "CR70307",
+  "nombre": "Reventazón",
+  "canton": {
+   "codigo": "CR703",
+   "nombre": "Siquirres"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.24327,
+  "lon": -83.38595
+ },
+ {
+  "codigo": "CR70401",
+  "nombre": "Bratsi",
+  "canton": {
+   "codigo": "CR704",
+   "nombre": "Talamanca"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.61063,
+  "lon": -82.93838
+ },
+ {
+  "codigo": "CR70402",
+  "nombre": "Sixaola",
+  "canton": {
+   "codigo": "CR704",
+   "nombre": "Talamanca"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.55751,
+  "lon": -82.66548
+ },
+ {
+  "codigo": "CR70403",
+  "nombre": "Cahuita",
+  "canton": {
+   "codigo": "CR704",
+   "nombre": "Talamanca"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.67901,
+  "lon": -82.84474
+ },
+ {
+  "codigo": "CR70404",
+  "nombre": "Telire",
+  "canton": {
+   "codigo": "CR704",
+   "nombre": "Talamanca"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.37401,
+  "lon": -83.12186
+ },
+ {
+  "codigo": "CR70501",
+  "nombre": "Matina",
+  "canton": {
+   "codigo": "CR705",
+   "nombre": "Matina"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 9.98569,
+  "lon": -83.336
+ },
+ {
+  "codigo": "CR70502",
+  "nombre": "Batán",
+  "canton": {
+   "codigo": "CR705",
+   "nombre": "Matina"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.10116,
+  "lon": -83.33699
+ },
+ {
+  "codigo": "CR70503",
+  "nombre": "Carrandí",
+  "canton": {
+   "codigo": "CR705",
+   "nombre": "Matina"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.00549,
+  "lon": -83.253
+ },
+ {
+  "codigo": "CR70601",
+  "nombre": "Guácimo",
+  "canton": {
+   "codigo": "CR706",
+   "nombre": "Guácimo"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.1719,
+  "lon": -83.70844
+ },
+ {
+  "codigo": "CR70602",
+  "nombre": "Mercedes",
+  "canton": {
+   "codigo": "CR706",
+   "nombre": "Guácimo"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.1385,
+  "lon": -83.65389
+ },
+ {
+  "codigo": "CR70603",
+  "nombre": "Pocora",
+  "canton": {
+   "codigo": "CR706",
+   "nombre": "Guácimo"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.14353,
+  "lon": -83.62163
+ },
+ {
+  "codigo": "CR70604",
+  "nombre": "Río Jiménez",
+  "canton": {
+   "codigo": "CR706",
+   "nombre": "Guácimo"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.3044,
+  "lon": -83.46133
+ },
+ {
+  "codigo": "CR70605",
+  "nombre": "Duacarí",
+  "canton": {
+   "codigo": "CR706",
+   "nombre": "Guácimo"
+  },
+  "provincia": {
+   "codigo": "CR7",
+   "nombre": "Limón"
+  },
+  "lat": 10.31678,
+  "lon": -83.61845
+ }
+]

@@ -1,0 +1,11 @@
+{
+  "name": "@terraformers/compartido",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "zod": "^3.24.1"
+  }
+}

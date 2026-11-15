@@ -1,0 +1,6 @@
+export * from './esquemas/valor.ts'
+export * from './esquemas/resultado.ts'
+export * from './esquemas/distrito.ts'
+export * from './esquemas/humedad.ts'
+export * from './esquemas/zona.ts'
+export * from './esquemas/cultivo.ts'
