@@ -293,6 +293,7 @@ This section separates **data that is actually downloaded, processed, stored and
 | [**MODIS** MOD13Q1 NDVI](https://lpdaac.usgs.gov/products/mod13q1v061/) | Vegetation index per district (`cobertura_zona`). | 🟡 Table ready, not loaded (needs Earthdata) | 0 |
 | [**GPM**](https://gpm.nasa.gov/data) | Precipitation. | ⚪ Researched, postponed (NASA POWER rain is used instead) | — |
 | [**SMAP** L4](https://nsidc.org/data/spl4smgp/versions/8) | Soil moisture. | ⚪ Researched, not implemented (NASA POWER and Open-Meteo soil moisture are used instead) | — |
+| [**NASA GEOS-FP**](https://gmao.gsfc.nasa.gov/gmao-products/geos-near-real-time-data-products/) ([NCCS OPeNDAP](https://opendap.nccs.nasa.gov/dods/GEOS-5/fp/0.25_deg/fcast/tavg1_2d_slv_Nx)) | Experimental hourly air-temperature forecasts at 2 meters (`T2M`). Daily mean, maximum and minimum temperatures are calculated from hourly values for the selected district. Complements NASA POWER historical data. | 🟡 Implemented and tested in the standalone temperature module; production integration not verified | — |
 
 ### Other data actually used
 
