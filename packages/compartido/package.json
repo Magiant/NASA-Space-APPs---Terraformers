@@ -1,0 +1,13 @@
+{
+  "name": "@terraformes/compartido",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Esquemas Zod compartidos (datos extraídos) entre extractores y web.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

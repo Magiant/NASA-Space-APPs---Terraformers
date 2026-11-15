@@ -1,13 +1,22 @@
-import { createClient } from '@supabase/supabase-js'
+// Cliente de Supabase para extractores (llave service_role: salta RLS). Solo en extractores / CI,
+// nunca en web/. Se crea al primer uso, así el modo simulación no exige credenciales.
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const url = process.env.VITE_SUPABASE_URL
-// Secret key (sb_secret_...): salta RLS. Solo en extractores / CI, nunca en web/.
-const secretKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+let cliente: SupabaseClient | null = null
 
-if (!url || !secretKey) {
-  throw new Error('Faltan VITE_SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en el entorno')
+export function obtenerSupabase(): SupabaseClient {
+  if (cliente) return cliente
+  // SUPABASE_URL es el nombre que fija el equipo; VITE_SUPABASE_URL se acepta por compatibilidad.
+  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
+  const secretKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !secretKey) {
+    throw new Error('Faltan SUPABASE_URL (o VITE_SUPABASE_URL) o SUPABASE_SERVICE_ROLE_KEY en el entorno')
+  }
+  cliente = createClient(url, secretKey, { auth: { persistSession: false, autoRefreshToken: false } })
+  return cliente
 }
 
-export const supabase = createClient(url, secretKey, {
-  auth: { persistSession: false, autoRefreshToken: false },
+/** Compatibilidad con código que importaba `supabase` directamente (p. ej. verificar-servicios.ts). */
+export const supabase = new Proxy({} as SupabaseClient, {
+  get: (_objetivo, propiedad) => Reflect.get(obtenerSupabase(), propiedad),
 })
