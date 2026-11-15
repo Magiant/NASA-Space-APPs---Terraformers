@@ -1,6 +1,6 @@
 // Service worker mínimo: guarda lo consultado para que la app abra con mala señal.
 // Red primero; si no hay conexión, responde con la última copia guardada.
-const CACHE = 'terraformes-v1';
+const CACHE = 'terrafarm-v1';
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
