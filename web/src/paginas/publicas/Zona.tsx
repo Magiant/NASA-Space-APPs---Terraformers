@@ -1,3 +1,4 @@
+import { FotoFranja, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { Link, useParams } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
@@ -9,10 +10,10 @@ import { series } from '../../servicios/supabase';
 import type { RegistroZona } from '../../tipos';
 import { mes, nombreCultivo, useCargar } from '../../utilidades';
 
-function Ficha({ icono, titulo, valor, detalle }: { icono: string; titulo: string; valor: string; detalle?: string }) {
+function Ficha({ icono, titulo, valor, detalle }: { icono: NombreIcono; titulo: string; valor: string; detalle?: string }) {
   return (
     <div className="ficha">
-      <span className="ficha-icono" aria-hidden>{icono}</span>
+      <span className="ficha-icono" aria-hidden><Icono nombre={icono} tam={24} /></span>
       <span className="ficha-titulo">{titulo}</span>
       <strong className="ficha-valor">{valor}</strong>
       {detalle && <span className="ficha-detalle">{detalle}</span>}
@@ -36,10 +37,11 @@ function Contenido({ z }: { z: RegistroZona }) {
         <p>{z.canton}, {z.provincia} · {tz.altura(z.altitud_m.toLocaleString(t.locale))}</p>
         <AvisoActualizado cuando={z.actualizado} />
       </header>
+      <FotoFranja foto="cr-campos" />
 
       {(alertas.datos ?? []).map((a) => (
         <div key={a.objectID} className={`alerta alerta-${a.nivel}`}>
-          <strong>⚠️ {a.titulo}</strong>
+          <strong><Icono nombre="alertas" tam={18} /> {a.titulo}</strong>
           <p>{a.descripcion}</p>
         </div>
       ))}
@@ -48,14 +50,14 @@ function Contenido({ z }: { z: RegistroZona }) {
         <div className="col-principal">
           <h2>{tz.comoEsta}</h2>
           <div className="fichas">
-            <Ficha icono="🌡️" titulo={tz.temperatura} valor={`${z.clima.temp_media_c} °C`} detalle={tz.entre(z.clima.temp_min_c, z.clima.temp_max_c)} />
-            <Ficha icono="🌧️" titulo={tz.lluviaMes} valor={`${z.clima.lluvia_mes_mm} mm`} detalle={tz.humedadAire(z.clima.humedad_relativa_pct)} />
-            <Ficha icono="💧" titulo={tz.humedadSuelo} valor={`${z.humedad_suelo.pct} %`} detalle={tz.humedad[z.humedad_suelo.estado]} />
-            <Ficha icono="🚰" titulo={tz.agua} valor={tz.aguaEstado[z.agua.estado]} detalle={`${tz.balance} ${z.agua.balance_mm > 0 ? '+' : ''}${z.agua.balance_mm} mm`} />
-            <Ficha icono="🟫" titulo={tz.suelo} valor={z.suelo.textura} detalle={`pH ${z.suelo.ph} · ${tz.materiaOrganica} ${tz.mo[z.suelo.materia_organica]}`} />
-            <Ficha icono="🌋" titulo={tz.riesgos} valor={z.riesgos.map((r) => r.tipo).join(', ')} detalle={z.riesgos.map((r) => `${r.tipo}: ${tz.riesgo[r.nivel]}`).join(' · ')} />
+            <Ficha icono="termometro" titulo={tz.temperatura} valor={`${z.clima.temp_media_c} °C`} detalle={tz.entre(z.clima.temp_min_c, z.clima.temp_max_c)} />
+            <Ficha icono="lluvia" titulo={tz.lluviaMes} valor={`${z.clima.lluvia_mes_mm} mm`} detalle={tz.humedadAire(z.clima.humedad_relativa_pct)} />
+            <Ficha icono="gota" titulo={tz.humedadSuelo} valor={`${z.humedad_suelo.pct} %`} detalle={tz.humedad[z.humedad_suelo.estado]} />
+            <Ficha icono="grifo" titulo={tz.agua} valor={tz.aguaEstado[z.agua.estado]} detalle={`${tz.balance} ${z.agua.balance_mm > 0 ? '+' : ''}${z.agua.balance_mm} mm`} />
+            <Ficha icono="tierra" titulo={tz.suelo} valor={z.suelo.textura} detalle={`pH ${z.suelo.ph} · ${tz.materiaOrganica} ${tz.mo[z.suelo.materia_organica]}`} />
+            <Ficha icono="volcan" titulo={tz.riesgos} valor={z.riesgos.map((r) => r.tipo).join(', ')} detalle={z.riesgos.map((r) => `${r.tipo}: ${tz.riesgo[r.nivel]}`).join(' · ')} />
           </div>
-          {z.area_protegida_pct > 0 && <p className="ayuda">{tz.protegida(z.area_protegida_pct)}</p>}
+          {z.area_protegida_pct > 0 && <p className="ayuda"><Tx>{tz.protegida(z.area_protegida_pct)}</Tx></p>}
 
           <h2>{tz.tempMes}</h2>
           <div className="tarjeta">
@@ -102,6 +104,6 @@ export default function Zona() {
   const zona = useCargar(() => algolia.zona(codigo), [codigo]);
   if (zona.cargando) return <Cargando />;
   if (zona.error) return <ErrorCarga mensaje={zona.error} reintentar={zona.recargar} />;
-  if (!zona.datos) return <Vacio icono="🗺️" titulo={t.zona.noExiste}><Link className="boton" to="/">{t.zona.elegirOtra}</Link></Vacio>;
+  if (!zona.datos) return <Vacio icono={<Icono nombre="mapa" tam={48} />} titulo={t.zona.noExiste}><Link className="boton" to="/">{t.zona.elegirOtra}</Link></Vacio>;
   return <Contenido z={zona.datos} />;
 }

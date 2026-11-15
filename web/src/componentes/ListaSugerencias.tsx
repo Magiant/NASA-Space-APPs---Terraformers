@@ -5,7 +5,7 @@ import type { Evitado, Motivo, Razon, Sugerencia } from '../logica/recomendacion
 import { catalogo } from '../servicios/algolia';
 import { nombreCultivo, nombrePlaga } from '../utilidades';
 import InsigniaNivel from './InsigniaNivel';
-import { IconoCultivo } from './Iconos';
+import { Icono, IconoCultivo } from './Iconos';
 
 const minus = (s: string) => s.toLowerCase();
 
@@ -49,7 +49,7 @@ export default function ListaSugerencias({
                 </span>
               </div>
               <ul className="datos-rapidos">
-                {razones.map((r) => <li key={r.tipo}>✔ {textoRazon(t, r)}</li>)}
+                {razones.map((r) => <li key={r.tipo}><Icono nombre="marca" tam={16} /> {textoRazon(t, r)}</li>)}
               </ul>
               <div className="acciones">
                 {accion && (
@@ -67,7 +67,7 @@ export default function ListaSugerencias({
         <details className="plegable">
           <summary>{t.siembra.evitar(evitados.length)}</summary>
           <ul className="lista-simple">
-            {evitados.map((e) => <li key={e.cultivo}>✕ {nombreCultivo(t, e.cultivo)}: {textoMotivo(t, e.motivo)}.</li>)}
+            {evitados.map((e) => <li key={e.cultivo}><Icono nombre="cruz" tam={16} /> {nombreCultivo(t, e.cultivo)}: {textoMotivo(t, e.motivo)}.</li>)}
           </ul>
         </details>
       )}

@@ -33,6 +33,19 @@ export const es = {
     pie: 'Datos: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
   },
 
+  ajustes: {
+    titulo: 'Ajustes',
+    abrir: 'Abrir ajustes',
+    ayuda: 'Se guardan en este aparato.',
+    apariencia: 'Apariencia',
+    claro: 'Claro',
+    oscuro: 'Oscuro',
+    idioma: 'Idioma',
+    cuenta: 'Cuenta',
+    acerca: 'Acerca de',
+    fuentes: 'Fuentes de datos',
+  },
+
   nav: {
     sembrar: 'Sembrar',
     precios: 'Precios',
@@ -49,6 +62,8 @@ export const es = {
   },
 
   conexion: {
+    conSenal: 'Con señal',
+    sinSenalCorto: 'Sin señal',
     sinSenal: 'Sin señal. Está viendo lo último que se guardó',
     porEnviar: (n: number) => `${n} reporte(s) por enviar`,
     enviados: (n: number) => `Se enviaron ${n} reporte(s) que estaban guardados.`,

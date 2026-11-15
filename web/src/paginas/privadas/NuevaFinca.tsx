@@ -1,3 +1,4 @@
+import { Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SelectorUbicacion from '../../componentes/SelectorUbicacion';
@@ -36,7 +37,7 @@ export default function NuevaFinca() {
   return (
     <section className="formulario-centrado">
       <h1>{tn.titulo}</h1>
-      <p className="ayuda">{tn.privado}</p>
+      <p className="ayuda"><Tx>{tn.privado}</Tx></p>
       <form className="formulario" onSubmit={enviar}>
         <label>
           {tn.nombre}

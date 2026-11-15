@@ -7,7 +7,7 @@ import { recomendarSiguiente } from '../../logica/recomendacion';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import { hoy, nombreCultivo, sumarDias, useCargar } from '../../utilidades';
-import { IconoCultivo } from '../../componentes/Iconos';
+import { Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 
 export default function NuevaSiembra() {
   const t = useT();
@@ -61,7 +61,7 @@ export default function NuevaSiembra() {
   if (fincas.cargando) return <Cargando />;
   if (!fincas.datos?.length) {
     return (
-      <Vacio icono="🏡" titulo={t.fincas.primero}>
+      <Vacio icono={<Icono nombre="finca" tam={48} />} titulo={t.fincas.primero}>
         <Link to="/fincas/nueva" className="boton">{t.fincas.registrarFinca}</Link>
       </Vacio>
     );
@@ -103,7 +103,7 @@ export default function NuevaSiembra() {
             <strong>{nombreCultivo(t, cultivo.id, cultivo.nombre)}</strong>
             <button type="button" className="enlace" onClick={() => setCultivoId('')}>{ts.cambiar}</button>
           </div>
-          {advertencia && <p className="aviso aviso-error">{ts.noRecomienda(textoMotivo(t, advertencia.motivo))}</p>}
+          {advertencia && <p className="aviso aviso-error"><Tx>{ts.noRecomienda(textoMotivo(t, advertencia.motivo))}</Tx></p>}
           <label>
             {ts.area}
             <input type="number" inputMode="decimal" min="0.01" step="0.01" max={finca?.area_ha} required value={area} onChange={(e) => setArea(e.target.value)} />

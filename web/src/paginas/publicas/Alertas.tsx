@@ -1,3 +1,4 @@
+import { FotoFranja, Icono } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
@@ -19,6 +20,7 @@ export default function Alertas() {
         <h1>{ta.titulo}</h1>
         <p>{ta.subtitulo}</p>
       </header>
+      <FotoFranja foto="tormenta" />
 
       {nombreZona && (
         <div className="interruptor" role="tablist">
@@ -30,7 +32,7 @@ export default function Alertas() {
       {alertas.cargando && <Cargando />}
       {alertas.error && <ErrorCarga mensaje={alertas.error} reintentar={alertas.recargar} />}
       {alertas.datos?.length === 0 && (
-        <Vacio icono="☀️" titulo={ta.noHay}>
+        <Vacio icono={<Icono nombre="sol" tam={48} />} titulo={ta.noHay}>
           <p>{ta.noHayTexto(soloMiZona)}</p>
         </Vacio>
       )}
@@ -48,7 +50,8 @@ export default function Alertas() {
               {a.codigos_distrito.map((c) => catalogo.zona(c)).filter(Boolean).map((z, i) => (
                 <span key={z!.codigo_distrito}>
                   {i > 0 && ', '}
-                  <Link to={`/zona/${z!.codigo_distrito}`}>{z!.distrito}</Link>
+                  {/* El primer lugar cubre toda la tarjeta (clic en cualquier parte); los demás siguen siendo enlaces propios. */}
+                  <Link to={`/zona/${z!.codigo_distrito}`} className={i === 0 ? 'alerta-enlace' : undefined}>{z!.distrito}</Link>
                 </span>
               ))}
             </p>

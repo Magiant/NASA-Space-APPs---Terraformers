@@ -1,3 +1,4 @@
+import { FotoFranja } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
@@ -67,6 +68,7 @@ export default function Precios() {
         <h1>{t.precios.titulo}</h1>
         <p>{t.precios.subtitulo}</p>
       </header>
+      <FotoFranja foto="mercado" />
 
       <div className="interruptor" role="tablist">
         <button role="tab" aria-selected={fuente === 'PIMA'} onClick={() => setFuente('PIMA')}>
@@ -81,7 +83,7 @@ export default function Precios() {
 
       <label className="buscador">
         <span className="oculto">{t.precios.buscar}</span>
-        <input type="search" placeholder={`🔍 ${t.precios.buscar}`} value={busca} onChange={(e) => setBusca(e.target.value)} />
+        <input type="search" placeholder={t.precios.buscar} value={busca} onChange={(e) => setBusca(e.target.value)} />
       </label>
 
       {fechaFuente && <AvisoActualizado que={t.comun.precios} cuando={fechaFuente} fuente={fuente} />}

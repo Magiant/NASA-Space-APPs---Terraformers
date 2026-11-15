@@ -32,6 +32,19 @@ export const en: Textos = {
     pie: 'Data: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
   },
 
+  ajustes: {
+    titulo: 'Settings',
+    abrir: 'Open settings',
+    ayuda: 'Saved on this device.',
+    apariencia: 'Appearance',
+    claro: 'Light',
+    oscuro: 'Dark',
+    idioma: 'Language',
+    cuenta: 'Account',
+    acerca: 'About',
+    fuentes: 'Data sources',
+  },
+
   nav: {
     sembrar: 'Plant',
     precios: 'Prices',
@@ -48,6 +61,8 @@ export const en: Textos = {
   },
 
   conexion: {
+    conSenal: 'Online',
+    sinSenalCorto: 'Offline',
     sinSenal: 'No signal. You are seeing the last saved data',
     porEnviar: (n) => `${n} report(s) waiting to send`,
     enviados: (n) => `${n} saved report(s) were sent.`,

@@ -50,8 +50,8 @@ img { max-width: 100%; }
 
 .nav-principal { display: none; }
 .nav-principal a {
-  display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px;
-  color: var(--texto-suave); text-decoration: none; font-size: 0.95rem;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 12px;
+  color: var(--texto-suave); text-decoration: none; font-size: 1rem; white-space: nowrap;
 }
 .nav-principal a:hover { color: var(--texto); background: var(--superficie-2); }
 .nav-principal a.active { color: var(--primario); background: var(--primario-suave); }
@@ -111,10 +111,9 @@ img { max-width: 100%; }
 }
 .pestanas a {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  min-height: 64px; padding: 8px 2px; font-size: 0.76rem; font-weight: 600; color: var(--texto-suave); text-decoration: none;
+  min-height: 68px; padding: 8px 2px; font-size: 0.82rem; font-weight: 700; color: var(--texto-suave); text-decoration: none;
 }
-.pestanas a span { font-size: 1.45rem; line-height: 1; }
-.pestanas a.active { color: var(--primario); box-shadow: inset 0 3px 0 var(--primario); background: var(--superficie-2); }
+.pestanas a.active { color: var(--primario); box-shadow: inset 0 4px 0 var(--primario); background: var(--primario-suave); }
 
 .banda { margin: 0; padding: 8px 16px; font-size: 0.9rem; text-align: center; }
 .banda-sin-senal { background: var(--bue-fondo); font-weight: 600; }
@@ -146,7 +145,7 @@ img { max-width: 100%; }
 /* ================= Botones y formularios ================= */
 .boton {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  min-height: 52px; padding: 10px 22px; border: 2px solid var(--primario); border-radius: var(--radio-chico);
+  min-height: 56px; padding: 10px 24px; border: 2px solid var(--primario); border-radius: var(--radio-chico);
   background: var(--primario); color: var(--primario-texto);
   font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; transition: background 0.15s, transform 0.1s;
 }
@@ -171,8 +170,8 @@ label, legend { display: flex; flex-direction: column; gap: 6px; font-weight: 70
 fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 legend { margin-bottom: 8px; }
 input, select, textarea {
-  width: 100%; min-height: 52px; padding: 10px 14px;
-  border: 2px solid var(--borde); border-radius: var(--radio-chico);
+  width: 100%; min-height: 56px; padding: 10px 14px;
+  border: 2px solid var(--borde-fuerte); border-radius: var(--radio-chico);
   background: var(--superficie); color: var(--texto); font: inherit; font-weight: 400;
 }
 textarea { min-height: 88px; resize: vertical; }
@@ -261,8 +260,9 @@ select:disabled { opacity: 0.55; }
 /* ================= Inicio ================= */
 .portada {
   position: relative; overflow: hidden;
-  margin: -16px -16px 0; padding: 24px 16px;
-  background: var(--superficie); border-bottom: 1px solid var(--borde);
+  margin: -16px -16px 0; padding: 28px 16px;
+  background: var(--primario-suave);
+  border-bottom: 1px solid var(--borde);
 }
 .portada h1 { margin-top: 0; }
 .portada-texto p { font-size: 1.05rem; color: var(--texto-suave); max-width: 44ch; }
@@ -271,17 +271,15 @@ select:disabled { opacity: 0.55; }
   border-radius: 999px; background: var(--primario-suave); color: var(--primario); font-size: 0.82rem; font-weight: 700;
 }
 .selector-ubicacion { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+@media (max-width: 899px) { .portada .selector-ubicacion { padding: 18px; border-radius: var(--radio); background: var(--superficie); border: 1px solid var(--borde); box-shadow: var(--sombra); } }
 @media (min-width: 900px) {
   .portada {
     margin: 0; padding: 40px 44px; border: 1px solid var(--borde); border-radius: 26px; box-shadow: var(--sombra);
     display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center;
-    background:
-      radial-gradient(1200px 400px at -10% -40%, var(--primario-suave), transparent 60%),
-      var(--superficie);
   }
   .portada-texto p { font-size: 1.15rem; }
   .portada .selector-ubicacion {
-    margin: 0; padding: 24px; border-radius: 20px; background: var(--fondo); border: 1px solid var(--borde);
+    margin: 0; padding: 24px; border-radius: 20px; background: var(--superficie); border: 1px solid var(--borde); box-shadow: var(--sombra);
   }
 }
 .titulo-seccion { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -295,7 +293,7 @@ select:disabled { opacity: 0.55; }
   color: var(--texto); text-decoration: none; box-shadow: var(--sombra); transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 }
 .acceso:hover { transform: translateY(-2px); box-shadow: var(--sombra-fuerte); border-color: var(--borde-fuerte); }
-.acceso span { font-size: 1.8rem; }
+.acceso-icono { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--primario-suave); color: var(--primario); }
 .acceso small { font-weight: 400; font-size: 0.8rem; }
 
 /* ================= Tarjetas ================= */
@@ -482,3 +480,158 @@ select:disabled { opacity: 0.55; }
 .celda-critica { background: #c0391b; }
 .leyenda { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 0.85rem; }
 .leyenda i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; }
+
+/* ================= Movimiento (Campo) =================
+   Todo es opcional: si el aparato pide menos movimiento, o el navegador no soporta
+   animaciones ligadas al scroll, la página se ve igual, solo sin animar. */
+.config { margin-top: 32px; max-width: 560px; }
+.boton, .acceso, .chip, .interruptor button, .opciones-cara button { transition: transform 0.14s cubic-bezier(0.3, 1.6, 0.5, 1), background 0.15s, box-shadow 0.15s, border-color 0.15s; }
+.boton:active, .acceso:active, .chip:active, .opciones-cara button:active { transform: scale(0.96); }
+.pestanas a.active svg { animation: salto 0.35s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes salto { 0% { transform: translateY(4px) scale(0.85); } 100% { transform: none; } }
+.opciones-cara button[aria-checked='true'] span, .chip[aria-checked='true'] { animation: salto 0.3s cubic-bezier(0.3, 1.6, 0.5, 1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* Las tarjetas suben y aparecen al entrar en pantalla (también al volver a subir). */
+    .tarjeta, .acceso, .ficha, .lista-enlaces > li, .alerta {
+      animation: aparecer linear both; animation-timeline: view(); animation-range: entry 0% entry 55%;
+    }
+    @keyframes aparecer { from { opacity: 0; transform: translateY(28px) scale(0.98); } to { opacity: 1; transform: none; } }
+    /* Fotos: se desplazan más lento que la página (efecto de profundidad), arriba y abajo. */
+    .foto-parallax img { animation: profundidad linear both; animation-timeline: view(); }
+    @keyframes profundidad { from { transform: translateY(-9%) scale(1.12); } to { transform: translateY(9%) scale(1.12); } }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .boton, .acceso, .chip { transition: none; }
+  .pestanas a.active svg { animation: none; }
+}
+
+/* ================= Fotos ================= */
+.foto-parallax { height: clamp(180px, 30vw, 340px); margin: 24px 0; overflow: hidden; border-radius: 22px; box-shadow: var(--sombra); background: var(--primario-suave); }
+.foto-parallax img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 0px) { .foto-franja { height: clamp(110px, 16vw, 190px); margin: 8px 0 20px; } }
+
+/* Foto de fondo del inicio: velo del color de la tarjeta para que el texto siempre se lea. */
+.portada-foto { position: absolute; inset: -6% 0; width: 100%; height: 112%; object-fit: cover; z-index: 0; }
+.portada::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(100deg, color-mix(in srgb, var(--superficie) 90%, transparent) 20%, color-mix(in srgb, var(--superficie) 30%, transparent)); }
+.portada > :not(.portada-foto) { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: no-preference) { @supports (animation-timeline: scroll()) { .portada-foto { animation: fondo linear both; animation-timeline: scroll(root); animation-range: 0 600px; } @keyframes fondo { to { transform: translateY(9%); } } } }
+
+/* Alertas: toda la tarjeta es el botón (el primer lugar la cubre); otros lugares quedan por encima como enlaces propios. */
+.alerta { position: relative; transition: transform 0.14s, box-shadow 0.15s; }
+.alerta:hover { box-shadow: var(--sombra-fuerte); transform: translateY(-2px); }
+.alerta:has(.alerta-enlace) { cursor: pointer; }
+.alerta-enlace::after { content: ''; position: absolute; inset: 0; border-radius: var(--radio); }
+.alerta-enlace:focus-visible { outline: none; }
+.alerta-enlace:focus-visible::after { outline: 3px solid var(--primario); outline-offset: 2px; }
+.alerta a:not(.alerta-enlace) { position: relative; z-index: 1; }
+.icono-cultivo svg { width: 78%; height: 78%; }
+
+/* ================= Celular (uso en el campo) ================= */
+/* Estado de la conexión siempre visible: se entiende de un vistazo si lo guardado ya se envió. */
+.estado-red { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.estado-red-ok { background: var(--exc-fondo); color: var(--exc); }
+.estado-red-sin { background: var(--bue-fondo); color: var(--bue); }
+/* Botón de acción rápida: reportar una plaga sin buscarla, grande para dedos con guantes. */
+.boton-flotante {
+  position: fixed; right: 16px; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 25;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 56px; padding: 0 22px; border-radius: 999px;
+  background: var(--primario); color: var(--primario-texto); font-weight: 800; text-decoration: none; box-shadow: var(--sombra-fuerte);
+}
+.boton-flotante:active { transform: scale(0.96); }
+@media (min-width: 900px) { .boton-flotante { display: none; } }
+@media (max-width: 599px) {
+  .estado-red { padding: 0 10px; font-size: 0.78rem; }
+  .boton-idioma-texto { display: none; }
+  /* Una columna: tarjetas de cultivo cómodas de leer, con letra normal. */
+  .rejilla-productos { grid-template-columns: 1fr; gap: 12px; }
+  .rejilla-productos .tarjeta { padding: 16px; }
+  .rejilla-productos .icono-cultivo { width: 56px; height: 56px; }
+  .rejilla-productos .puntaje { font-size: 1.7rem; }
+  .rejilla-productos .tc-nombre { font-size: 1.15rem; }
+  .rejilla-productos .insignia { font-size: 0.85rem; padding: 2px 10px; }
+  .rejilla-productos .tc-datos { font-size: 0.95rem; }
+  .rejilla-productos .tc-datos dt { font-size: 0.85rem; }
+  .rejilla-productos .desglose-fila { flex-direction: row; font-size: 0.9rem; }
+  .rejilla-productos .boton-pequeno { font-size: 0.95rem; padding: 6px 16px; }
+  .contenido { padding-bottom: 96px; }
+}
+
+/* ================= Vidrio líquido (Liquid Glass) =================
+   Mismas reglas que la app del gimnasio: vidrio SOLO en lo que flota (barra de pestañas, botón flotante,
+   encabezado, menús); nunca en tarjetas de contenido ni detrás de texto largo. Si el aparato pide menos
+   transparencia o más contraste, o no soporta desenfoque, se vuelve opaco. */
+:root {
+  --vidrio-fondo: color-mix(in srgb, var(--superficie) 62%, transparent);
+  --vidrio-borde: color-mix(in srgb, #fff 55%, transparent);
+  --vidrio-brillo: inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent), inset 0 -1px 0 color-mix(in srgb, #000 6%, transparent);
+}
+:root[data-tema='azul'] {
+  --vidrio-fondo: color-mix(in srgb, var(--superficie) 58%, transparent);
+  --vidrio-borde: color-mix(in srgb, #fff 18%, transparent);
+  --vidrio-brillo: inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent), inset 0 -1px 0 color-mix(in srgb, #000 30%, transparent);
+}
+.pestanas, .boton-flotante, .encabezado, .menu-idioma-lista, .menu-cuenta-panel, .estado-red {
+  -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8);
+}
+.encabezado { background: var(--vidrio-fondo); border-bottom: 1px solid var(--vidrio-borde); box-shadow: var(--vidrio-brillo); }
+.menu-idioma-lista, .menu-cuenta-panel { background: color-mix(in srgb, var(--superficie) 80%, transparent); border: 1px solid var(--vidrio-borde); box-shadow: var(--vidrio-brillo), var(--sombra-fuerte); }
+
+/* Barra de pestañas flotante, como la de iOS 26: una cápsula separada de los bordes. */
+.pestanas {
+  inset: auto 12px calc(12px + env(safe-area-inset-bottom)) 12px; padding-bottom: 0;
+  background: var(--vidrio-fondo); border: 1px solid var(--vidrio-borde); border-radius: 30px; overflow: hidden;
+  box-shadow: var(--vidrio-brillo), 0 10px 30px rgb(16 24 20 / 0.18);
+}
+.pestanas a { min-height: 64px; font-weight: 700; color: var(--texto); }
+.pestanas a.active { box-shadow: none; background: color-mix(in srgb, var(--primario) 16%, transparent); color: var(--primario); border-radius: 24px; margin: 4px; }
+.app { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+.boton-flotante {
+  bottom: calc(100px + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--primario) 82%, transparent); border: 1px solid var(--vidrio-borde); box-shadow: var(--vidrio-brillo), var(--sombra-fuerte);
+}
+.estado-red-ok { background: color-mix(in srgb, var(--exc-fondo) 78%, transparent); }
+.estado-red-sin { background: color-mix(in srgb, var(--bue-fondo) 78%, transparent); }
+@media (min-width: 900px) { .app { padding-bottom: 0; } }
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .pestanas, .encabezado, .menu-idioma-lista, .menu-cuenta-panel { background: var(--superficie); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .boton-flotante { background: var(--primario); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .estado-red-ok { background: var(--exc-fondo); } .estado-red-sin { background: var(--bue-fondo); }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pestanas, .encabezado, .menu-idioma-lista, .menu-cuenta-panel { background: var(--superficie); }
+  .boton-flotante { background: var(--primario); }
+}
+
+/* Dentro de la app de iPhone (data-nativo lo pone la app): iOS dibuja la barra de pestañas y el botón
+   "Reportar una plaga" con vidrio líquido real, así que se ocultan los de la web. */
+[data-nativo] .pestanas, [data-nativo] .boton-flotante { display: none; }
+[data-nativo] .app { padding-bottom: 24px; }
+
+/* ================= Ajustes (como la pantalla de Ajustes del teléfono) ================= */
+.ajustes { max-width: 640px; margin: 0 auto; }
+.ajustes-grupo { margin: 0 0 8px; }
+.ajustes-grupo h2 { margin: 24px 16px 8px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--texto-suave); }
+.ajustes-lista { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); overflow: hidden; box-shadow: var(--sombra); }
+.ajustes-fila {
+  display: flex; align-items: center; gap: 14px; width: 100%; min-height: 60px; padding: 10px 16px;
+  border: 0; border-bottom: 1px solid var(--borde); background: none; color: var(--texto);
+  font: inherit; font-weight: 600; text-align: left; text-decoration: none; cursor: pointer;
+}
+.ajustes-lista > :last-child { border-bottom: 0; }
+.ajustes-fila:hover { background: var(--superficie-2); }
+.ajustes-fila:focus-visible { outline-offset: -3px; }
+.ajustes-fila[aria-checked='true'] { color: var(--primario); }
+.ajustes-fila-fija { cursor: default; }
+.ajustes-fila-fija:hover { background: none; }
+.ajustes-texto { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ajustes-texto small { font-weight: 400; font-size: 0.88rem; }
+.ajustes-icono { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 10px; background: var(--primario-suave); color: var(--primario); }
+.ajustes-fila .bandera { width: 26px; height: 18px; }
+.ajustes-peligro { color: var(--nor); }
+.ajustes-peligro .ajustes-icono { background: var(--nor-fondo); color: var(--nor); }
+.ajustes-fila > svg:last-child { color: var(--texto-suave); flex: none; }
+.ajustes-fila[aria-checked='true'] > svg:last-child { color: var(--primario); }
