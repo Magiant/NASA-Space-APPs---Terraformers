@@ -1,0 +1,1137 @@
+codigo_distrito,tipo,nivel,meses_riesgo,fuente
+CR10101,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR10101,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.2 % (SRTM) y lluvia NASA POWER
+CR10101,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10102,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR10102,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.4 % (SRTM) y lluvia NASA POWER
+CR10102,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10103,volcan,medio,,estimado: 27 km del volcán Irazú (OVSICORI)
+CR10103,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 3 % (SRTM) y lluvia NASA POWER
+CR10103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10104,volcan,medio,,estimado: 25 km del volcán Irazú (OVSICORI)
+CR10104,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 2.6 % (SRTM) y lluvia NASA POWER
+CR10104,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10105,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR10105,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3.5 % (SRTM) y lluvia NASA POWER
+CR10106,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR10106,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 4.4 % (SRTM) y lluvia NASA POWER
+CR10107,volcan,medio,,estimado: 29 km del volcán Irazú (OVSICORI)
+CR10107,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.7 % (SRTM) y lluvia NASA POWER
+CR10107,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10108,volcan,medio,,estimado: 29 km del volcán Irazú (OVSICORI)
+CR10108,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.3 % (SRTM) y lluvia NASA POWER
+CR10108,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10109,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR10109,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6 % (SRTM) y lluvia NASA POWER
+CR10109,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10110,volcan,medio,,estimado: 28 km del volcán Irazú (OVSICORI)
+CR10110,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.7 % (SRTM) y lluvia NASA POWER
+CR10110,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10111,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR10111,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 2.9 % (SRTM) y lluvia NASA POWER
+CR10111,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10201,volcan,medio,,estimado: 33 km del volcán Poás (OVSICORI)
+CR10201,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 26.7 % (SRTM) y lluvia NASA POWER
+CR10201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10202,volcan,medio,,estimado: 33 km del volcán Irazú (OVSICORI)
+CR10202,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 28.6 % (SRTM) y lluvia NASA POWER
+CR10202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10203,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR10203,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 11.9 % (SRTM) y lluvia NASA POWER
+CR10203,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10301,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR10301,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.3 % (SRTM) y lluvia NASA POWER
+CR10301,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10302,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR10302,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 19.1 % (SRTM) y lluvia NASA POWER
+CR10302,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10303,volcan,medio,,estimado: 28 km del volcán Irazú (OVSICORI)
+CR10303,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.7 % (SRTM) y lluvia NASA POWER
+CR10303,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10304,volcan,medio,,estimado: 27 km del volcán Irazú (OVSICORI)
+CR10304,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13.7 % (SRTM) y lluvia NASA POWER
+CR10304,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10305,volcan,medio,,estimado: 23 km del volcán Irazú (OVSICORI)
+CR10305,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 9.5 % (SRTM) y lluvia NASA POWER
+CR10306,volcan,medio,,estimado: 34 km del volcán Irazú (OVSICORI)
+CR10306,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 29.8 % (SRTM) y lluvia NASA POWER
+CR10307,volcan,medio,,estimado: 23 km del volcán Irazú (OVSICORI)
+CR10307,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 28.5 % (SRTM) y lluvia NASA POWER
+CR10308,volcan,medio,,estimado: 30 km del volcán Irazú (OVSICORI)
+CR10308,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 30.2 % (SRTM) y lluvia NASA POWER
+CR10309,volcan,medio,,estimado: 33 km del volcán Irazú (OVSICORI)
+CR10309,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 25.8 % (SRTM) y lluvia NASA POWER
+CR10309,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10310,volcan,medio,,estimado: 23 km del volcán Irazú (OVSICORI)
+CR10310,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 10.6 % (SRTM) y lluvia NASA POWER
+CR10311,volcan,medio,,estimado: 27 km del volcán Irazú (OVSICORI)
+CR10311,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.5 % (SRTM) y lluvia NASA POWER
+CR10311,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10312,volcan,medio,,estimado: 25 km del volcán Irazú (OVSICORI)
+CR10312,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 8.6 % (SRTM) y lluvia NASA POWER
+CR10313,volcan,medio,,estimado: 25 km del volcán Irazú (OVSICORI)
+CR10313,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 8.6 % (SRTM) y lluvia NASA POWER
+CR10401,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 24.5 % (SRTM) y lluvia NASA POWER
+CR10401,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10402,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 33.3 % (SRTM) y lluvia NASA POWER
+CR10402,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10403,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 27.5 % (SRTM) y lluvia NASA POWER
+CR10403,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10404,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19.5 % (SRTM) y lluvia NASA POWER
+CR10404,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10405,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.1 % (SRTM) y lluvia NASA POWER
+CR10405,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10406,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 22.3 % (SRTM) y lluvia NASA POWER
+CR10406,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10407,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.7 % (SRTM) y lluvia NASA POWER
+CR10407,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10408,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.4 % (SRTM) y lluvia NASA POWER
+CR10408,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10409,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 18.9 % (SRTM) y lluvia NASA POWER
+CR10501,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 20.4 % (SRTM) y lluvia NASA POWER
+CR10502,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 36.6 % (SRTM) y lluvia NASA POWER
+CR10503,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 56.2 % (SRTM) y lluvia NASA POWER
+CR10601,volcan,medio,,estimado: 32 km del volcán Irazú (OVSICORI)
+CR10601,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 30.3 % (SRTM) y lluvia NASA POWER
+CR10601,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10602,volcan,medio,,estimado: 34 km del volcán Irazú (OVSICORI)
+CR10602,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 38.4 % (SRTM) y lluvia NASA POWER
+CR10602,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10603,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 28.9 % (SRTM) y lluvia NASA POWER
+CR10603,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10604,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 29.6 % (SRTM) y lluvia NASA POWER
+CR10604,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10605,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 45.5 % (SRTM) y lluvia NASA POWER
+CR10606,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 34.7 % (SRTM) y lluvia NASA POWER
+CR10607,volcan,medio,,estimado: 29 km del volcán Irazú (OVSICORI)
+CR10607,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.7 % (SRTM) y lluvia NASA POWER
+CR10607,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10701,volcan,medio,,estimado: 32 km del volcán Poás (OVSICORI)
+CR10701,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 24.2 % (SRTM) y lluvia NASA POWER
+CR10701,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10702,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 17.9 % (SRTM) y lluvia NASA POWER
+CR10702,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10703,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 24.5 % (SRTM) y lluvia NASA POWER
+CR10703,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10704,volcan,medio,,estimado: 35 km del volcán Poás (OVSICORI)
+CR10704,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 18.2 % (SRTM) y lluvia NASA POWER
+CR10704,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10705,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23 % (SRTM) y lluvia NASA POWER
+CR10705,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10706,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19.9 % (SRTM) y lluvia NASA POWER
+CR10706,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10707,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 31.2 % (SRTM) y lluvia NASA POWER
+CR10707,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10801,volcan,medio,,estimado: 22 km del volcán Irazú (OVSICORI)
+CR10801,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3.6 % (SRTM) y lluvia NASA POWER
+CR10802,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR10802,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.4 % (SRTM) y lluvia NASA POWER
+CR10802,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10803,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR10803,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 3.7 % (SRTM) y lluvia NASA POWER
+CR10803,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10804,volcan,alto,,estimado: 14 km del volcán Irazú (OVSICORI)
+CR10804,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.4 % (SRTM) y lluvia NASA POWER
+CR10805,volcan,alto,,estimado: 19 km del volcán Irazú (OVSICORI)
+CR10805,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 5.2 % (SRTM) y lluvia NASA POWER
+CR10806,volcan,muy_alto,,estimado: 10 km del volcán Irazú (OVSICORI)
+CR10806,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 27.5 % (SRTM) y lluvia NASA POWER
+CR10807,volcan,alto,,estimado: 18 km del volcán Irazú (OVSICORI)
+CR10807,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.2 % (SRTM) y lluvia NASA POWER
+CR10901,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR10901,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.4 % (SRTM) y lluvia NASA POWER
+CR10901,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10902,volcan,medio,,estimado: 35 km del volcán Poás (OVSICORI)
+CR10902,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 49.2 % (SRTM) y lluvia NASA POWER
+CR10902,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10903,volcan,medio,,estimado: 28 km del volcán Poás (OVSICORI)
+CR10903,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.5 % (SRTM) y lluvia NASA POWER
+CR10903,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10904,volcan,medio,,estimado: 31 km del volcán Poás (OVSICORI)
+CR10904,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.4 % (SRTM) y lluvia NASA POWER
+CR10904,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10905,volcan,medio,,estimado: 32 km del volcán Poás (OVSICORI)
+CR10905,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 28.6 % (SRTM) y lluvia NASA POWER
+CR10905,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR10906,volcan,medio,,estimado: 29 km del volcán Poás (OVSICORI)
+CR10906,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13.7 % (SRTM) y lluvia NASA POWER
+CR10906,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11001,volcan,medio,,estimado: 28 km del volcán Irazú (OVSICORI)
+CR11001,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.4 % (SRTM) y lluvia NASA POWER
+CR11001,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11002,volcan,medio,,estimado: 29 km del volcán Irazú (OVSICORI)
+CR11002,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 17.8 % (SRTM) y lluvia NASA POWER
+CR11002,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11003,volcan,medio,,estimado: 32 km del volcán Irazú (OVSICORI)
+CR11003,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 44.1 % (SRTM) y lluvia NASA POWER
+CR11003,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11004,volcan,medio,,estimado: 28 km del volcán Irazú (OVSICORI)
+CR11004,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.9 % (SRTM) y lluvia NASA POWER
+CR11004,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11005,volcan,medio,,estimado: 30 km del volcán Irazú (OVSICORI)
+CR11005,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.9 % (SRTM) y lluvia NASA POWER
+CR11005,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11101,volcan,alto,,estimado: 16 km del volcán Irazú (OVSICORI)
+CR11101,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.1 % (SRTM) y lluvia NASA POWER
+CR11102,volcan,alto,,estimado: 11 km del volcán Irazú (OVSICORI)
+CR11102,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 19.7 % (SRTM) y lluvia NASA POWER
+CR11103,volcan,alto,,estimado: 19 km del volcán Irazú (OVSICORI)
+CR11103,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 39.8 % (SRTM) y lluvia NASA POWER
+CR11104,volcan,alto,,estimado: 18 km del volcán Irazú (OVSICORI)
+CR11104,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 4.3 % (SRTM) y lluvia NASA POWER
+CR11105,volcan,alto,,estimado: 12 km del volcán Irazú (OVSICORI)
+CR11105,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 38.8 % (SRTM) y lluvia NASA POWER
+CR11201,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 33.3 % (SRTM) y lluvia NASA POWER
+CR11201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11202,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 33.4 % (SRTM) y lluvia NASA POWER
+CR11202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11203,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 31.1 % (SRTM) y lluvia NASA POWER
+CR11203,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11204,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 36.4 % (SRTM) y lluvia NASA POWER
+CR11204,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11205,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 33.7 % (SRTM) y lluvia NASA POWER
+CR11301,volcan,medio,,estimado: 25 km del volcán Irazú (OVSICORI)
+CR11301,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 2.5 % (SRTM) y lluvia NASA POWER
+CR11301,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11302,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR11302,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7 % (SRTM) y lluvia NASA POWER
+CR11302,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11303,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR11303,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 2.9 % (SRTM) y lluvia NASA POWER
+CR11303,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11304,volcan,medio,,estimado: 27 km del volcán Irazú (OVSICORI)
+CR11304,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 11.2 % (SRTM) y lluvia NASA POWER
+CR11304,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11305,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR11305,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.4 % (SRTM) y lluvia NASA POWER
+CR11305,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11401,volcan,medio,,estimado: 22 km del volcán Irazú (OVSICORI)
+CR11401,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 5.2 % (SRTM) y lluvia NASA POWER
+CR11402,volcan,alto,,estimado: 17 km del volcán Irazú (OVSICORI)
+CR11402,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 23.8 % (SRTM) y lluvia NASA POWER
+CR11403,volcan,alto,,estimado: 20 km del volcán Irazú (OVSICORI)
+CR11403,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 10.8 % (SRTM) y lluvia NASA POWER
+CR11501,volcan,medio,,estimado: 22 km del volcán Irazú (OVSICORI)
+CR11501,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 4.3 % (SRTM) y lluvia NASA POWER
+CR11502,volcan,alto,,estimado: 20 km del volcán Irazú (OVSICORI)
+CR11502,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.9 % (SRTM) y lluvia NASA POWER
+CR11503,volcan,medio,,estimado: 21 km del volcán Irazú (OVSICORI)
+CR11503,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 4.7 % (SRTM) y lluvia NASA POWER
+CR11504,volcan,alto,,estimado: 16 km del volcán Irazú (OVSICORI)
+CR11504,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.3 % (SRTM) y lluvia NASA POWER
+CR11601,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 33.5 % (SRTM) y lluvia NASA POWER
+CR11601,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11602,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.5 % (SRTM) y lluvia NASA POWER
+CR11602,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11603,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13.3 % (SRTM) y lluvia NASA POWER
+CR11603,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11604,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 28.4 % (SRTM) y lluvia NASA POWER
+CR11604,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR11605,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 23.5 % (SRTM) y lluvia NASA POWER
+CR11701,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 30.8 % (SRTM) y lluvia NASA POWER
+CR11702,volcan,medio,,estimado: 34 km del volcán Irazú (OVSICORI)
+CR11702,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 24.7 % (SRTM) y lluvia NASA POWER
+CR11703,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 37.5 % (SRTM) y lluvia NASA POWER
+CR11801,volcan,medio,,estimado: 22 km del volcán Irazú (OVSICORI)
+CR11801,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3.1 % (SRTM) y lluvia NASA POWER
+CR11802,volcan,alto,,estimado: 19 km del volcán Irazú (OVSICORI)
+CR11802,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 4.1 % (SRTM) y lluvia NASA POWER
+CR11803,volcan,alto,,estimado: 20 km del volcán Irazú (OVSICORI)
+CR11803,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 4.7 % (SRTM) y lluvia NASA POWER
+CR11804,volcan,medio,,estimado: 21 km del volcán Irazú (OVSICORI)
+CR11804,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 15.4 % (SRTM) y lluvia NASA POWER
+CR11901,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 12.7 % (SRTM) y lluvia NASA POWER
+CR11902,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 16.3 % (SRTM) y lluvia NASA POWER
+CR11903,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 8.2 % (SRTM) y lluvia NASA POWER
+CR11904,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 42.1 % (SRTM) y lluvia NASA POWER
+CR11905,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 37.2 % (SRTM) y lluvia NASA POWER
+CR11906,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 15.3 % (SRTM) y lluvia NASA POWER
+CR11907,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 17.6 % (SRTM) y lluvia NASA POWER
+CR11908,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 11.9 % (SRTM) y lluvia NASA POWER
+CR11909,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 27.7 % (SRTM) y lluvia NASA POWER
+CR11910,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 36.4 % (SRTM) y lluvia NASA POWER
+CR11911,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 37 % (SRTM) y lluvia NASA POWER
+CR11912,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 13.3 % (SRTM) y lluvia NASA POWER
+CR12001,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 20 % (SRTM) y lluvia NASA POWER
+CR12002,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 29.5 % (SRTM) y lluvia NASA POWER
+CR12003,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 37 % (SRTM) y lluvia NASA POWER
+CR12004,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 35.1 % (SRTM) y lluvia NASA POWER
+CR12005,volcan,medio,,estimado: 33 km del volcán Irazú (OVSICORI)
+CR12005,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 36.7 % (SRTM) y lluvia NASA POWER
+CR12006,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 37.4 % (SRTM) y lluvia NASA POWER
+CR20101,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR20101,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 8.5 % (SRTM) y lluvia NASA POWER
+CR20101,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20102,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR20102,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.1 % (SRTM) y lluvia NASA POWER
+CR20102,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20103,volcan,alto,,estimado: 14 km del volcán Poás (OVSICORI)
+CR20103,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13.6 % (SRTM) y lluvia NASA POWER
+CR20103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20104,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR20104,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5 % (SRTM) y lluvia NASA POWER
+CR20104,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20105,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR20105,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.8 % (SRTM) y lluvia NASA POWER
+CR20105,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20106,volcan,alto,,estimado: 13 km del volcán Poás (OVSICORI)
+CR20106,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14 % (SRTM) y lluvia NASA POWER
+CR20106,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20107,volcan,muy_alto,,estimado: 10 km del volcán Poás (OVSICORI)
+CR20107,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.7 % (SRTM) y lluvia NASA POWER
+CR20107,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20108,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR20108,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 3.5 % (SRTM) y lluvia NASA POWER
+CR20108,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20109,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR20109,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6 % (SRTM) y lluvia NASA POWER
+CR20109,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20110,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR20110,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 3.3 % (SRTM) y lluvia NASA POWER
+CR20110,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20111,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR20111,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13.5 % (SRTM) y lluvia NASA POWER
+CR20111,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20112,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR20112,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.6 % (SRTM) y lluvia NASA POWER
+CR20112,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20113,volcan,medio,,estimado: 25 km del volcán Poás (OVSICORI)
+CR20113,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.1 % (SRTM) y lluvia NASA POWER
+CR20113,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20114,volcan,alto,,estimado: 12 km del volcán Poás (OVSICORI)
+CR20114,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 26.1 % (SRTM) y lluvia NASA POWER
+CR20114,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20201,volcan,medio,,estimado: 29 km del volcán Poás (OVSICORI)
+CR20201,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.4 % (SRTM) y lluvia NASA POWER
+CR20201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20202,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.2 % (SRTM) y lluvia NASA POWER
+CR20202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20203,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR20203,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.2 % (SRTM) y lluvia NASA POWER
+CR20203,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20204,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.3 % (SRTM) y lluvia NASA POWER
+CR20204,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20205,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 22.7 % (SRTM) y lluvia NASA POWER
+CR20205,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20206,volcan,medio,,estimado: 32 km del volcán Poás (OVSICORI)
+CR20206,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.8 % (SRTM) y lluvia NASA POWER
+CR20206,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20207,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR20207,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19.3 % (SRTM) y lluvia NASA POWER
+CR20207,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20208,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR20208,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 17.8 % (SRTM) y lluvia NASA POWER
+CR20208,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20209,volcan,medio,,estimado: 32 km del volcán Poás (OVSICORI)
+CR20209,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19.1 % (SRTM) y lluvia NASA POWER
+CR20209,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20210,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR20210,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.9 % (SRTM) y lluvia NASA POWER
+CR20210,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20211,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR20211,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 15.1 % (SRTM) y lluvia NASA POWER
+CR20211,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20212,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 24.1 % (SRTM) y lluvia NASA POWER
+CR20212,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20213,volcan,alto,,estimado: 11 km del volcán Arenal (OVSICORI)
+CR20213,deslizamiento,alto,6;9;10;11,estimado: pendiente media 27.9 % (SRTM) y lluvia NASA POWER
+CR20213,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20214,volcan,medio,,estimado: 24 km del volcán Arenal (OVSICORI)
+CR20214,deslizamiento,medio,6;9;10;11,estimado: pendiente media 18.8 % (SRTM) y lluvia NASA POWER
+CR20214,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20301,volcan,alto,,estimado: 17 km del volcán Poás (OVSICORI)
+CR20301,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 11.7 % (SRTM) y lluvia NASA POWER
+CR20301,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20302,volcan,muy_alto,,estimado: 8 km del volcán Poás (OVSICORI)
+CR20302,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.9 % (SRTM) y lluvia NASA POWER
+CR20302,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20303,volcan,alto,,estimado: 12 km del volcán Poás (OVSICORI)
+CR20303,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.7 % (SRTM) y lluvia NASA POWER
+CR20303,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20304,volcan,alto,,estimado: 12 km del volcán Poás (OVSICORI)
+CR20304,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.6 % (SRTM) y lluvia NASA POWER
+CR20304,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20305,volcan,medio,,estimado: 20 km del volcán Poás (OVSICORI)
+CR20305,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.9 % (SRTM) y lluvia NASA POWER
+CR20305,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20307,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR20307,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.2 % (SRTM) y lluvia NASA POWER
+CR20307,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20308,volcan,alto,,estimado: 11 km del volcán Poás (OVSICORI)
+CR20308,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.6 % (SRTM) y lluvia NASA POWER
+CR20308,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20401,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 15.7 % (SRTM) y lluvia NASA POWER
+CR20401,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20402,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19.8 % (SRTM) y lluvia NASA POWER
+CR20402,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20403,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 15 % (SRTM) y lluvia NASA POWER
+CR20403,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20404,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.7 % (SRTM) y lluvia NASA POWER
+CR20404,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20404,inundacion,medio,5;6;7;9;10;11,estimado: zona baja (132 m) y plana (5.7 %)
+CR20501,volcan,medio,,estimado: 29 km del volcán Poás (OVSICORI)
+CR20501,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 9.4 % (SRTM) y lluvia NASA POWER
+CR20501,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20502,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 28.9 % (SRTM) y lluvia NASA POWER
+CR20502,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20503,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR20503,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 11.7 % (SRTM) y lluvia NASA POWER
+CR20503,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20504,volcan,medio,,estimado: 31 km del volcán Poás (OVSICORI)
+CR20504,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 30.7 % (SRTM) y lluvia NASA POWER
+CR20504,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20505,volcan,medio,,estimado: 31 km del volcán Poás (OVSICORI)
+CR20505,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 15.1 % (SRTM) y lluvia NASA POWER
+CR20505,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20506,volcan,medio,,estimado: 28 km del volcán Poás (OVSICORI)
+CR20506,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 15.7 % (SRTM) y lluvia NASA POWER
+CR20506,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20507,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR20507,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.6 % (SRTM) y lluvia NASA POWER
+CR20507,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20508,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 33.8 % (SRTM) y lluvia NASA POWER
+CR20508,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20601,volcan,medio,,estimado: 20 km del volcán Poás (OVSICORI)
+CR20601,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.6 % (SRTM) y lluvia NASA POWER
+CR20601,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20602,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR20602,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.5 % (SRTM) y lluvia NASA POWER
+CR20602,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20603,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR20603,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.4 % (SRTM) y lluvia NASA POWER
+CR20603,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20604,volcan,alto,,estimado: 16 km del volcán Poás (OVSICORI)
+CR20604,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 27.9 % (SRTM) y lluvia NASA POWER
+CR20604,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20605,volcan,alto,,estimado: 16 km del volcán Poás (OVSICORI)
+CR20605,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.6 % (SRTM) y lluvia NASA POWER
+CR20605,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20606,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR20606,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 12.6 % (SRTM) y lluvia NASA POWER
+CR20606,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20607,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR20607,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 21.5 % (SRTM) y lluvia NASA POWER
+CR20607,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20608,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR20608,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 12.5 % (SRTM) y lluvia NASA POWER
+CR20608,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20701,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR20701,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 2.9 % (SRTM) y lluvia NASA POWER
+CR20701,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20702,volcan,medio,,estimado: 31 km del volcán Poás (OVSICORI)
+CR20702,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 21.2 % (SRTM) y lluvia NASA POWER
+CR20702,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20703,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR20703,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14 % (SRTM) y lluvia NASA POWER
+CR20703,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20704,volcan,medio,,estimado: 31 km del volcán Poás (OVSICORI)
+CR20704,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 24 % (SRTM) y lluvia NASA POWER
+CR20704,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20705,volcan,medio,,estimado: 29 km del volcán Poás (OVSICORI)
+CR20705,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.2 % (SRTM) y lluvia NASA POWER
+CR20705,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20706,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR20706,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 8.7 % (SRTM) y lluvia NASA POWER
+CR20706,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20707,volcan,medio,,estimado: 28 km del volcán Poás (OVSICORI)
+CR20707,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.3 % (SRTM) y lluvia NASA POWER
+CR20707,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20801,volcan,alto,,estimado: 13 km del volcán Poás (OVSICORI)
+CR20801,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13.2 % (SRTM) y lluvia NASA POWER
+CR20801,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20802,volcan,muy_alto,,estimado: 7 km del volcán Poás (OVSICORI)
+CR20802,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.1 % (SRTM) y lluvia NASA POWER
+CR20802,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20803,volcan,alto,,estimado: 12 km del volcán Poás (OVSICORI)
+CR20803,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 10.6 % (SRTM) y lluvia NASA POWER
+CR20803,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20804,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR20804,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.6 % (SRTM) y lluvia NASA POWER
+CR20804,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20805,volcan,muy_alto,,estimado: 6 km del volcán Poás (OVSICORI)
+CR20805,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19.9 % (SRTM) y lluvia NASA POWER
+CR20805,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20901,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 9.6 % (SRTM) y lluvia NASA POWER
+CR20901,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20902,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 9.2 % (SRTM) y lluvia NASA POWER
+CR20902,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20903,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 21.4 % (SRTM) y lluvia NASA POWER
+CR20903,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20904,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.4 % (SRTM) y lluvia NASA POWER
+CR20904,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20904,inundacion,medio,5;6;7;9;10;11,estimado: zona baja (112 m) y plana (5.4 %)
+CR20905,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.7 % (SRTM) y lluvia NASA POWER
+CR20905,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR20905,inundacion,medio,5;6;7;9;10;11,estimado: zona baja (73 m) y plana (5.7 %)
+CR21001,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR21001,deslizamiento,medio,6;9;10;11,estimado: pendiente media 16.8 % (SRTM) y lluvia NASA POWER
+CR21001,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21002,volcan,medio,,estimado: 26 km del volcán Arenal (OVSICORI)
+CR21002,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 6.3 % (SRTM) y lluvia NASA POWER
+CR21002,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21003,volcan,medio,,estimado: 28 km del volcán Poás (OVSICORI)
+CR21003,deslizamiento,alto,6;9;10;11,estimado: pendiente media 22.4 % (SRTM) y lluvia NASA POWER
+CR21003,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21004,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR21004,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 4.9 % (SRTM) y lluvia NASA POWER
+CR21004,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21005,volcan,alto,,estimado: 16 km del volcán Poás (OVSICORI)
+CR21005,deslizamiento,alto,6;9;10;11,estimado: pendiente media 21.4 % (SRTM) y lluvia NASA POWER
+CR21005,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21006,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 3.8 % (SRTM) y lluvia NASA POWER
+CR21006,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21006,inundacion,medio,6;9;10;11,estimado: zona baja (88 m) y plana (3.8 %)
+CR21007,volcan,muy_alto,,estimado: 2 km del volcán Arenal (OVSICORI)
+CR21007,deslizamiento,medio,6;9;10;11,estimado: pendiente media 14.6 % (SRTM) y lluvia NASA POWER
+CR21007,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21008,volcan,alto,,estimado: 18 km del volcán Arenal (OVSICORI)
+CR21008,deslizamiento,medio,6;9;10;11,estimado: pendiente media 13.7 % (SRTM) y lluvia NASA POWER
+CR21008,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21009,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR21009,deslizamiento,medio,6;9;10;11,estimado: pendiente media 17 % (SRTM) y lluvia NASA POWER
+CR21009,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21010,volcan,alto,,estimado: 14 km del volcán Arenal (OVSICORI)
+CR21010,deslizamiento,medio,6;9;10;11,estimado: pendiente media 12.1 % (SRTM) y lluvia NASA POWER
+CR21010,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21011,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 5.9 % (SRTM) y lluvia NASA POWER
+CR21011,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21011,inundacion,medio,6;9;10;11,estimado: zona baja (93 m) y plana (5.9 %)
+CR21012,volcan,alto,,estimado: 15 km del volcán Arenal (OVSICORI)
+CR21012,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 6.9 % (SRTM) y lluvia NASA POWER
+CR21012,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21013,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 4.5 % (SRTM) y lluvia NASA POWER
+CR21013,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21013,inundacion,medio,6;9;10;11,estimado: zona baja (79 m) y plana (4.5 %)
+CR21101,volcan,alto,,estimado: 16 km del volcán Poás (OVSICORI)
+CR21101,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 23.8 % (SRTM) y lluvia NASA POWER
+CR21101,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21102,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR21102,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.6 % (SRTM) y lluvia NASA POWER
+CR21102,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21103,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR21103,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 22.3 % (SRTM) y lluvia NASA POWER
+CR21103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21104,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR21104,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.9 % (SRTM) y lluvia NASA POWER
+CR21104,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21105,volcan,alto,,estimado: 13 km del volcán Poás (OVSICORI)
+CR21105,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 14.5 % (SRTM) y lluvia NASA POWER
+CR21105,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21106,volcan,medio,,estimado: 25 km del volcán Poás (OVSICORI)
+CR21106,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 20.8 % (SRTM) y lluvia NASA POWER
+CR21106,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21107,volcan,alto,,estimado: 17 km del volcán Poás (OVSICORI)
+CR21107,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 21.2 % (SRTM) y lluvia NASA POWER
+CR21107,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21201,volcan,alto,,estimado: 14 km del volcán Poás (OVSICORI)
+CR21201,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 17.3 % (SRTM) y lluvia NASA POWER
+CR21201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21202,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR21202,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 17.5 % (SRTM) y lluvia NASA POWER
+CR21202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21203,volcan,muy_alto,,estimado: 6 km del volcán Poás (OVSICORI)
+CR21203,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 25.3 % (SRTM) y lluvia NASA POWER
+CR21203,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21204,volcan,alto,,estimado: 12 km del volcán Poás (OVSICORI)
+CR21204,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 11.8 % (SRTM) y lluvia NASA POWER
+CR21204,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21205,volcan,alto,,estimado: 16 km del volcán Poás (OVSICORI)
+CR21205,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 19 % (SRTM) y lluvia NASA POWER
+CR21205,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21301,deslizamiento,bajo,9;10;11,estimado: pendiente media 3.7 % (SRTM) y lluvia NASA POWER
+CR21301,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21301,inundacion,medio,9;10;11,estimado: zona baja (84 m) y plana (3.7 %)
+CR21302,volcan,muy_alto,,estimado: 8 km del volcán Rincón de la Vieja (OVSICORI)
+CR21302,deslizamiento,medio,9;10;11,estimado: pendiente media 16.9 % (SRTM) y lluvia NASA POWER
+CR21302,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21303,volcan,medio,,estimado: 21 km del volcán Rincón de la Vieja (OVSICORI)
+CR21303,deslizamiento,bajo,9;10;11,estimado: pendiente media 6.5 % (SRTM) y lluvia NASA POWER
+CR21303,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21304,volcan,medio,,estimado: 31 km del volcán Rincón de la Vieja (OVSICORI)
+CR21304,deslizamiento,medio,6;9;10;11,estimado: pendiente media 17.2 % (SRTM) y lluvia NASA POWER
+CR21304,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21305,volcan,medio,,estimado: 33 km del volcán Rincón de la Vieja (OVSICORI)
+CR21305,deslizamiento,bajo,9;10;11,estimado: pendiente media 2.2 % (SRTM) y lluvia NASA POWER
+CR21305,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21305,inundacion,alto,9;10;11,estimado: zona baja (47 m) y plana (2.2 %)
+CR21306,volcan,alto,,estimado: 13 km del volcán Rincón de la Vieja (OVSICORI)
+CR21306,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 11.2 % (SRTM) y lluvia NASA POWER
+CR21306,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21307,deslizamiento,bajo,9;10;11,estimado: pendiente media 2.6 % (SRTM) y lluvia NASA POWER
+CR21307,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21307,inundacion,alto,9;10;11,estimado: zona baja (46 m) y plana (2.6 %)
+CR21308,volcan,medio,,estimado: 29 km del volcán Rincón de la Vieja (OVSICORI)
+CR21308,deslizamiento,bajo,9;10;11,estimado: pendiente media 10.5 % (SRTM) y lluvia NASA POWER
+CR21308,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21401,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 3.7 % (SRTM) y lluvia NASA POWER
+CR21401,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21401,inundacion,alto,6;7;9;10;11,estimado: zona baja (48 m) y plana (3.7 %)
+CR21402,deslizamiento,bajo,9;10;11,estimado: pendiente media 1.3 % (SRTM) y lluvia NASA POWER
+CR21402,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21402,inundacion,alto,9;10;11,estimado: zona baja (44 m) y plana (1.3 %)
+CR21403,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 3.4 % (SRTM) y lluvia NASA POWER
+CR21403,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21403,inundacion,medio,6;9;10;11,estimado: zona baja (59 m) y plana (3.4 %)
+CR21404,volcan,medio,,estimado: 30 km del volcán Arenal (OVSICORI)
+CR21404,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 3.5 % (SRTM) y lluvia NASA POWER
+CR21404,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21404,inundacion,medio,6;9;10;11,estimado: zona baja (89 m) y plana (3.5 %)
+CR21501,volcan,medio,,estimado: 26 km del volcán Arenal (OVSICORI)
+CR21501,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 5.6 % (SRTM) y lluvia NASA POWER
+CR21501,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21501,inundacion,medio,6;9;10;11,estimado: zona baja (124 m) y plana (5.6 %)
+CR21502,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 2.2 % (SRTM) y lluvia NASA POWER
+CR21502,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21502,inundacion,medio,6;9;10;11,estimado: zona baja (58 m) y plana (2.2 %)
+CR21503,volcan,medio,,estimado: 28 km del volcán Arenal (OVSICORI)
+CR21503,deslizamiento,medio,6;9;10;11,estimado: pendiente media 17.1 % (SRTM) y lluvia NASA POWER
+CR21503,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21504,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 10.4 % (SRTM) y lluvia NASA POWER
+CR21504,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21601,volcan,alto,,estimado: 13 km del volcán Poás (OVSICORI)
+CR21601,deslizamiento,medio,6;9;10;11,estimado: pendiente media 15.4 % (SRTM) y lluvia NASA POWER
+CR21601,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21602,volcan,medio,,estimado: 23 km del volcán Poás (OVSICORI)
+CR21602,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 2.6 % (SRTM) y lluvia NASA POWER
+CR21602,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21603,volcan,medio,,estimado: 34 km del volcán Poás (OVSICORI)
+CR21603,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 3.9 % (SRTM) y lluvia NASA POWER
+CR21603,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR21603,inundacion,medio,6;9;10;11,estimado: zona baja (139 m) y plana (3.9 %)
+CR30101,volcan,alto,,estimado: 15 km del volcán Irazú (OVSICORI)
+CR30101,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 4.8 % (SRTM) y lluvia NASA POWER
+CR30102,volcan,alto,,estimado: 15 km del volcán Irazú (OVSICORI)
+CR30102,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 2.9 % (SRTM) y lluvia NASA POWER
+CR30103,volcan,alto,,estimado: 13 km del volcán Irazú (OVSICORI)
+CR30103,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 9 % (SRTM) y lluvia NASA POWER
+CR30104,volcan,alto,,estimado: 13 km del volcán Irazú (OVSICORI)
+CR30104,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 19.7 % (SRTM) y lluvia NASA POWER
+CR30105,volcan,medio,,estimado: 28 km del volcán Irazú (OVSICORI)
+CR30105,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 24.3 % (SRTM) y lluvia NASA POWER
+CR30106,volcan,alto,,estimado: 17 km del volcán Irazú (OVSICORI)
+CR30106,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 16.5 % (SRTM) y lluvia NASA POWER
+CR30107,volcan,medio,,estimado: 31 km del volcán Irazú (OVSICORI)
+CR30107,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 24.5 % (SRTM) y lluvia NASA POWER
+CR30108,volcan,muy_alto,,estimado: 7 km del volcán Irazú (OVSICORI)
+CR30108,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 18.1 % (SRTM) y lluvia NASA POWER
+CR30109,volcan,medio,,estimado: 34 km del volcán Irazú (OVSICORI)
+CR30109,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 23.5 % (SRTM) y lluvia NASA POWER
+CR30110,volcan,muy_alto,,estimado: 9 km del volcán Irazú (OVSICORI)
+CR30110,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 16 % (SRTM) y lluvia NASA POWER
+CR30111,volcan,medio,,estimado: 21 km del volcán Irazú (OVSICORI)
+CR30111,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 20.6 % (SRTM) y lluvia NASA POWER
+CR30201,volcan,alto,,estimado: 16 km del volcán Irazú (OVSICORI)
+CR30201,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 15 % (SRTM) y lluvia NASA POWER
+CR30202,volcan,alto,,estimado: 13 km del volcán Irazú (OVSICORI)
+CR30202,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 15.9 % (SRTM) y lluvia NASA POWER
+CR30203,volcan,medio,,estimado: 35 km del volcán Irazú (OVSICORI)
+CR30203,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 32.3 % (SRTM) y lluvia NASA POWER
+CR30204,volcan,alto,,estimado: 18 km del volcán Irazú (OVSICORI)
+CR30204,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 38.7 % (SRTM) y lluvia NASA POWER
+CR30205,volcan,alto,,estimado: 15 km del volcán Irazú (OVSICORI)
+CR30205,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3 % (SRTM) y lluvia NASA POWER
+CR30206,volcan,alto,,estimado: 13 km del volcán Irazú (OVSICORI)
+CR30206,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 13.5 % (SRTM) y lluvia NASA POWER
+CR30301,volcan,alto,,estimado: 17 km del volcán Irazú (OVSICORI)
+CR30301,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 5.9 % (SRTM) y lluvia NASA POWER
+CR30302,volcan,alto,,estimado: 18 km del volcán Irazú (OVSICORI)
+CR30302,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 26.4 % (SRTM) y lluvia NASA POWER
+CR30303,volcan,alto,,estimado: 18 km del volcán Irazú (OVSICORI)
+CR30303,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 5.2 % (SRTM) y lluvia NASA POWER
+CR30304,volcan,alto,,estimado: 15 km del volcán Irazú (OVSICORI)
+CR30304,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 18.4 % (SRTM) y lluvia NASA POWER
+CR30305,volcan,alto,,estimado: 17 km del volcán Irazú (OVSICORI)
+CR30305,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.9 % (SRTM) y lluvia NASA POWER
+CR30306,volcan,alto,,estimado: 13 km del volcán Irazú (OVSICORI)
+CR30306,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 17 % (SRTM) y lluvia NASA POWER
+CR30307,volcan,alto,,estimado: 16 km del volcán Irazú (OVSICORI)
+CR30307,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 10.6 % (SRTM) y lluvia NASA POWER
+CR30308,volcan,medio,,estimado: 21 km del volcán Irazú (OVSICORI)
+CR30308,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 10.5 % (SRTM) y lluvia NASA POWER
+CR30401,volcan,alto,,estimado: 14 km del volcán Irazú (OVSICORI)
+CR30401,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 25.9 % (SRTM) y lluvia NASA POWER
+CR30402,volcan,alto,,estimado: 20 km del volcán Irazú (OVSICORI)
+CR30402,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 32.1 % (SRTM) y lluvia NASA POWER
+CR30403,volcan,medio,,estimado: 30 km del volcán Turrialba (OVSICORI)
+CR30403,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 32.1 % (SRTM) y lluvia NASA POWER
+CR30404,volcan,alto,,estimado: 12 km del volcán Turrialba (OVSICORI)
+CR30404,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 34.2 % (SRTM) y lluvia NASA POWER
+CR30501,volcan,alto,,estimado: 18 km del volcán Turrialba (OVSICORI)
+CR30501,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 14.2 % (SRTM) y lluvia NASA POWER
+CR30502,volcan,medio,,estimado: 33 km del volcán Turrialba (OVSICORI)
+CR30502,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 22.2 % (SRTM) y lluvia NASA POWER
+CR30503,volcan,alto,,estimado: 17 km del volcán Turrialba (OVSICORI)
+CR30503,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 28.8 % (SRTM) y lluvia NASA POWER
+CR30504,volcan,muy_alto,,estimado: 2 km del volcán Turrialba (OVSICORI)
+CR30504,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 35.3 % (SRTM) y lluvia NASA POWER
+CR30505,volcan,alto,,estimado: 12 km del volcán Turrialba (OVSICORI)
+CR30505,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 26.8 % (SRTM) y lluvia NASA POWER
+CR30506,volcan,medio,,estimado: 20 km del volcán Turrialba (OVSICORI)
+CR30506,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 15.6 % (SRTM) y lluvia NASA POWER
+CR30507,volcan,medio,,estimado: 29 km del volcán Turrialba (OVSICORI)
+CR30507,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 29.9 % (SRTM) y lluvia NASA POWER
+CR30508,volcan,medio,,estimado: 34 km del volcán Turrialba (OVSICORI)
+CR30508,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 44.5 % (SRTM) y lluvia NASA POWER
+CR30509,volcan,alto,,estimado: 11 km del volcán Turrialba (OVSICORI)
+CR30509,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 31 % (SRTM) y lluvia NASA POWER
+CR30510,volcan,medio,,estimado: 24 km del volcán Turrialba (OVSICORI)
+CR30510,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 26.5 % (SRTM) y lluvia NASA POWER
+CR30511,volcan,alto,,estimado: 16 km del volcán Turrialba (OVSICORI)
+CR30511,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 17.4 % (SRTM) y lluvia NASA POWER
+CR30512,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 36.8 % (SRTM) y lluvia NASA POWER
+CR30601,volcan,muy_alto,,estimado: 6 km del volcán Irazú (OVSICORI)
+CR30601,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 23.2 % (SRTM) y lluvia NASA POWER
+CR30602,volcan,alto,,estimado: 11 km del volcán Irazú (OVSICORI)
+CR30602,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 13.7 % (SRTM) y lluvia NASA POWER
+CR30603,volcan,muy_alto,,estimado: 8 km del volcán Irazú (OVSICORI)
+CR30603,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 34.8 % (SRTM) y lluvia NASA POWER
+CR30701,volcan,alto,,estimado: 13 km del volcán Irazú (OVSICORI)
+CR30701,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 13.9 % (SRTM) y lluvia NASA POWER
+CR30702,volcan,alto,,estimado: 10 km del volcán Irazú (OVSICORI)
+CR30702,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 13.5 % (SRTM) y lluvia NASA POWER
+CR30703,volcan,muy_alto,,estimado: 6 km del volcán Irazú (OVSICORI)
+CR30703,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 15.6 % (SRTM) y lluvia NASA POWER
+CR30704,volcan,muy_alto,,estimado: 10 km del volcán Irazú (OVSICORI)
+CR30704,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 10.3 % (SRTM) y lluvia NASA POWER
+CR30705,volcan,muy_alto,,estimado: 5 km del volcán Irazú (OVSICORI)
+CR30705,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 51.2 % (SRTM) y lluvia NASA POWER
+CR30801,volcan,alto,,estimado: 18 km del volcán Irazú (OVSICORI)
+CR30801,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 1.5 % (SRTM) y lluvia NASA POWER
+CR30802,volcan,medio,,estimado: 29 km del volcán Irazú (OVSICORI)
+CR30802,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 23.3 % (SRTM) y lluvia NASA POWER
+CR30803,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR30803,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 26.1 % (SRTM) y lluvia NASA POWER
+CR30804,volcan,medio,,estimado: 27 km del volcán Irazú (OVSICORI)
+CR30804,deslizamiento,muy_alto,4;5;6;7;8;9;10;11,estimado: pendiente media 35.7 % (SRTM) y lluvia NASA POWER
+CR40101,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR40101,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.4 % (SRTM) y lluvia NASA POWER
+CR40101,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40102,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR40102,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.8 % (SRTM) y lluvia NASA POWER
+CR40102,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40103,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR40103,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.6 % (SRTM) y lluvia NASA POWER
+CR40103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40104,volcan,medio,,estimado: 27 km del volcán Poás (OVSICORI)
+CR40104,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7 % (SRTM) y lluvia NASA POWER
+CR40104,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40105,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR40105,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 24.6 % (SRTM) y lluvia NASA POWER
+CR40105,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40201,volcan,medio,,estimado: 23 km del volcán Poás (OVSICORI)
+CR40201,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.4 % (SRTM) y lluvia NASA POWER
+CR40201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40202,volcan,medio,,estimado: 21 km del volcán Poás (OVSICORI)
+CR40202,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 8.1 % (SRTM) y lluvia NASA POWER
+CR40202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40203,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR40203,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 9.1 % (SRTM) y lluvia NASA POWER
+CR40203,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40204,volcan,medio,,estimado: 23 km del volcán Poás (OVSICORI)
+CR40204,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.6 % (SRTM) y lluvia NASA POWER
+CR40204,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40205,volcan,medio,,estimado: 23 km del volcán Poás (OVSICORI)
+CR40205,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.4 % (SRTM) y lluvia NASA POWER
+CR40205,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40206,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR40206,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.7 % (SRTM) y lluvia NASA POWER
+CR40206,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40207,volcan,medio,,estimado: 20 km del volcán Poás (OVSICORI)
+CR40207,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 12.9 % (SRTM) y lluvia NASA POWER
+CR40207,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40301,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR40301,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.3 % (SRTM) y lluvia NASA POWER
+CR40301,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40302,volcan,medio,,estimado: 25 km del volcán Irazú (OVSICORI)
+CR40302,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 2.7 % (SRTM) y lluvia NASA POWER
+CR40302,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40303,volcan,medio,,estimado: 22 km del volcán Irazú (OVSICORI)
+CR40303,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 8.6 % (SRTM) y lluvia NASA POWER
+CR40304,volcan,alto,,estimado: 19 km del volcán Irazú (OVSICORI)
+CR40304,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 6.3 % (SRTM) y lluvia NASA POWER
+CR40305,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR40305,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.5 % (SRTM) y lluvia NASA POWER
+CR40305,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40306,volcan,medio,,estimado: 27 km del volcán Irazú (OVSICORI)
+CR40306,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.4 % (SRTM) y lluvia NASA POWER
+CR40306,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40307,volcan,medio,,estimado: 23 km del volcán Irazú (OVSICORI)
+CR40307,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 5.1 % (SRTM) y lluvia NASA POWER
+CR40308,volcan,medio,,estimado: 20 km del volcán Irazú (OVSICORI)
+CR40308,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 9.3 % (SRTM) y lluvia NASA POWER
+CR40401,volcan,alto,,estimado: 20 km del volcán Poás (OVSICORI)
+CR40401,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.8 % (SRTM) y lluvia NASA POWER
+CR40401,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40402,volcan,medio,,estimado: 20 km del volcán Poás (OVSICORI)
+CR40402,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.5 % (SRTM) y lluvia NASA POWER
+CR40402,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40403,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR40403,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.3 % (SRTM) y lluvia NASA POWER
+CR40403,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40404,volcan,alto,,estimado: 19 km del volcán Poás (OVSICORI)
+CR40404,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 12.3 % (SRTM) y lluvia NASA POWER
+CR40404,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40405,volcan,alto,,estimado: 14 km del volcán Poás (OVSICORI)
+CR40405,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 24.3 % (SRTM) y lluvia NASA POWER
+CR40405,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40406,volcan,alto,,estimado: 17 km del volcán Poás (OVSICORI)
+CR40406,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 9.8 % (SRTM) y lluvia NASA POWER
+CR40406,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40501,volcan,medio,,estimado: 25 km del volcán Poás (OVSICORI)
+CR40501,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 3.5 % (SRTM) y lluvia NASA POWER
+CR40501,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40502,volcan,medio,,estimado: 25 km del volcán Poás (OVSICORI)
+CR40502,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.1 % (SRTM) y lluvia NASA POWER
+CR40502,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40503,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR40503,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.4 % (SRTM) y lluvia NASA POWER
+CR40503,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40504,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR40504,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 12.2 % (SRTM) y lluvia NASA POWER
+CR40504,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40505,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR40505,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 21.3 % (SRTM) y lluvia NASA POWER
+CR40505,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40601,volcan,medio,,estimado: 22 km del volcán Irazú (OVSICORI)
+CR40601,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 5.8 % (SRTM) y lluvia NASA POWER
+CR40602,volcan,alto,,estimado: 19 km del volcán Irazú (OVSICORI)
+CR40602,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 7.5 % (SRTM) y lluvia NASA POWER
+CR40603,volcan,medio,,estimado: 21 km del volcán Irazú (OVSICORI)
+CR40603,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 21.2 % (SRTM) y lluvia NASA POWER
+CR40604,volcan,medio,,estimado: 24 km del volcán Irazú (OVSICORI)
+CR40604,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7 % (SRTM) y lluvia NASA POWER
+CR40604,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40701,volcan,medio,,estimado: 25 km del volcán Poás (OVSICORI)
+CR40701,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.8 % (SRTM) y lluvia NASA POWER
+CR40701,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40702,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR40702,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.9 % (SRTM) y lluvia NASA POWER
+CR40702,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40703,volcan,medio,,estimado: 26 km del volcán Poás (OVSICORI)
+CR40703,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.8 % (SRTM) y lluvia NASA POWER
+CR40703,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40801,volcan,medio,,estimado: 23 km del volcán Poás (OVSICORI)
+CR40801,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.4 % (SRTM) y lluvia NASA POWER
+CR40801,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40802,volcan,medio,,estimado: 22 km del volcán Poás (OVSICORI)
+CR40802,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.3 % (SRTM) y lluvia NASA POWER
+CR40802,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40803,volcan,medio,,estimado: 24 km del volcán Poás (OVSICORI)
+CR40803,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 3.2 % (SRTM) y lluvia NASA POWER
+CR40803,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40901,volcan,medio,,estimado: 26 km del volcán Irazú (OVSICORI)
+CR40901,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.3 % (SRTM) y lluvia NASA POWER
+CR40901,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR40902,volcan,medio,,estimado: 28 km del volcán Irazú (OVSICORI)
+CR40902,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 6.2 % (SRTM) y lluvia NASA POWER
+CR40902,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR41001,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3.2 % (SRTM) y lluvia NASA POWER
+CR41001,inundacion,alto,4;5;6;7;8;9;10;11,estimado: zona baja (46 m) y plana (3.2 %)
+CR41002,volcan,medio,,estimado: 30 km del volcán Poás (OVSICORI)
+CR41002,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 8.2 % (SRTM) y lluvia NASA POWER
+CR41002,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR41003,volcan,medio,,estimado: 34 km del volcán Poás (OVSICORI)
+CR41003,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 12.3 % (SRTM) y lluvia NASA POWER
+CR41004,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 3.7 % (SRTM) y lluvia NASA POWER
+CR41004,inundacion,alto,4;5;6;7;8;9;10;11;12,estimado: zona baja (30 m) y plana (3.7 %)
+CR41005,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.7 % (SRTM) y lluvia NASA POWER
+CR41005,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR41005,inundacion,medio,5;6;7;9;10;11,estimado: zona baja (59 m) y plana (5.7 %)
+CR50101,volcan,medio,,estimado: 27 km del volcán Rincón de la Vieja (OVSICORI)
+CR50101,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 4.7 % (SRTM) y lluvia NASA POWER
+CR50101,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50101,inundacion,medio,6;7;9;10;11,estimado: zona baja (128 m) y plana (4.7 %)
+CR50102,volcan,alto,,estimado: 17 km del volcán Rincón de la Vieja (OVSICORI)
+CR50102,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 7.2 % (SRTM) y lluvia NASA POWER
+CR50102,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50103,volcan,alto,,estimado: 19 km del volcán Rincón de la Vieja (OVSICORI)
+CR50103,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 9.5 % (SRTM) y lluvia NASA POWER
+CR50103,sequia,alto,1;2;3;4;12,estimado: 5 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50104,volcan,medio,,estimado: 33 km del volcán Rincón de la Vieja (OVSICORI)
+CR50104,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 5.8 % (SRTM) y lluvia NASA POWER
+CR50104,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50105,volcan,alto,,estimado: 13 km del volcán Rincón de la Vieja (OVSICORI)
+CR50105,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 8.9 % (SRTM) y lluvia NASA POWER
+CR50105,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50201,deslizamiento,alto,6;7;9;10;11,estimado: pendiente media 21.9 % (SRTM) y lluvia NASA POWER
+CR50201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50202,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 14.5 % (SRTM) y lluvia NASA POWER
+CR50202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50203,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 6.8 % (SRTM) y lluvia NASA POWER
+CR50203,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50204,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 9.5 % (SRTM) y lluvia NASA POWER
+CR50204,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50205,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 10.6 % (SRTM) y lluvia NASA POWER
+CR50205,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50206,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 19.2 % (SRTM) y lluvia NASA POWER
+CR50206,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50207,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 18.5 % (SRTM) y lluvia NASA POWER
+CR50207,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50301,deslizamiento,alto,6;7;9;10;11,estimado: pendiente media 21.1 % (SRTM) y lluvia NASA POWER
+CR50301,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50302,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 1.1 % (SRTM) y lluvia NASA POWER
+CR50302,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50302,inundacion,alto,6;7;9;10;11,estimado: zona baja (11 m) y plana (1.1 %)
+CR50303,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 12.8 % (SRTM) y lluvia NASA POWER
+CR50303,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50304,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 15.1 % (SRTM) y lluvia NASA POWER
+CR50304,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50305,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 6.1 % (SRTM) y lluvia NASA POWER
+CR50305,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50306,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 16.9 % (SRTM) y lluvia NASA POWER
+CR50306,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50307,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 9.7 % (SRTM) y lluvia NASA POWER
+CR50307,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50308,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 15.1 % (SRTM) y lluvia NASA POWER
+CR50308,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50309,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 8.8 % (SRTM) y lluvia NASA POWER
+CR50309,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50401,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 3.4 % (SRTM) y lluvia NASA POWER
+CR50401,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50401,inundacion,medio,6;9;10;11,estimado: zona baja (60 m) y plana (3.4 %)
+CR50402,volcan,medio,,estimado: 26 km del volcán Rincón de la Vieja (OVSICORI)
+CR50402,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 10.5 % (SRTM) y lluvia NASA POWER
+CR50402,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50403,volcan,alto,,estimado: 15 km del volcán Rincón de la Vieja (OVSICORI)
+CR50403,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 8.7 % (SRTM) y lluvia NASA POWER
+CR50403,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50404,volcan,medio,,estimado: 30 km del volcán Rincón de la Vieja (OVSICORI)
+CR50404,deslizamiento,medio,6;9;10;11,estimado: pendiente media 13.7 % (SRTM) y lluvia NASA POWER
+CR50404,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50501,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 4.1 % (SRTM) y lluvia NASA POWER
+CR50501,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50501,inundacion,medio,6;7;9;10;11,estimado: zona baja (18 m) y plana (4.1 %)
+CR50502,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 1.1 % (SRTM) y lluvia NASA POWER
+CR50502,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50502,inundacion,alto,6;7;9;10;11,estimado: zona baja (30 m) y plana (1.1 %)
+CR50503,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 15.6 % (SRTM) y lluvia NASA POWER
+CR50503,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50504,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 6.6 % (SRTM) y lluvia NASA POWER
+CR50504,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50601,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 8 % (SRTM) y lluvia NASA POWER
+CR50601,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50602,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 11.2 % (SRTM) y lluvia NASA POWER
+CR50602,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50603,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 9.1 % (SRTM) y lluvia NASA POWER
+CR50603,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50604,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 2.8 % (SRTM) y lluvia NASA POWER
+CR50604,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50604,inundacion,alto,6;9;10;11,estimado: zona baja (21 m) y plana (2.8 %)
+CR50605,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 4 % (SRTM) y lluvia NASA POWER
+CR50605,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50605,inundacion,medio,6;9;10;11,estimado: zona baja (32 m) y plana (4 %)
+CR50701,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 8.9 % (SRTM) y lluvia NASA POWER
+CR50701,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50702,volcan,medio,,estimado: 26 km del volcán Arenal (OVSICORI)
+CR50702,deslizamiento,alto,6;9;10;11,estimado: pendiente media 21.3 % (SRTM) y lluvia NASA POWER
+CR50702,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50703,deslizamiento,medio,5;6;9;10;11,estimado: pendiente media 18.6 % (SRTM) y lluvia NASA POWER
+CR50703,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50704,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 5.1 % (SRTM) y lluvia NASA POWER
+CR50704,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50704,inundacion,medio,5;6;9;10;11,estimado: zona baja (30 m) y plana (5.1 %)
+CR50801,volcan,medio,,estimado: 27 km del volcán Arenal (OVSICORI)
+CR50801,deslizamiento,medio,6;9;10;11,estimado: pendiente media 12 % (SRTM) y lluvia NASA POWER
+CR50801,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50802,volcan,medio,,estimado: 25 km del volcán Arenal (OVSICORI)
+CR50802,deslizamiento,alto,6;9;10;11,estimado: pendiente media 20.2 % (SRTM) y lluvia NASA POWER
+CR50802,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50803,volcan,alto,,estimado: 14 km del volcán Arenal (OVSICORI)
+CR50803,deslizamiento,alto,6;9;10;11,estimado: pendiente media 24.6 % (SRTM) y lluvia NASA POWER
+CR50803,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50804,volcan,medio,,estimado: 33 km del volcán Arenal (OVSICORI)
+CR50804,deslizamiento,medio,6;9;10;11,estimado: pendiente media 12 % (SRTM) y lluvia NASA POWER
+CR50804,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50805,volcan,medio,,estimado: 32 km del volcán Arenal (OVSICORI)
+CR50805,deslizamiento,alto,6;9;10;11,estimado: pendiente media 26.9 % (SRTM) y lluvia NASA POWER
+CR50805,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50806,deslizamiento,medio,6;9;10;11,estimado: pendiente media 17.7 % (SRTM) y lluvia NASA POWER
+CR50806,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50807,volcan,alto,,estimado: 19 km del volcán Arenal (OVSICORI)
+CR50807,deslizamiento,bajo,6;9;10;11,estimado: pendiente media 11.2 % (SRTM) y lluvia NASA POWER
+CR50807,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50808,volcan,medio,,estimado: 21 km del volcán Arenal (OVSICORI)
+CR50808,deslizamiento,alto,6;9;10;11,estimado: pendiente media 24.1 % (SRTM) y lluvia NASA POWER
+CR50808,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50901,deslizamiento,alto,5;6;9;10;11,estimado: pendiente media 27.5 % (SRTM) y lluvia NASA POWER
+CR50901,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50902,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 26.6 % (SRTM) y lluvia NASA POWER
+CR50902,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50903,deslizamiento,alto,6;7;9;10;11,estimado: pendiente media 27.2 % (SRTM) y lluvia NASA POWER
+CR50903,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50904,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 8.4 % (SRTM) y lluvia NASA POWER
+CR50904,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50905,deslizamiento,alto,5;6;9;10;11,estimado: pendiente media 27.5 % (SRTM) y lluvia NASA POWER
+CR50905,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR50906,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 17.9 % (SRTM) y lluvia NASA POWER
+CR50906,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51001,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 10 % (SRTM) y lluvia NASA POWER
+CR51001,sequia,alto,1;2;3;4;12,estimado: 5 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51002,volcan,medio,,estimado: 24 km del volcán Rincón de la Vieja (OVSICORI)
+CR51002,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 12 % (SRTM) y lluvia NASA POWER
+CR51002,sequia,alto,1;2;3;12,estimado: 4 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51003,volcan,medio,,estimado: 34 km del volcán Rincón de la Vieja (OVSICORI)
+CR51003,deslizamiento,bajo,6;7;9;10;11,estimado: pendiente media 8.6 % (SRTM) y lluvia NASA POWER
+CR51003,sequia,alto,1;2;3;4;12,estimado: 5 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51004,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 19.1 % (SRTM) y lluvia NASA POWER
+CR51004,sequia,alto,1;2;3;4;12,estimado: 5 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51101,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 15.4 % (SRTM) y lluvia NASA POWER
+CR51101,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51102,deslizamiento,alto,6;7;9;10;11,estimado: pendiente media 25.5 % (SRTM) y lluvia NASA POWER
+CR51102,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51103,deslizamiento,muy_alto,6;7;9;10;11,estimado: pendiente media 31.6 % (SRTM) y lluvia NASA POWER
+CR51103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51104,deslizamiento,medio,6;7;9;10;11,estimado: pendiente media 18.9 % (SRTM) y lluvia NASA POWER
+CR51104,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR51105,deslizamiento,alto,6;7;9;10;11,estimado: pendiente media 20.9 % (SRTM) y lluvia NASA POWER
+CR51105,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60101,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 6.1 % (SRTM) y lluvia NASA POWER
+CR60101,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60102,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 2.4 % (SRTM) y lluvia NASA POWER
+CR60102,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60102,inundacion,alto,5;6;9;10;11,estimado: zona baja (19 m) y plana (2.4 %)
+CR60103,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 7.1 % (SRTM) y lluvia NASA POWER
+CR60103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60104,deslizamiento,alto,5;6;9;10;11,estimado: pendiente media 20.9 % (SRTM) y lluvia NASA POWER
+CR60104,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60105,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 25.8 % (SRTM) y lluvia NASA POWER
+CR60105,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60106,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 9.3 % (SRTM) y lluvia NASA POWER
+CR60106,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60107,volcan,medio,,estimado: 31 km del volcán Arenal (OVSICORI)
+CR60107,deslizamiento,muy_alto,5;6;9;10;11,estimado: pendiente media 30.5 % (SRTM) y lluvia NASA POWER
+CR60107,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60108,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 13 % (SRTM) y lluvia NASA POWER
+CR60108,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60110,deslizamiento,muy_alto,4;5;6;7;8;9;10,estimado: pendiente media 36.2 % (SRTM) y lluvia NASA POWER
+CR60111,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 14.9 % (SRTM) y lluvia NASA POWER
+CR60112,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 1.5 % (SRTM) y lluvia NASA POWER
+CR60112,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60112,inundacion,alto,5;6;9;10;11,estimado: zona baja (7 m) y plana (1.5 %)
+CR60113,deslizamiento,medio,5;6;9;10;11,estimado: pendiente media 12.8 % (SRTM) y lluvia NASA POWER
+CR60113,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60114,volcan,medio,,estimado: 34 km del volcán Arenal (OVSICORI)
+CR60114,deslizamiento,medio,5;6;9;10;11,estimado: pendiente media 18.9 % (SRTM) y lluvia NASA POWER
+CR60114,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60115,deslizamiento,bajo,5;6;9;10;11,estimado: pendiente media 2.4 % (SRTM) y lluvia NASA POWER
+CR60115,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60115,inundacion,alto,5;6;9;10;11,estimado: zona baja (7 m) y plana (2.4 %)
+CR60116,volcan,medio,,estimado: 26 km del volcán Arenal (OVSICORI)
+CR60116,deslizamiento,muy_alto,5;6;9;10;11,estimado: pendiente media 33.7 % (SRTM) y lluvia NASA POWER
+CR60116,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60201,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 5.2 % (SRTM) y lluvia NASA POWER
+CR60201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60201,inundacion,medio,5;6;7;9;10;11,estimado: zona baja (124 m) y plana (5.2 %)
+CR60202,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 4.8 % (SRTM) y lluvia NASA POWER
+CR60202,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60203,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 15.1 % (SRTM) y lluvia NASA POWER
+CR60203,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60204,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 7.8 % (SRTM) y lluvia NASA POWER
+CR60204,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60205,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 16.1 % (SRTM) y lluvia NASA POWER
+CR60205,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60206,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 18.6 % (SRTM) y lluvia NASA POWER
+CR60206,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60301,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 22.1 % (SRTM) y lluvia NASA POWER
+CR60302,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 27.5 % (SRTM) y lluvia NASA POWER
+CR60303,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 25.6 % (SRTM) y lluvia NASA POWER
+CR60304,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 25.2 % (SRTM) y lluvia NASA POWER
+CR60305,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 21.7 % (SRTM) y lluvia NASA POWER
+CR60306,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 28.5 % (SRTM) y lluvia NASA POWER
+CR60307,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 25.6 % (SRTM) y lluvia NASA POWER
+CR60308,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 18.4 % (SRTM) y lluvia NASA POWER
+CR60309,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 22.9 % (SRTM) y lluvia NASA POWER
+CR60401,deslizamiento,alto,5;6;7;9;10;11,estimado: pendiente media 26.8 % (SRTM) y lluvia NASA POWER
+CR60401,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60402,volcan,medio,,estimado: 28 km del volcán Arenal (OVSICORI)
+CR60402,deslizamiento,muy_alto,5;6;7;9;10;11,estimado: pendiente media 37.3 % (SRTM) y lluvia NASA POWER
+CR60402,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60403,deslizamiento,medio,5;6;7;9;10;11,estimado: pendiente media 12.3 % (SRTM) y lluvia NASA POWER
+CR60403,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR60501,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 15 % (SRTM) y lluvia NASA POWER
+CR60502,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 18.5 % (SRTM) y lluvia NASA POWER
+CR60503,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 8.7 % (SRTM) y lluvia NASA POWER
+CR60504,deslizamiento,muy_alto,5;6;7;8;9;10;11,estimado: pendiente media 34.3 % (SRTM) y lluvia NASA POWER
+CR60505,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 18 % (SRTM) y lluvia NASA POWER
+CR60506,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 15.1 % (SRTM) y lluvia NASA POWER
+CR60601,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 8.5 % (SRTM) y lluvia NASA POWER
+CR60602,deslizamiento,alto,4;5;6;7;8;9;10;11,estimado: pendiente media 28.5 % (SRTM) y lluvia NASA POWER
+CR60603,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 17.6 % (SRTM) y lluvia NASA POWER
+CR60701,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 20 % (SRTM) y lluvia NASA POWER
+CR60703,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 20 % (SRTM) y lluvia NASA POWER
+CR60704,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 14.7 % (SRTM) y lluvia NASA POWER
+CR60801,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 12.4 % (SRTM) y lluvia NASA POWER
+CR60802,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 13.8 % (SRTM) y lluvia NASA POWER
+CR60803,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 15.3 % (SRTM) y lluvia NASA POWER
+CR60804,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 17.9 % (SRTM) y lluvia NASA POWER
+CR60805,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 15.5 % (SRTM) y lluvia NASA POWER
+CR60806,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 23.1 % (SRTM) y lluvia NASA POWER
+CR60901,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 10.8 % (SRTM) y lluvia NASA POWER
+CR61001,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 10.8 % (SRTM) y lluvia NASA POWER
+CR61002,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 1.6 % (SRTM) y lluvia NASA POWER
+CR61002,inundacion,alto,5;6;7;8;9;10;11,estimado: zona baja (30 m) y plana (1.6 %)
+CR61003,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 5.8 % (SRTM) y lluvia NASA POWER
+CR61003,inundacion,medio,5;6;7;8;9;10;11,estimado: zona baja (132 m) y plana (5.8 %)
+CR61004,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 6.6 % (SRTM) y lluvia NASA POWER
+CR61101,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 19.9 % (SRTM) y lluvia NASA POWER
+CR61102,deslizamiento,alto,5;6;7;8;9;10;11,estimado: pendiente media 20.1 % (SRTM) y lluvia NASA POWER
+CR61103,deslizamiento,bajo,5;6;7;9;10;11,estimado: pendiente media 11.5 % (SRTM) y lluvia NASA POWER
+CR61103,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR61201,volcan,medio,,estimado: 23 km del volcán Arenal (OVSICORI)
+CR61201,deslizamiento,alto,6;9;10;11,estimado: pendiente media 20.8 % (SRTM) y lluvia NASA POWER
+CR61201,sequia,medio,1;2;3,estimado: 3 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR61301,deslizamiento,medio,5;6;7;8;9;10;11,estimado: pendiente media 15.6 % (SRTM) y lluvia NASA POWER
+CR70101,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 4.8 % (SRTM) y lluvia NASA POWER
+CR70101,inundacion,medio,4;5;6;7;8;9;10;11;12,estimado: zona baja (30 m) y plana (4.8 %)
+CR70102,deslizamiento,alto,4;5;6;7;8;9;10;11;12,estimado: pendiente media 25.4 % (SRTM) y lluvia NASA POWER
+CR70103,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 8.4 % (SRTM) y lluvia NASA POWER
+CR70104,deslizamiento,alto,4;5;6;7;8;9;10;11;12,estimado: pendiente media 26.7 % (SRTM) y lluvia NASA POWER
+CR70201,volcan,medio,,estimado: 22 km del volcán Turrialba (OVSICORI)
+CR70201,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 18.5 % (SRTM) y lluvia NASA POWER
+CR70202,volcan,alto,,estimado: 17 km del volcán Turrialba (OVSICORI)
+CR70202,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 12.4 % (SRTM) y lluvia NASA POWER
+CR70203,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 2.4 % (SRTM) y lluvia NASA POWER
+CR70203,inundacion,medio,4;5;6;7;8;9;10;11;12,estimado: zona baja (53 m) y plana (2.4 %)
+CR70204,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 1.9 % (SRTM) y lluvia NASA POWER
+CR70204,inundacion,medio,4;5;6;7;8;9;10;11;12,estimado: zona baja (50 m) y plana (1.9 %)
+CR70205,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 2.1 % (SRTM) y lluvia NASA POWER
+CR70205,inundacion,alto,4;5;6;7;8;9;10;11;12,estimado: zona baja (45 m) y plana (2.1 %)
+CR70206,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 3.8 % (SRTM) y lluvia NASA POWER
+CR70206,sequia,bajo,3,estimado: 1 meses con menos de 50 mm de lluvia normal (NASA POWER)
+CR70206,inundacion,alto,4;5;6;7;8;9;10;11;12,estimado: zona baja (29 m) y plana (3.8 %)
+CR70207,volcan,medio,,estimado: 28 km del volcán Turrialba (OVSICORI)
+CR70207,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 2.5 % (SRTM) y lluvia NASA POWER
+CR70207,inundacion,medio,4;5;6;7;8;9;10;11,estimado: zona baja (138 m) y plana (2.5 %)
+CR70301,volcan,medio,,estimado: 28 km del volcán Turrialba (OVSICORI)
+CR70301,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 10.4 % (SRTM) y lluvia NASA POWER
+CR70302,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 8.2 % (SRTM) y lluvia NASA POWER
+CR70303,volcan,alto,,estimado: 13 km del volcán Turrialba (OVSICORI)
+CR70303,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 19 % (SRTM) y lluvia NASA POWER
+CR70304,volcan,medio,,estimado: 26 km del volcán Turrialba (OVSICORI)
+CR70304,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3.6 % (SRTM) y lluvia NASA POWER
+CR70304,inundacion,medio,4;5;6;7;8;9;10;11,estimado: zona baja (74 m) y plana (3.6 %)
+CR70305,volcan,medio,,estimado: 32 km del volcán Turrialba (OVSICORI)
+CR70305,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 3 % (SRTM) y lluvia NASA POWER
+CR70305,inundacion,alto,4;5;6;7;8;9;10;11,estimado: zona baja (41 m) y plana (3 %)
+CR70306,volcan,medio,,estimado: 23 km del volcán Turrialba (OVSICORI)
+CR70306,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 5.8 % (SRTM) y lluvia NASA POWER
+CR70307,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 2.6 % (SRTM) y lluvia NASA POWER
+CR70307,inundacion,alto,4;5;6;7;8;9;10;11;12,estimado: zona baja (14 m) y plana (2.6 %)
+CR70401,deslizamiento,medio,4;5;6;7;8;9;10;11;12,estimado: pendiente media 16.8 % (SRTM) y lluvia NASA POWER
+CR70402,deslizamiento,bajo,5;6;7;8;9;10;11,estimado: pendiente media 5.1 % (SRTM) y lluvia NASA POWER
+CR70402,inundacion,medio,5;6;7;8;9;10;11,estimado: zona baja (37 m) y plana (5.1 %)
+CR70403,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 11.8 % (SRTM) y lluvia NASA POWER
+CR70404,deslizamiento,muy_alto,4;5;6;7;8;9;10;11;12,estimado: pendiente media 43 % (SRTM) y lluvia NASA POWER
+CR70501,deslizamiento,alto,4;5;6;7;8;9;10;11;12,estimado: pendiente media 23.3 % (SRTM) y lluvia NASA POWER
+CR70502,deslizamiento,medio,4;5;6;7;8;9;10;11;12,estimado: pendiente media 13.5 % (SRTM) y lluvia NASA POWER
+CR70503,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 7.8 % (SRTM) y lluvia NASA POWER
+CR70601,volcan,alto,,estimado: 18 km del volcán Turrialba (OVSICORI)
+CR70601,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 19.3 % (SRTM) y lluvia NASA POWER
+CR70602,volcan,alto,,estimado: 18 km del volcán Turrialba (OVSICORI)
+CR70602,deslizamiento,medio,4;5;6;7;8;9;10;11,estimado: pendiente media 17.6 % (SRTM) y lluvia NASA POWER
+CR70603,volcan,medio,,estimado: 21 km del volcán Turrialba (OVSICORI)
+CR70603,deslizamiento,bajo,4;5;6;7;8;9;10;11,estimado: pendiente media 9.2 % (SRTM) y lluvia NASA POWER
+CR70604,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 3.5 % (SRTM) y lluvia NASA POWER
+CR70604,inundacion,alto,4;5;6;7;8;9;10;11;12,estimado: zona baja (40 m) y plana (3.5 %)
+CR70605,deslizamiento,bajo,4;5;6;7;8;9;10;11;12,estimado: pendiente media 1.3 % (SRTM) y lluvia NASA POWER
+CR70605,inundacion,alto,4;5;6;7;8;9;10;11;12,estimado: zona baja (38 m) y plana (1.3 %)
