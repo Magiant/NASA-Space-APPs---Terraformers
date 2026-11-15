@@ -242,6 +242,7 @@ export const es = {
   },
 
   alertas: {
+    portada: 'Información oficial para su zona',
     titulo: 'Alertas',
     subtitulo: 'Avisos de la CNE y del IMN sobre lluvias, sequías, volcanes y otros fenómenos.',
     en: (z: string) => `En ${z}`,
@@ -251,6 +252,7 @@ export const es = {
     nivel: { verde: 'Vigilancia', amarilla: 'Atención', naranja: 'Alerta', roja: 'Peligro' },
     desde: 'Desde',
     hasta: 'hasta',
+    verCompleto: 'Leer el aviso completo',
   },
 
   cursos: {
@@ -288,6 +290,14 @@ export const es = {
     creando: 'Creando…',
     crearBoton: 'Crear cuenta',
     yaTiene: '¿Ya tiene cuenta?',
+    errores: {
+      nombre: 'Escriba su nombre (al menos 2 letras). Así lo saludamos y su técnico sabe quién reporta.',
+      nombreLargo: 'El nombre es muy largo: use como máximo 80 letras.',
+      correoVacio: 'Escriba su correo electrónico. Lo usará para entrar.',
+      correo: (c: string) => `«${c}» no parece un correo válido. Debe tener la forma nombre@dominio.com, sin espacios (por ejemplo ana.solano@gmail.com).`,
+      claveCorta: (n: number) => `La contraseña tiene ${n} ${n === 1 ? 'carácter' : 'caracteres'}: necesita al menos 8. Puede mezclar letras y números.`,
+      claveEspacios: 'La contraseña no puede empezar ni terminar con espacios.',
+    },
   },
 
   fincas: {

@@ -27,13 +27,31 @@ async function idActual(): Promise<string> {
   return id;
 }
 
-/** Mensajes de Supabase Auth en palabras simples. */
-function mensajeAuth(m: string): string {
-  if (/invalid login credentials/i.test(m)) return 'Correo o contraseña incorrectos.';
-  if (/already registered|already exists/i.test(m)) return 'Ya existe una cuenta con ese correo.';
-  if (/email not confirmed/i.test(m)) return 'Falta confirmar el correo: revise su bandeja de entrada.';
-  if (/password should be/i.test(m)) return 'La contraseña debe tener al menos 8 caracteres.';
-  return m;
+/**
+ * Mensajes de Supabase Auth en palabras simples, diciendo POR QUÉ no se acepta y qué hacer.
+ * Supabase responde en inglés y a veces con un código (error.code); se revisan los dos.
+ */
+function mensajeAuth(m: string, codigo?: string, correo?: string): string {
+  const c = correo ? `«${correo}»` : 'ese correo';
+  const segundos = m.match(/after (\d+) seconds?/i)?.[1];
+  const minimo = m.match(/at least (\d+) characters?/i)?.[1];
+  if (/invalid login credentials/i.test(m)) return 'Correo o contraseña incorrectos. Revise que el correo esté bien escrito y que la contraseña tenga las mayúsculas correctas.';
+  if (codigo === 'user_already_exists' || /already registered|already exists/i.test(m))
+    return `Ya existe una cuenta con ${c}. Si es suya, use «Entrar». Si no recuerda la contraseña, pida ayuda al equipo.`;
+  if (codigo === 'email_not_confirmed' || /email not confirmed/i.test(m))
+    return 'Falta confirmar el correo: abra el mensaje que le enviamos (revise también «Spam» o «Promociones») y toque el enlace. Después vuelva a entrar.';
+  if (codigo === 'email_address_invalid' || /email address .* is invalid|invalid format|unable to validate email/i.test(m))
+    return `El servidor no acepta ${c}. Revise que esté bien escrito (nombre@dominio.com). Los correos inventados o de prueba (como @test.com o @example.com) no se aceptan: use uno real.`;
+  if (codigo === 'weak_password' || /should contain at least one character/i.test(m))
+    return 'La contraseña es muy débil: el servidor pide mezclar letras minúsculas, MAYÚSCULAS, números y algún símbolo (por ejemplo Finca#2026).';
+  if (minimo) return `La contraseña es muy corta: el servidor pide al menos ${minimo} caracteres.`;
+  if (codigo === 'over_email_send_rate_limit' || /email rate limit/i.test(m))
+    return 'Se pidieron demasiados correos de confirmación en poco tiempo (límite del servidor). Espere unos minutos e intente de nuevo.';
+  if (segundos) return `Por seguridad, espere ${segundos} segundos antes de intentarlo de nuevo.`;
+  if (codigo === 'signup_disabled' || /signups not allowed/i.test(m)) return 'Por ahora no se pueden crear cuentas nuevas. Avise al equipo.';
+  if (/database error saving new user/i.test(m)) return 'El servidor no pudo crear su perfil (error en la base de datos). Intente de nuevo y, si se repite, avise al equipo.';
+  if (/failed to fetch|network|load failed/i.test(m)) return 'No hay conexión con el servidor. Revise su señal o el wifi e intente de nuevo.';
+  return `No se pudo completar: ${m}`;
 }
 
 const authReal = {
@@ -45,20 +63,23 @@ const authReal = {
   },
   ingresar: async (correo: string, clave: string): Promise<Usuario> => {
     const { data, error } = await db().auth.signInWithPassword({ email: correo.trim(), password: clave });
-    if (error) throw new Error(mensajeAuth(error.message));
+    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
     const p = await perfilDe(data.user.id, data.user.email);
     if (!p) throw new Error('La cuenta no tiene perfil. Avise al equipo.');
     return p;
   },
   /** Toda cuenta nueva es agricultor (lo asegura la base). Si Supabase pide confirmar el correo, lo avisa. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {
-    if (clave.length < 8) throw new Error('La contraseña debe tener al menos 8 caracteres.');
+    if (clave.length < 8) throw new Error(`La contraseña tiene ${clave.length} caracteres: necesita al menos 8.`);
     const { data, error } = await db().auth.signUp({
       email: correo.trim(), password: clave,
       options: { data: { nombre: nombre.trim(), codigo_distrito: codigoDistrito } },
     });
-    if (error) throw new Error(mensajeAuth(error.message));
-    if (!data.session || !data.user) throw new Error('Le enviamos un correo para confirmar la cuenta. Ábralo y luego entre.');
+    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
+    // Con "Confirm email" activo, Supabase responde sin sesión. Si el correo ya existía, responde un usuario sin identidades.
+    if (data.user && data.user.identities?.length === 0) throw new Error(mensajeAuth('already registered', 'user_already_exists', correo.trim()));
+    if (!data.session || !data.user)
+      throw new Error(`Cuenta creada. Le enviamos un correo a «${correo.trim()}» para confirmarla: ábralo (revise también «Spam» o «Promociones»), toque el enlace y después entre.`);
     const p = await perfilDe(data.user.id, data.user.email);
     if (!p) throw new Error('No se pudo crear el perfil.');
     return p;
