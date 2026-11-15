@@ -43,6 +43,31 @@ export function PreferenciasProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = idioma;
   }, [idioma]);
 
+  // Cambios hechos en otra pestaña de la app de iPhone (o en otra pestaña del navegador): aplicarlos aquí también.
+  useEffect(() => {
+    const aplicar = (d: { idioma?: unknown; tema?: unknown }) => {
+      if (typeof d.idioma === 'string' && d.idioma in IDIOMAS) setIdioma(d.idioma as Idioma);
+      if (d.tema === 'crema' || d.tema === 'azul') setTema(d.tema);
+    };
+    const desdeApp = (e: Event) => aplicar((e as CustomEvent).detail ?? {});
+    const desdeOtraPestana = (e: StorageEvent) => {
+      if (e.key !== CLAVE_IDIOMA && e.key !== CLAVE_TEMA) return;
+      aplicar({ idioma: leer<Idioma | null>(CLAVE_IDIOMA, null), tema: leer<Tema | null>(CLAVE_TEMA, null) });
+    };
+    window.addEventListener('tf-preferencias', desdeApp);
+    window.addEventListener('storage', desdeOtraPestana);
+    return () => {
+      window.removeEventListener('tf-preferencias', desdeApp);
+      window.removeEventListener('storage', desdeOtraPestana);
+    };
+  }, []);
+
+  // Dentro de la app de iPhone: avisa a la parte nativa para que la barra de pestañas use el mismo idioma y tema.
+  useEffect(() => {
+    (window as unknown as { webkit?: { messageHandlers?: { preferencias?: { postMessage: (m: unknown) => void } } } })
+      .webkit?.messageHandlers?.preferencias?.postMessage({ idioma, tema });
+  }, [idioma, tema]);
+
   const cambiarIdioma = useCallback((i: Idioma) => {
     setIdioma(i);
     guardar(CLAVE_IDIOMA, i);

@@ -33,6 +33,19 @@ export const es = {
     pie: 'Datos: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
   },
 
+  ajustes: {
+    titulo: 'Ajustes',
+    abrir: 'Abrir ajustes',
+    ayuda: 'Se guardan en este aparato.',
+    apariencia: 'Apariencia',
+    claro: 'Claro',
+    oscuro: 'Oscuro',
+    idioma: 'Idioma',
+    cuenta: 'Cuenta',
+    acerca: 'Acerca de',
+    fuentes: 'Fuentes de datos',
+  },
+
   nav: {
     sembrar: 'Sembrar',
     precios: 'Precios',
@@ -266,11 +279,6 @@ export const es = {
     fuenteAgua: { lluvia: 'Lluvia', rio: 'Río o quebrada', pozo: 'Pozo', acueducto: 'Acueducto', otra: 'Otra' },
     primero: 'Primero registre una finca',
     registrarFinca: 'Registrar finca',
-    config: 'Configuración',
-    apariencia: 'Apariencia',
-    aparienciaAyuda: 'Elija cómo se ve la aplicación. Se guarda en este aparato.',
-    temaClaro: 'Claro',
-    temaOscuro: 'Oscuro',
   },
 
   nuevaFinca: {
