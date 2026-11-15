@@ -30,7 +30,7 @@ function Contenido({ z }: { z: RegistroZona }) {
   const temp = useCargar(() => series.temperatura(z.codigo_distrito, z.clima.temp_media_c ?? 20), [z.codigo_distrito]);
   /** Valor con formato, o "Sin dato" si la fuente todavía no lo tiene. */
   const sd = <T,>(v: T | null | undefined, f: (x: T) => string) => (v === null || v === undefined ? t.comun.sinDato : f(v));
-  const mejores = (aptitud.datos ?? []).filter((a) => a.nivel !== 'descartado').slice(0, 6);
+  const mejores = (aptitud.datos ?? []).filter((a) => a.nivel !== 'descartado').slice(0, 8);
 
   return (
     <>
@@ -48,7 +48,14 @@ function Contenido({ z }: { z: RegistroZona }) {
         </div>
       ))}
 
-      <div className="columnas">
+      {/* Lo más importante primero y a todo el ancho: los mejores cultivos, de 4 en 4 en computadora. */}
+      <h2>{tz.mejores}</h2>
+      {aptitud.cargando && <Cargando />}
+      <div className="lista-tarjetas rejilla-productos">
+        {mejores.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
+      </div>
+
+      <div className="columnas columnas-mitad">
         <div className="col-principal">
           <h2>{tz.comoEsta}</h2>
           <div className="fichas">
@@ -60,7 +67,9 @@ function Contenido({ z }: { z: RegistroZona }) {
             <Ficha icono="volcan" titulo={tz.riesgos} valor={z.riesgos.length ? z.riesgos.map((r) => r.tipo).join(', ') : t.comun.sinDato} detalle={z.riesgos.map((r) => `${r.tipo}: ${tz.riesgo[r.nivel]}`).join(' · ')} />
           </div>
           {(z.area_protegida_pct ?? 0) > 0 && <p className="ayuda"><Tx>{tz.protegida(z.area_protegida_pct ?? 0)}</Tx></p>}
+        </div>
 
+        <div className="col-principal">
           <h2>{tz.tempMes}</h2>
           <div className="tarjeta">
             {temp.datos ? <GraficoLinea puntos={temp.datos} formato={(n) => `${n} °C`} etiqueta={tz.tempMedia} /> : <Cargando />}
@@ -88,13 +97,6 @@ function Contenido({ z }: { z: RegistroZona }) {
           )}
         </div>
 
-        <aside className="col-lateral">
-          <h2>{tz.mejores}</h2>
-          {aptitud.cargando && <Cargando />}
-          <div className="lista-tarjetas" style={{ gridTemplateColumns: '1fr' }}>
-            {mejores.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
-          </div>
-        </aside>
       </div>
     </>
   );

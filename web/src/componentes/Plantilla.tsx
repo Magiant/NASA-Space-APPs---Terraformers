@@ -109,7 +109,6 @@ export default function Plantilla() {
           <Icono nombre="check" tam={18} /> {t.conexion.enviados(aviso)}
         </p>
       )}
-      <p className="banda banda-ejemplo">{modoReal ? t.comun.datosReales : t.comun.datosEjemplo}</p>
 
       <main className="contenido">
         {!enInicio && <BotonVolver />}
