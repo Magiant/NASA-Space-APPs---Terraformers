@@ -158,13 +158,6 @@ img { max-width: 100%; }
 .boton-ancho { width: 100%; }
 .enlace { background: none; border: 0; padding: 4px 0; color: var(--primario); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
 
-.boton-volver {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 46px; margin: 0 0 10px; padding: 6px 18px 6px 12px;
-  border: 1px solid var(--borde); border-radius: 999px; background: var(--superficie);
-  color: var(--texto); font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer; box-shadow: var(--sombra);
-}
-.boton-volver span { font-size: 1.3rem; line-height: 1; }
-.boton-volver:hover { border-color: var(--primario); color: var(--primario); }
 
 label, legend { display: flex; flex-direction: column; gap: 6px; font-weight: 700; }
 fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
@@ -1124,4 +1117,66 @@ body::before {
 @media (max-width: 599px) {
   .mapa-migas.largo .miga-pais { display: none; }
   .mapa-miga { padding: 8px 12px; font-size: 0.85rem; }
+}
+
+/* ===== Página principal: módulos como botones grandes (mismos íconos y nombres del encabezado) ===== */
+.portada.portada-inicio {
+  display: block; width: 100vw; margin: -16px calc(50% - 50vw) 0; padding: clamp(32px, 6vw, 72px) var(--margen);
+  border-radius: 0; border-width: 0 0 1px; box-shadow: none;
+}
+.portada.portada-inicio h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); margin-bottom: 10px; }
+.portada.portada-inicio .portada-texto p { max-width: 56ch; }
+@media (min-width: 900px) { .portada.portada-inicio { margin-top: -28px; display: block; } }
+.portada-zona {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 18px; min-height: 52px; padding: 10px 18px;
+  border: 1px solid var(--borde); border-radius: 999px; background: var(--superficie); box-shadow: var(--sombra);
+  color: var(--texto); text-decoration: none; font-weight: 600;
+}
+.portada-zona svg { color: var(--primario); }
+.portada-zona strong { color: var(--primario); }
+.portada-zona:hover { border-color: var(--primario); }
+
+.modulos { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); margin: 24px 0 32px; }
+@media (min-width: 600px) {
+  .modulos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .modulo-destacado { grid-column: 1 / -1; }
+}
+@media (min-width: 1100px) {
+  .modulos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .modulo-destacado { grid-column: span 2; grid-row: span 2; }
+}
+.modulo {
+  display: flex; flex-direction: column; overflow: hidden; min-width: 0;
+  border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie); box-shadow: var(--sombra);
+  color: var(--texto); text-decoration: none; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.modulo:hover { transform: translateY(-2px); box-shadow: var(--sombra-fuerte); border-color: var(--borde-fuerte); }
+.modulo:active { transform: scale(0.98); }
+.modulo:focus-visible { outline: 3px solid var(--primario); outline-offset: 3px; }
+.modulo-foto { display: block; width: 100%; max-width: none; height: 140px; object-fit: cover; background: var(--primario-suave); transition: transform 0.5s ease; }
+.modulo-destacado .modulo-foto { flex: 1; height: auto; min-height: clamp(170px, 24vw, 340px); }
+.modulo:hover .modulo-foto { transform: scale(1.05); }
+.modulo-cuerpo { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 14px; padding: 16px; position: relative; background: var(--superficie); }
+.modulo-icono {
+  grid-row: span 2; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px;
+  background: var(--primario-suave); color: var(--primario);
+}
+.modulo-titulo { font-family: var(--fuente-titulos); font-size: 1.4rem; font-weight: 650; line-height: 1.15; color: var(--texto); }
+.modulo-destacado .modulo-titulo { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+.modulo-texto { font-size: 1rem; line-height: 1.4; color: var(--texto-suave); }
+.modulo-ir { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; font-weight: 700; color: var(--primario); }
+.modulo-nota { font-weight: 400; font-size: 0.85rem; color: var(--texto-suave); }
+@media (prefers-reduced-motion: reduce) { .modulo, .modulo-foto { transition: none; } .modulo:hover .modulo-foto { transform: none; } }
+
+/* Barra de abajo (celular): tantas columnas como pestañas (con Inicio son 6). */
+.pestanas { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+.pestanas a { font-size: 0.76rem; }
+
+/* Con Inicio el menú de escritorio tiene 6 opciones y necesita ~1180 px. Entre 900 y 1199 px se
+   esconde y se usa la barra de abajo, para que "Entrar" y Ajustes nunca queden fuera de la pantalla. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .nav-principal { display: none; }
+  .pestanas { display: grid; }
+  .app { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+  .boton-flotante { display: inline-flex; }
 }

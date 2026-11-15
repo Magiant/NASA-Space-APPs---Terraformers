@@ -108,6 +108,6 @@ export default function Zona() {
   const zona = useCargar(() => algolia.zona(codigo), [codigo]);
   if (zona.cargando) return <Cargando />;
   if (zona.error) return <ErrorCarga mensaje={zona.error} reintentar={zona.recargar} />;
-  if (!zona.datos) return <Vacio icono={<Icono nombre="mapa" tam={48} />} titulo={t.zona.noExiste}><Link className="boton" to="/">{t.zona.elegirOtra}</Link></Vacio>;
+  if (!zona.datos) return <Vacio icono={<Icono nombre="mapa" tam={48} />} titulo={t.zona.noExiste}><Link className="boton" to="/sembrar">{t.zona.elegirOtra}</Link></Vacio>;
   return <Contenido z={zona.datos} />;
 }

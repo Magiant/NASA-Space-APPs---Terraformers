@@ -52,6 +52,7 @@ export const en: Textos = {
   },
 
   nav: {
+    inicio: 'Home',
     sembrar: 'Plant',
     precios: 'Prices',
     alertas: 'Alerts',
@@ -157,6 +158,21 @@ export const en: Textos = {
       titulo: 'Made for Costa Rican farmers',
       texto: 'This tool supports your decision: your experience and that of MAG technicians remain the most important.',
     },
+  },
+
+  portal: {
+    titulo: 'What would you like to do today?',
+    subtitulo: 'Data from NASA satellites and Costa Rican sources to decide what to plant, when to plant it and at what price to sell.',
+    modulos: 'Terraformes modules',
+    sembrar: 'See which crops grow best in your area and when to plant them.',
+    precios: "Today's prices at CENADA and how they have changed.",
+    alertas: 'Warnings about heavy rain, drought and other hazards near your farm.',
+    cursos: 'Free INA courses for farming.',
+    miFinca: 'Your farms, plantings, pest reports and drone scans.',
+    abrir: 'Open',
+    suZona: (d: string) => `Your area: ${d}`,
+    verSembrar: 'See what to plant',
+    rapido: 'Quick actions',
   },
 
   inicio: {

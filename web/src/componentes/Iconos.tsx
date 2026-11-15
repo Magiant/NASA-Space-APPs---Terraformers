@@ -19,6 +19,7 @@ function GranoCafe() {
 
 /** Íconos de navegación y accesos: mismo trazo en todo el producto (reemplazan emojis). */
 const TRAZOS: Record<string, string> = {
+  inicio: 'M4 4h7v7H4ZM13 4h7v7h-7ZM4 13h7v7H4ZM13 13h7v7h-7Z',
   sembrar: 'M12 21v-8M12 13c0-4 2.5-6.5 7-6.5 0 4-2.5 6.5-7 6.5ZM12 15c0-3-2-5-6-5 0 3 2 5 6 5Z',
   precios: 'M4 19V9M10 19V5M16 19v-7M22 19H2M20 5l-4 4-3-2',
   alertas: 'M12 3 2.5 20h19L12 3ZM12 10v4.5M12 17.2v.1',
