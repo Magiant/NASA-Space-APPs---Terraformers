@@ -187,6 +187,7 @@ export const es = {
     evite: 'Evite:',
     dondeMejor: 'Dónde se da mejor',
     cursos: 'Cursos recomendados',
+    foto: 'Foto',
     noExiste: 'No encontramos ese cultivo',
   },
 
