@@ -881,3 +881,58 @@ body::before {
 :root[data-tema='crema'] .contenido .tarjeta, :root[data-tema='crema'] .contenido .acceso, :root[data-tema='crema'] .contenido .ficha { box-shadow: 0 6px 22px rgb(0 0 0 / 0.22); border-color: transparent; }
 /* Encabezado crema casi opaco sobre la mesa verde (si no, el verde detrás lo vuelve gris). */
 :root[data-tema='crema'] .encabezado { background: color-mix(in srgb, var(--superficie) 97%, transparent); box-shadow: 0 4px 20px rgb(0 0 0 / 0.18); }
+
+/* ================= Ajustes: desplegable pegado a la esquina superior derecha ================= */
+.menu-ajustes { position: relative; }
+.boton-ajustes {
+  display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 10px;
+  border: 1px solid var(--borde); border-radius: 999px; background: var(--superficie);
+  color: var(--texto); cursor: pointer; transition: background 0.15s, border-color 0.15s;
+}
+.boton-ajustes:hover, .boton-ajustes[aria-expanded='true'] { background: var(--superficie-2); border-color: var(--borde-fuerte); }
+.boton-ajustes.con-sesion { padding: 0 4px 0 10px; }
+.boton-ajustes svg { transition: transform 0.35s ease; }
+.boton-ajustes[aria-expanded='true'] svg { transform: rotate(60deg); }
+.avatar-chico { width: 34px; height: 34px; font-size: 0.9rem; }
+
+.panel-ajustes {
+  position: fixed; z-index: 50; top: 64px; right: max(12px, env(safe-area-inset-right));
+  width: min(380px, calc(100vw - 24px)); max-height: calc(100dvh - 80px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 6px 14px 14px; border: 1px solid var(--borde); border-radius: 22px;
+  background: var(--superficie); color: var(--texto); box-shadow: 0 24px 60px rgb(0 0 0 / 0.3);
+  transform-origin: top right; animation: desplegar 0.18s ease-out;
+}
+@keyframes desplegar { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .panel-ajustes { animation: none; } }
+.panel-ajustes .ajustes-grupo h2 { margin: 14px 4px 8px; }
+.panel-ajustes .ajustes-lista { box-shadow: none; }
+.panel-ajustes .ajustes-fila { min-height: 52px; padding: 8px 12px; }
+
+/* Apariencia e idioma: dos botones lado a lado (segmentado), no una lista larga */
+.ajustes-segmentado { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; border-radius: 16px; background: var(--superficie-2); }
+.ajustes-opcion {
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 6px 10px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--texto-suave);
+  font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+}
+.ajustes-opcion .ajustes-icono { width: 30px; height: 30px; background: transparent; }
+.ajustes-opcion[aria-checked='true'] { background: var(--superficie); color: var(--primario); box-shadow: var(--sombra); }
+.ajustes-opcion[aria-checked='true'] .ajustes-icono { background: var(--primario-suave); }
+
+/* Celular: el panel ocupa el ancho de la pantalla debajo del encabezado */
+@media (max-width: 599px) {
+  .panel-ajustes { top: 60px; left: 8px; right: 8px; width: auto; border-radius: 20px; }
+}
+
+/* ================= Aprovechar el ancho: las cuadrículas se estiran para llenar la fila ================= */
+.fichas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); }
+.lista-tarjetas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); }
+.lista-alertas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.lista-precios { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.interruptor, .interruptor-4, .buscador, .filtros { max-width: none; }
+.filtros { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+/* Las rejillas de productos y la columna lateral mantienen sus columnas fijas. */
+.rejilla-productos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) { .rejilla-productos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .rejilla-productos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 599px) { .rejilla-productos { grid-template-columns: 1fr; } }
