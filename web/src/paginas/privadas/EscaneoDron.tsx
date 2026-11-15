@@ -2,6 +2,7 @@ import { Icono, Tx } from '../../componentes/Iconos';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
+import SeccionFondo from '../../componentes/SeccionFondo';
 import { Cargando, Vacio } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
 import { datos } from '../../servicios/supabase';
@@ -74,6 +75,10 @@ export default function EscaneoDron() {
           </select>
         </label>
       </header>
+
+      <SeccionFondo foto="ndvi" titulo={t.fondos.ndvi.titulo} etiquetaCredito={t.fondos.credito} alto="bajo">
+        <p>{t.fondos.ndvi.texto}</p>
+      </SeccionFondo>
 
       {!v ? (
         <Vacio icono={<Icono nombre="dron" tam={48} />} titulo={td.sinVuelos(finca?.nombre ?? td.esta)}>
