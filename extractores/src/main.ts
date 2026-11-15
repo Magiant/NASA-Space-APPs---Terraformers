@@ -1,28 +1,29 @@
-import { parseArgs } from 'node:util';
-import { fileURLToPath } from 'node:url';
-import { resolve } from 'node:path';
-import { existsSync } from 'node:fs';
-import { ejecutarIna, mensajeSeguro } from './capacitacion/ina.js';
+// Punto de entrada de los extractores. Cada tema agrega UNA línea en EXTRACTORES.
+//
+//   npm run extraer -- clima --simulacion --distritos=CR10101,CR30110
+//   npm run extraer -- clima-historico --desde=2025-01-01 --hasta=2025-12-31
+//
+// Opciones comunes: --simulacion (no escribe en Supabase), --distritos=CR10101,CR30110,
+// --distritos-archivo=<json> (probar sin la tabla distritos), --puntos-max=N.
+import { leerArgumentos, type Argumentos } from './comun/argumentos.ts'
+import { extraerClimaOpenMeteo } from './clima/open-meteo.ts'
+import { cargarClimaHistorico } from './cargas-unicas/clima-historico.ts'
 
-const raiz = fileURLToPath(new URL('../../', import.meta.url));
+const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
+  // Tema 1 · Clima
+  'clima': extraerClimaOpenMeteo,          // diario.yml
+  'clima-historico': cargarClimaHistorico, // unica-vez.yml
+  // Los demás temas agregan su línea aquí.
+}
+
+const args = leerArgumentos()
+if (!args.nombre || !EXTRACTORES[args.nombre]) {
+  console.error(`Uso: npm run extraer -- <nombre> [opciones]\nDisponibles: ${Object.keys(EXTRACTORES).join(', ')}`)
+  process.exit(2)
+}
 try {
-  const entorno = resolve(raiz, '.env');
-  if (existsSync(entorno)) process.loadEnvFile(entorno);
-  const { values, positionals } = parseArgs({
-    allowPositionals: true,
-    options: {
-      csv: { type: 'string' },
-      'dry-run': { type: 'boolean' },
-      guardar: { type: 'boolean' },
-    },
-  });
-  if (positionals.length !== 1 || positionals[0] !== 'capacitacion-ina' ||
-      (values.guardar && values['dry-run']))
-    throw new Error('Uso: npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/plantilla.csv [--dry-run | --guardar]');
-  // Las rutas relativas siempre parten de la raíz, incluso al usar npm -w.
-  const ruta = resolve(raiz, values.csv ?? 'docs/capacitacion/plantilla.csv');
-  await ejecutarIna(ruta, !values.guardar);
-} catch (error) {
-  console.error(mensajeSeguro(error));
-  process.exitCode = 1;
+  await EXTRACTORES[args.nombre](args)
+} catch (e) {
+  console.error(`✘ ${args.nombre}: ${(e as Error).message}`)
+  process.exit(1)
 }

@@ -1,0 +1,40 @@
+# Generated with assistance from Claude (SI)
+# Cargas que se corren UNA VEZ (o pocas veces), a mano desde la pestaña Actions.
+# Elegir el extractor y, si aplica, sus opciones (p. ej. --desde=2025-01-01 --hasta=2025-12-31).
+name: Cargas únicas
+
+on:
+  workflow_dispatch:
+    inputs:
+      extractor:
+        description: 'Extractor a correr'
+        required: true
+        type: choice
+        options:
+          - clima-historico
+          # Los demás temas agregan aquí su carga única (distritos, elevacion, soilgrids...).
+      opciones:
+        description: 'Opciones extra, ej. --desde=2025-01-01 --hasta=2025-12-31 --presupuesto=9000'
+        required: false
+        default: ''
+
+jobs:
+  cargar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Carga ${{ inputs.extractor }}
+        env:
+          EXTRACTOR: ${{ inputs.extractor }}
+          OPCIONES: ${{ inputs.opciones }}
+        # Las entradas van por variables de entorno (no interpoladas en el script) para evitar inyección.
+        run: npm run extraer -- "$EXTRACTOR" $OPCIONES

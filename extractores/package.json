@@ -1,22 +1,20 @@
 {
   "name": "@terraformes/extractores",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.1.0",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "description": "Extractores de datos (GitHub Actions → Supabase). Node 22.18+ corre los .ts directamente.",
+  "engines": {
+    "node": ">=22.18"
+  },
   "scripts": {
-    "start": "tsx src/main.ts",
-    "check": "tsc --noEmit",
-    "test": "tsx --test src/capacitacion/ina.test.ts"
+    "extraer": "node --env-file-if-exists=../.env src/main.ts",
+    "test": "node --test \"test/**/*.test.ts\""
   },
   "dependencies": {
-    "@terraformes/compartido": "0.1.0",
-    "@supabase/supabase-js": "^2.80.0",
-    "csv-parse": "^6.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "tsx": "^4.20.0",
-    "typescript": "^5.6.3"
+    "@supabase/supabase-js": "^2.45.0",
+    "@terraformes/compartido": "*",
+    "@turf/turf": "^7.1.0",
+    "zod": "^3.23.8"
   }
 }
