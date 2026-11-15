@@ -12,7 +12,8 @@ import type {
 import { EXTRACCIONES } from '../datos-ejemplo/publicos';
 import { borrar, guardar, leer, nuevoId } from './almacen';
 
-const CLAVE_BASE = 'tf-demo-base-v1';
+// v2: fincas de ejemplo nuevas (Río Claro, Las Nubes, Valle Verde) y elementos en los vuelos del dron.
+const CLAVE_BASE = 'tf-demo-base-v2';
 const CLAVE_SESION = 'tf-sesion';
 
 const base = (): BaseDemo => leer(CLAVE_BASE, BASE_INICIAL);
