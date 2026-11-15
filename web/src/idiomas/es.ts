@@ -31,6 +31,10 @@ export const es = {
     cambiarIdioma: 'Cambiar idioma',
     idioma: 'Idioma',
     pie: 'Datos: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
+    pieLema: 'Datos de satélite al servicio del agricultor costarricense.',
+    pieSecciones: 'Secciones',
+    pieFuentes: 'Fuentes de datos',
+    pieAviso: 'Esta herramienta apoya su decisión; no reemplaza el criterio del agricultor ni de los técnicos del MAG.',
   },
 
   ajustes: {
@@ -123,6 +127,7 @@ export const es = {
     satelite: {
       titulo: 'Vemos su zona desde el espacio',
       texto: 'Usamos satélites de la NASA para medir la lluvia, la temperatura, la humedad del suelo y qué tan sanas están las plantas en cada distrito de Costa Rica.',
+      cifras: [{ numero: '492', texto: 'distritos' }, { numero: '7', texto: 'provincias' }, { numero: '13', texto: 'cultivos' }, { numero: '+10', texto: 'fuentes de datos' }],
     },
     dron: {
       titulo: 'Drones que miden su finca',
@@ -140,6 +145,10 @@ export const es = {
   },
 
   inicio: {
+    cta: {
+      titulo: (d: string) => `Todo sobre ${d}`,
+      texto: 'Clima, suelo, agua, riesgos y lo que ya siembran sus vecinos.',
+    },
     titulo: '¿Qué sembrar en su zona?',
     subtitulo: 'Elija dónde está su finca y le mostramos los cultivos que mejor se dan ahí.',
     mejores: (distrito: string) => `Mejores cultivos en ${distrito}`,
