@@ -1,0 +1,32 @@
+/* Tema CLARO: blanco limpio con un toque cálido muy leve, verde bosque sobrio.
+   Para cambiar colores del tema claro, solo se toca este archivo. */
+:root,
+:root[data-tema='crema'] {
+  --fondo: #f7f7f4;                 /* fondo general: blanco roto, casi neutro */
+  --fondo-degradado: linear-gradient(180deg, #fbfbf9 0%, #f4f4f0 100%);
+  --superficie: #ffffff;            /* tarjetas */
+  --superficie-2: #f2f2ee;          /* campos, chips, fondos secundarios */
+  --superficie-3: #e9e9e3;
+  --texto: #16201a;
+  --texto-suave: #5f6862;
+  --borde: #e4e4de;
+  --borde-fuerte: #cfd0c8;
+
+  --primario: #1d6b42;              /* verde bosque */
+  --primario-fuerte: #145233;
+  --primario-suave: #e6f2ea;
+  --primario-texto: #ffffff;
+  --acento: #1e3a5f;
+  --tierra: #8a6a46;
+
+  --exc: #18794a;   --exc-fondo: #e3f3e9;
+  --bue: #8a6200;   --bue-fondo: #fdf3d7;
+  --nor: #b4372a;   --nor-fondo: #fbe7e4;
+  --des: #646b66;   --des-fondo: #eeefec;
+
+  --ok: #18794a;
+  --error: #b4372a;
+  --sombra: 0 1px 2px rgb(16 24 20 / 0.04), 0 2px 8px rgb(16 24 20 / 0.04);
+  --sombra-fuerte: 0 4px 10px rgb(16 24 20 / 0.06), 0 16px 36px rgb(16 24 20 / 0.08);
+  color-scheme: light;
+}

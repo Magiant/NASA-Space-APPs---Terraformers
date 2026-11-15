@@ -1,0 +1,14 @@
+{
+  "name": "Terraformes",
+  "short_name": "Terraformes",
+  "description": "Qué sembrar en tu zona de Costa Rica",
+  "lang": "es-CR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f4ee",
+  "theme_color": "#2f6b2f",
+  "icons": [
+    { "src": "icono.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
