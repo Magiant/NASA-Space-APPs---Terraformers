@@ -13,6 +13,7 @@
     "build": "npm run build -w web",
     "preview": "npm run preview -w web",
     "extraer": "npm run extraer -w extractores --",
-    "test:extractores": "npm test -w extractores"
+    "test:extractores": "npm test -w extractores",
+    "deploy": "npm run deploy -w web"
   }
 }
