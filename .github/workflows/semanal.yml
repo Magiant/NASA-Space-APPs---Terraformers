@@ -1,0 +1,33 @@
+name: Extractores semanales
+
+on:
+  schedule:
+    # Lunes a las 02:00 de Costa Rica (UTC-6).
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: capacitacion-ina
+  cancel-in-progress: false
+
+jobs:
+  capacitacion-ina:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check -w extractores
+      - run: npm test -w extractores
+      - name: Cargar CSV revisado del INA
+        run: npm run start -w extractores -- capacitacion-ina --csv docs/capacitacion/plantilla.csv --guardar
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

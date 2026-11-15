@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "workspaces": [
-    "web"
+    "web",
+    "extractores",
+    "packages/compartido"
   ],
   "scripts": {
     "dev": "npm run dev -w web",

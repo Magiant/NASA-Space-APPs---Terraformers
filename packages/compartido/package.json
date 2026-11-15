@@ -1,0 +1,8 @@
+{
+  "name": "@terraformes/compartido",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { "./esquemas/datos": "./src/esquemas/datos.ts" },
+  "dependencies": { "zod": "^4.1.0" }
+}
