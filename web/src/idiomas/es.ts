@@ -118,6 +118,27 @@ export const es = {
     eligeDistrito: 'Elija un distrito',
   },
 
+  fondos: {
+    credito: 'Foto',
+    satelite: {
+      titulo: 'Vemos su zona desde el espacio',
+      texto: 'Usamos satélites de la NASA para medir la lluvia, la temperatura, la humedad del suelo y qué tan sanas están las plantas en cada distrito de Costa Rica.',
+    },
+    dron: {
+      titulo: 'Drones que miden su finca',
+      texto: 'Un vuelo de dron muestra, parcela por parcela, dónde falta agua, dónde hay una plaga o dónde las plantas están débiles.',
+      boton: 'Ver el escaneo con dron',
+    },
+    ndvi: {
+      titulo: 'Así ve el dron su finca',
+      texto: 'Una cámara especial del dron mide el índice verde (NDVI): cada color dice qué tan sanas están las plantas, y así se ven las zonas con estrés antes de que se noten a simple vista.',
+    },
+    cafetal: {
+      titulo: 'Hecho para el agricultor costarricense',
+      texto: 'La herramienta apoya su decisión: su experiencia y la de los técnicos del MAG siguen siendo lo más importante.',
+    },
+  },
+
   inicio: {
     titulo: '¿Qué sembrar en su zona?',
     subtitulo: 'Elija dónde está su finca y le mostramos los cultivos que mejor se dan ahí.',
