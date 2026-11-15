@@ -83,16 +83,17 @@ export function armarDistritos(poligonos: FeaturePoligono[], puntos: FeaturePunt
   return lista
 }
 
-function leerDelZip(nombre: string): { features: unknown[] } {
-  return JSON.parse(execFileSync('unzip', ['-p', ZIP, nombre], { encoding: 'utf8', maxBuffer: 300e6 }))
-}
-
-export async function cargarDistritosHdx(args: Argumentos): Promise<void> {
+/** Lee un GeoJSON del ZIP de HDX (lo baja la primera vez). También lo usa scripts/mapas-web.ts. */
+export function leerDelZip(nombre: string): { features: unknown[] } {
   if (!existsSync(ZIP)) {
     mkdirSync(DIR_CACHE, { recursive: true })
     console.log('Descargando límites de HDX (165 MB, una sola vez)…')
     execFileSync('curl', ['-sSL', '--fail', '--max-time', '900', '-o', ZIP, URL_ZIP], { stdio: 'inherit' })
   }
+  return JSON.parse(execFileSync('unzip', ['-p', ZIP, nombre], { encoding: 'utf8', maxBuffer: 300e6 }))
+}
+
+export async function cargarDistritosHdx(args: Argumentos): Promise<void> {
   const distritos = armarDistritos(
     leerDelZip('cri_admin3.geojson').features as FeaturePoligono[],
     leerDelZip('cri_adminpoints.geojson').features as FeaturePunto[],

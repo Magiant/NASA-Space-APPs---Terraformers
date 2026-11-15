@@ -9,7 +9,8 @@
   },
   "scripts": {
     "extraer": "node --env-file-if-exists=../.env src/main.ts",
-    "test": "node --test \"test/**/*.test.ts\""
+    "test": "node --test \"test/**/*.test.ts\"",
+    "mapas-web": "node scripts/mapas-web.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
