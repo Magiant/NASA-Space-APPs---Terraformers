@@ -1,4 +1,4 @@
-import { FotoFranja, Icono } from '../../componentes/Iconos';
+import { FotoAlerta, FotoFranja, Icono } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
@@ -40,6 +40,7 @@ export default function Alertas() {
       <div className="lista-alertas">
         {alertas.datos?.map((a) => (
           <article key={a.objectID} className={`alerta alerta-${a.nivel}`}>
+            <FotoAlerta tipo={`${a.tipo} ${a.titulo} ${a.descripcion}`} etiqueta={t.cultivo.foto} />
             <p className="alerta-nivel">
               {ta.nivel[a.nivel]} · {a.fuente} · {a.tipo}
             </p>
