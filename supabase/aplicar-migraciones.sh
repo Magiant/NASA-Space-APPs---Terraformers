@@ -27,6 +27,7 @@ create table if not exists migraciones.aplicadas (
 SQL
 
 aplicadas=0
+pendientes=()
 for f in $(find "$DIR" -maxdepth 1 -name '*.sql' | sort); do
   nombre=$(basename "$f")
   if [[ ! "$nombre" =~ ^[0-9]{3}_[a-z0-9_]+\.sql$ ]]; then
@@ -50,11 +51,39 @@ for f in $(find "$DIR" -maxdepth 1 -name '*.sql' | sort); do
     continue
   fi
 
-  echo "→ Aplicando $nombre"
-  psql_ --single-transaction -c "$SILENCIO" -f "$f" \
-    -c "insert into migraciones.aplicadas (archivo, huella) values ('$nombre', '$huella')"
-  aplicadas=$((aplicadas + 1))
+  pendientes+=("$f")
 done
+
+# Se aplican en orden. Si una falla porque depende de otra que viene después (por ejemplo, 001 usa
+# la tabla distritos que crea 009), se reintenta en la vuelta siguiente; cada intento es una
+# transacción, así que un fallo no deja nada a medias. Se detiene cuando una vuelta no avanza.
+aplicar() {
+  local f="$1" nombre huella
+  nombre=$(basename "$f"); huella=$(sha256sum "$f" | cut -d' ' -f1)
+  psql_ --single-transaction -c "$SILENCIO" -f "$f" \
+    -c "insert into migraciones.aplicadas (archivo, huella) values ('$nombre', '$huella')" 2>"$ERRORES"
+}
+ERRORES=$(mktemp)
+while ((${#pendientes[@]})); do
+  quedan=()
+  for f in "${pendientes[@]}"; do
+    echo "→ Aplicando $(basename "$f")"
+    if aplicar "$f"; then
+      aplicadas=$((aplicadas + 1))
+    else
+      echo "  (falló; se reintenta después de las demás: $(grep -m1 ERROR "$ERRORES" || head -1 "$ERRORES"))"
+      quedan+=("$f")
+    fi
+  done
+  if ((${#quedan[@]} == ${#pendientes[@]})); then
+    echo "✘ No se pudieron aplicar: $(for f in "${quedan[@]}"; do basename "$f"; done | tr '\n' ' ')" >&2
+    cat "$ERRORES" >&2
+    rm -f "$ERRORES"
+    exit 1
+  fi
+  pendientes=("${quedan[@]}")
+done
+rm -f "$ERRORES"
 
 psql_ -c "notify pgrst, 'reload schema'"
 echo "✔ Listo: $aplicadas migración(es) nueva(s) aplicada(s)."
