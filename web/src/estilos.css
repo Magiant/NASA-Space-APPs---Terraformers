@@ -994,7 +994,10 @@ body::before {
 
 .filtros, .interruptor, .interruptor-4, .buscador, .linea-tiempo, .mapa-dron, .campo-suelto, .config, .ajustes { max-width: none; }
 .formulario-centrado, .vacio { max-width: none; }
-.formulario-centrado { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+/* Los formularios (Entrar, Crear cuenta, Nueva finca, Nueva siembra, Reportar plaga…) van sobre un panel claro y plano:
+   sus letras son oscuras, así que sin este fondo no se leen sobre el verde de la página. */
+.formulario-centrado { padding: 24px var(--margen); border: 1px solid var(--borde); border-radius: 0; background: var(--superficie); box-shadow: none; }
+@media (min-width: 900px) { .formulario-centrado { padding: 32px clamp(24px, 3vw, 48px); } }
 @media (min-width: 900px) {
   .formulario-centrado :is(.formulario), .formulario-centrado.formulario {
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; align-items: start;
@@ -1012,7 +1015,7 @@ body::before {
 .aviso { border-radius: 0; }
 .aviso-error { border-left: 4px solid var(--nor); }
 :root[data-tema='crema'] .contenido :is(.tarjeta, .ficha, .acceso) { border-color: var(--borde); box-shadow: none; }
-:root[data-tema='crema'] .contenido .formulario-centrado { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+:root[data-tema='crema'] .contenido .formulario-centrado { border: 1px solid var(--borde); border-radius: 0; background: var(--superficie); box-shadow: none; }
 .vacio { text-align: left; padding: 24px 0; }
 .portada, .portada-sello, .cifras li, .lista-enlaces a, .foto-parallax, .seccion-fondo, .tarjeta-cta,
 .tc-foto, .foto-alerta img, .foto-descriptiva img { border-radius: 0; }
@@ -1186,6 +1189,12 @@ body::before {
 .marca-texto { display: flex; flex-direction: column; line-height: 1.05; }
 .marca-texto small { margin-top: 2px; font: 700 0.58rem/1 var(--fuente); letter-spacing: 0.14em; text-transform: uppercase; color: var(--texto-suave); }
 .pie .marca-texto small { color: rgb(255 255 255 / 0.72); }
+
+/* Dentro de un formulario, en computadora: Provincia, Cantón y Distrito en una sola fila. */
+@media (min-width: 900px) {
+  .formulario-centrado .selector-ubicacion { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 28px; align-items: end; }
+  .formulario-centrado .selector-ubicacion > :not(label) { grid-column: 1 / -1; }
+}
 
 /* ===== Escaneo con dron ===== */
 .dron-controles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 24px; margin-top: 18px; }
