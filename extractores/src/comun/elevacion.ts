@@ -7,6 +7,9 @@
 //         los puntos de cada distrito son siempre los mismos, así que desde la segunda corrida no se gasta cupo.
 // ELE-02  Si Open-Meteo responde 429 (límite superado), el resto se pide a OpenTopoData (SRTM 90 m, gratis,
 //         100 puntos por consulta, 1 consulta por segundo): https://www.opentopodata.org/api/
+// ELE-03  `soloOpenTopoData` (pendiente del tema 9): todos los puntos del mismo modelo (SRTM), para que la
+//         diferencia entre vecinos no mezcle dos fuentes, y sin gastar el cupo de Open-Meteo. Se guardan en la
+//         caché con el prefijo `srtm:` para no confundirlos con las alturas de Open-Meteo.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { esperar, obtenerJson } from './http.ts'
@@ -19,7 +22,7 @@ const MAX_POR_CONSULTA = 100
 const DIR_CACHE = fileURLToPath(new URL('../../.cache/', import.meta.url))
 const ARCHIVO_CACHE = DIR_CACHE + 'elevacion.json'
 
-const clave = ([lng, lat]: Coordenada) => `${lat.toFixed(5)},${lng.toFixed(5)}`
+const claveBase = ([lng, lat]: Coordenada) => `${lat.toFixed(5)},${lng.toFixed(5)}`
 
 function leerCache(): Record<string, number | null> {
   try {
@@ -54,16 +57,17 @@ async function openTopoData(parte: Coordenada[]): Promise<Array<number | null>> 
 }
 
 /** Altitud (m) de cada coordenada [lng, lat], en el mismo orden. Sin dato → null. */
-export async function elevacionDePuntos(coords: Coordenada[]): Promise<Array<number | null>> {
+export async function elevacionDePuntos(coords: Coordenada[], o: { soloOpenTopoData?: boolean } = {}): Promise<Array<number | null>> {
   const cache = leerCache()
+  const clave = (c: Coordenada) => (o.soloOpenTopoData ? 'srtm:' : '') + claveBase(c)
   const faltan = [...new Map(coords.filter((c) => !(clave(c) in cache)).map((c) => [clave(c), c])).values()]
-  let fuente: 'open-meteo' | 'opentopodata' = 'open-meteo'
+  let fuente: 'open-meteo' | 'opentopodata' = o.soloOpenTopoData ? 'opentopodata' : 'open-meteo'
   let consultados = 0
   for (let i = 0; i < faltan.length; i += MAX_POR_CONSULTA) {
     const parte = faltan.slice(i, i + MAX_POR_CONSULTA)
     let alturas = fuente === 'open-meteo' ? await openMeteo(parte) : null
     if (!alturas) {
-      if (fuente === 'open-meteo') console.log('  Open-Meteo llegó a su límite de llamadas: el resto de alturas sale de OpenTopoData (SRTM 90 m)')
+      if (fuente === 'open-meteo' && !o.soloOpenTopoData) console.log('  Open-Meteo llegó a su límite de llamadas: el resto de alturas sale de OpenTopoData (SRTM 90 m)')
       fuente = 'opentopodata'
       alturas = await openTopoData(parte)
       await esperar(1_100) // OpenTopoData: máximo una consulta por segundo
