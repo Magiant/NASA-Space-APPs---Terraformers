@@ -16,6 +16,8 @@ export const en: Textos = {
     noEncontrada: 'We could not find that page',
     irInicio: 'Go home',
     datosEjemplo: 'Test version: data shown is sample data.',
+    datosReales: 'Climate, soil and water: real data (NASA, Open-Meteo, SoilGrids). Crops, prices and recommendations: test estimate.',
+    sinDato: 'No data',
     actualizados: (que) => `${que} updated:`,
     datos: 'Data',
     precios: 'Prices',
