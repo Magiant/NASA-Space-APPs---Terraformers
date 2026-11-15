@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Las cinco secciones de la web, cada una con su ruta (HashRouter: app://local/index.html#/precios).
 enum Seccion: String, CaseIterable, Hashable {
-    case sembrar = "/"
+    case sembrar = "/sembrar"   // "/" es la página de módulos (Inicio)
     case precios = "/precios"
     case alertas = "/alertas"
     case cursos = "/capacitaciones"
