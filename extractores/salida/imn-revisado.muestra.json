@@ -1,0 +1,18 @@
+[
+ {
+  "fuente": "imn",
+  "id_externo": "prueba-001",
+  "tipo": "aviso_meteorologico",
+  "nivel": null,
+  "titulo": "PRUEBA FICTICIA — no es una alerta real",
+  "descripcion": "Solo para comprobar normalización.",
+  "codigos_distrito": [
+   "CR10101",
+   "CR30110",
+   "CR50501"
+  ],
+  "inicio": null,
+  "fin": null,
+  "url": "https://www.imn.ac.cr/"
+ }
+]

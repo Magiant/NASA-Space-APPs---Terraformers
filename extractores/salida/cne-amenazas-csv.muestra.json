@@ -1,0 +1,26 @@
+[
+ {
+  "codigo_distrito": "CR10101",
+  "tipo": "inundacion",
+  "nivel": "medio",
+  "meses_riesgo": null,
+  "fuente": "PRUEBA: ficticia"
+ },
+ {
+  "codigo_distrito": "CR30110",
+  "tipo": "deslizamiento",
+  "nivel": "alto",
+  "meses_riesgo": [
+   9,
+   10
+  ],
+  "fuente": "PRUEBA: ficticia"
+ },
+ {
+  "codigo_distrito": "CR50501",
+  "tipo": "sequia",
+  "nivel": "bajo",
+  "meses_riesgo": null,
+  "fuente": "PRUEBA: ficticia"
+ }
+]
