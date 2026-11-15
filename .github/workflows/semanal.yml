@@ -1,0 +1,82 @@
+# Extractores SEMANALES → Supabase. Cada tema agrega su paso en el job que le toca.
+# Secretos necesarios (Settings > Secrets and variables > Actions):
+#   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite):
+#   ECOSTRESS (AppEEARS) necesita EARTHDATA_USERNAME y EARTHDATA_PASSWORD (AppEEARS rechaza el token).
+name: Extractores semanales
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'    # lunes 02:00 Costa Rica (UTC-6): capacitación INA
+    - cron: '0 10 * * 1'   # lunes 04:00 Costa Rica: humedad, temperatura y ECOSTRESS
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: extractores-semanales
+  cancel-in-progress: false
+
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+jobs:
+  # Tema 6 · Capacitación del agricultor (docs/capacitacion/README.md):
+  # cursos de la página del Núcleo Agropecuario del INA + el CSV revisado a mano (otros cursos o instituciones).
+  capacitacion-ina:
+    if: github.event.schedule == '0 8 * * 1' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node --test extractores/test/capacitacion-ina.test.ts extractores/test/temas-6-y-8.test.ts
+      - name: Cursos de la página del INA
+        run: npm run extraer -- capacitacion-ina-web
+      - name: Cargar CSV revisado del INA
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- capacitacion-ina --archivo=../docs/capacitacion/plantilla.csv
+
+  extraer:
+    if: github.event.schedule == '0 10 * * 1' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 240   # ECOSTRESS espera a que AppEEARS procese (hasta 90 min por tarea)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      # Tema 2 · Humedad del suelo (NASA POWER: superficie, raíz y perfil, últimos 14 días)
+      - name: Humedad del suelo NASA POWER
+        run: npm run extraer -- humedad-power
+
+      # Tema 7 · Temperatura NASA POWER corregida por altitud (últimos 21 días)
+      - name: Temperatura NASA POWER
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- temperatura-power
+
+      # Tema 7 · Olas de calor: lee clima_diario (sin APIs) y guarda olas_calor
+      - name: Olas de calor
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- olas-calor
+
+      # Tema 4 · ECOSTRESS (ET real y estrés hídrico) vía AppEEARS
+      - name: Agua ECOSTRESS
+        if: ${{ !cancelled() }}
+        env:
+          EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+          EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
+        run: npm run extraer -- agua-ecostress
+
+      # Resultado · Aptitud distrito × cultivo con todo lo anterior (sin APIs; también lee precios y amenazas)
+      - name: Aptitud
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- aptitud

@@ -1,0 +1,62 @@
+# Cargas que se corren UNA VEZ (o pocas veces), a mano desde la pestaña Actions.
+# Elegir el extractor y, si aplica, sus opciones (p. ej. --desde=2025-01-01 --hasta=2025-12-31).
+name: Cargas únicas
+
+on:
+  workflow_dispatch:
+    inputs:
+      extractor:
+        description: 'Extractor a correr'
+        required: true
+        type: choice
+        options:
+          - distritos              # tema 0 · HDX/INEC: CORRER PRIMERO (todo depende de esta tabla)
+          - clima-historico        # tema 1 · Open-Meteo (cupo limitado, reanudable)
+          - temperatura-historica  # tema 7 · NASA POWER (por defecto desde 2021)
+          - agua-historica         # tema 4 · agrega clima_diario (correr después de los dos anteriores)
+          - cultivos               # tema 5 · catálogo + reglas de rotación: ANTES de ecocrop, gaez y aptitud
+          - terreno                # tema 9 · altitud y pendiente (OpenTopoData): ANTES de capacidad-uso
+          - amenazas               # tema 8 · amenazas por distrito desde datos/riesgos/amenazas.csv
+          # Tema 10 · Compatibilidad del sector. Orden recomendado:
+          # soilgrids → ecocrop, gaez, areas-protegidas → capacidad-uso (al final).
+          # El censo se corre en local con el Excel del INEC (CENSO_EXCEL=ruta.xlsx npm run extraer -- censo).
+          - soilgrids
+          - ecocrop
+          - gaez
+          - areas-protegidas
+          - capacidad-uso
+          - aptitud                # resultado · recalcular a mano (también corre cada lunes)
+          # Los demás temas agregan aquí su carga única (distritos, elevacion...).
+      opciones:
+        description: 'Opciones extra, ej. --desde=2025-01-01 --hasta=2025-12-31 --presupuesto=9000'
+        required: false
+        default: ''
+
+jobs:
+  cargar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      # Solo lo usa areas-protegidas (token gratis en https://api.protectedplanet.net/request).
+      WDPA_API_TOKEN: ${{ secrets.WDPA_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Guarda los mapas de SoilGrids y GAEZ ya bajados para no volver a descargarlos.
+      - uses: actions/cache@v4
+        with:
+          path: extractores/.cache
+          key: extractores-cache-${{ inputs.extractor }}-${{ github.run_id }}
+          restore-keys: extractores-cache-${{ inputs.extractor }}-
+      - name: Carga ${{ inputs.extractor }}
+        env:
+          EXTRACTOR: ${{ inputs.extractor }}
+          OPCIONES: ${{ inputs.opciones }}
+        # Las entradas van por variables de entorno (no interpoladas en el script) para evitar inyección.
+        run: npm run extraer -- "$EXTRACTOR" $OPCIONES

@@ -1,0 +1,4 @@
+institucion,titulo,tema,cultivo_id,modalidad,duracion_horas,provincias,url
+INA,Cultivo de aguacate,cultivo,aguacate,,60,,https://example.invalid/cursos/aguacate
+INA,Cultivo de café,cultivo,cafe,,80,,https://example.invalid/cursos/cafe
+INA,Cultivo de cacao,cultivo,cacao,,96,,https://example.invalid/cursos/cacao

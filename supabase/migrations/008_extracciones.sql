@@ -1,0 +1,1 @@
+-- 008: la tabla extracciones ya se crea en 009_datos_extraidos.sql; su política de lectura para admin está en 006.

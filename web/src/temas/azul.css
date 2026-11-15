@@ -1,0 +1,31 @@
+/* Tema AZUL (oscuro): azul noche casi negro, con verde brillante como acento.
+   Para cambiar colores del tema oscuro, solo se toca este archivo. */
+:root[data-tema='azul'] {
+  --fondo: #0b1120;
+  --fondo-degradado: linear-gradient(180deg, #0d1426 0%, #080d19 100%);
+  --superficie: #131c31;
+  --superficie-2: #1a2540;
+  --superficie-3: #22304f;
+  --texto: #e8edf7;
+  --texto-suave: #a3afc6;
+  --borde: #26324d;
+  --borde-fuerte: #34446a;
+
+  --primario: #5fc27d;
+  --primario-fuerte: #82d69b;
+  --primario-suave: #17331f;
+  --primario-texto: #07140b;
+  --acento: #8fb4ff;
+  --tierra: #d8a878;
+
+  --exc: #7ed99a;   --exc-fondo: #143222;
+  --bue: #f2c75c;   --bue-fondo: #382d12;
+  --nor: #ff9b82;   --nor-fondo: #401c18;
+  --des: #b3bccd;   --des-fondo: #1f2738;
+
+  --ok: #7ed99a;
+  --error: #ff9b82;
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+  --sombra-fuerte: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 32px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}

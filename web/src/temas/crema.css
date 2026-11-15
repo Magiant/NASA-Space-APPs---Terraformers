@@ -1,0 +1,45 @@
+/* Tema CLARO: blanco limpio con un toque cálido muy leve, verde bosque sobrio.
+   Para cambiar colores del tema claro, solo se toca este archivo. */
+:root,
+:root[data-tema='crema'] {
+  --fondo: #f4f1e8;                 /* Campo: tierra clara, cálida */
+  --fondo-degradado: linear-gradient(180deg, #f8f5ed 0%, #f1eee3 100%);
+  --superficie: #fffdf8;            /* tarjetas */
+  --superficie-2: #efebdf;          /* campos, chips, fondos secundarios */
+  --superficie-3: #e5e0d1;
+  --texto: #1b241d;
+  --texto-suave: #55605a;
+  --borde: #ddd8c8;
+  --borde-fuerte: #bdb7a3;
+
+  --primario: #1f5a35;              /* verde bosque profundo (8:1 sobre superficie) */
+  --primario-fuerte: #143f25;
+  --primario-suave: #e1eddf;
+  --primario-texto: #ffffff;
+  --acento: #1e3a5f;
+  --tierra: #8a6a46;
+
+  --exc: #18794a;   --exc-fondo: #e3f3e9;
+  --bue: #8a6200;   --bue-fondo: #fdf3d7;
+  --nor: #b4372a;   --nor-fondo: #fbe7e4;
+  --des: #646b66;   --des-fondo: #eeefec;
+
+  --ok: #18794a;
+  --error: #b4372a;
+  --sombra: 0 1px 2px rgb(16 24 20 / 0.04), 0 2px 8px rgb(16 24 20 / 0.04);
+  --sombra-fuerte: 0 4px 10px rgb(16 24 20 / 0.06), 0 16px 36px rgb(16 24 20 / 0.08);
+  color-scheme: light;
+
+  /* "Mesa" verde bosque: el fondo de toda la página. Las tarjetas siguen en crema encima. */
+  --mesa: #0f2a1c;
+  --mesa-degradado:
+    radial-gradient(1100px 700px at 8% -8%, #1e4c32 0%, transparent 62%),
+    radial-gradient(900px 650px at 105% 35%, #173f2a 0%, transparent 60%),
+    linear-gradient(180deg, #11301f 0%, #0b2216 100%);
+  --mesa-texto: #eef4ec;           /* texto que va directo sobre el verde */
+  --mesa-texto-suave: #b5c9b9;
+  --mesa-borde: rgb(255 255 255 / 0.16);
+  --mesa-primario: #86d6a0;        /* enlaces y botones sobre el verde */
+  --mesa-primario-fuerte: #a8e6bc;
+  --mesa-primario-texto: #0b2216;
+}

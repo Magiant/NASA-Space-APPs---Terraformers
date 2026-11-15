@@ -1,0 +1,39 @@
+# Aplica a Supabase las migraciones nuevas de supabase/migrations/ (ver docs/migraciones.md).
+# Corre solo cuando se sube un cambio en esa carpeta a main o dev, o a mano desde la pestaña Actions.
+# Secreto necesario (Settings > Secrets and variables > Actions): SUPABASE_DB_URL
+name: Migraciones de Supabase
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'supabase/migrations/**'
+      - 'supabase/aplicar-migraciones.sh'
+  workflow_dispatch:
+
+# Nunca dos a la vez sobre la misma base.
+concurrency:
+  group: migraciones-supabase
+  cancel-in-progress: false
+
+jobs:
+  migrar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Comprobar el secreto
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "::error::Falta el secreto SUPABASE_DB_URL. Ver docs/migraciones.md"
+            exit 1
+          fi
+
+      - name: Instalar cliente de PostgreSQL
+        run: command -v psql || (sudo apt-get update -q && sudo apt-get install -y -q postgresql-client)
+
+      - name: Aplicar migraciones nuevas
+        run: bash supabase/aplicar-migraciones.sh
