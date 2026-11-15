@@ -42,6 +42,7 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'imn-subestacional': async (a) => (await import('./riesgos/imn-subestacional.ts')).extraerImnSubestacional(a), // diario.yml: automático
   'cne': async (a) => (await import('./riesgos/cne.ts')).extraerCNE(a),                     // diario.yml: boletín revisado a mano
   'imn': async (a) => (await import('./riesgos/imn.ts')).extraerIMN(a),                     // diario.yml: avisos revisados a mano
+  'amenazas-estimar': async (a) => (await import('./riesgos/estimar-amenazas.ts')).estimarAmenazas(a), // a mano, una vez: escribe datos/riesgos/amenazas.csv (necesita terreno)
   'amenazas': async (a) => (await import('./cargas-unicas/amenazas.ts')).cargarAmenazas(a), // unica-vez.yml
   // Tema 10 · Compatibilidad del sector. Orden: soilgrids → ecocrop, gaez, areas-protegidas, censo → capacidad-uso
   'soilgrids': temas2y10.soilgrids,                 // unica-vez.yml
@@ -50,6 +51,14 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'areas-protegidas': temas2y10.areasProtegidas,    // unica-vez.yml (necesita WDPA_API_TOKEN)
   'censo': temas2y10.censo,                         // en local: CENSO_EXCEL=ruta.xlsx
   'capacidad-uso': temas2y10.capacidadUso,          // unica-vez.yml (al final; necesita pendiente del tema 9)
+  // Tema 3 · Precios mayoristas PIMA-CENADA (boletín diario en PDF; necesita Chrome y pdftotext)
+  'precios-pima': async (a) => (await import('./precios/pima.ts')).extraerPima(a), // diario.yml (lunes a viernes)
+  // Tema 5 · Catálogo de cultivos y reglas de rotación (cultivos + secuencias). Correr ANTES de ecocrop, gaez y aptitud.
+  'cultivos': async (a) => (await import('./cultivos/cargar.ts')).cargarCultivos(a), // unica-vez.yml
+  // Tema 9 · Altitud y pendiente por distrito (OpenTopoData). Correr ANTES de capacidad-uso y aptitud.
+  'terreno': async (a) => (await import('./cargas-unicas/terreno.ts')).cargarTerreno(a), // unica-vez.yml
+  // Resultado · Aptitud distrito × cultivo (sin APIs; cruza clima, suelo, terreno, EcoCrop, GAEZ, amenazas y precios)
+  'aptitud': async (a) => (await import('./aptitud/calcular.ts')).calcularAptitud(a), // semanal.yml (al final)
   // Los demás temas agregan su línea aquí.
 }
 
