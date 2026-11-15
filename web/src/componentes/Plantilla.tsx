@@ -51,7 +51,7 @@ export default function Plantilla() {
         <div className="encabezado-interior">
           <Link to="/" className="marca">
             <img src="./icono.svg" alt="" width="34" height="34" />
-            <span>Terraformes</span>
+            <span className="marca-texto">TerraFarm<small>Together we grow</small></span>
           </Link>
 
           <nav className="nav-principal" aria-label={t.nav.secciones}>
@@ -97,7 +97,7 @@ export default function Plantilla() {
           <div className="pie-marca">
             <Link to="/" className="marca">
               <img src="./icono.svg" alt="" width="34" height="34" />
-              <span>Terraformes</span>
+              <span className="marca-texto">TerraFarm<small>Together we grow</small></span>
             </Link>
             <p>{t.comun.pieLema}</p>
             <p className="pie-aviso">{t.comun.pieAviso}</p>
@@ -111,7 +111,7 @@ export default function Plantilla() {
             <span>{t.comun.pie.replace(/^[^:]+:\s*/, '')}</span>
           </div>
         </div>
-        <div className="pie-final">© 2026 Terraformes · NASA Space Apps Challenge · Costa Rica</div>
+        <div className="pie-final">© 2026 TerraFarm · Together we grow · NASA Space Apps Challenge · Costa Rica</div>
       </footer>
 
       {usuario && !pathname.startsWith('/reportar-plaga') && (

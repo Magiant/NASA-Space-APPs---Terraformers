@@ -109,7 +109,7 @@ export function PanelAjustes({ alNavegar }: { alNavegar?: () => void }) {
         <div className="ajustes-fila ajustes-fila-fija">
           <span className="ajustes-icono" aria-hidden><Icono nombre="globo" tam={22} /></span>
           <span className="ajustes-texto">
-            Terraformes · NASA Space Apps
+            TerraFarm · Together we grow
             <small>{ta.fuentes}: {t.comun.pie.replace(/^[^:]+:\s*/, '')}</small>
           </span>
         </div>

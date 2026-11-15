@@ -1180,3 +1180,9 @@ body::before {
   .app { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
   .boton-flotante { display: inline-flex; }
 }
+
+/* Marca TerraFarm: nombre con su lema debajo. En celular solo se ve el ícono (ver .marca span). */
+.marca img { border-radius: 22%; }
+.marca-texto { display: flex; flex-direction: column; line-height: 1.05; }
+.marca-texto small { margin-top: 2px; font: 700 0.58rem/1 var(--fuente); letter-spacing: 0.14em; text-transform: uppercase; color: var(--texto-suave); }
+.pie .marca-texto small { color: rgb(255 255 255 / 0.72); }
