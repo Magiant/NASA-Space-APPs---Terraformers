@@ -41,7 +41,7 @@ export default function NuevaFinca() {
       <form className="formulario" onSubmit={enviar}>
         <label>
           {tn.nombre}
-          <input required value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={tn.ejemplo} />
+          <input required maxLength={80} value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder={tn.ejemplo} />
         </label>
         <fieldset>
           <legend>{tn.donde}</legend>

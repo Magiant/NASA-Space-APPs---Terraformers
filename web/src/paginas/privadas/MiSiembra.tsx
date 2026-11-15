@@ -73,7 +73,7 @@ export default function MiSiembra() {
               </div>
               <label>
                 {ts.quePaso}
-                <textarea rows={2} required value={nota} onChange={(e) => setNota(e.target.value)} />
+                <textarea rows={2} required maxLength={1000} value={nota} onChange={(e) => setNota(e.target.value)} />
               </label>
               <button className="boton">{ts.agregar}</button>
             </form>

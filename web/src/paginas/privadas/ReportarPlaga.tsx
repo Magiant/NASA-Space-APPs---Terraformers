@@ -177,7 +177,7 @@ export default function ReportarPlaga() {
 
         <label>
           {tp.queVe}
-          <textarea rows={3} value={sintomas} onChange={(e) => setSintomas(e.target.value)} placeholder={tp.queVeEjemplo} />
+          <textarea rows={3} maxLength={1000} value={sintomas} onChange={(e) => setSintomas(e.target.value)} placeholder={tp.queVeEjemplo} />
         </label>
 
         <fieldset>
