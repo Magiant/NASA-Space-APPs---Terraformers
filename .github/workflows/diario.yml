@@ -55,3 +55,7 @@ jobs:
         env:
           EXTRACTOR: ${{ matrix.extractor }}
         run: npm run extraer -- "$EXTRACTOR"
+      # Tema 2 · Humedad del suelo (Open-Meteo, 3 profundidades, últimos 7 días)
+      - name: Humedad del suelo Open-Meteo
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- humedad-open-meteo

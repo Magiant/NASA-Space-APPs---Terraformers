@@ -1,7 +1,12 @@
+
+# Extractores SEMANALES → Supabase. Cada tema agrega su paso en el job `extraer`.
+# Secretos necesarios (Settings > Secrets and variables > Actions):
+#   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
 name: Extractores semanales
 
 on:
   schedule:
+    - cron: '0 10 * * 1'   # lunes 04:00 hora de Costa Rica (UTC-6)
     # Lunes a las 02:00 de Costa Rica (UTC-6).
     - cron: '0 8 * * 1'
   workflow_dispatch:
@@ -17,6 +22,19 @@ jobs:
   capacitacion-ina:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+  workflow_dispatch:
+
+concurrency:
+  group: extractores-semanales
+  cancel-in-progress: false
+
+jobs:
+  extraer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,3 +48,10 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      # Tema 2 · Humedad del suelo (NASA POWER: superficie, raíz y perfil, últimos 14 días)
+      - name: Humedad del suelo NASA POWER
+        run: npm run extraer -- humedad-power
