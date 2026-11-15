@@ -837,3 +837,47 @@ body::before {
 .pie-columna a { color: rgb(255 255 255 / 0.78); text-decoration: none; font-weight: 500; }
 .pie-columna a:hover { color: #fff; text-decoration: underline; }
 .pie-final { border-top: 1px solid rgb(255 255 255 / 0.12); padding: 14px 16px; text-align: center; font-size: 0.78rem; color: rgb(255 255 255 / 0.55); }
+
+/* ================= Mesa verde (tema crema): fondo verde bosque, tarjetas crema ================= */
+/* Lo que tiene fondo propio (tarjetas, fichas, formularios…) sigue con texto oscuro; todo lo que va
+   directo sobre el verde pasa a texto claro. La lista de "papel" está en el :not(...) de cada regla. */
+:root[data-tema='crema'] { --topo-color: #9ad9ae; --topo-opacidad: 0.08; }
+:root[data-tema='crema'] body { background: var(--mesa-degradado), var(--mesa); background-attachment: fixed; }
+
+:root[data-tema='crema'] .contenido :is(h1, h2, h3, p, li, label, legend, dt, dd, figcaption, .vacio, .secuencia, .leyenda, .cargando):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto)) {
+  color: var(--mesa-texto);
+}
+:root[data-tema='crema'] .contenido :is(small, .ayuda, .actualizado, .separador, .ajustes-grupo h2):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .seccion-fondo, .tarjeta-cta) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto)) {
+  color: var(--mesa-texto-suave);
+}
+:root[data-tema='crema'] .contenido .separador:not(:is(.tarjeta, .formulario-centrado, .portada) *)::before,
+:root[data-tema='crema'] .contenido .separador:not(:is(.tarjeta, .formulario-centrado, .portada) *)::after { background: var(--mesa-borde); }
+
+/* Enlaces y botones sobre el verde */
+:root[data-tema='crema'] .contenido a:not(.boton, .tarjeta, .acceso, .alerta-corta, .tarjeta-cta, .seccion-fondo-credito):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces, .fila-precio, .alerta, .aviso, .tabla-envoltura, .linea-tiempo li, .portada, .ajustes-lista) *) { color: var(--mesa-primario); }
+:root[data-tema='crema'] .contenido .boton:not(.boton-secundario):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *) {
+  background: var(--mesa-primario); border-color: var(--mesa-primario); color: var(--mesa-primario-texto);
+}
+:root[data-tema='crema'] .contenido .boton:not(.boton-secundario):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *):hover { background: var(--mesa-primario-fuerte); border-color: var(--mesa-primario-fuerte); }
+:root[data-tema='crema'] .contenido .boton-secundario:not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *) {
+  color: var(--mesa-primario); border-color: var(--mesa-primario); background: rgb(134 214 160 / 0.06);
+}
+:root[data-tema='crema'] .contenido .boton-secundario:not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *):hover { background: rgb(134 214 160 / 0.16); }
+
+/* Los formularios centrados son siempre una tarjeta crema (también en celular). */
+:root[data-tema='crema'] .formulario-centrado {
+  padding: 24px 20px; border: 1px solid var(--borde); border-radius: 22px; background: var(--superficie); box-shadow: var(--sombra-fuerte);
+}
+@media (min-width: 900px) { :root[data-tema='crema'] .formulario-centrado { padding: 32px 40px; } }
+
+/* Panel de cultivos: vidrio verde sobre el paisaje difuminado */
+:root[data-tema='crema'] .escenario { border-color: var(--mesa-borde); box-shadow: 0 20px 60px rgb(0 0 0 / 0.25); }
+:root[data-tema='crema'] .escenario::before { background: linear-gradient(180deg, rgb(15 42 28 / 0.5), rgb(11 34 22 / 0.78)); }
+:root[data-tema='crema'] .escenario-foto { opacity: 0.6; }
+
+/* Tablas, separadores y el mapa del dron sobre el verde */
+:root[data-tema='crema'] .contenido .linea-tiempo { border-left-color: var(--mesa-borde); }
+:root[data-tema='crema'] .contenido .linea-tiempo li::before { border-color: var(--mesa); }
+:root[data-tema='crema'] .contenido .tarjeta, :root[data-tema='crema'] .contenido .acceso, :root[data-tema='crema'] .contenido .ficha { box-shadow: 0 6px 22px rgb(0 0 0 / 0.22); border-color: transparent; }
+/* Encabezado crema casi opaco sobre la mesa verde (si no, el verde detrás lo vuelve gris). */
+:root[data-tema='crema'] .encabezado { background: color-mix(in srgb, var(--superficie) 97%, transparent); box-shadow: 0 4px 20px rgb(0 0 0 / 0.18); }
