@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { Icono, Tx } from '../../componentes/Iconos';
+import SeccionFondo from '../../componentes/SeccionFondo';
 import SelectorUbicacion from '../../componentes/SelectorUbicacion';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
 import { useAuth } from '../../contexto/AuthContext';
@@ -78,6 +79,18 @@ export default function Inicio() {
         </>
       )}
 
+      <SeccionFondo foto="satelite" titulo={t.fondos.satelite.titulo} etiquetaCredito={t.fondos.credito}>
+        <p>{t.fondos.satelite.texto}</p>
+      </SeccionFondo>
+
+      <SeccionFondo foto="dron" titulo={t.fondos.dron.titulo} etiquetaCredito={t.fondos.credito}>
+        <p>{t.fondos.dron.texto}</p>
+        <Link to="/dron" className="boton">
+          <Icono nombre="dron" tam={20} /> {t.fondos.dron.boton}
+          {!usuario && <small className="boton-nota"><Tx>{t.comun.pideEntrar}</Tx></small>}
+        </Link>
+      </SeccionFondo>
+
       <section>
         <h2>{t.inicio.paraFinca}</h2>
         <div className="accesos">
@@ -90,6 +103,10 @@ export default function Inicio() {
           ))}
         </div>
       </section>
+
+      <SeccionFondo foto="cafetal" titulo={t.fondos.cafetal.titulo} etiquetaCredito={t.fondos.credito} alto="bajo">
+        <p>{t.fondos.cafetal.texto}</p>
+      </SeccionFondo>
     </>
   );
 }
