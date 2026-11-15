@@ -8,11 +8,22 @@
 import { leerArgumentos, type Argumentos } from './comun/argumentos.ts'
 import { extraerClimaOpenMeteo } from './clima/open-meteo.ts'
 import { cargarClimaHistorico } from './cargas-unicas/clima-historico.ts'
+import * as temas2y10 from './temas-2-y-10.ts'
 
 const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   // Tema 1 · Clima
   'clima': extraerClimaOpenMeteo,          // diario.yml
   'clima-historico': cargarClimaHistorico, // unica-vez.yml
+  // Tema 2 · Humedad del suelo (docs/temas-2-y-10.md)
+  'humedad-open-meteo': temas2y10.humedadOpenMeteo, // diario.yml
+  'humedad-power': temas2y10.humedadPower,          // semanal.yml
+  // Tema 10 · Compatibilidad del sector. Orden: soilgrids → ecocrop, gaez, areas-protegidas, censo → capacidad-uso
+  'soilgrids': temas2y10.soilgrids,                 // unica-vez.yml
+  'ecocrop': temas2y10.ecocrop,                     // unica-vez.yml (necesita cultivos, tema 5)
+  'gaez': temas2y10.gaez,                           // unica-vez.yml (necesita cultivos, tema 5)
+  'areas-protegidas': temas2y10.areasProtegidas,    // unica-vez.yml (necesita WDPA_API_TOKEN)
+  'censo': temas2y10.censo,                         // en local: CENSO_EXCEL=ruta.xlsx
+  'capacidad-uso': temas2y10.capacidadUso,          // unica-vez.yml (al final; necesita pendiente del tema 9)
   // Los demás temas agregan su línea aquí.
 }
 
