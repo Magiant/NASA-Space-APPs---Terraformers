@@ -186,6 +186,7 @@ export const en: Textos = {
     evite: 'Avoid:',
     dondeMejor: 'Where it grows best',
     cursos: 'Recommended courses',
+    foto: 'Photo',
     noExiste: 'We could not find that crop',
   },
 
