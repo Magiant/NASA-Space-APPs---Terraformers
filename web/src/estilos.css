@@ -284,7 +284,8 @@ select:disabled { opacity: 0.55; }
 }
 /* Portada con mapa: celular = texto, mapa, lista; escritorio = mapa a la izquierda, texto y lista a la derecha */
 .campo-siguiente select:not(:disabled) { border-color: var(--primario); box-shadow: 0 0 0 1px var(--primario); }
-.portada.con-mapa .mapa-ubicacion { height: clamp(260px, 72vw, 340px); margin-top: 16px; }
+/* En celular el mapa va más alto: Costa Rica sale más grande y los nombres de provincia no se enciman. */
+.portada.con-mapa .mapa-ubicacion { height: clamp(320px, 100vw, 440px); margin-top: 16px; }
 @media (min-width: 900px) {
   .portada.con-mapa {
     grid-template-columns: 1.15fr 1fr; grid-template-areas: 'mapa texto' 'mapa selector';

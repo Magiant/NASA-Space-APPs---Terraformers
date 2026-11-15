@@ -44,10 +44,11 @@ final class Webs {
     func vista(_ s: Seccion) -> WKWebView {
         if let v = vistas[s] { return v }
         let v = WKWebView(frame: .zero, configuration: configuracion)
-        // Mismo fondo que la web (token `fondo`), para que no se vea una franja blanca al final.
+        // Mismo fondo que la web, para que no se vea una franja de otro color al cargar ni al final.
+        // Tema claro: la "mesa" verde bosque (token `mesa`); tema oscuro: azul noche (token `fondo`).
         let fondo = UIColor { $0.userInterfaceStyle == .dark
             ? UIColor(red: 0.04, green: 0.07, blue: 0.13, alpha: 1)   // #0b1120
-            : UIColor(red: 0.96, green: 0.95, blue: 0.91, alpha: 1)   // #f4f1e8
+            : UIColor(red: 0.06, green: 0.16, blue: 0.11, alpha: 1)   // #0f2a1c
         }
         v.isOpaque = false
         v.backgroundColor = fondo

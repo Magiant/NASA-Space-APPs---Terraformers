@@ -192,7 +192,8 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
 
   const v = vista ?? objetivo;
   const ppu = v ? tam.ancho / (v[2] - v[0]) : 1; // píxeles por unidad del mapa
-  const letra = Math.min(18, Math.max(13, tam.ancho / 60)) / ppu; // un poco más grande en mapas grandes
+  // Un poco más grande en mapas grandes; en celular (mapa angosto) baja a 11 px para que los nombres no se encimen.
+  const letra = Math.min(18, Math.max(tam.ancho < 480 ? 11 : 13, tam.ancho / 60)) / ppu;
 
   const nombreProvincia = s.provincias.find((p) => p.codigo === s.provincia)?.nombre ?? '';
   const nombreCanton = s.cantones.find((c) => c.codigo === s.canton)?.nombre ?? '';
