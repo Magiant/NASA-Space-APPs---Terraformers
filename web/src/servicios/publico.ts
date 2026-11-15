@@ -2,7 +2,7 @@
 // Son de lectura pública: la web los lee directo con la llave anon, sin servidor propio.
 // Arma los mismos registros que usan las pantallas (RegistroZona, RegistroAlerta…), así no cambian.
 import { CULTIVOS } from '../datos-ejemplo/publicos';
-import type { NivelRiesgo, RegistroAlerta, RegistroCapacitacion, RegistroSiembraZona, RegistroZona } from '../tipos';
+import type { NivelRiesgo, RegistroAlerta, RegistroAptitud, RegistroCapacitacion, RegistroPrecio, RegistroSiembraZona, RegistroZona } from '../tipos';
 import { guardar, leer } from './almacen';
 import { datosDe, supa } from './cliente';
 
@@ -194,4 +194,94 @@ export async function siembrasZonaReales(codigo: string): Promise<RegistroSiembr
     codigo_distrito: f.codigo_distrito, cultivo_id: f.cultivo_id, cultivo: CULTIVOS.find((c) => c.id === f.cultivo_id)?.nombre ?? f.cultivo_id,
     hectareas: Number(f.hectareas), fincas: f.fincas, mes_cosecha: f.mes_cosecha ?? 1,
   }));
+}
+
+// ------------------------------------------------------------------
+// Cultivos (tema 5 + FAO EcoCrop), precios (PIMA-CENADA) y aptitud calculada
+// ------------------------------------------------------------------
+
+/**
+ * Completa el catálogo de cultivos con la base: ciclo (tabla cultivos) y lluvia y pH óptimos de la FAO
+ * (requisitos_cultivo, EcoCrop). La temperatura y la altitud siguen las fichas del MAG/INTA, que son las mismas
+ * que usa el cálculo de aptitud. Cambia los registros en su lugar para que todas las pantallas los vean.
+ */
+export async function completarCultivos(): Promise<void> {
+  const [cultivos, requisitos] = await Promise.all([
+    db().from('cultivos').select('id,ciclo_dias_min,ciclo_dias_max'),
+    db().from('requisitos_cultivo').select('cultivo_id,lluvia_opt_min_mm,lluvia_opt_max_mm,ph_opt_min,ph_opt_max'),
+  ]);
+  const C = new Map(datosDe<{ id: string; ciclo_dias_min: number | null; ciclo_dias_max: number | null }[]>(cultivos, 'Leer cultivos').map((c) => [c.id, c]));
+  const R = new Map(datosDe<{ cultivo_id: string; lluvia_opt_min_mm: number | null; lluvia_opt_max_mm: number | null; ph_opt_min: number | null; ph_opt_max: number | null }[]>(requisitos, 'Leer requisitos').map((r) => [r.cultivo_id, r]));
+  for (const c of CULTIVOS) {
+    const b = C.get(c.id); const r = R.get(c.id);
+    if (b?.ciclo_dias_min != null && b.ciclo_dias_max != null) { c.ciclo_dias_min = b.ciclo_dias_min; c.ciclo_dias_max = b.ciclo_dias_max; }
+    if (r?.lluvia_opt_min_mm != null && r.lluvia_opt_max_mm != null) { c.lluvia_opt_min_mm = Number(r.lluvia_opt_min_mm); c.lluvia_opt_max_mm = Number(r.lluvia_opt_max_mm); }
+    if (r?.ph_opt_min != null && r.ph_opt_max != null) { c.ph_opt_min = Number(r.ph_opt_min); c.ph_opt_max = Number(r.ph_opt_max); }
+  }
+}
+
+interface FilaPrecio { fecha_dato: string; producto_original: string; cultivo_id: string | null; variedad: string; unidad: string; precio_promedio: number | null }
+
+/** Último precio de cada producto del boletín PIMA-CENADA, con el del boletín anterior para la tendencia. */
+export async function preciosReales(): Promise<RegistroPrecio[]> {
+  const filas = datosDe<FilaPrecio[]>(
+    await db().from('precios_historico').select('fecha_dato,producto_original,cultivo_id,variedad,unidad,precio_promedio')
+      .eq('fuente', 'pima').gte('fecha_dato', haceDias(45)).order('fecha_dato', { ascending: false }).limit(5000),
+    'Leer precios',
+  );
+  const grupos = new Map<string, FilaPrecio[]>();
+  for (const f of filas) {
+    if (f.precio_promedio == null) continue;
+    const k = `${f.producto_original}|${f.unidad}`;
+    if (!grupos.has(k)) grupos.set(k, []);
+    grupos.get(k)!.push(f);
+  }
+  return [...grupos.values()].map(([ultimo, anterior]) => {
+    const precio = Math.round(Number(ultimo.precio_promedio));
+    const previo = anterior ? Math.round(Number(anterior.precio_promedio)) : precio;
+    const cambio = previo ? precio / previo - 1 : 0;
+    return {
+      objectID: `precio-pima-${ultimo.producto_original}-${ultimo.unidad}`,
+      producto: ultimo.producto_original, cultivo_id: ultimo.cultivo_id, fuente: 'PIMA' as const, mercado: 'CENADA',
+      unidad: ultimo.unidad, precio, precio_anterior: previo,
+      tendencia: cambio > 0.02 ? 'sube' as const : cambio < -0.02 ? 'baja' as const : 'estable' as const,
+      fecha: ultimo.fecha_dato,
+    };
+  });
+}
+
+/** Precio de referencia de un cultivo: la variedad "primera" si existe (calidad que reporta el PIMA). */
+export function precioDeCultivo(precios: RegistroPrecio[], cultivoId: string): RegistroPrecio | null {
+  const del = precios.filter((p) => p.cultivo_id === cultivoId);
+  return del.find((p) => /primera/i.test(p.producto)) ?? del[0] ?? null;
+}
+
+/** Serie diaria de un producto del boletín (para el gráfico). */
+export async function seriePrecio(producto: string, dias = 30): Promise<{ fecha: string; valor: number }[]> {
+  const filas = datosDe<{ fecha_dato: string; precio_promedio: number | null }[]>(
+    await db().from('precios_historico').select('fecha_dato,precio_promedio').eq('fuente', 'pima').eq('producto_original', producto)
+      .gte('fecha_dato', haceDias(dias + 15)).order('fecha_dato'),
+    'Leer serie de precios',
+  );
+  const porFecha = new Map<string, number>();
+  for (const f of filas) if (f.precio_promedio != null) porFecha.set(f.fecha_dato, Math.round(Number(f.precio_promedio)));
+  return [...porFecha].map(([fecha, valor]) => ({ fecha, valor }));
+}
+
+/** Fila de la tabla aptitud (extractores/src/aptitud/calcular.ts). */
+export interface FilaAptitud {
+  codigo_distrito: string; cultivo_id: string; puntaje: number; nivel: RegistroAptitud['nivel'];
+  nota_clima: number | null; nota_suelo: number | null; nota_agua: number | null; nota_mercado: number | null; nota_riesgo: number | null;
+  mes_siembra: number | null; motivo_descarte: string | null;
+}
+
+export async function aptitudDeDistrito(codigo: string): Promise<FilaAptitud[]> {
+  return datosDe(await db().from('aptitud').select('*').eq('codigo_distrito', codigo), 'Leer aptitud');
+}
+
+export async function aptitudDeCultivoReal(cultivoId: string, limite = 20): Promise<FilaAptitud[]> {
+  return datosDe(
+    await db().from('aptitud').select('*').eq('cultivo_id', cultivoId).neq('nivel', 'descartado').order('puntaje', { ascending: false }).limit(limite),
+    'Leer aptitud del cultivo',
+  );
 }
