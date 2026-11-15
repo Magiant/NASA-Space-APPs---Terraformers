@@ -1,262 +1,218 @@
-// Login y datos PRIVADOS del usuario (Supabase Auth + tablas con RLS).
-//
-// Por ahora es una simulación que guarda todo en el navegador, con usuarios de demo.
-// Cuando estén las tablas 001–008, cada función se cambia por la llamada real a
-// `@supabase/supabase-js` con la misma firma. Las comprobaciones de dueño y de rol
-// que se hacen aquí imitan lo que hará RLS en la base de datos.
-import { BASE_INICIAL, type BaseDemo } from '../datos-ejemplo/privados';
-import { semilla } from '../datos-ejemplo/publicos';
-import type {
-  Extraccion, Finca, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron,
-} from '../tipos';
-import { EXTRACCIONES } from '../datos-ejemplo/publicos';
-import { borrar, guardar, leer, nuevoId } from './almacen';
+// Login y datos PRIVADOS del usuario en Supabase (Auth + tablas con RLS: migraciones 001–007).
+// No hace falta un servidor propio: Supabase expone cada tabla y la base decide qué puede ver cada usuario.
+// Si la web no tiene las llaves (modo demo), se usa la simulación de ./demo.ts con la misma forma.
+import type { Extraccion, Finca, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron } from '../tipos';
+import { datosDe, modoReal, supa } from './cliente';
+import * as demo from './demo';
+import { seriePrecio } from './publico';
 
-const CLAVE_BASE = 'tf-demo-base-v1';
-const CLAVE_SESION = 'tf-sesion';
-
-const base = (): BaseDemo => leer(CLAVE_BASE, BASE_INICIAL);
-const escribir = (b: BaseDemo) => guardar(CLAVE_BASE, b);
+const db = () => supa!;
 const hoy = () => new Date().toISOString().slice(0, 10);
-const esperar = <T,>(v: T): Promise<T> => new Promise((ok) => setTimeout(() => ok(v), 200));
 
-function sinClave({ clave: _c, ...u }: BaseDemo['usuarios'][number]): Usuario {
-  return u;
+/** Fila de la tabla perfiles (migración 001). */
+interface FilaPerfil { id: string; nombre: string; correo: string | null; rol: Rol; codigo_distrito: string | null; creado: string }
+const aUsuario = (p: FilaPerfil, correo?: string | null): Usuario =>
+  ({ id: p.id, nombre: p.nombre, correo: p.correo ?? correo ?? '', rol: p.rol, codigo_distrito: p.codigo_distrito, creado: String(p.creado).slice(0, 10) });
+
+/** Perfil (tabla perfiles) del usuario con sesión, o null. */
+async function perfilDe(id: string, correo?: string | null): Promise<Usuario | null> {
+  const p = datosDe<FilaPerfil | null>(await db().from('perfiles').select('*').eq('id', id).maybeSingle(), 'Leer perfil');
+  return p ? aUsuario(p, correo) : null;
 }
 
-function usuarioActual(): Usuario {
-  const id = leer<string | null>(CLAVE_SESION, null);
-  const u = id ? base().usuarios.find((x) => x.id === id) : undefined;
-  if (!u) throw new Error('Necesita iniciar sesión.');
-  return sinClave(u);
+async function idActual(): Promise<string> {
+  const { data } = await db().auth.getSession();
+  const id = data.session?.user.id;
+  if (!id) throw new Error('Necesita iniciar sesión.');
+  return id;
 }
 
-function exigirRol(...roles: Rol[]): Usuario {
-  const u = usuarioActual();
-  if (!roles.includes(u.rol)) throw new Error('No tiene permiso para esto.');
-  return u;
+/**
+ * Mensajes de Supabase Auth en palabras simples, diciendo POR QUÉ no se acepta y qué hacer.
+ * Supabase responde en inglés y a veces con un código (error.code); se revisan los dos.
+ */
+function mensajeAuth(m: string, codigo?: string, correo?: string): string {
+  const c = correo ? `«${correo}»` : 'ese correo';
+  const segundos = m.match(/after (\d+) seconds?/i)?.[1];
+  const minimo = m.match(/at least (\d+) characters?/i)?.[1];
+  if (/invalid login credentials/i.test(m)) return 'Correo o contraseña incorrectos. Revise que el correo esté bien escrito y que la contraseña tenga las mayúsculas correctas.';
+  if (codigo === 'user_already_exists' || /already registered|already exists/i.test(m))
+    return `Ya existe una cuenta con ${c}. Si es suya, use «Entrar». Si no recuerda la contraseña, pida ayuda al equipo.`;
+  if (codigo === 'email_not_confirmed' || /email not confirmed/i.test(m))
+    return 'Falta confirmar el correo: abra el mensaje que le enviamos (revise también «Spam» o «Promociones») y toque el enlace. Después vuelva a entrar.';
+  if (codigo === 'email_address_invalid' || /email address .* is invalid|invalid format|unable to validate email/i.test(m))
+    return `El servidor no acepta ${c}. Revise que esté bien escrito (nombre@dominio.com). Los correos inventados o de prueba (como @test.com o @example.com) no se aceptan: use uno real.`;
+  if (codigo === 'weak_password' || /should contain at least one character/i.test(m))
+    return 'La contraseña es muy débil: el servidor pide mezclar letras minúsculas, MAYÚSCULAS, números y algún símbolo (por ejemplo Finca#2026).';
+  if (minimo) return `La contraseña es muy corta: el servidor pide al menos ${minimo} caracteres.`;
+  if (codigo === 'over_email_send_rate_limit' || /email rate limit/i.test(m))
+    return 'Se pidieron demasiados correos de confirmación en poco tiempo (límite del servidor). Espere unos minutos e intente de nuevo.';
+  if (segundos) return `Por seguridad, espere ${segundos} segundos antes de intentarlo de nuevo.`;
+  if (codigo === 'signup_disabled' || /signups not allowed/i.test(m)) return 'Por ahora no se pueden crear cuentas nuevas. Avise al equipo.';
+  if (/database error saving new user/i.test(m)) return 'El servidor no pudo crear su perfil (error en la base de datos). Intente de nuevo y, si se repite, avise al equipo.';
+  if (/failed to fetch|network|load failed/i.test(m)) return 'No hay conexión con el servidor. Revise su señal o el wifi e intente de nuevo.';
+  return `No se pudo completar: ${m}`;
 }
 
-function fincaPropia(b: BaseDemo, fincaId: string, u: Usuario): Finca {
-  const f = b.fincas.find((x) => x.id === fincaId);
-  if (!f || (f.usuario_id !== u.id && u.rol !== 'admin')) throw new Error('Finca no encontrada.');
-  return f;
-}
-
-function siembraPropia(b: BaseDemo, siembraId: string, u: Usuario): Siembra {
-  const s = b.siembras.find((x) => x.id === siembraId);
-  if (!s) throw new Error('Siembra no encontrada.');
-  fincaPropia(b, s.finca_id, u);
-  return s;
-}
-
-export const auth = {
-  sesion: (): Usuario | null => {
-    try {
-      return usuarioActual();
-    } catch {
-      return null;
-    }
+const authReal = {
+  /** Sesión guardada en el navegador (al abrir la app). */
+  sesion: async (): Promise<Usuario | null> => {
+    const { data } = await db().auth.getSession();
+    const u = data.session?.user;
+    return u ? perfilDe(u.id, u.email) : null;
   },
-
   ingresar: async (correo: string, clave: string): Promise<Usuario> => {
-    const u = base().usuarios.find((x) => x.correo.toLowerCase() === correo.trim().toLowerCase());
-    if (!u || u.clave !== clave) throw new Error('Correo o contraseña incorrectos.');
-    guardar(CLAVE_SESION, u.id);
-    return esperar(sinClave(u));
+    const { data, error } = await db().auth.signInWithPassword({ email: correo.trim(), password: clave });
+    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
+    const p = await perfilDe(data.user.id, data.user.email);
+    if (!p) throw new Error('La cuenta no tiene perfil. Avise al equipo.');
+    return p;
   },
-
-  /** Todo usuario nuevo es agricultor. Los roles técnico y admin solo los asigna un administrador. */
+  /** Toda cuenta nueva es agricultor (lo asegura la base). Si Supabase pide confirmar el correo, lo avisa. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {
-    const b = base();
-    const c = correo.trim().toLowerCase();
-    if (b.usuarios.some((x) => x.correo.toLowerCase() === c)) throw new Error('Ya existe una cuenta con ese correo.');
-    if (clave.length < 8) throw new Error('La contraseña debe tener al menos 8 caracteres.');
-    const u = { id: nuevoId(), nombre: nombre.trim(), correo: c, clave, rol: 'agricultor' as const, codigo_distrito: codigoDistrito, creado: hoy() };
-    b.usuarios.push(u);
-    escribir(b);
-    guardar(CLAVE_SESION, u.id);
-    return esperar(sinClave(u));
+    if (clave.length < 8) throw new Error(`La contraseña tiene ${clave.length} caracteres: necesita al menos 8.`);
+    const { data, error } = await db().auth.signUp({
+      email: correo.trim(), password: clave,
+      options: { data: { nombre: nombre.trim(), codigo_distrito: codigoDistrito } },
+    });
+    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
+    // Con "Confirm email" activo, Supabase responde sin sesión. Si el correo ya existía, responde un usuario sin identidades.
+    if (data.user && data.user.identities?.length === 0) throw new Error(mensajeAuth('already registered', 'user_already_exists', correo.trim()));
+    if (!data.session || !data.user)
+      throw new Error(`Cuenta creada. Le enviamos un correo a «${correo.trim()}» para confirmarla: ábralo (revise también «Spam» o «Promociones»), toque el enlace y después entre.`);
+    const p = await perfilDe(data.user.id, data.user.email);
+    if (!p) throw new Error('No se pudo crear el perfil.');
+    return p;
   },
-
   salir: async (): Promise<void> => {
-    borrar(CLAVE_SESION);
+    await db().auth.signOut();
   },
 };
 
-export const datos = {
-  // ---------------- Fincas ----------------
+const datosReales = {
+  // ---------------- Fincas (RLS: solo las propias) ----------------
   misFincas: async (): Promise<Finca[]> => {
-    const u = usuarioActual();
-    return esperar(base().fincas.filter((f) => f.usuario_id === u.id));
+    const id = await idActual();
+    return datosDe(await db().from('fincas').select('*').eq('usuario_id', id).order('creado'), 'Leer fincas');
   },
+  finca: async (id: string): Promise<Finca> =>
+    datosDe(await db().from('fincas').select('*').eq('id', id).single(), 'Finca no encontrada'),
+  crearFinca: async (f: Omit<Finca, 'id' | 'usuario_id' | 'creado'>): Promise<Finca> =>
+    datosDe(await db().from('fincas').insert(f).select().single(), 'Guardar finca'),
 
-  finca: async (id: string): Promise<Finca> => esperar(fincaPropia(base(), id, usuarioActual())),
-
-  crearFinca: async (f: Omit<Finca, 'id' | 'usuario_id' | 'creado'>): Promise<Finca> => {
-    const u = usuarioActual();
-    const b = base();
-    const nueva: Finca = { ...f, id: nuevoId(), usuario_id: u.id, creado: hoy() };
-    b.fincas.push(nueva);
-    escribir(b);
-    return esperar(nueva);
-  },
-
-  // ---------------- Siembras ----------------
+  // ---------------- Siembras (no se borran: se cierran) ----------------
   misSiembras: async (): Promise<Siembra[]> => {
-    const u = usuarioActual();
-    const b = base();
-    const ids = new Set(b.fincas.filter((f) => f.usuario_id === u.id).map((f) => f.id));
-    return esperar(b.siembras.filter((s) => ids.has(s.finca_id)));
+    const id = await idActual();
+    const filas = datosDe(
+      await db().from('siembras').select('*, fincas!inner(usuario_id)').eq('fincas.usuario_id', id).order('fecha_siembra', { ascending: false }),
+      'Leer siembras',
+    ) as (Siembra & { fincas?: unknown })[];
+    return filas.map(({ fincas: _f, ...s }) => s);
   },
-
-  siembra: async (id: string): Promise<Siembra> => esperar(siembraPropia(base(), id, usuarioActual())),
-
-  crearSiembra: async (s: Pick<Siembra, 'finca_id' | 'cultivo_id' | 'area_ha' | 'fecha_siembra' | 'cosecha_esperada'>): Promise<Siembra> => {
-    const u = usuarioActual();
-    const b = base();
-    fincaPropia(b, s.finca_id, u);
-    const nueva: Siembra = { ...s, id: nuevoId(), estado: 'activa', resultado: null, cantidad: null, unidad: null, motivo: null, fecha_cierre: null };
-    b.siembras.push(nueva);
-    escribir(b);
-    return esperar(nueva);
-  },
-
-  /** Las siembras no se borran: se cierran con su resultado y pasan al histórico. */
+  siembra: async (id: string): Promise<Siembra> =>
+    datosDe(await db().from('siembras').select('*').eq('id', id).single(), 'Siembra no encontrada'),
+  crearSiembra: async (s: Pick<Siembra, 'finca_id' | 'cultivo_id' | 'area_ha' | 'fecha_siembra' | 'cosecha_esperada'>): Promise<Siembra> =>
+    datosDe(await db().from('siembras').insert(s).select().single(), 'Guardar siembra'),
   cerrarSiembra: async (id: string, r: Pick<Siembra, 'resultado' | 'cantidad' | 'unidad' | 'motivo'>): Promise<Siembra> => {
-    const u = usuarioActual();
-    const b = base();
-    const s = siembraPropia(b, id, u);
-    if (s.estado === 'finalizada') throw new Error('Esta siembra ya está cerrada.');
-    Object.assign(s, r, { estado: 'finalizada', fecha_cierre: hoy() });
-    escribir(b);
-    return esperar(s);
+    const fila = datosDe(
+      await db().from('siembras').update({ ...r, estado: 'finalizada', fecha_cierre: hoy() }).eq('id', id).eq('estado', 'activa').select().maybeSingle(),
+      'Cerrar siembra',
+    );
+    if (!fila) throw new Error('Esta siembra ya está cerrada.');
+    return fila;
   },
-
-  seguimiento: async (siembraId: string): Promise<Seguimiento[]> => {
-    const b = base();
-    siembraPropia(b, siembraId, usuarioActual());
-    return esperar(b.seguimiento.filter((g) => g.siembra_id === siembraId).sort((a, c) => c.fecha.localeCompare(a.fecha)));
-  },
-
-  agregarSeguimiento: async (g: Omit<Seguimiento, 'id' | 'fecha'>): Promise<Seguimiento> => {
-    const b = base();
-    siembraPropia(b, g.siembra_id, usuarioActual());
-    const nuevo: Seguimiento = { ...g, id: nuevoId(), fecha: hoy() };
-    b.seguimiento.push(nuevo);
-    escribir(b);
-    return esperar(nuevo);
-  },
+  seguimiento: async (siembraId: string): Promise<Seguimiento[]> =>
+    datosDe(await db().from('seguimiento').select('*').eq('siembra_id', siembraId).order('fecha', { ascending: false }), 'Leer notas'),
+  agregarSeguimiento: async (g: Omit<Seguimiento, 'id' | 'fecha'>): Promise<Seguimiento> =>
+    datosDe(await db().from('seguimiento').insert(g).select().single(), 'Guardar nota'),
 
   // ---------------- Plagas ----------------
-  reportarPlaga: async (r: Omit<ReportePlaga, 'id' | 'usuario_id' | 'estado'>): Promise<ReportePlaga> => {
-    const u = usuarioActual();
-    const b = base();
-    if (r.siembra_id) siembraPropia(b, r.siembra_id, u);
-    const nuevo: ReportePlaga = { ...r, id: nuevoId(), usuario_id: u.id, estado: 'pendiente' };
-    b.reportes.push(nuevo);
-    escribir(b);
-    return esperar(nuevo);
-  },
-
+  reportarPlaga: async (r: Omit<ReportePlaga, 'id' | 'usuario_id' | 'estado'>): Promise<ReportePlaga> =>
+    datosDe(await db().from('reportes_plaga').insert(r).select().single(), 'Enviar reporte'),
   misReportes: async (): Promise<ReportePlaga[]> => {
-    const u = usuarioActual();
-    return esperar(base().reportes.filter((r) => r.usuario_id === u.id));
+    const id = await idActual();
+    return datosDe(await db().from('reportes_plaga').select('*').eq('usuario_id', id).order('fecha', { ascending: false }), 'Leer reportes');
   },
 
   // ---------------- Dron ----------------
-  vuelosDron: async (fincaId: string): Promise<VueloDron[]> => {
-    const b = base();
-    fincaPropia(b, fincaId, usuarioActual());
-    return esperar(b.vuelos.filter((v) => v.finca_id === fincaId).sort((a, c) => c.fecha.localeCompare(a.fecha)));
-  },
+  vuelosDron: async (fincaId: string): Promise<VueloDron[]> =>
+    datosDe(await db().from('vuelos_dron').select('*').eq('finca_id', fincaId).order('fecha', { ascending: false }), 'Leer vuelos'),
 };
 
-/** Series largas públicas (tablas de datos extraídos en Supabase, lectura pública). */
-export const series = {
-  /** clima_diario: temperatura media de los últimos días. */
+/** Series largas públicas (datos extraídos, lectura pública). */
+const seriesReales = {
+  /** Temperatura media diaria del distrito en los últimos días (Open-Meteo; si no hay, NASA POWER). */
   temperatura: async (codigo: string, tempMedia: number, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
-    const fin = new Date('2026-11-14');
-    return esperar(
-      Array.from({ length: dias }, (_, i) => {
-        const d = new Date(fin);
-        d.setDate(fin.getDate() - (dias - 1 - i));
-        const s = semilla(codigo + i);
-        return { fecha: d.toISOString().slice(0, 10), valor: Math.round((tempMedia + Math.sin(i / 4) * 1.2 + (s - 0.5) * 1.5) * 10) / 10 };
-      }),
-    );
+    const desde = new Date(Date.now() - dias * 864e5).toISOString().slice(0, 10);
+    const filas = datosDe(
+      await db().from('clima_diario').select('fecha,fuente,temp_media_c').eq('codigo_distrito', codigo).gte('fecha', desde).not('temp_media_c', 'is', null).order('fecha'),
+      'Leer temperatura',
+    ) as { fecha: string; fuente: string; temp_media_c: number }[];
+    const porFecha = new Map<string, number>();
+    for (const f of filas) if (f.fuente === 'nasa-power' && !porFecha.has(f.fecha)) porFecha.set(f.fecha, f.temp_media_c);
+    for (const f of filas) if (f.fuente === 'open-meteo') porFecha.set(f.fecha, f.temp_media_c); // Open-Meteo manda si hay de las dos
+    const serie = [...porFecha].sort(([a], [b]) => a.localeCompare(b)).map(([fecha, valor]) => ({ fecha, valor: Math.round(valor * 10) / 10 }));
+    return serie.length >= 2 ? serie : demo.series.temperatura(codigo, tempMedia, dias);
   },
-
-  /** precios_historico: últimos precios de un producto. */
+  /** Precio diario del producto en el boletín PIMA-CENADA (precios_historico). Sin datos: la serie de ejemplo. */
   precio: async (producto: string, actual: number, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
-    const fin = new Date('2026-11-13');
-    let v = actual * (0.85 + semilla(producto) * 0.25);
-    const puntos = Array.from({ length: dias }, (_, i) => {
-      const d = new Date(fin);
-      d.setDate(fin.getDate() - (dias - 1 - i));
-      v = i === dias - 1 ? actual : v + (actual - v) * 0.12 + (semilla(producto + i) - 0.5) * actual * 0.04;
-      return { fecha: d.toISOString().slice(0, 10), valor: Math.round(v / 50) * 50 };
-    });
-    return esperar(puntos);
+    const serie = await seriePrecio(producto, dias);
+    return serie.length >= 2 ? serie : demo.series.precio(producto, actual, dias);
   },
 };
 
-/** Solo administradores (en Supabase: políticas RLS por rol + funciones seguras). */
-export const admin = {
+const ESTADO_EXTRACCION: Record<string, Extraccion['estado']> = { ok: 'ok', sin_cambios: 'ok', error: 'error', en_curso: 'parcial' };
+
+const adminReal = {
   usuarios: async (): Promise<Usuario[]> => {
-    exigirRol('admin');
-    return esperar(base().usuarios.map(sinClave));
+    const filas = datosDe<FilaPerfil[]>(await db().from('perfiles').select('*').order('creado'), 'Leer usuarios');
+    return filas.map((p) => aUsuario(p));
   },
-
   cambiarRol: async (usuarioId: string, rol: Rol): Promise<void> => {
-    const yo = exigirRol('admin');
-    if (usuarioId === yo.id) throw new Error('No puede cambiar su propio rol.');
-    const b = base();
-    const u = b.usuarios.find((x) => x.id === usuarioId);
-    if (!u) throw new Error('Usuario no encontrado.');
-    u.rol = rol;
-    escribir(b);
+    datosDe(await db().from('perfiles').update({ rol }).eq('id', usuarioId).select('id'), 'Cambiar rol');
   },
-
-  /** Admin ve todos; técnico, los de su zona. */
+  /** Admin ve todos; técnico, los de su distrito (lo filtra la base). */
   reportes: async (): Promise<(ReportePlaga & { usuario: string })[]> => {
-    const yo = exigirRol('admin', 'tecnico');
-    const b = base();
-    return esperar(
-      b.reportes
-        .filter((r) => yo.rol === 'admin' || r.codigo_distrito === yo.codigo_distrito)
-        .map((r) => ({ ...r, usuario: b.usuarios.find((x) => x.id === r.usuario_id)?.nombre ?? '—' }))
-        .sort((a, c) => c.fecha.localeCompare(a.fecha)),
-    );
+    const filas = datosDe(await db().from('reportes_plaga').select('*, perfiles(nombre)').order('fecha', { ascending: false }), 'Leer reportes') as (ReportePlaga & { perfiles: { nombre: string } | null })[];
+    return filas.map(({ perfiles, ...r }) => ({ ...r, usuario: perfiles?.nombre ?? '—' }));
   },
-
   confirmarReporte: async (id: string): Promise<void> => {
-    exigirRol('admin', 'tecnico');
-    const b = base();
-    const r = b.reportes.find((x) => x.id === id);
-    if (r) r.estado = 'confirmado';
-    escribir(b);
+    datosDe(await db().from('reportes_plaga').update({ estado: 'confirmado' }).eq('id', id).select('id'), 'Confirmar reporte');
   },
-
   resumen: async () => {
-    exigirRol('admin');
-    const b = base();
-    return esperar({
-      usuarios: b.usuarios.length,
-      fincas: b.fincas.length,
-      siembrasActivas: b.siembras.filter((s) => s.estado === 'activa').length,
-      reportesPendientes: b.reportes.filter((r) => r.estado === 'pendiente').length,
-    });
+    const contar = async (tabla: string, filtro?: [string, string]) => {
+      let q = db().from(tabla).select('*', { count: 'exact', head: true });
+      if (filtro) q = q.eq(filtro[0], filtro[1]);
+      const { count, error } = await q;
+      if (error) throw new Error(error.message);
+      return count ?? 0;
+    };
+    const [usuarios, fincas, siembrasActivas, reportesPendientes] = await Promise.all([
+      contar('perfiles'), contar('fincas'), contar('siembras', ['estado', 'activa']), contar('reportes_plaga', ['estado', 'pendiente']),
+    ]);
+    return { usuarios, fincas, siembrasActivas, reportesPendientes };
   },
-
+  /** Últimas corridas de los extractores (tabla extracciones, solo admin). */
   extracciones: async (): Promise<Extraccion[]> => {
-    exigirRol('admin');
-    return esperar(EXTRACCIONES);
+    const filas = datosDe(await db().from('extracciones').select('*').order('inicio', { ascending: false }).limit(60), 'Leer extracciones') as
+      { id: number; fuente: string; inicio: string; fin: string | null; estado: string; registros: number; mensaje: string | null }[];
+    return filas.map((e) => ({
+      id: String(e.id),
+      extractor: e.fuente,
+      inicio: e.inicio,
+      duracion_s: e.fin ? Math.round((Date.parse(e.fin) - Date.parse(e.inicio)) / 1000) : 0,
+      estado: ESTADO_EXTRACCION[e.estado] ?? 'parcial',
+      registros: e.registros,
+      mensaje: e.estado === 'en_curso' ? 'En curso…' : e.mensaje,
+    }));
   },
-
-  /** Vuelve a dejar los datos de demo como al principio. */
   reiniciarDemo: async (): Promise<void> => {
-    exigirRol('admin');
-    escribir(structuredClone(BASE_INICIAL));
+    throw new Error('Solo disponible en el modo demo (sin base de datos).');
   },
 };
+
+export const auth = modoReal ? authReal : { ...demo.auth, sesion: async () => demo.auth.sesion() };
+export const datos = modoReal ? datosReales : demo.datos;
+export const series = modoReal ? seriesReales : demo.series;
+export const admin = modoReal ? adminReal : demo.admin;
+export { modoReal };

@@ -1,3 +1,4 @@
+import { Cargando } from '../componentes/Estados';
 import { Icono } from '../componentes/Iconos';
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexto/AuthContext';
@@ -10,9 +11,12 @@ import type { Rol } from '../tipos';
  * Con `roles`, además exige uno de esos roles (por ejemplo, solo admin).
  */
 export default function RutaPrivada({ roles }: { roles?: Rol[] }) {
-  const { usuario } = useAuth();
+  const { usuario, cargando } = useAuth();
   const t = useT();
   const ubicacion = useLocation();
+
+  // Mientras se revisa la sesión guardada, no mandar a Entrar todavía.
+  if (cargando) return <Cargando />;
 
   if (!usuario) {
     return <Navigate to="/ingresar" replace state={{ desde: ubicacion.pathname + ubicacion.search }} />;

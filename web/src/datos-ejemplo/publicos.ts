@@ -285,28 +285,38 @@ function nivelDe(puntaje: number): Nivel {
 
 const NIVEL_RIESGO = { bajo: 10, medio: 25, alto: 45, muy_alto: 65 } as const;
 
-export const APTITUD: RegistroAptitud[] = ZONAS.flatMap((z) =>
-  CULTIVOS.map((c): RegistroAptitud => {
+/**
+ * Aptitud de cada cultivo en un distrito. ESTIMACIÓN DE PRUEBA: compara el clima y el suelo del
+ * distrito (reales cuando la web está conectada a Supabase) con los requisitos de ejemplo de cada
+ * cultivo. La reemplaza la tabla `aptitud` cuando exista aptitud/calcular.ts.
+ * Dato que falta → nota neutra (no se inventa a favor ni en contra).
+ */
+export function aptitudDeZonaEstimada(z: RegistroZona): RegistroAptitud[] {
+  return CULTIVOS.map((c): RegistroAptitud => {
     const clave = `${z.codigo_distrito}-${c.id}`;
     const s = semilla(clave);
-    const [amin, amax] = [c.altitud_min_m, c.altitud_max_m];
-    const fuera = z.altitud_m < amin ? amin - z.altitud_m : z.altitud_m > amax ? z.altitud_m - amax : 0;
-    const clima = limitar(95 - fuera / 12 - s * 8);
+    // Clima: temperatura media del distrito frente al rango óptimo del cultivo; sin temperatura, la altura.
+    const t = z.clima.temp_media_c;
+    const fueraT = t === null ? null : t < c.temp_opt_min_c ? c.temp_opt_min_c - t : t > c.temp_opt_max_c ? t - c.temp_opt_max_c : 0;
+    const alt = z.altitud_m;
+    const fueraAlt = alt === null ? null : alt < c.altitud_min_m ? c.altitud_min_m - alt : alt > c.altitud_max_m ? alt - c.altitud_max_m : 0;
+    const clima = fueraT !== null ? limitar(95 - fueraT * 9 - s * 6) : fueraAlt !== null ? limitar(95 - fueraAlt / 12 - s * 8) : 70;
     const phCentro = (c.ph_opt_min + c.ph_opt_max) / 2;
-    const suelo = limitar(92 - Math.abs(z.suelo.ph - phCentro) * 18 - s * 10);
-    const lluviaAnual = z.clima.lluvia_mes_mm * 12;
-    const aguaFuera = lluviaAnual < c.lluvia_opt_min_mm ? c.lluvia_opt_min_mm - lluviaAnual : lluviaAnual > c.lluvia_opt_max_mm * 2.2 ? lluviaAnual - c.lluvia_opt_max_mm * 2.2 : 0;
-    const agua = limitar(90 - aguaFuera / 25 - s * 10);
+    const suelo = z.suelo.ph === null ? 70 : limitar(92 - Math.abs(z.suelo.ph - phCentro) * 18 - s * 10);
+    const lluviaAnual = z.clima.lluvia_mes_mm === null ? null : z.clima.lluvia_mes_mm * 12;
+    const aguaFuera = lluviaAnual === null ? 0 : lluviaAnual < c.lluvia_opt_min_mm ? c.lluvia_opt_min_mm - lluviaAnual : lluviaAnual > c.lluvia_opt_max_mm * 2.2 ? lluviaAnual - c.lluvia_opt_max_mm * 2.2 : 0;
+    const agua = lluviaAnual === null ? 70 : limitar(90 - aguaFuera / 25 - s * 10);
     const mercado = limitar(MERCADO[c.id] + (s - 0.5) * 10);
-    const riesgo = limitar(Math.max(...z.riesgos.map((r) => NIVEL_RIESGO[r.nivel])) + s * 10);
+    const riesgo = limitar((z.riesgos.length ? Math.max(...z.riesgos.map((r) => NIVEL_RIESGO[r.nivel])) : 15) + s * 10);
     const puntaje = limitar(clima * 0.3 + suelo * 0.2 + agua * 0.2 + mercado * 0.3 - riesgo * 0.15 + 8);
 
     let nivel: Nivel = nivelDe(puntaje);
     let motivo: string | null = null;
-    if (fuera > 700) {
+    const frio = fueraT !== null ? t! < c.temp_opt_min_c : alt !== null && alt > c.altitud_max_m;
+    if ((fueraT !== null && fueraT > 6) || (fueraT === null && fueraAlt !== null && fueraAlt > 700)) {
       nivel = 'descartado';
-      motivo = z.altitud_m > amax ? 'Hace demasiado frío para este cultivo.' : 'Hace demasiado calor para este cultivo.';
-    } else if (c.id === 'pina' && z.area_protegida_pct >= 15) {
+      motivo = frio ? 'Hace demasiado frío para este cultivo.' : 'Hace demasiado calor para este cultivo.';
+    } else if (c.id === 'pina' && (z.area_protegida_pct ?? 0) >= 15) {
       nivel = 'descartado';
       motivo = 'Parte de la zona es área protegida.';
     }
@@ -323,10 +333,12 @@ export const APTITUD: RegistroAptitud[] = ZONAS.flatMap((z) =>
       plagas_zona: PLAGAS.filter((p) => p.cultivos.includes(c.id) && s > 0.3).map((p) => p.nombre).slice(0, 2),
       precio_referencia: precio ? { valor: precio.precio, unidad: precio.unidad, fecha: precio.fecha, fuente: precio.fuente } : null,
       motivo_descarte: motivo,
-      actualizado: ACTUALIZADO,
+      actualizado: z.actualizado,
     };
-  }),
-);
+  });
+}
+
+export const APTITUD: RegistroAptitud[] = ZONAS.flatMap(aptitudDeZonaEstimada);
 
 // ------------------------------------------------------------------
 // Siembras por zona (totales anónimos)

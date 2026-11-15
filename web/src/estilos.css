@@ -545,17 +545,7 @@ select:disabled { opacity: 0.55; }
 @media (max-width: 599px) {
   .estado-red { padding: 0 10px; font-size: 0.78rem; }
   .boton-idioma-texto { display: none; }
-  /* Una columna: tarjetas de cultivo cómodas de leer, con letra normal. */
-  .rejilla-productos { grid-template-columns: 1fr; gap: 12px; }
-  .rejilla-productos .tarjeta { padding: 16px; }
-  .rejilla-productos .icono-cultivo { width: 56px; height: 56px; }
-  .rejilla-productos .puntaje { font-size: 1.7rem; }
-  .rejilla-productos .tc-nombre { font-size: 1.15rem; }
-  .rejilla-productos .insignia { font-size: 0.85rem; padding: 2px 10px; }
-  .rejilla-productos .tc-datos { font-size: 0.95rem; }
-  .rejilla-productos .tc-datos dt { font-size: 0.85rem; }
-  .rejilla-productos .desglose-fila { flex-direction: row; font-size: 0.9rem; }
-  .rejilla-productos .boton-pequeno { font-size: 0.95rem; padding: 6px 16px; }
+  /* Celular: cultivos de 2 en 2 (las reglas compactas de .rejilla-productos están arriba). */
   .contenido { padding-bottom: 96px; }
 }
 
@@ -936,3 +926,125 @@ body::before {
 @media (min-width: 700px) { .rejilla-productos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .rejilla-productos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 599px) { .rejilla-productos { grid-template-columns: 1fr; } }
+
+/* Fotos de plagas y de tipos de alerta (con crédito del autor debajo) */
+.foto-descriptiva { margin: 10px 0 12px; }
+.foto-descriptiva img { display: block; width: 100%; max-width: 520px; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radio-chico); background: var(--borde, #0001); }
+.foto-alerta { margin: -16px -18px 12px; }
+.foto-alerta img { max-width: none; aspect-ratio: 21 / 8; border-radius: var(--radio) var(--radio) 0 0; }
+.foto-alerta figcaption { margin: 4px 18px 0; }
+
+/* Layout amplio y superficies planas. */
+:root { --ancho: 1840px; --margen: clamp(14px, 2.4vw, 44px); --radio: 6px; --radio-chico: 4px; }
+:root[data-tema] { --sombra: 0 1px 2px rgb(0 0 0 / 0.08); --sombra-fuerte: 0 2px 8px rgb(0 0 0 / 0.14); }
+.contenido, .encabezado-interior, .pie-interior, .seccion-fondo-contenido { padding-left: var(--margen); padding-right: var(--margen); }
+
+.contenido :is(h1, h2, h3, p, li, dd, dt, td, th, strong, span, a, small, summary, figcaption, label) { overflow-wrap: anywhere; }
+.contenido :is(.tarjeta, .ficha, .linea-tiempo li, .alerta, .plegable, .fila-precio) { min-width: 0; }
+
+.filtros, .interruptor, .interruptor-4, .buscador, .linea-tiempo, .mapa-dron, .campo-suelto, .config, .ajustes { max-width: none; }
+.formulario-centrado, .vacio { max-width: none; }
+.formulario-centrado { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+@media (min-width: 900px) {
+  .formulario-centrado :is(.formulario), .formulario-centrado.formulario {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; align-items: start;
+  }
+  .formulario-centrado :is(.formulario) > :is(fieldset, button, .aviso, .subir-foto, .vista-foto, figure, p, div, .acciones, label:has(textarea)),
+  .formulario-centrado.formulario > :is(fieldset, button, .aviso, .subir-foto, .vista-foto, figure, p, div, .acciones, label:has(textarea)) { grid-column: 1 / -1; }
+}
+
+.boton, .boton-volver, .boton-icono, .boton-idioma, .boton-ajustes, .chip, .estado-red, .insignia, .interruptor, .interruptor button, .boton-flotante { border-radius: var(--radio-chico); }
+.tarjeta, .ficha, .alerta, .plegable, .tabla-envoltura, .fila-precio, .linea-tiempo li, .pasos-control > li, .ajustes-lista, .acceso,
+.formulario-centrado, .vacio, .panel-ajustes, .menu-cuenta-panel, .menu-idioma-lista {
+  border-radius: 0; box-shadow: none;
+}
+.tarjeta:hover, .alerta:hover, .acceso:hover { transform: none; box-shadow: none; }
+.aviso { border-radius: 0; }
+.aviso-error { border-left: 4px solid var(--nor); }
+:root[data-tema='crema'] .contenido :is(.tarjeta, .ficha, .acceso) { border-color: var(--borde); box-shadow: none; }
+:root[data-tema='crema'] .contenido .formulario-centrado { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.vacio { text-align: left; padding: 24px 0; }
+.portada, .portada-sello, .cifras li, .lista-enlaces a, .foto-parallax, .seccion-fondo, .tarjeta-cta,
+.tc-foto, .foto-alerta img, .foto-descriptiva img { border-radius: 0; }
+.cifras li { box-shadow: none; }
+
+.pestanas { inset: auto 0 0 0; border-radius: 0; border-width: 1px 0 0; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 10px rgb(0 0 0 / 0.08); }
+.pestanas a.active { border-radius: 0; margin: 0; box-shadow: inset 0 3px 0 var(--primario); }
+.app { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+.boton-flotante { bottom: calc(82px + env(safe-area-inset-bottom)); }
+@media (min-width: 900px) { .app { padding-bottom: 0; } }
+
+@media (min-width: 1000px) { .columnas.columnas-mitad { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fichas { grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); }
+
+.rejilla-productos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) { .rejilla-productos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .rejilla-productos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.alertas-portada {
+  position: relative; isolation: isolate; display: flex; align-items: flex-end; overflow: hidden;
+  width: 100vw; min-height: clamp(280px, 38vw, 460px); margin: 0 calc(50% - 50vw) 28px;
+  background: #17251d; color: #fff;
+}
+.alertas-portada::after { position: absolute; inset: 0; z-index: -1; content: ''; background: linear-gradient(90deg, rgb(8 20 14 / 0.82), rgb(8 20 14 / 0.12) 90%), linear-gradient(0deg, rgb(8 20 14 / 0.35), transparent 70%); }
+.alertas-portada > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.alertas-portada-texto { width: min(100%, var(--ancho)); margin: 0 auto; padding: clamp(28px, 6vw, 80px) var(--margen); }
+.alertas-portada-texto > span { display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.alertas-portada-texto h1 { margin: 12px 0 8px; color: #fff; font-size: clamp(2.5rem, 6vw, 5rem); }
+.alertas-portada-texto p { max-width: 56ch; margin: 0; color: rgb(255 255 255 / 0.9); font-size: clamp(1rem, 1.4vw, 1.25rem); }
+
+.lista-alertas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 560px), 1fr)); gap: 18px; }
+.lista-alertas .alerta {
+  display: grid; grid-template-columns: minmax(180px, 30%) minmax(0, 1fr); gap: 0;
+  min-width: 0; padding: 0; overflow: hidden; border: 1px solid var(--borde); border-top: 5px solid var(--nor);
+  background: var(--superficie);
+}
+.lista-alertas .alerta-verde { border-top-color: var(--exc); }
+.lista-alertas .alerta-amarilla { border-top-color: #d9a400; }
+.lista-alertas .alerta-naranja { border-top-color: #e06c00; }
+.lista-alertas .alerta-roja { border-top-color: var(--nor); }
+.alerta-visual { position: relative; min-width: 0; min-height: 100%; background: var(--superficie-2); }
+.alerta-visual .foto-alerta { display: flex; flex-direction: column; height: 100%; margin: 0; }
+.alerta-visual .foto-alerta img { flex: 1; width: 100%; min-height: 220px; aspect-ratio: auto; object-fit: cover; }
+.alerta-visual .foto-alerta figcaption { margin: 0; padding: 6px 9px; background: var(--superficie-2); font-size: 0.7rem; }
+.alerta-nivel {
+  position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 10px; background: var(--nor-fondo); color: var(--nor); font-size: 0.78rem; font-weight: 800;
+}
+.alerta-nivel-verde { background: var(--exc-fondo); color: var(--exc); }
+.alerta-nivel-amarilla { background: #fff4cf; color: #745300; }
+.alerta-nivel-naranja { background: #ffead8; color: #8a3c00; }
+.alerta-cuerpo { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: clamp(16px, 2.2vw, 28px); }
+.alerta-fuente { margin: 0 0 6px; color: var(--texto-suave); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.alerta-cuerpo h2 { margin: 0 0 10px; font-size: clamp(1.2rem, 1.8vw, 1.65rem); }
+.alerta-descripcion { margin: 0; line-height: 1.5; }
+.alerta-detalles { margin-top: 10px; }
+.alerta-detalles summary { color: var(--primario); font-weight: 700; cursor: pointer; }
+.alerta-detalles p { margin: 8px 0 0; }
+.alerta-pie { display: flex; flex-wrap: wrap; gap: 12px 18px; width: 100%; margin-top: auto; padding-top: 16px; }
+.alerta-fechas, .alerta-ubicaciones { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0; color: var(--texto-suave); font-size: 0.85rem; }
+.alerta-ubicaciones a { padding: 3px 8px; border: 1px solid var(--borde); color: var(--primario); font-size: 0.8rem; text-decoration: none; }
+.alerta-ubicaciones a:hover { background: var(--primario-suave); }
+
+@media (min-width: 1500px) {
+  .lista-precios { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lista-tarjetas:not(.rejilla-productos) { grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); }
+}
+@media (max-width: 699px) {
+  .alertas-portada { min-height: 300px; }
+  .lista-alertas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .lista-alertas .alerta { grid-template-columns: 1fr; }
+  .alerta-visual .foto-alerta img { min-height: 125px; max-height: 125px; }
+  .alerta-visual .foto-alerta figcaption { padding: 4px 6px; font-size: 0.62rem; }
+  .alerta-nivel { top: 7px; left: 7px; gap: 4px; padding: 5px 7px; font-size: 0.68rem; }
+  .alerta-nivel .icono-svg { width: 14px; height: 14px; }
+  .alerta-cuerpo { padding: 11px; }
+  .alerta-fuente { font-size: 0.65rem; }
+  .alerta-cuerpo h2 { font-size: 1rem; }
+  .alerta-descripcion { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 4; font-size: 0.88rem; }
+  .alerta-detalles { font-size: 0.82rem; }
+  .alerta-pie { gap: 8px; padding-top: 12px; }
+  .alerta-fechas, .alerta-ubicaciones { gap: 4px; font-size: 0.72rem; }
+  .alerta-fechas .icono-svg, .alerta-ubicaciones .icono-svg { flex: none; width: 14px; height: 14px; }
+  .alerta-ubicaciones a { padding: 2px 5px; font-size: 0.7rem; }
+}

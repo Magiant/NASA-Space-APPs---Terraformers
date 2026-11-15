@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { CREDITOS_FOTOS } from '../fotos/creditos-cultivos';
+import { CREDITOS_FONDOS } from '../fotos/creditos-fondos';
+import { CREDITOS_ALERTAS, CREDITOS_PLAGAS } from '../fotos/creditos-plagas';
 // Íconos dibujados en SVG: se ven igual en todos los celulares y computadoras
 // (los emojis de bandera, por ejemplo, en Windows salen como letras).
 
@@ -203,4 +205,46 @@ export function CreditoFoto({ id, etiqueta }: { id: string; etiqueta: string }) 
       {etiqueta}: <a href={c.url} target="_blank" rel="noreferrer">{c.autor}</a> · {c.licencia} · Wikimedia Commons
     </p>
   );
+}
+
+// ------------------------------------------------------------------
+// Fotos reales de plagas y de tipos de alerta (para reconocerlas en el campo)
+// ------------------------------------------------------------------
+
+type Credito = { autor: string; licencia: string; url: string };
+
+/** Foto con su crédito debajo; si la foto no carga, no se muestra nada. */
+function FotoConCredito({ src, credito, etiqueta, clase }: { src: string; credito: Credito; etiqueta: string; clase: string }) {
+  const [fallo, setFallo] = useState(false);
+  if (fallo) return null;
+  return (
+    <figure className={`foto-descriptiva ${clase}`}>
+      <img src={src} alt="" loading="lazy" decoding="async" onError={() => setFallo(true)} />
+      <figcaption className="credito-foto">
+        {etiqueta}: <a href={credito.url} target="_blank" rel="noreferrer">{credito.autor}</a> · {credito.licencia} · Wikimedia Commons
+      </figcaption>
+    </figure>
+  );
+}
+
+/** Foto real de la plaga (si la hay) para que el agricultor la compare con lo que ve en su cultivo. */
+export function FotoPlaga({ id, etiqueta }: { id: string; etiqueta: string }) {
+  const c = CREDITOS_PLAGAS[id];
+  return c ? <FotoConCredito src={`./imagenes/plagas/${id}.jpg`} credito={c} etiqueta={etiqueta} clase="foto-plaga" /> : null;
+}
+
+/** Qué foto le toca a una alerta según su tipo (texto libre del IMN o la CNE). Pronósticos y otros: la vista satelital. */
+export function fotoDeAlerta(tipo: string): { src: string; credito: Credito } {
+  const t = tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const clave = /volcan|ceniza|erupci/.test(t) ? 'volcan'
+    : /sequia|seca|deficit|calor|drought|heat/.test(t) ? 'sequia'
+    : /lluvia|tormenta|inunda|temporal|aguacero|rain|storm|flood/.test(t) ? 'lluvia' : null;
+  return clave
+    ? { src: `./imagenes/alertas/${clave}.jpg`, credito: CREDITOS_ALERTAS[clave] }
+    : { src: './imagenes/fondos/satelite.jpg', credito: CREDITOS_FONDOS.satelite };
+}
+
+export function FotoAlerta({ tipo, etiqueta }: { tipo: string; etiqueta: string }) {
+  const f = fotoDeAlerta(tipo);
+  return <FotoConCredito src={f.src} credito={f.credito} etiqueta={etiqueta} clase="foto-alerta" />;
 }

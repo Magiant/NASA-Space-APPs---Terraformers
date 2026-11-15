@@ -55,19 +55,20 @@ export interface RegistroZona {
   provincia: string;
   ubicacion: UbicacionJerarquica;
   _geoloc: { lat: number; lng: number };
-  altitud_m: number;
+  // null = todavía no hay dato de esa fuente para el distrito: la web muestra "Sin dato", nunca lo inventa.
+  altitud_m: number | null;
   clima: {
-    temp_media_c: number;
-    temp_max_c: number;
-    temp_min_c: number;
-    lluvia_mes_mm: number;
-    humedad_relativa_pct: number;
+    temp_media_c: number | null;
+    temp_max_c: number | null;
+    temp_min_c: number | null;
+    lluvia_mes_mm: number | null;
+    humedad_relativa_pct: number | null;
   };
-  humedad_suelo: { pct: number; estado: 'seco' | 'normal' | 'humedo' };
-  agua: { balance_mm: number; estado: 'falta' | 'equilibrio' | 'sobra' };
-  suelo: { textura: string; ph: number; materia_organica: 'baja' | 'media' | 'alta' };
+  humedad_suelo: { pct: number | null; estado: 'seco' | 'normal' | 'humedo' | null };
+  agua: { balance_mm: number | null; estado: 'falta' | 'equilibrio' | 'sobra' | null };
+  suelo: { textura: string | null; ph: number | null; materia_organica: 'baja' | 'media' | 'alta' | null };
   riesgos: { tipo: string; nivel: NivelRiesgo }[];
-  area_protegida_pct: number;
+  area_protegida_pct: number | null;
   actualizado: string;
 }
 

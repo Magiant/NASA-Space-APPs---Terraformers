@@ -1,4 +1,4 @@
-import { FotoFranja, Icono } from '../../componentes/Iconos';
+import { FotoAlerta, Icono } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
@@ -13,14 +13,22 @@ export default function Alertas() {
   const [soloMiZona, setSoloMiZona] = useState(!!zona);
   const alertas = useCargar(() => algolia.alertas(soloMiZona && zona ? zona : undefined), [soloMiZona, zona]);
   const nombreZona = zona ? catalogo.zona(zona)?.distrito : null;
+  const resumen = (texto: string) => {
+    if (texto.length <= 150) return texto;
+    const corte = texto.slice(0, 150);
+    return `${corte.slice(0, corte.lastIndexOf(' '))}…`;
+  };
 
   return (
     <>
-      <header className="cabecera-pagina">
-        <h1>{ta.titulo}</h1>
-        <p>{ta.subtitulo}</p>
+      <header className="alertas-portada">
+        <img src="./imagenes/tormenta.jpg" alt="" aria-hidden />
+        <div className="alertas-portada-texto">
+          <span><Icono nombre="alertas" tam={18} /> {ta.portada}</span>
+          <h1>{ta.titulo}</h1>
+          <p>{ta.subtitulo}</p>
+        </div>
       </header>
-      <FotoFranja foto="tormenta" />
 
       {nombreZona && (
         <div className="interruptor" role="tablist">
@@ -38,25 +46,40 @@ export default function Alertas() {
       )}
 
       <div className="lista-alertas">
-        {alertas.datos?.map((a) => (
-          <article key={a.objectID} className={`alerta alerta-${a.nivel}`}>
-            <p className="alerta-nivel">
-              {ta.nivel[a.nivel]} · {a.fuente} · {a.tipo}
-            </p>
-            <h2>{a.titulo}</h2>
-            <p>{a.descripcion}</p>
-            <p className="ayuda">
-              {ta.desde} {fecha(a.inicio)}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''} ·{' '}
-              {a.codigos_distrito.map((c) => catalogo.zona(c)).filter(Boolean).map((z, i) => (
-                <span key={z!.codigo_distrito}>
-                  {i > 0 && ', '}
-                  {/* El primer lugar cubre toda la tarjeta (clic en cualquier parte); los demás siguen siendo enlaces propios. */}
-                  <Link to={`/zona/${z!.codigo_distrito}`} className={i === 0 ? 'alerta-enlace' : undefined}>{z!.distrito}</Link>
-                </span>
-              ))}
-            </p>
-          </article>
-        ))}
+        {alertas.datos?.map((a) => {
+          const zonas = a.codigos_distrito.map((c) => catalogo.zona(c)).filter(Boolean);
+          return <article key={a.objectID} className={`alerta alerta-${a.nivel}`}>
+            <div className="alerta-visual">
+              <FotoAlerta tipo={`${a.tipo} ${a.titulo} ${a.descripcion}`} etiqueta={t.cultivo.foto} />
+              <span className={`alerta-nivel alerta-nivel-${a.nivel}`}>
+                <Icono nombre="alertas" tam={17} /> {ta.nivel[a.nivel]}
+              </span>
+            </div>
+            <div className="alerta-cuerpo">
+              <p className="alerta-fuente">{a.fuente} <span aria-hidden>·</span> {a.tipo}</p>
+              <h2>{a.titulo}</h2>
+              <p className="alerta-descripcion">{resumen(a.descripcion)}</p>
+              {a.descripcion.length > 150 && (
+                <details className="alerta-detalles">
+                  <summary>{ta.verCompleto}</summary>
+                  <p>{a.descripcion}</p>
+                </details>
+              )}
+              <div className="alerta-pie">
+                <p className="alerta-fechas">
+                  <Icono nombre="reloj" tam={16} />
+                  {ta.desde} {fecha(a.inicio)}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''}
+                </p>
+                <div className="alerta-ubicaciones">
+                  <Icono nombre={zonas.length ? 'pin' : 'globo'} tam={16} />
+                  {zonas.length ? zonas.map((z) => (
+                    <Link key={z!.codigo_distrito} to={`/zona/${z!.codigo_distrito}`}>{z!.distrito}</Link>
+                  )) : <span>{ta.todoPais}</span>}
+                </div>
+              </div>
+            </div>
+          </article>;
+        })}
       </div>
     </>
   );

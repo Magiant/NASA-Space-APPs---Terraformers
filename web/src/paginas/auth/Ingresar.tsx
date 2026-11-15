@@ -3,6 +3,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
+import { modoReal } from '../../servicios/cliente';
 
 export default function Ingresar() {
   const t = useT();
@@ -63,9 +64,12 @@ export default function Ingresar() {
           <li>
             <button type="button" className="enlace" onClick={() => demo('agricultor@demo.cr')}>agricultor@demo.cr</button> — {ta.demoAgricultor}
           </li>
-          <li>
-            <button type="button" className="enlace" onClick={() => demo('admin@demo.cr')}>admin@demo.cr</button> — {ta.demoAdmin}
-          </li>
+          {/* Con la base real, la cuenta admin NO es pública: su contraseña está solo en el .env del equipo. */}
+          {!modoReal && (
+            <li>
+              <button type="button" className="enlace" onClick={() => demo('admin@demo.cr')}>admin@demo.cr</button> — {ta.demoAdmin}
+            </li>
+          )}
         </ul>
         <p className="ayuda">{ta.demoClave}</p>
       </details>

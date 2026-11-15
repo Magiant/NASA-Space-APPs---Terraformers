@@ -11,7 +11,7 @@ import { series } from '../../servicios/supabase';
 import type { RegistroCultivo } from '../../tipos';
 import { colones, nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
 import { Tendencia } from './Precios';
-import { CreditoFoto, FotoCultivo, Icono, IconoCultivo } from '../../componentes/Iconos';
+import { CreditoFoto, FotoCultivo, FotoPlaga, Icono, IconoCultivo } from '../../componentes/Iconos';
 
 function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
   const { t } = usePreferencias();
@@ -82,6 +82,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
               {plagas.map((p) => (
                 <details key={p.id} className="plegable">
                   <summary><Icono nombre="plaga" tam={18} /> {nombrePlaga(t, p.id, p.nombre)}</summary>
+                  <FotoPlaga id={p.id} etiqueta={tc.foto} />
                   <p>{p.sintomas}</p>
                   <p><strong>{tc.comoControlar}</strong></p>
                   <ol className="lista-control">

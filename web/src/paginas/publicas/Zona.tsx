@@ -27,14 +27,16 @@ function Contenido({ z }: { z: RegistroZona }) {
   const aptitud = useCargar(() => algolia.aptitudDeZona(z.codigo_distrito), [z.codigo_distrito]);
   const alertas = useCargar(() => algolia.alertas(z.codigo_distrito), [z.codigo_distrito]);
   const sembrado = useCargar(() => algolia.siembrasZona(z.codigo_distrito), [z.codigo_distrito]);
-  const temp = useCargar(() => series.temperatura(z.codigo_distrito, z.clima.temp_media_c), [z.codigo_distrito]);
-  const mejores = (aptitud.datos ?? []).filter((a) => a.nivel !== 'descartado').slice(0, 6);
+  const temp = useCargar(() => series.temperatura(z.codigo_distrito, z.clima.temp_media_c ?? 20), [z.codigo_distrito]);
+  /** Valor con formato, o "Sin dato" si la fuente todavía no lo tiene. */
+  const sd = <T,>(v: T | null | undefined, f: (x: T) => string) => (v === null || v === undefined ? t.comun.sinDato : f(v));
+  const mejores = (aptitud.datos ?? []).filter((a) => a.nivel !== 'descartado').slice(0, 8);
 
   return (
     <>
       <header className="cabecera-pagina">
         <h1>{z.distrito}</h1>
-        <p>{z.canton}, {z.provincia} · {tz.altura(z.altitud_m.toLocaleString(t.locale))}</p>
+        <p>{z.canton}, {z.provincia}{z.altitud_m !== null && <> · {tz.altura(Math.round(z.altitud_m).toLocaleString(t.locale))}</>}</p>
         <AvisoActualizado cuando={z.actualizado} />
       </header>
       <FotoFranja foto="cr-campos" />
@@ -46,19 +48,28 @@ function Contenido({ z }: { z: RegistroZona }) {
         </div>
       ))}
 
-      <div className="columnas">
+      {/* Lo más importante primero y a todo el ancho: los mejores cultivos, de 4 en 4 en computadora. */}
+      <h2>{tz.mejores}</h2>
+      {aptitud.cargando && <Cargando />}
+      <div className="lista-tarjetas rejilla-productos">
+        {mejores.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
+      </div>
+
+      <div className="columnas columnas-mitad">
         <div className="col-principal">
           <h2>{tz.comoEsta}</h2>
           <div className="fichas">
-            <Ficha icono="termometro" titulo={tz.temperatura} valor={`${z.clima.temp_media_c} °C`} detalle={tz.entre(z.clima.temp_min_c, z.clima.temp_max_c)} />
-            <Ficha icono="lluvia" titulo={tz.lluviaMes} valor={`${z.clima.lluvia_mes_mm} mm`} detalle={tz.humedadAire(z.clima.humedad_relativa_pct)} />
-            <Ficha icono="gota" titulo={tz.humedadSuelo} valor={`${z.humedad_suelo.pct} %`} detalle={tz.humedad[z.humedad_suelo.estado]} />
-            <Ficha icono="grifo" titulo={tz.agua} valor={tz.aguaEstado[z.agua.estado]} detalle={`${tz.balance} ${z.agua.balance_mm > 0 ? '+' : ''}${z.agua.balance_mm} mm`} />
-            <Ficha icono="tierra" titulo={tz.suelo} valor={z.suelo.textura} detalle={`pH ${z.suelo.ph} · ${tz.materiaOrganica} ${tz.mo[z.suelo.materia_organica]}`} />
-            <Ficha icono="volcan" titulo={tz.riesgos} valor={z.riesgos.map((r) => r.tipo).join(', ')} detalle={z.riesgos.map((r) => `${r.tipo}: ${tz.riesgo[r.nivel]}`).join(' · ')} />
+            <Ficha icono="termometro" titulo={tz.temperatura} valor={sd(z.clima.temp_media_c, (v) => `${v} °C`)} detalle={z.clima.temp_min_c !== null && z.clima.temp_max_c !== null ? tz.entre(z.clima.temp_min_c, z.clima.temp_max_c) : undefined} />
+            <Ficha icono="lluvia" titulo={tz.lluviaMes} valor={sd(z.clima.lluvia_mes_mm, (v) => `${v} mm`)} detalle={z.clima.humedad_relativa_pct !== null ? tz.humedadAire(z.clima.humedad_relativa_pct) : undefined} />
+            <Ficha icono="gota" titulo={tz.humedadSuelo} valor={sd(z.humedad_suelo.pct, (v) => `${v} %`)} detalle={z.humedad_suelo.estado ? tz.humedad[z.humedad_suelo.estado] : undefined} />
+            <Ficha icono="grifo" titulo={tz.agua} valor={z.agua.estado ? tz.aguaEstado[z.agua.estado] : t.comun.sinDato} detalle={z.agua.balance_mm !== null ? `${tz.balance} ${z.agua.balance_mm > 0 ? '+' : ''}${z.agua.balance_mm} mm` : undefined} />
+            <Ficha icono="tierra" titulo={tz.suelo} valor={z.suelo.textura ?? t.comun.sinDato} detalle={z.suelo.ph !== null ? `pH ${z.suelo.ph}${z.suelo.materia_organica ? ` · ${tz.materiaOrganica} ${tz.mo[z.suelo.materia_organica]}` : ''}` : undefined} />
+            <Ficha icono="volcan" titulo={tz.riesgos} valor={z.riesgos.length ? z.riesgos.map((r) => r.tipo).join(', ') : t.comun.sinDato} detalle={z.riesgos.map((r) => `${r.tipo}: ${tz.riesgo[r.nivel]}`).join(' · ')} />
           </div>
-          {z.area_protegida_pct > 0 && <p className="ayuda"><Tx>{tz.protegida(z.area_protegida_pct)}</Tx></p>}
+          {(z.area_protegida_pct ?? 0) > 0 && <p className="ayuda"><Tx>{tz.protegida(z.area_protegida_pct ?? 0)}</Tx></p>}
+        </div>
 
+        <div className="col-principal">
           <h2>{tz.tempMes}</h2>
           <div className="tarjeta">
             {temp.datos ? <GraficoLinea puntos={temp.datos} formato={(n) => `${n} °C`} etiqueta={tz.tempMedia} /> : <Cargando />}
@@ -86,13 +97,6 @@ function Contenido({ z }: { z: RegistroZona }) {
           )}
         </div>
 
-        <aside className="col-lateral">
-          <h2>{tz.mejores}</h2>
-          {aptitud.cargando && <Cargando />}
-          <div className="lista-tarjetas" style={{ gridTemplateColumns: '1fr' }}>
-            {mejores.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
-          </div>
-        </aside>
       </div>
     </>
   );

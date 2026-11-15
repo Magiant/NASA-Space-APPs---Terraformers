@@ -15,7 +15,7 @@ on:
       grupo:
         description: 'Qué correr a mano'
         type: choice
-        options: [clima-y-agua, humedad, riesgos]
+        options: [clima-y-agua, humedad, riesgos, precios]
         default: clima-y-agua
 
 concurrency:
@@ -63,6 +63,24 @@ jobs:
       # Tema 2 · Humedad del suelo (Open-Meteo, 3 profundidades, últimos 7 días)
       - name: Humedad del suelo Open-Meteo
         run: npm run extraer -- humedad-open-meteo
+
+  # Tema 3 · Boletín diario PIMA-CENADA (lunes a viernes). El portal necesita Chrome (ya viene en ubuntu-latest)
+  # y el PDF se lee con pdftotext (poppler-utils).
+  precios-pima:
+    # Fines de semana no hay boletín nuevo: vuelve a guardar los mismos (la llave evita duplicados).
+    if: github.event.schedule == '0 11 * * *' || inputs.grupo == 'precios'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: sudo apt-get install -y poppler-utils
+      - name: Precios PIMA-CENADA
+        run: npm run extraer -- precios-pima
 
   # Tema 8 · Pronóstico subestacional del IMN: automático (una consulta a su página pública por día).
   imn-subestacional:

@@ -71,7 +71,7 @@ export default function CerrarSiembra() {
         {resultado && resultado !== 'exitosa' && (
           <label>
             {tc.quePaso}
-            <textarea rows={3} value={motivo} onChange={(e) => setMotivo(e.target.value)} placeholder={tc.ejemplo} />
+            <textarea rows={3} maxLength={500} value={motivo} onChange={(e) => setMotivo(e.target.value)} placeholder={tc.ejemplo} />
           </label>
         )}
 

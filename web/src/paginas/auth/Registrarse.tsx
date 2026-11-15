@@ -21,6 +21,18 @@ export default function Registrarse() {
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
+    // Revisión antes de enviar: dice exactamente qué falta, en vez del globo del navegador.
+    const te = ta.errores;
+    const n = nombre.trim(), c = correo.trim();
+    const problema =
+      n.length < 2 ? te.nombre
+      : n.length > 80 ? te.nombreLargo
+      : !c ? te.correoVacio
+      : !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c) ? te.correo(c)
+      : clave.length < 8 ? te.claveCorta(clave.length)
+      : clave !== clave.trim() ? te.claveEspacios
+      : null;
+    if (problema) return setError(problema);
     setError(null);
     setEnviando(true);
     try {
@@ -37,14 +49,14 @@ export default function Registrarse() {
       <h1>{ta.registroTitulo}</h1>
       <p>{ta.registroTexto}</p>
 
-      <form onSubmit={enviar} className="formulario">
+      <form onSubmit={enviar} className="formulario" noValidate>
         <label>
           {ta.nombre}
-          <input autoComplete="name" required value={nombre} onChange={(e) => setNombre(e.target.value)} />
+          <input autoComplete="name" required maxLength={80} value={nombre} onChange={(e) => setNombre(e.target.value)} />
         </label>
         <label>
           {ta.correo}
-          <input type="email" autoComplete="email" required value={correo} onChange={(e) => setCorreo(e.target.value)} />
+          <input type="email" autoComplete="email" required maxLength={120} value={correo} onChange={(e) => setCorreo(e.target.value)} />
         </label>
         <label>
           {ta.clave}

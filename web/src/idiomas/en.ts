@@ -16,6 +16,8 @@ export const en: Textos = {
     noEncontrada: 'We could not find that page',
     irInicio: 'Go home',
     datosEjemplo: 'Test version: data shown is sample data.',
+    datosReales: 'Real data: climate (NASA, Open-Meteo), soil (SoilGrids), terrain (SRTM), crops (FAO, MAG) and prices (PIMA-CENADA). Hazards are estimated and pest sheets are for reference.',
+    sinDato: 'No data',
     actualizados: (que) => `${que} updated:`,
     datos: 'Data',
     precios: 'Prices',
@@ -239,6 +241,7 @@ export const en: Textos = {
   },
 
   alertas: {
+    portada: 'Official information for your area',
     titulo: 'Alerts',
     subtitulo: 'Warnings from CNE and IMN about rain, drought, volcanoes and other events.',
     en: (z) => `In ${z}`,
@@ -248,6 +251,7 @@ export const en: Textos = {
     nivel: { verde: 'Watch', amarilla: 'Caution', naranja: 'Alert', roja: 'Danger' },
     desde: 'From',
     hasta: 'until',
+    verCompleto: 'Read the full notice',
   },
 
   cursos: {
@@ -285,6 +289,14 @@ export const en: Textos = {
     creando: 'Creating…',
     crearBoton: 'Create account',
     yaTiene: 'Already have an account?',
+    errores: {
+      nombre: 'Type your name (at least 2 letters) so we can greet you and your technician knows who reports.',
+      nombreLargo: 'The name is too long: use at most 80 letters.',
+      correoVacio: 'Type your email address. You will use it to sign in.',
+      correo: (c: string) => `"${c}" does not look like a valid email. It must look like name@domain.com, with no spaces (for example ana.solano@gmail.com).`,
+      claveCorta: (n: number) => `The password has ${n} character${n === 1 ? '' : 's'}: it needs at least 8. You can mix letters and numbers.`,
+      claveEspacios: 'The password cannot start or end with spaces.',
+    },
   },
 
   fincas: {
