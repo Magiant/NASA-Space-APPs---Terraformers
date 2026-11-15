@@ -1,4 +1,3 @@
-# Generated with assistance from Claude (SI)
 # Extractores DIARIOS → Supabase. Cada tema agrega su paso en el job que le toca.
 # Secretos necesarios (Settings > Secrets and variables > Actions):
 #   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
