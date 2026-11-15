@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexto/AuthContext';
 import { usePreferencias } from '../contexto/PreferenciasContext';
 import { cola } from '../offline/cola';
@@ -8,40 +8,18 @@ import { Icono } from './Iconos';
 import MenuAjustes from './MenuAjustes';
 import { modoReal } from '../servicios/cliente';
 
-/** A dónde lleva "Volver" si no hay pantalla anterior (enlace abierto directo). */
-function pantallaPadre(ruta: string): string {
-  const siembra = ruta.match(/^\/siembras\/([^/]+)\/cerrar$/);
-  if (siembra) return `/siembras/${siembra[1]}`;
-  if (/^\/(siembras|fincas|dron)\b/.test(ruta)) return '/mi-finca';
-  return '/';
-}
-
-function BotonVolver() {
-  const { t } = usePreferencias();
-  const navegar = useNavigate();
-  const { pathname, key } = useLocation();
-  // key === 'default' → es la primera pantalla abierta: no hay historial dentro de la app.
-  const volver = () => (key === 'default' ? navegar(pantallaPadre(pathname), { replace: true }) : navegar(-1));
-  return (
-    <button type="button" className="boton-volver" onClick={() => void volver()} aria-label={t.comun.volverAria}>
-      <span aria-hidden>←</span> {t.comun.volver}
-    </button>
-  );
-}
-
 export default function Plantilla() {
   const { usuario } = useAuth();
   const { t } = usePreferencias();
   const enLinea = useEnLinea();
   const { pathname } = useLocation();
-  // En la app de iPhone cada pestaña es una raíz: ahí no hace falta "Volver".
-  const raizNativa = !!document.documentElement.dataset.nativo && ['/precios', '/alertas', '/capacitaciones', '/mi-finca'].includes(pathname);
-  const enInicio = pathname === '/' || raizNativa;
   const [enCola, setEnCola] = useState(() => cola.pendientes().length);
   const [aviso, setAviso] = useState<number | null>(null);
 
   const pestanas = [
-    { a: '/', icono: 'sembrar', texto: t.nav.sembrar, fin: true },
+    // Inicio va primero: reemplaza al antiguo botón "Volver" (siempre se puede regresar a los módulos).
+    { a: '/', icono: 'inicio', texto: t.nav.inicio, fin: true },
+    { a: '/sembrar', icono: 'sembrar', texto: t.nav.sembrar },
     { a: '/precios', icono: 'precios', texto: t.nav.precios },
     { a: '/alertas', icono: 'alertas', texto: t.nav.alertas },
     { a: '/capacitaciones', icono: 'cursos', texto: t.nav.cursos },
@@ -111,7 +89,6 @@ export default function Plantilla() {
       )}
 
       <main className="contenido">
-        {!enInicio && <BotonVolver />}
         <Outlet />
       </main>
 

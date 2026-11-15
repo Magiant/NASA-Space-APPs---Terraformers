@@ -53,6 +53,7 @@ export const es = {
   },
 
   nav: {
+    inicio: 'Inicio',
     sembrar: 'Sembrar',
     precios: 'Precios',
     alertas: 'Alertas',
@@ -158,6 +159,21 @@ export const es = {
       titulo: 'Hecho para el agricultor costarricense',
       texto: 'La herramienta apoya su decisión: su experiencia y la de los técnicos del MAG siguen siendo lo más importante.',
     },
+  },
+
+  portal: {
+    titulo: '¿Qué quiere hacer hoy?',
+    subtitulo: 'Datos de satélites de la NASA y de fuentes de Costa Rica para decidir qué sembrar, cuándo hacerlo y a qué precio vender.',
+    modulos: 'Módulos de Terraformes',
+    sembrar: 'Vea qué cultivos se dan mejor en su zona y cuándo sembrarlos.',
+    precios: 'Precios de hoy en el CENADA y cómo han cambiado.',
+    alertas: 'Avisos de lluvias fuertes, sequía y otros peligros cerca de su finca.',
+    cursos: 'Cursos gratuitos del INA para el campo.',
+    miFinca: 'Sus fincas, siembras, reportes de plagas y escaneo con dron.',
+    abrir: 'Abrir',
+    suZona: (d: string) => `Su zona: ${d}`,
+    verSembrar: 'Ver qué sembrar',
+    rapido: 'Acciones rápidas',
   },
 
   inicio: {

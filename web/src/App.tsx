@@ -20,6 +20,7 @@ import Alertas from './paginas/publicas/Alertas';
 import Capacitaciones from './paginas/publicas/Capacitaciones';
 import Cultivo from './paginas/publicas/Cultivo';
 import Inicio from './paginas/publicas/Inicio';
+import Sembrar from './paginas/publicas/Sembrar';
 import Precios from './paginas/publicas/Precios';
 import Zona from './paginas/publicas/Zona';
 import RutaPrivada from './rutas/RutaPrivada';
@@ -43,6 +44,7 @@ export default function App() {
           <Route element={<Plantilla />}>
             {/* Públicas: se usan sin cuenta */}
             <Route index element={<Inicio />} />
+            <Route path="sembrar" element={<Sembrar />} />
             <Route path="zona/:codigo" element={<Zona />} />
             <Route path="cultivo/:id" element={<Cultivo />} />
             <Route path="precios" element={<Precios />} />
