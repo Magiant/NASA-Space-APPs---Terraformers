@@ -163,7 +163,7 @@ export const en: Textos = {
   portal: {
     titulo: 'What would you like to do today?',
     subtitulo: 'Data from NASA satellites and Costa Rican sources to decide what to plant, when to plant it and at what price to sell.',
-    modulos: 'Terraformes modules',
+    modulos: 'TerraFarm modules',
     sembrar: 'See which crops grow best in your area and when to plant them.',
     precios: "Today's prices at CENADA and how they have changed.",
     alertas: 'Warnings about heavy rain, drought and other hazards near your farm.',

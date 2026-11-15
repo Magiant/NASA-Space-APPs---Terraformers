@@ -1,6 +1,6 @@
 {
-  "name": "Terraformes",
-  "short_name": "Terraformes",
+  "name": "TerraFarm",
+  "short_name": "TerraFarm",
   "description": "Qué sembrar en tu zona de Costa Rica",
   "lang": "es-CR",
   "start_url": "./",

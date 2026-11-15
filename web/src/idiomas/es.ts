@@ -164,7 +164,7 @@ export const es = {
   portal: {
     titulo: '¿Qué quiere hacer hoy?',
     subtitulo: 'Datos de satélites de la NASA y de fuentes de Costa Rica para decidir qué sembrar, cuándo hacerlo y a qué precio vender.',
-    modulos: 'Módulos de Terraformes',
+    modulos: 'Módulos de TerraFarm',
     sembrar: 'Vea qué cultivos se dan mejor en su zona y cuándo sembrarlos.',
     precios: 'Precios de hoy en el CENADA y cómo han cambiado.',
     alertas: 'Avisos de lluvias fuertes, sequía y otros peligros cerca de su finca.',
