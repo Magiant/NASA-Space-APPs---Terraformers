@@ -18,6 +18,7 @@ final class Webs {
             guard let datos = cuerpo as? [String: Any] else { return }
             if let idioma = datos["idioma"] as? String { self?.ingles = idioma == "en" }
             if let tema = datos["tema"] as? String { self?.oscuro = tema == "azul" }
+            self?.avisarATodas(datos)
         }, name: "preferencias")
     }
 
@@ -59,6 +60,16 @@ final class Webs {
         v.load(URLRequest(url: Self.url(s.rawValue)))
         vistas[s] = v
         return v
+    }
+
+    /// Cada pestaña es su propia vista web: el cambio hecho en una se aplica en todas.
+    /// (Repetirlo en la que lo originó no hace nada: ya tiene esos valores.)
+    private func avisarATodas(_ datos: [String: Any]) {
+        guard let json = try? JSONSerialization.data(withJSONObject: datos),
+              let texto = String(data: json, encoding: .utf8) else { return }
+        for v in vistas.values {
+            v.evaluateJavaScript("dispatchEvent(new CustomEvent('tf-preferencias', { detail: \(texto) }))")
+        }
     }
 
     /// Lleva la pestaña actual a otra ruta de la web (p. ej. el botón "Reportar una plaga").
