@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando, Vacio } from '../../componentes/Estados';
 import ListaSugerencias, { textoMotivo } from '../../componentes/ListaSugerencias';
 import { useT } from '../../contexto/PreferenciasContext';
@@ -22,6 +23,8 @@ export default function NuevaSiembra() {
   const [fechaSiembra, setFechaSiembra] = useState(hoy());
   const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+  // Lo que la persona eligió o escribió (la finca y el cultivo pueden venir ya puestos desde otra pantalla).
+  useAvisoSinGuardar(!enviando && (!!area || cultivoId !== (params.get('cultivo') ?? '')));
 
   useEffect(() => {
     if (!fincaId && fincas.datos?.length) setFincaId(fincas.datos[0].id);

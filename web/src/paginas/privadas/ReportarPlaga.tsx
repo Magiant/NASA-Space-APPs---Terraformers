@@ -1,6 +1,7 @@
 import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando } from '../../componentes/Estados';
 import ListaSugerencias from '../../componentes/ListaSugerencias';
 import { useAuth } from '../../contexto/AuthContext';
@@ -86,6 +87,8 @@ export default function ReportarPlaga() {
   const [enviado, setEnviado] = useState<{ enCola: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { usuario } = useAuth();
+  // Reporte empezado y sin enviar: avisar antes de salir.
+  useAvisoSinGuardar(!enviado && (!!tipo || !!plagaId || !!sintomas.trim() || !!foto));
 
   if (fincas.cargando || siembras.cargando) return <Cargando />;
   const activas = (siembras.datos ?? []).filter((s) => s.estado === 'activa');

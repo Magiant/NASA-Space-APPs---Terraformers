@@ -7,6 +7,7 @@
 //   const confirmar = useConfirmar();
 //   if (await confirmar({ titulo: '¿Cerrar sesión?', aceptar: 'Cerrar sesión', tono: 'peligro' })) { … }
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useT } from '../contexto/PreferenciasContext';
 import { Icono, type NombreIcono } from './Iconos';
 
@@ -90,3 +91,39 @@ function VentanaConfirmar({ pedido, cerrar }: { pedido: Pedido; cerrar: (ok: boo
   );
 }
 
+/**
+ * Formulario con cambios sin guardar: antes de salir pregunta "¿Salir sin guardar?".
+ * Cubre los enlaces de la app (pestañas, menú, "Volver al inicio"…) y cerrar o recargar la página.
+ * No cubre las pestañas nativas de las apps de Android e iPhone (cambian la dirección sin pasar por un enlace).
+ */
+export function useAvisoSinGuardar(sucio: boolean) {
+  const confirmar = useConfirmar();
+  const navegar = useNavigate();
+  const t = useT();
+
+  useEffect(() => {
+    if (!sucio) return;
+    const antesDeSalir = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = ''; // el navegador muestra su propio aviso (no deja poner texto)
+    };
+    const alTocar = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const enlace = (e.target as Element | null)?.closest?.('a');
+      const destino = enlace?.getAttribute('href');
+      // Solo los enlaces internos (HashRouter: "#/ruta") y que no abren otra pestaña.
+      if (!enlace || !destino?.startsWith('#/') || enlace.target === '_blank') return;
+      e.preventDefault();
+      e.stopPropagation(); // que el enlace no navegue mientras se pregunta
+      const ts = t.confirmar.sinGuardar;
+      confirmar({ titulo: ts.titulo, texto: ts.texto, aceptar: ts.aceptar, cancelar: ts.seguir, tono: 'peligro', icono: 'nota' })
+        .then((ok) => { if (ok) navegar(destino.slice(1)); });
+    };
+    window.addEventListener('beforeunload', antesDeSalir);
+    document.addEventListener('click', alTocar, true); // en captura: antes que el enlace
+    return () => {
+      window.removeEventListener('beforeunload', antesDeSalir);
+      document.removeEventListener('click', alTocar, true);
+    };
+  }, [sucio, confirmar, navegar, t]);
+}

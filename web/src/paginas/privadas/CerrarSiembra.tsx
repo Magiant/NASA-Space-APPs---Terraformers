@@ -1,4 +1,4 @@
-import { useConfirmar } from '../../componentes/Confirmar';
+import { useAvisoSinGuardar, useConfirmar } from '../../componentes/Confirmar';
 import { Icono, NombreIcono } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -26,6 +26,7 @@ export default function CerrarSiembra() {
   const [motivo, setMotivo] = useState('');
   const [error, setError] = useState<string | null>(null);
   const confirmar = useConfirmar();
+  useAvisoSinGuardar(!!resultado || !!cantidad || !!motivo.trim());
 
   if (siembra.cargando) return <Cargando />;
   if (siembra.error || !siembra.datos) return <ErrorCarga mensaje={siembra.error ?? '—'} />;

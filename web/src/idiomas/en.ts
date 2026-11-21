@@ -76,6 +76,12 @@ export const en: Textos = {
       aceptar: 'Confirm report',
     },
     reiniciar: { titulo: 'Reset the demo data?', aceptar: 'Reset' },
+    sinGuardar: {
+      titulo: 'Leave without saving?',
+      texto: 'What you typed in this form has not been saved yet and will be lost.',
+      aceptar: 'Leave without saving',
+      seguir: 'Stay here',
+    },
   },
 
   ajustes: {

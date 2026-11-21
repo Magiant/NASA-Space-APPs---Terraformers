@@ -80,6 +80,12 @@ export const es = {
       aceptar: 'Confirmar reporte',
     },
     reiniciar: { titulo: '¿Reiniciar los datos de demo?', aceptar: 'Reiniciar' },
+    sinGuardar: {
+      titulo: '¿Salir sin guardar?',
+      texto: 'Lo que escribió en este formulario todavía no se ha guardado y se va a perder.',
+      aceptar: 'Salir sin guardar',
+      seguir: 'Seguir aquí',
+    },
   },
 
   ajustes: {
