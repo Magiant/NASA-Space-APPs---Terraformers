@@ -424,7 +424,7 @@ NASA-Space-APPs---Terraformers/
 | `semanal.yml` | Mondays 02:00 | INA courses |
 | `semanal.yml` | Mondays 04:00 | NASA POWER soil moisture and temperature, heat waves, ECOSTRESS, and finally the **suitability score** |
 | `unica-vez.yml` | By hand from the Actions tab | Districts, historical climate and temperature, soils, EcoCrop, GAEZ, crop catalog, terrain, hazards, land-use capability, protected areas, suitability |
-| `android.yml` | On every push to `dev` that changes the web or the Android app, and on pull requests | Builds the Android APK and, from `dev`, publishes it in the `app-android` release |
+| `android.yml` | On every push to `main` that changes the web or the Android app, and on pull requests | Builds the Android APK and, from `main`, publishes it in the `app-android` release |
 | `ios.yml` | On every push to `dev` that changes the web or the iOS app, and on pull requests | Builds the iOS app on a macOS runner (unsigned, for the simulator) and checks its permission texts |
 | `deploy-pages.yml` | — | Empty for now: the site is published by hand with `npm run deploy` |
 

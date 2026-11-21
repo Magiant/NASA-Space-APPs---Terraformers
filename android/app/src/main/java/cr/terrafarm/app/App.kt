@@ -36,7 +36,7 @@ enum class Seccion(val ruta: String, val es: String, val en: String) {
  * el contenido de cada pestaña es la web empaquetada dentro de la app (funciona sin internet).
  */
 @Composable
-fun AppTerraFarm(webs: Webs, alSalir: () -> Unit) {
+fun AppTerraFarm(webs: Webs, actualizador: Actualizador, abrirPaginaDescarga: () -> Unit, alSalir: () -> Unit) {
     var seccion by rememberSaveable { mutableStateOf(Seccion.SEMBRAR) }
     // Mismo tema que en Ajustes de la web (null = el del teléfono).
     val oscuro = webs.oscuro ?: isSystemInDarkTheme()
@@ -85,5 +85,8 @@ fun AppTerraFarm(webs: Webs, alSalir: () -> Unit) {
                 )
             }
         }
+
+        // "Hay una versión nueva de TerraFarm": aparece encima solo si GitHub tiene un APK más nuevo.
+        AvisoActualizacion(actualizador, webs, abrirPaginaDescarga)
     }
 }

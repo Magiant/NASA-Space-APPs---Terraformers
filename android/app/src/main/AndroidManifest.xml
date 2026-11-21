@@ -6,6 +6,9 @@
     <!-- "Usar mi ubicación" para encontrar el distrito de la finca -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Actualizar desde la app: abrir el instalador de Android con el APK nuevo (ver Actualizador.kt).
+         La primera vez Android pide permitir instalar apps desde TerraFarm. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="true"
@@ -26,5 +29,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Le pasa al instalador de Android el APK que bajó la app (solo la carpeta de la actualización). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.archivos"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/archivos" />
+        </provider>
     </application>
 </manifest>
