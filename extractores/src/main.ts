@@ -67,10 +67,17 @@ if (!args.nombre || !EXTRACTORES[args.nombre]) {
   console.error(`Uso: npm run extraer -- <nombre> [opciones]\nDisponibles: ${Object.keys(EXTRACTORES).join(', ')}`)
   process.exit(2)
 }
+// Correccion - Poll: en GitHub Actions el motivo del fallo se muestra en la pagina de la corrida, no solo en el log.
 try {
   await EXTRACTORES[args.nombre](args)
 } catch (e) {
-  console.error(`✘ ${args.nombre}: ${(e as Error).message}`)
+  const mensaje = (e as Error).message
+  console.error(`✘ ${args.nombre}: ${mensaje}`)
+  // Formato de anotación de GitHub (::error::): aparece en el resumen de la corrida, que se ve sin iniciar sesión.
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const limpio = mensaje.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A')
+    console.log(`::error title=Extractor ${args.nombre}::${limpio}`)
+  }
   // exitCode en vez de process.exit(): deja cerrar las conexiones abiertas (en Windows, process.exit
   // con fetch pendientes muestra "Assertion failed" de libuv).
   process.exitCode = 1
