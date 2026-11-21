@@ -44,6 +44,19 @@ export const en: Textos = {
     fecha: 'Date',
   },
 
+  confirmar: {
+    cancelar: 'Cancel',
+    salir: {
+      titulo: 'Sign out?',
+      texto: 'To see your farms, plantings and reports again you will need to sign in with your email and password.',
+      pendientes: (n) =>
+        n === 1
+          ? 'You have 1 pest report not sent yet on this phone. It will be sent when you sign in again with this same account.'
+          : `You have ${n} pest reports not sent yet on this phone. They will be sent when you sign in again with this same account.`,
+      aceptar: 'Sign out',
+    },
+  },
+
   ajustes: {
     titulo: 'Settings',
     abrir: 'Open settings',

@@ -46,6 +46,20 @@ export const es = {
     fecha: 'Fecha',
   },
 
+  // Ventanas de "¿Está seguro?" (componentes/Confirmar.tsx)
+  confirmar: {
+    cancelar: 'Cancelar',
+    salir: {
+      titulo: '¿Cerrar sesión?',
+      texto: 'Para volver a ver sus fincas, siembras y reportes tendrá que entrar otra vez con su correo y contraseña.',
+      pendientes: (n: number) =>
+        n === 1
+          ? 'Tiene 1 reporte de plaga sin enviar en este teléfono. Se enviará cuando vuelva a entrar con esta misma cuenta.'
+          : `Tiene ${n} reportes de plaga sin enviar en este teléfono. Se enviarán cuando vuelva a entrar con esta misma cuenta.`,
+      aceptar: 'Cerrar sesión',
+    },
+  },
+
   ajustes: {
     titulo: 'Ajustes',
     abrir: 'Abrir ajustes',

@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useConfirmar } from '../../componentes/Confirmar';
 import { BanderaCostaRica, BanderaEstadosUnidos, Icono, type NombreIcono } from '../../componentes/Iconos';
 import { useAuth } from '../../contexto/AuthContext';
+import { cola } from '../../offline/cola';
 import { usePreferencias, type Tema } from '../../contexto/PreferenciasContext';
 import type { Idioma } from '../../idiomas';
 
@@ -51,6 +53,30 @@ export function PanelAjustes({ alNavegar }: { alNavegar?: () => void }) {
   const ta = t.ajustes;
   const { usuario, salir } = useAuth();
   const navegar = useNavigate();
+  const confirmar = useConfirmar();
+
+  /** Cerrar sesión pide confirmación, y avisa si quedan reportes de plaga sin enviar en este teléfono. */
+  async function cerrarSesion() {
+    if (!usuario) return;
+    const tc = t.confirmar.salir;
+    const pendientes = cola.pendientes(usuario.id).length;
+    const ok = await confirmar({
+      titulo: tc.titulo,
+      texto: (
+        <>
+          <p>{tc.texto}</p>
+          {pendientes > 0 && <p className="confirmar-importante">{tc.pendientes(pendientes)}</p>}
+        </>
+      ),
+      aceptar: tc.aceptar,
+      tono: 'peligro',
+      icono: 'salir',
+    });
+    if (!ok) return;
+    await salir();
+    alNavegar?.();
+    navegar('/');
+  }
   const temas: { valor: Tema; icono: NombreIcono; nombre: string }[] = [
     { valor: 'crema', icono: 'sol', nombre: ta.claro },
     { valor: 'azul', icono: 'luna', nombre: ta.oscuro },
@@ -90,11 +116,7 @@ export function PanelAjustes({ alNavegar }: { alNavegar?: () => void }) {
             <button
               type="button"
               className="ajustes-fila ajustes-peligro"
-              onClick={async () => {
-                await salir();
-                alNavegar?.();
-                navegar('/');
-              }}
+              onClick={cerrarSesion}
             >
               <span className="ajustes-icono" aria-hidden><Icono nombre="salir" tam={22} /></span>
               <span className="ajustes-texto">{t.nav.salir}</span>

@@ -1,6 +1,7 @@
 import { Icono } from './componentes/Iconos';
 import { HashRouter, Link, Route, Routes } from 'react-router-dom';
 import { Vacio } from './componentes/Estados';
+import { ConfirmarProvider } from './componentes/Confirmar';
 import Plantilla from './componentes/Plantilla';
 import { AuthProvider } from './contexto/AuthContext';
 import { PreferenciasProvider, useT } from './contexto/PreferenciasContext';
@@ -40,6 +41,8 @@ export default function App() {
     <PreferenciasProvider>
     <HashRouter>
       <AuthProvider>
+        {/* Ventana de "¿Está seguro?" para toda la app (componentes/Confirmar.tsx) */}
+        <ConfirmarProvider>
         <Routes>
           <Route element={<Plantilla />}>
             {/* Públicas: se usan sin cuenta */}
@@ -75,6 +78,7 @@ export default function App() {
             <Route path="*" element={<NoEncontrada />} />
           </Route>
         </Routes>
+        </ConfirmarProvider>
       </AuthProvider>
     </HashRouter>
     </PreferenciasProvider>
