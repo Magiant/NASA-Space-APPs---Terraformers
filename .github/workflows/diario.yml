@@ -1,22 +1,28 @@
-# Extractores DIARIOS → Supabase. Cada tema agrega su paso en el job que le toca.
+# Extractores DIARIOS → Supabase, solo cuando hay datos nuevos.
+#
+# Cada 3 horas, el trabajo "revisar" mira en Supabase qué tan al día está cada tema
+# (extractores/src/comun/novedades.ts) y solo corren los extractores que tienen algo nuevo que traer; si todo
+# está al día, no se llama a ninguna fuente. Si GitHub atrasa o se salta una corrida (le pasa a la hora en
+# punto, cuando tiene mucha carga), la siguiente revisión lo recoge. Cada corrida deja en su resumen una tabla
+# con qué se bajó y por qué.
+#
 # Secretos necesarios (Settings > Secrets and variables > Actions):
 #   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
 #
-# Open-Meteo gratis permite 10 000 llamadas/día y 5 000/hora. Clima (tema 1) y humedad (tema 2)
-# consultan ~4 000 puntos cada uno: corren en horarios separados para no pasar el límite por hora.
+# Open-Meteo gratis permite 10 000 llamadas/día y 5 000/hora. Clima (tema 1) y humedad (tema 2) consultan
+# ~4 000 puntos cada uno: la revisión nunca los corre en la misma hora.
 name: Extractores diarios
 
 on:
   schedule:
-    - cron: '0 11 * * *'   # 05:00 Costa Rica (UTC-6): clima + estudio hídrico + riesgos
-    - cron: '0 14 * * *'   # 08:00 Costa Rica: humedad del suelo
+    - cron: '23 */3 * * *' # cada 3 horas, a los :23 (en punto GitHub atrasa las corridas programadas)
   workflow_dispatch:
     inputs:
       grupo:
-        description: 'Qué correr a mano'
+        description: 'Qué correr a mano (revisar = solo lo que tenga datos nuevos)'
         type: choice
-        options: [clima-y-agua, humedad, riesgos, precios]
-        default: clima-y-agua
+        options: [revisar, clima-y-agua, humedad, riesgos, precios]
+        default: revisar
 
 concurrency:
   group: extractores-diarios
@@ -28,8 +34,29 @@ env:
   SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
 jobs:
+  # ¿Hay datos nuevos? Solo lee Supabase; decide qué trabajos de abajo corren.
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      clima: ${{ steps.revision.outputs.clima }}
+      humedad: ${{ steps.revision.outputs.humedad }}
+      precios: ${{ steps.revision.outputs.precios }}
+      imn: ${{ steps.revision.outputs.imn }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: ¿Hay datos nuevos?
+        id: revision
+        run: npm run extraer -- novedades
+
   clima-y-agua:
-    if: github.event.schedule == '0 11 * * *' || inputs.grupo == 'clima-y-agua'
+    needs: revisar
+    if: needs.revisar.outputs.clima == 'true' || inputs.grupo == 'clima-y-agua'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -50,7 +77,8 @@ jobs:
         run: npm run extraer -- agua-open-meteo
 
   humedad:
-    if: github.event.schedule == '0 14 * * *' || inputs.grupo == 'humedad'
+    needs: revisar
+    if: needs.revisar.outputs.humedad == 'true' || inputs.grupo == 'humedad'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -65,11 +93,11 @@ jobs:
       - name: Humedad del suelo Open-Meteo
         run: npm run extraer -- humedad-open-meteo
 
-  # Tema 3 · Boletín diario PIMA-CENADA (lunes a viernes). El portal necesita Chrome (ya viene en ubuntu-latest)
-  # y el PDF se lee con pdftotext (poppler-utils).
+  # Tema 3 · Boletín diario PIMA-CENADA (lunes a viernes, hasta que salga el de hoy). El portal necesita Chrome
+  # (ya viene en ubuntu-latest) y el PDF se lee con pdftotext (poppler-utils).
   precios-pima:
-    # Fines de semana no hay boletín nuevo: vuelve a guardar los mismos (la llave evita duplicados).
-    if: github.event.schedule == '0 11 * * *' || inputs.grupo == 'precios'
+    needs: revisar
+    if: needs.revisar.outputs.precios == 'true' || inputs.grupo == 'precios'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -83,9 +111,10 @@ jobs:
       - name: Precios PIMA-CENADA
         run: npm run extraer -- precios-pima
 
-  # Tema 8 · Pronóstico subestacional del IMN: automático (una consulta a su página pública por día).
+  # Tema 8 · Pronóstico subestacional del IMN: automático, una consulta a su página pública por día.
   imn-subestacional:
-    if: github.event.schedule == '0 11 * * *' || inputs.grupo == 'riesgos'
+    needs: revisar
+    if: needs.revisar.outputs.imn == 'true' || inputs.grupo == 'riesgos'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -98,11 +127,12 @@ jobs:
       - name: Pronóstico subestacional IMN
         run: npm run extraer -- imn-subestacional
 
-  # Tema 8 · Boletines revisados a mano de CNE e IMN (la CNE bloquea el acceso automático).
-  # Habilitar solo después de preparar boletines revisados: variable del repositorio
-  # RIESGOS_REVISADOS_HABILITADOS = true (Settings > Secrets and variables > Actions > Variables).
+  # Tema 8 · Boletines revisados a mano de CNE e IMN (la CNE bloquea el acceso automático). Una vez al día,
+  # junto con el pronóstico del IMN. Habilitar solo después de preparar boletines revisados: variable del
+  # repositorio RIESGOS_REVISADOS_HABILITADOS = true (Settings > Secrets and variables > Actions > Variables).
   riesgos:
-    if: vars.RIESGOS_REVISADOS_HABILITADOS == 'true' && (github.event.schedule == '0 11 * * *' || inputs.grupo == 'riesgos')
+    needs: revisar
+    if: vars.RIESGOS_REVISADOS_HABILITADOS == 'true' && (needs.revisar.outputs.imn == 'true' || inputs.grupo == 'riesgos')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:

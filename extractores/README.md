@@ -58,7 +58,7 @@ Por eso la carga histórica se detiene al llegar a `--presupuesto` (9 000 por de
 mantiene su propio ritmo por debajo de 400/min y 4 500/hora.
 
 La humedad del suelo (tema 2) también usa ~4 000 puntos de Open-Meteo al día: entre los dos se usa
-~80 % del cupo diario, por eso en `diario.yml` corren en horarios separados (05:00 y 08:00) y queda
+~80 % del cupo diario, por eso en `diario.yml` nunca corren en la misma hora (lo decide la revisión de datos nuevos, `src/comun/novedades.ts`) y queda
 poco margen para la carga histórica del clima.
 
 ## Tema 7 · Temperatura del sector (NASA POWER)

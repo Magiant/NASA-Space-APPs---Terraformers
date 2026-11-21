@@ -121,7 +121,7 @@ npm run extraer -- imn
 npm run extraer -- amenazas --archivo=datos/riesgos/amenazas.csv
 ```
 
-main.ts registra imn-subestacional → extraerImnSubestacional (automático), cne → extraerCNE, imn → extraerIMN y amenazas → cargarAmenazas. diario.yml tiene el job `imn-subestacional` (corre siempre a las 05:00) y un job independiente con matriz cne/imn para los boletines revisados. Se habilita con la variable de repositorio RIESGOS_REVISADOS_HABILITADOS=true cuando los boletines revisados estén versionados en extractores/datos/riesgos/. El job usa el horario existente de 05:00 Costa Rica; no actualiza los boletines por sí solo. unica-vez.yml agrega amenazas a las opciones manuales; opciones puede contener --archivo=datos/riesgos/amenazas.csv.
+main.ts registra imn-subestacional → extraerImnSubestacional (automático), cne → extraerCNE, imn → extraerIMN y amenazas → cargarAmenazas. diario.yml tiene el job `imn-subestacional` (una vez al día, cuando la revisión de datos nuevos lo pide) y un job independiente con matriz cne/imn para los boletines revisados. Se habilita con la variable de repositorio RIESGOS_REVISADOS_HABILITADOS=true cuando los boletines revisados estén versionados en extractores/datos/riesgos/. El job corre una vez al día, junto con el pronóstico del IMN; no actualiza los boletines por sí solo. unica-vez.yml agrega amenazas a las opciones manuales; opciones puede contener --archivo=datos/riesgos/amenazas.csv.
 
 ## Límites de verificación
 
