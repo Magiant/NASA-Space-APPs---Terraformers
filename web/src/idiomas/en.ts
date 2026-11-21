@@ -149,6 +149,12 @@ export const en: Textos = {
     porQue: 'Why this score?',
   },
 
+  temporada: {
+    todoElAno: 'All year',
+    esteMes: (mes) => `Now, in ${mes}`,
+    en: (mes) => `In ${mes}`,
+  },
+
   desglose: {
     clima: { nombre: 'Climate', frases: ['The climate suits it very well', 'The climate works', 'The climate does not favor it'] },
     suelo: { nombre: 'Soil', frases: ['The soil is ideal', 'The soil works, with fertilizer', 'The soil does not suit it'] },

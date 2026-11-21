@@ -153,6 +153,13 @@ export const es = {
     porQue: '¿Por qué este puntaje?',
   },
 
+  // Cuándo sembrar, contado desde hoy (tarjeta de cada cultivo)
+  temporada: {
+    todoElAno: 'Todo el año',
+    esteMes: (mes: string) => `Ahora, en ${mes}`,
+    en: (mes: string) => `En ${mes}`,
+  },
+
   desglose: {
     clima: { nombre: 'Clima', frases: ['El clima le va muy bien', 'El clima le sirve', 'El clima no le favorece'] as [string, string, string] },
     suelo: { nombre: 'Suelo', frases: ['El suelo es ideal', 'El suelo sirve, con abono', 'El suelo no le conviene'] as [string, string, string] },

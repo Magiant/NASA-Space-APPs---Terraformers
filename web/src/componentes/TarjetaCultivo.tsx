@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useT } from '../contexto/PreferenciasContext';
+import type { Textos } from '../idiomas';
+import { mesesDeSiembra, proximaSiembra } from '../logica/temporada';
 import { catalogo } from '../servicios/algolia';
 import type { Notas, RegistroAptitud } from '../tipos';
 import { colones, mes, nombreCultivo, nombrePlaga } from '../utilidades';
@@ -7,6 +9,16 @@ import InsigniaNivel from './InsigniaNivel';
 import { FotoCultivo, Icono } from './Iconos';
 
 const PARTES = ['clima', 'suelo', 'agua', 'mercado'] as const;
+
+// Correccion - Poll: la tarjeta mostraba siempre el primer mes del calendario (p. ej. "enero" para el tomate en
+// noviembre, aunque el tomate tambien se siembra en noviembre). Ahora muestra el proximo mes contado desde hoy.
+function cuandoSembrar(t: Textos, a: RegistroAptitud): string {
+  const meses = mesesDeSiembra(a);
+  if (meses.length >= 12) return t.temporada.todoElAno;
+  const p = proximaSiembra(meses);
+  if (!p) return mes(t, null);
+  return p.faltan === 0 ? t.temporada.esteMes(mes(t, p.mes)) : t.temporada.en(mes(t, p.mes));
+}
 
 function frase(valor: number, frases: [string, string, string]) {
   return valor >= 80 ? frases[0] : valor >= 60 ? frases[1] : frases[2];
@@ -76,7 +88,7 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
           <dl className="tc-datos">
             <div>
               <dt><Icono nombre="calendario" tam={16} /> {t.tarjeta.epoca}</dt>
-              <dd>{mes(t, a.mes_siembra)}</dd>
+              <dd>{cuandoSembrar(t, a)}</dd>
             </div>
             {a.precio_referencia && (
               <div>
