@@ -2,7 +2,7 @@
 //
 // No llama a ninguna API: cruza lo que los demás temas ya guardaron.
 //   clima_normales (NASA POWER, corregida por altitud) · suelos_zona (SoilGrids) · terreno_zona (SRTM)
-//   requisitos_cultivo (FAO EcoCrop) · gaez_zona (FAO GAEZ) · amenazas_zona · precios_historico (PIMA)
+//   requisitos_cultivo (FAO EcoCrop) · gaez_zona (FAO GAEZ) · amenazas_zona · precios_historico (PIMA y CNP)
 //
 // APT-01  Nota de un valor contra un rango EcoCrop: 100 dentro del óptimo; baja en línea recta hasta 0 en el límite
 //         absoluto; fuera del absoluto 0. Sin dato → null (no se inventa).
@@ -14,8 +14,10 @@
 //         Ojo: NASA POWER sobreestima la lluvia en las montañas (Cartago ≈ 3 600 mm frente a ≈ 1 400 mm medidos).
 // APT-04  nota_suelo = pH (80 %) + pendiente (20 %: 100 hasta 8 %, 0 desde 45 %).
 // APT-05  nota_riesgo = 100 − (volcán, deslizamiento, sequía, inundación): muy_alto 35 · alto 20 · medio 8 · bajo 0.
-// APT-06  nota_mercado = precio promedio de la última semana PIMA contra el de las semanas anteriores (sube → más nota).
-//         Sin precios del cultivo → null y su peso se reparte entre las demás notas.
+// APT-06  nota_mercado = precio de la última semana con datos contra el de las semanas anteriores (sube → más nota).
+//         Cada serie se compara consigo misma (fuente + mercado + variedad + unidad): el PIMA es diario (CENADA) y el CNP
+//         semanal, con ≈ 3 semanas de atraso; del CNP solo cuentan los promedios nacionales, para que sus 6 regiones
+//         no pesen más que el PIMA. Sin precios del cultivo → null y su peso se reparte entre las demás notas.
 // APT-07  puntaje = clima 30 % · agua 25 % · suelo 20 % · riesgo 15 % · mercado 10 % (solo las notas con dato).
 // APT-08  descartado si: temperatura fuera del rango absoluto, altitud sobre el máximo de EcoCrop, o sin datos de clima.
 //         Si no: ≥ 85 excelente · ≥ 65 bueno · resto no_recomendado.
@@ -116,20 +118,25 @@ async function normales(): Promise<Map<string, Clima>> {
   return out
 }
 
-/** APT-06: tendencia del precio promedio (última semana contra las anteriores), por cultivo. */
-async function notasMercado(): Promise<Map<string, number>> {
-  const { data, error } = await obtenerSupabase().from('precios_historico').select('cultivo_id,fecha_dato,precio_promedio,variedad,unidad')
-    .not('cultivo_id', 'is', null).order('fecha_dato', { ascending: false }).limit(5000)
-  if (error) throw new Error(`No se pudo leer precios_historico: ${error.message}`)
-  const filas = data as { cultivo_id: string; fecha_dato: string; precio_promedio: number | null; variedad: string; unidad: string }[]
-  if (!filas.length) return new Map()
-  const corte = new Date(Date.parse(filas[0].fecha_dato) - 7 * 864e5).toISOString().slice(0, 10)
+export interface FilaPrecioMercado {
+  fuente: string; mercado: string; cultivo_id: string; fecha_dato: string; precio_promedio: number | null; variedad: string; unidad: string
+}
+
+/**
+ * APT-06: nota de mercado por cultivo según la tendencia del precio. Cada serie (fuente + mercado + variedad + unidad)
+ * compara la última semana con datos DE SU FUENTE contra las anteriores: el CNP llega con semanas de atraso y, si se
+ * usara la fecha más nueva del PIMA, todas sus filas quedarían como "viejas" y nunca contarían.
+ */
+export function notasDeMercado(filas: FilaPrecioMercado[]): Map<string, number> {
+  const ultima = new Map<string, string>()
+  for (const f of filas) if (f.fecha_dato > (ultima.get(f.fuente) ?? '')) ultima.set(f.fuente, f.fecha_dato)
+  const cortes = new Map([...ultima].map(([fuente, fecha]) => [fuente, new Date(Date.parse(fecha) - 7 * 864e5).toISOString().slice(0, 10)]))
   const grupos = new Map<string, { nuevo: number[]; viejo: number[] }>()
   for (const f of filas) {
     if (f.precio_promedio == null) continue
-    const k = `${f.cultivo_id}|${f.variedad}|${f.unidad}`
+    const k = `${f.cultivo_id}|${f.fuente}|${f.mercado}|${f.variedad}|${f.unidad}`
     if (!grupos.has(k)) grupos.set(k, { nuevo: [], viejo: [] })
-    grupos.get(k)![f.fecha_dato > corte ? 'nuevo' : 'viejo'].push(Number(f.precio_promedio))
+    grupos.get(k)![f.fecha_dato > cortes.get(f.fuente)! ? 'nuevo' : 'viejo'].push(Number(f.precio_promedio))
   }
   const cambios = new Map<string, number[]>()
   const prom = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length
@@ -141,6 +148,27 @@ async function notasMercado(): Promise<Map<string, number>> {
   }
   // 0 % de cambio = 60; cada 1 % de subida suma 2 puntos (tope 100), cada 1 % de bajada resta 2 (piso 20).
   return new Map([...cambios].map(([id, v]) => [id, Math.max(20, Math.min(100, r0(60 + 200 * prom(v))))]))
+}
+
+/** Precios recientes de los cultivos del catálogo: PIMA (45 días) y promedios nacionales del CNP (120 días). */
+async function notasMercado(): Promise<Map<string, number>> {
+  const leer = async (fuente: string, dias: number, mercado?: string) => {
+    const desde = new Date(Date.now() - dias * 864e5).toISOString().slice(0, 10)
+    const filas: FilaPrecioMercado[] = []
+    // De a 1000 filas: Supabase no entrega más por consulta.
+    for (let i = 0; ; i += 1000) {
+      let q = obtenerSupabase().from('precios_historico').select('fuente,mercado,cultivo_id,fecha_dato,precio_promedio,variedad,unidad')
+        .eq('fuente', fuente).not('cultivo_id', 'is', null).gte('fecha_dato', desde)
+      if (mercado) q = q.like('mercado', mercado)
+      const { data, error } = await q.order('fecha_dato', { ascending: false }).range(i, i + 999)
+      if (error) throw new Error(`No se pudo leer precios_historico (${fuente}): ${error.message}`)
+      filas.push(...(data as FilaPrecioMercado[]))
+      if (data.length < 1000) break
+    }
+    return filas
+  }
+  const [pima, cnp] = await Promise.all([leer('pima', 45), leer('cnp', 120, '%Promedio nacional')])
+  return notasDeMercado([...pima, ...cnp])
 }
 
 export async function calcularAptitud(a: Argumentos) {

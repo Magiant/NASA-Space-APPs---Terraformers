@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx'
 import { Precio } from '@terraformes/compartido'
 import { fechaDelBoletin, leerListaComparativa } from '../src/precios/cnp.ts'
 import { clasificarProducto } from '../src/comun/productos.ts'
+import { notasDeMercado } from '../src/aptitud/calcular.ts'
 
 const _ = null
 const FILAS = [
@@ -103,6 +104,30 @@ describe('CNP · fecha del boletín', () => {
   it('sin fechas en el título, usa la semana ISO del nombre del archivo', () => {
     assert.equal(fechaDelBoletin('LISTA COMPARATIVA', 'PNS_Comparativa_43_semana_44-2026.xlsx'), '2026-10-30')
     assert.throws(() => fechaDelBoletin('sin fecha', 'archivo.xlsx'), /no se encontró la fecha/)
+  })
+})
+
+describe('Aptitud · nota de mercado con PIMA y CNP', () => {
+  const fila = (fuente: string, mercado: string, cultivo_id: string, fecha_dato: string, precio_promedio: number) =>
+    ({ fuente, mercado, cultivo_id, fecha_dato, precio_promedio, variedad: 'rojo', unidad: 'kg' })
+
+  it('el CNP, que llega semanas tarde, se compara con su propia última semana y no con la del PIMA', () => {
+    const notas = notasDeMercado([
+      fila('pima', 'CENADA', 'papa', '2026-11-20', 100), fila('pima', 'CENADA', 'papa', '2026-11-05', 100),
+      // Frijol solo en el CNP: última semana 30-oct (+10 % frente a la anterior).
+      fila('cnp', 'Ferias · Promedio nacional', 'frijol', '2026-10-30', 1100), fila('cnp', 'Ferias · Promedio nacional', 'frijol', '2026-10-23', 1000),
+    ])
+    assert.equal(notas.get('papa'), 60, 'sin cambio = 60')
+    assert.equal(notas.get('frijol'), 80, '+10 % = 60 + 20')
+  })
+
+  it('no mezcla mercados: cada serie se compara consigo misma', () => {
+    const notas = notasDeMercado([
+      // Ferias sube 10 %; Borbón baja 10 %. Mezclados darían otra cosa; por separado se compensan (60).
+      fila('cnp', 'Ferias · Promedio nacional', 'frijol', '2026-10-30', 2200), fila('cnp', 'Ferias · Promedio nacional', 'frijol', '2026-10-23', 2000),
+      fila('cnp', 'Borbón · Promedio nacional', 'frijol', '2026-10-30', 900), fila('cnp', 'Borbón · Promedio nacional', 'frijol', '2026-10-23', 1000),
+    ])
+    assert.equal(notas.get('frijol'), 60)
   })
 })
 
