@@ -60,7 +60,7 @@ TerraFarm is available in three ways, all showing the same screens and data:
 
 - **Web application** (a Progressive Web App) that works on desktop and mobile browsers and keeps working with a weak signal.
 - **Android app** (`android/`, Kotlin + Jetpack Compose). It packages the web app with native Material 3 tabs, works without internet, and is built automatically by GitHub Actions. The APK can be downloaded from the web ("Download the app" button) or directly: [TerraFarm.apk](https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk). It is **not on Google Play**.
-- **iOS app** (`ios/`, SwiftUI + WebKit), with native tabs. It builds in Xcode but **has not been published on the App Store**.
+- **iOS app** (`ios/`, SwiftUI + WebKit), with native tabs. GitHub Actions builds it in the cloud (no Mac needed), but it is **not yet on TestFlight or the App Store** (steps in `ios/README.md`).
 
 A **28-second demo video** for the judges is produced in code with Remotion (`video/`).
 
@@ -125,7 +125,7 @@ Legumes such as beans return nitrogen to the soil. Repeating the same family (po
 | Recommendation engine | Rotation rules, crop suitability scoring per district and per crop, sowing month. | `extractores/src/cultivos/catalogo.ts`, `extractores/src/aptitud/calcular.ts` |
 | Tests | 100 automated tests for the extractors (no internet needed). | `extractores/test/` |
 | Deployment | Public site on GitHub Pages. | `npm run deploy` → branch `gh-pages` |
-| Mobile apps | Native Android shell (APK built and published by GitHub Actions) and native iOS shell. | `android/`, `ios/`, `.github/workflows/android.yml` |
+| Mobile apps | Native Android shell (APK built and published by GitHub Actions) and native iOS shell. | `android/`, `ios/`, `.github/workflows/android.yml`, `.github/workflows/ios.yml` |
 | Demo video | 28-second video: map zoom, drone scan, real app footage, storm alert, globe; subtitles and an "AI-assisted" watermark. | `video/`, `docs/video/guion.md` |
 | Next stage | Agronomic validation, maize/rice/coffee prices, NDVI, census, real users. | [Next steps](#development-status-and-next-steps) |
 
@@ -425,6 +425,7 @@ NASA-Space-APPs---Terraformers/
 | `semanal.yml` | Mondays 04:00 | NASA POWER soil moisture and temperature, heat waves, ECOSTRESS, and finally the **suitability score** |
 | `unica-vez.yml` | By hand from the Actions tab | Districts, historical climate and temperature, soils, EcoCrop, GAEZ, crop catalog, terrain, hazards, land-use capability, protected areas, suitability |
 | `android.yml` | On every push to `dev` that changes the web or the Android app, and on pull requests | Builds the Android APK and, from `dev`, publishes it in the `app-android` release |
+| `ios.yml` | On every push to `dev` that changes the web or the iOS app, and on pull requests | Builds the iOS app on a macOS runner (unsigned, for the simulator) and checks its permission texts |
 | `deploy-pages.yml` | — | Empty for now: the site is published by hand with `npm run deploy` |
 
 Secrets live in **Settings → Secrets and variables → Actions** and are never in the code.
@@ -588,7 +589,7 @@ A simple before/after change alone cannot prove that TerraFarm caused it.
 |---|---|
 | Web interface (public, private and admin screens, ES/EN, two themes, offline) | ✅ Working |
 | Android app (APK) | ✅ Built automatically and downloadable |
-| iOS app | 🟡 Builds in Xcode; not published |
+| iOS app | 🟡 Builds in GitHub Actions; not on TestFlight yet (needs an Apple Developer account) |
 | 28-second demo video | ✅ Produced (Remotion) |
 | Accounts, roles and personal records in a real database | ✅ Working |
 | NASA POWER climate, temperature and soil moisture | ✅ Loaded and updated automatically |
@@ -659,7 +660,7 @@ Never put a private key in a `VITE_*` variable: everything with that prefix ends
 
 **Android app:** run `android/preparar-web.sh` to copy the built web into the app, then build with Android Studio or Gradle (details in `android/README.md`).
 
-**iOS app:** run `ios/preparar-web.sh` to copy the built web into the app, then open `ios/Terraformes.xcodeproj` in Xcode.
+**iOS app:** run `ios/preparar-web.sh` to copy the built web into the app, then open `ios/Terraformes.xcodeproj` in Xcode (details and TestFlight steps in `ios/README.md`).
 
 **Demo video:** `cd video && npm install && npm run dev` opens Remotion Studio; `npm run render` produces the MP4 (script and timing in `docs/video/guion.md`).
 

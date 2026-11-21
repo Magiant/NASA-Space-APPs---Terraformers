@@ -1,0 +1,94 @@
+# App de iPhone: compila la web y la app en una Mac de GitHub (nadie del equipo necesita una Mac).
+# Por ahora sin firma, porque todavía no hay cuenta de Apple Developer: comprueba que la app compila y
+# deja la versión para el simulador como artefacto. La subida a TestFlight se agrega cuando exista la
+# cuenta (ver ios/README.md).
+#
+# Secretos opcionales (Settings > Secrets and variables > Actions):
+#   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_ALGOLIA_APP_ID, VITE_ALGOLIA_SEARCH_KEY
+#     → los mismos de la app de Android: llaves PÚBLICAS de la web (sin ellas, la app abre en modo demo).
+name: App iPhone
+
+on:
+  push:
+    branches: [dev]
+    paths: ['ios/**', 'web/**', 'packages/compartido/**', 'package-lock.json', '.github/workflows/ios.yml']
+  pull_request:
+    paths: ['ios/**', 'web/**', 'packages/compartido/**', 'package-lock.json', '.github/workflows/ios.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: app-iphone-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  compilar:
+    # macOS 26 trae Xcode 26, que es lo que pide el proyecto (barra de pestañas de vidrio de iOS 26).
+    runs-on: macos-26
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Compilar la web (va empaquetada dentro de la app)
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_ALGOLIA_APP_ID: ${{ secrets.VITE_ALGOLIA_APP_ID }}
+          VITE_ALGOLIA_SEARCH_KEY: ${{ secrets.VITE_ALGOLIA_SEARCH_KEY }}
+
+      # Lo mismo que ios/preparar-web.sh, sin volver a compilar la web.
+      - name: Copiar la web a ios/Web
+        run: |
+          rm -rf ios/Web
+          cp -R web/dist ios/Web
+          find ios/Web -name '.*' -prune -exec rm -rf {} +
+
+      - name: Versión de Xcode
+        run: xcodebuild -version
+
+      - name: Compilar la app (simulador, sin firma)
+        run: |
+          LOG="$RUNNER_TEMP/xcodebuild.log"
+          if ! xcodebuild build \
+              -project ios/Terraformes.xcodeproj \
+              -scheme Terraformes \
+              -configuration Release \
+              -destination 'generic/platform=iOS Simulator' \
+              -derivedDataPath "$RUNNER_TEMP/xcode" \
+              CODE_SIGNING_ALLOWED=NO > "$LOG" 2>&1; then
+            grep -E 'error:' "$LOG" | sort -u || true
+            tail -n 80 "$LOG"
+            exit 1
+          fi
+          grep -E 'warning:' "$LOG" | sort -u || true
+          echo "Compilación correcta."
+
+      # Sin estos textos, iOS cierra la app en cuanto la web pide la cámara o la ubicación.
+      - name: Revisar los permisos y la web dentro de la app
+        run: |
+          APP="$RUNNER_TEMP/xcode/Build/Products/Release-iphonesimulator/Terraformes.app"
+          plutil -p "$APP/Info.plist" | grep -E 'CFBundleDisplayName|UsageDescription|ITSAppUsesNonExemptEncryption|MinimumOSVersion'
+          for CLAVE in NSCameraUsageDescription NSLocationWhenInUseUsageDescription; do
+            plutil -extract "$CLAVE" raw "$APP/Info.plist" > /dev/null || { echo "::error::Falta $CLAVE en Info.plist"; exit 1; }
+          done
+          test -f "$APP/Web/index.html" || { echo "::error::La app no lleva la web (Web/index.html)"; exit 1; }
+
+      - name: Empaquetar para el simulador
+        run: |
+          cd "$RUNNER_TEMP/xcode/Build/Products/Release-iphonesimulator"
+          ditto -c -k --keepParent Terraformes.app "$GITHUB_WORKSPACE/TerraFarm-simulador.zip"
+
+      # Para probarla en una Mac: descomprimir y arrastrar Terraformes.app al simulador de Xcode.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TerraFarm-simulador
+          path: TerraFarm-simulador.zip
+          retention-days: 14
