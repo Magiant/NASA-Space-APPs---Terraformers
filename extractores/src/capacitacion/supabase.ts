@@ -39,9 +39,11 @@ export function fetchConReintentos(
 }
 
 /** `fuente` es el nombre de la corrida en `extracciones` ('ina-csv' para el CSV, 'ina-web' para la página). */
+// Correccion - Poll: si SUPABASE_URL llega vacia (GitHub entrega "" cuando el secreto no existe), usar VITE_SUPABASE_URL.
 export function crearDestino(fuente = 'ina-csv'): Destino {
   // SUPABASE_URL es el nombre del PDF; VITE_SUPABASE_URL se acepta como en el resto de extractores.
-  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+  // `||` y no `??`: un texto vacío también cuenta como "no está".
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) throw new Error('Faltan SUPABASE_URL (o VITE_SUPABASE_URL) o SUPABASE_SERVICE_ROLE_KEY');
   const cliente = createClient(url, key, {
