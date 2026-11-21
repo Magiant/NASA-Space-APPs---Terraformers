@@ -77,6 +77,12 @@ jobs:
           EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
         run: npm run extraer -- agua-ecostress
 
+      # Tema 3 · Precios nacionales semanales del CNP (Excel "Lista comparativa": frijol, papa, cebolla… por región).
+      # Va antes de Aptitud para que la nota de mercado use la semana nueva. Son ≈ 8 consultas al portal del CNP.
+      - name: Precios CNP
+        if: ${{ !cancelled() }}
+        run: npm run extraer -- precios-cnp
+
       # Resultado · Aptitud distrito × cultivo con todo lo anterior (sin APIs; también lee precios y amenazas)
       - name: Aptitud
         if: ${{ !cancelled() }}

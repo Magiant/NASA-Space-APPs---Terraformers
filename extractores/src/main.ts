@@ -53,6 +53,8 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'capacidad-uso': temas2y10.capacidadUso,          // unica-vez.yml (al final; necesita pendiente del tema 9)
   // Tema 3 · Precios mayoristas PIMA-CENADA (boletín diario en PDF; necesita Chrome y pdftotext)
   'precios-pima': async (a) => (await import('./precios/pima.ts')).extraerPima(a), // diario.yml (lunes a viernes)
+  // Tema 3 · Precios nacionales semanales del CNP (Excel "Lista comparativa": productor, CENADA, Borbón y ferias por región)
+  'precios-cnp': async (a) => (await import('./precios/cnp.ts')).extraerCNP(a), // semanal.yml (antes de aptitud)
   // Tema 5 · Catálogo de cultivos y reglas de rotación (cultivos + secuencias). Correr ANTES de ecocrop, gaez y aptitud.
   'cultivos': async (a) => (await import('./cultivos/cargar.ts')).cargarCultivos(a), // unica-vez.yml
   // Tema 9 · Altitud y pendiente por distrito (OpenTopoData). Correr ANTES de capacidad-uso y aptitud.

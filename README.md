@@ -127,7 +127,7 @@ Legumes such as beans return nitrogen to the soil. Repeating the same family (po
 | Deployment | Public site on GitHub Pages. | `npm run deploy` → branch `gh-pages` |
 | Mobile apps | Native Android shell (APK built and published by GitHub Actions) and native iOS shell. | `android/`, `ios/`, `.github/workflows/android.yml` |
 | Demo video | 28-second video: map zoom, drone scan, real app footage, storm alert, globe; subtitles and an "AI-assisted" watermark. | `video/`, `docs/video/guion.md` |
-| Next stage | Agronomic validation, CNP prices, NDVI, census, real users. | [Next steps](#development-status-and-next-steps) |
+| Next stage | Agronomic validation, maize/rice/coffee prices, NDVI, census, real users. | [Next steps](#development-status-and-next-steps) |
 
 The Git history of this repository starts on **November 14, 2026**. No earlier founding date, completed farmer pilot, award, institutional partnership or measured yield increase is claimed.
 
@@ -311,7 +311,7 @@ This section separates **data that is actually downloaded, processed, stored and
 | MAG / INTA crop sheets | Optimal temperature, altitude, sowing calendar, cycle, root depth and soil effect of each crop | Team-reviewed catalog | ✅ Used | 13 crops, 169 rotations |
 | [Wikimedia Commons](https://commons.wikimedia.org/) | Photos of crops, pests, alert types and backgrounds (free licenses only, with credits) | Downloaded once | ✅ Used | — |
 | CNE | Official alerts and hazard maps | Hand-reviewed bulletin (its site blocks automated access, which is not bypassed) | 🟡 Loader ready, hazards estimated meanwhile | 1,136 estimated hazards |
-| [CNP](https://www.cnp.go.cr/) | Prices of beans, maize, rice and coffee | — | ⚪ No extractor yet | 0 |
+| [CNP](https://www.cnp.go.cr/sim/Precios_Nac_Semanales.aspx) | Weekly national price list ("Lista comparativa"): producer, CENADA, Borbón and farmers-market prices by region and national average, for beans and ≈ 100 other products | Weekly (`semanal.yml`). The portal lists its files through a public JSON endpoint and publishes one Excel file per week, about 3 weeks after the fact. Licensed CC BY 4.0 (cite the CNP); no `robots.txt`. | ✅ Used (`precios-cnp`) | ≈ 750 per week |
 | [INEC Agricultural Census 2014](https://www.inec.cr/) | Area and farms per canton and crop | Loader ready; needs the Excel file downloaded by hand | 🟡 Pending | 0 |
 | [Protected Planet (WDPA)](https://www.protectedplanet.net/) | Share of each district inside protected areas | Loader ready; needs a free API token | 🟡 Pending | 0 |
 | Pest sheets | Symptoms and control of 8 pests | Written by the team | 🟡 Reference only (there is no database table for them yet) | — |
@@ -453,7 +453,7 @@ These are stated openly so nobody mistakes the prototype for a finished product:
 3. **The suitability score has not been validated by an agronomist yet.** Its rules are documented and its top results make agronomic sense, but it is a decision aid, not a prescription.
 4. **FAO GAEZ is too coarse** (≈ 9 km pixels) to score small districts. It is stored only for comparison.
 5. **Only 13 crops** are in the catalog for now: potato, onion, carrot, cabbage, beans, maize, tomato, sweet pepper, coffee, rice, pineapple, cassava and coriander.
-6. **Beans, maize, rice and coffee have no price yet**, because the CNP extractor is missing.
+6. **Maize, rice and coffee have no price yet.** Beans now come from the CNP weekly list, which arrives about 3 weeks late. Maize only appears in the CNP grain bulletin, published as PDF only since September 2026; rice and coffee prices come from CONARROZ and ICAFE, which have no machine-readable source yet.
 7. **Pest sheets** (symptoms and control of 8 pests) are written by the team as a reference; they are not yet in the database.
 8. **NDVI, ECOSTRESS, the agricultural census and protected areas** are coded but not loaded, because they need credentials or files from a person.
 9. **Email confirmation** depends on Supabase's default mail service, which has a low sending limit.
@@ -600,7 +600,7 @@ A simple before/after change alone cannot prove that TerraFarm caused it.
 | IMN forecasts and INA courses | ✅ Updated automatically |
 | Natural hazards | 🟡 Estimated; official CNE review pending |
 | ECOSTRESS, MODIS NDVI | 🟡 Code ready; needs NASA Earthdata credentials |
-| CNP prices, agricultural census, protected areas | 🟡 Pending (extractor, file or token) |
+| Maize, rice and coffee prices, agricultural census, protected areas | 🟡 Pending (extractor, file or token) |
 | Pest sheets in the database | 🟡 Pending |
 | Agronomic validation and real users | ⚪ Not started |
 
@@ -610,7 +610,7 @@ A simple before/after change alone cannot prove that TerraFarm caused it.
 |---|---|---|
 | 1. Agronomic review | Review the scoring and rotation rules with MAG/INTA or university agronomists. | Documented test cases with accept/reject reasons, including annual vs. perennial crops. |
 | 2. More NASA data | Load ECOSTRESS and MODIS NDVI with Earthdata credentials; evaluate GPM to correct mountain rainfall. | Rows in `agua_zona` and `cobertura_zona`, shown in the district screen with source and date. |
-| 3. Missing local data | CNP prices, 2014 agricultural census, protected areas, official CNE hazards, pest sheets table. | Non-empty tables and a price for every crop. |
+| 3. Missing local data | Maize, rice and coffee prices, 2014 agricultural census, protected areas, official CNE hazards, pest sheets table. | Non-empty tables and a price for every crop. |
 | 4. More crops | Extend the catalog beyond 13 crops (plantain, banana, chayote, lettuce, broccoli, cocoa…). | Catalog rows, EcoCrop requirements and scores for the new crops. |
 | 5. User experience | Test common tasks with growers and improve accessibility. | Documented task results and the changes made from feedback. |
 | 6. Impact pilot | Study real decisions and growing-cycle outcomes. | Consent-based baseline, usage logs and clearly delimited findings. |
