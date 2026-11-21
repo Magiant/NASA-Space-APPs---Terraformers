@@ -206,6 +206,31 @@ export const es = {
     sinDatos: (d: string) => `Todavía no tenemos los cultivos recomendados para ${d}. Estamos cargando los datos de todos los distritos.`,
   },
 
+  // Pronóstico del tiempo (componentes/Pronostico.tsx, fuente Open-Meteo).
+  tiempo: {
+    titulo: 'El tiempo',
+    cargando: 'Cargando el pronóstico…',
+    error: 'No se pudo cargar el pronóstico del tiempo. Revise la señal e intente de nuevo.',
+    sensacion: (g: number) => `Sensación ${g}°`,
+    humedad: (p: number) => `Humedad ${p} %`,
+    viento: (k: number) => `Viento ${k} km/h`,
+    maxMin: (max: string, min: string) => `Hoy: máx. ${max} · mín. ${min}`,
+    lluviaAhora: 'Es probable que llueva en la próxima hora.',
+    // Sin punto final: la hora ya termina en "p. m." / "a. m.".
+    lluviaDesde: (hora: string) => `Lluvia probable desde ${/^1[^0-9]/.test(hora) ? 'la' : 'las'} ${hora}`,
+    sinLluvia: (max: number) =>
+      max >= 20 ? `Poca probabilidad de lluvia en las próximas 12 horas (hasta ${max} %).` : 'No se espera lluvia en las próximas 12 horas.',
+    hoy: 'Hoy',
+    semana: 'Pronóstico de 7 días',
+    probLluvia: (p: number) => `${p} % de probabilidad de lluvia`,
+    fuente: (hora: string) => `Fuente: Open-Meteo · actualizado: ${hora}`,
+    guardado: (cuando: string) => `Sin señal: se muestra el pronóstico guardado (${cuando}).`,
+    cielo: {
+      soleado: 'Soleado', despejado: 'Despejado', pocoNublado: 'Parcialmente nublado', nublado: 'Nublado', niebla: 'Neblina',
+      llovizna: 'Llovizna', lluvia: 'Lluvia', lluviaFuerte: 'Lluvia fuerte', aguaceros: 'Aguaceros', tormenta: 'Tormenta eléctrica',
+    },
+  },
+
   zona: {
     altura: (m: string) => `${m} m de altura`,
     comoEsta: 'Cómo está la zona',

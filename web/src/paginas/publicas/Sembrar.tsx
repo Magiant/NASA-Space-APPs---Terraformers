@@ -5,6 +5,7 @@ import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { Icono, Tx } from '../../componentes/Iconos';
 import SeccionFondo from '../../componentes/SeccionFondo';
 import MapaUbicacion from '../../componentes/MapaUbicacion';
+import { PronosticoZona } from '../../componentes/Pronostico';
 import SelectorUbicacion, { useSeleccionUbicacion } from '../../componentes/SelectorUbicacion';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
 import { useAuth } from '../../contexto/AuthContext';
@@ -109,6 +110,9 @@ export default function Sembrar() {
             )}
           </div>
           {zona && !aptitud.cargando && buenos.length === 0 && <p>{t.inicio.ninguno}</p>}
+
+          {/* El tiempo del distrito elegido: aparece solo al elegir provincia, cantón y distrito. */}
+          <PronosticoZona codigo={codigo} />
 
           {otros.length > 0 && (
             <details className="plegable">

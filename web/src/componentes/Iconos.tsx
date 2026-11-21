@@ -59,6 +59,11 @@ const TRAZOS: Record<string, string> = {
   camara: 'M3 8h4l2-3h6l2 3h4v12H3ZM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z',
   termometro: 'M10 14.5V5a2 2 0 1 1 4 0v9.5a4 4 0 1 1-4 0ZM12 9v8',
   lluvia: 'M7 15a4.5 4.5 0 0 1 .8-8.9A6 6 0 0 1 19 8a3.5 3.5 0 0 1-1 7ZM8 18v3M12 18v3M16 18v3',
+  // Estado del cielo (pronóstico del tiempo): misma nube que "lluvia".
+  nube: 'M7 18a4.5 4.5 0 0 1 .8-8.9A6 6 0 0 1 19 11a3.5 3.5 0 0 1-1 7Z',
+  nubeSol: 'M8.5 5.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM8.5 2v1.5M2 8.5h1.5M3.9 3.9l1.1 1.1M13.1 3.9l-1.1 1.1M9 20a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.5 1.5 3.3 3.3 0 0 1-1 6.5Z',
+  tormenta: 'M7 15a4.5 4.5 0 0 1 .8-8.9A6 6 0 0 1 19 8a3.5 3.5 0 0 1-1 7ZM13 15l-2.5 3.5h3L11 22',
+  niebla: 'M7 13a4.5 4.5 0 0 1 .8-8.9A6 6 0 0 1 19 6a3.5 3.5 0 0 1-1 7ZM4 17h16M7 21h10',
   gota: 'M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z',
   grifo: 'M4 7h12a3 3 0 0 1 3 3v2h-5M4 7V4M8 7V4M17 15c0 1.2 1 2 1 3a1 1 0 1 1-2 0c0-1 1-1.8 1-3Z',
   tierra: 'M3 8l9-4 9 4-9 4ZM3 12l9 4 9-4M3 16l9 4 9-4',

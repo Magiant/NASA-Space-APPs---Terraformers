@@ -205,6 +205,28 @@ export const en: Textos = {
     sinDatos: (d: string) => `We do not have crop recommendations for ${d} yet. We are loading data for every district.`,
   },
 
+  tiempo: {
+    titulo: 'Weather',
+    cargando: 'Loading the forecast…',
+    error: 'The weather forecast could not be loaded. Check your signal and try again.',
+    sensacion: (g) => `Feels like ${g}°`,
+    humedad: (p) => `Humidity ${p}%`,
+    viento: (k) => `Wind ${k} km/h`,
+    maxMin: (max, min) => `Today: high ${max} · low ${min}`,
+    lluviaAhora: 'Rain is likely within the next hour.',
+    lluviaDesde: (hora) => `Rain likely from ${hora}.`,
+    sinLluvia: (max) => (max >= 20 ? `Low chance of rain in the next 12 hours (up to ${max}%).` : 'No rain expected in the next 12 hours.'),
+    hoy: 'Today',
+    semana: '7-day forecast',
+    probLluvia: (p) => `${p}% chance of rain`,
+    fuente: (hora) => `Source: Open-Meteo · updated: ${hora}`,
+    guardado: (cuando) => `No signal: showing the saved forecast (${cuando}).`,
+    cielo: {
+      soleado: 'Sunny', despejado: 'Clear', pocoNublado: 'Partly cloudy', nublado: 'Cloudy', niebla: 'Fog',
+      llovizna: 'Drizzle', lluvia: 'Rain', lluviaFuerte: 'Heavy rain', aguaceros: 'Showers', tormenta: 'Thunderstorm',
+    },
+  },
+
   zona: {
     altura: (m) => `${m} m above sea level`,
     comoEsta: 'Area conditions',

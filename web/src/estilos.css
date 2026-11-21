@@ -1156,6 +1156,56 @@ body::before {
 .portada-zona strong { color: var(--primario); }
 .portada-zona:hover { border-color: var(--primario); }
 
+/* ===== Pronóstico del tiempo (componentes/Pronostico.tsx) ===== */
+.pronostico { display: grid; gap: 14px; margin: 24px 0; }
+.pronostico:hover { box-shadow: var(--sombra); } /* no se toca: sin efecto de tarjeta clicable */
+.pronostico-cabeza { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; }
+.pronostico-cabeza h2 { margin: 0; font-size: 1.2rem; }
+.pronostico-lugar { display: inline-flex; align-items: center; gap: 6px; margin: 0; color: var(--texto-suave); font-size: 0.92rem; font-weight: 600; }
+.pronostico-lugar svg { color: var(--primario); flex: none; }
+.pronostico-ahora { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.pronostico-icono {
+  display: grid; place-items: center; width: 84px; height: 84px; flex: none; border-radius: 22px;
+  background: var(--primario-suave); color: var(--primario);
+}
+.pronostico-icono.tono-sol, .pronostico-dia-icono.tono-sol { color: var(--bue); }
+.pronostico-icono.tono-sol { background: var(--bue-fondo); }
+.pronostico-icono.tono-lluvia, .pronostico-dia-icono.tono-lluvia { color: var(--acento); }
+.pronostico-icono.tono-lluvia { background: color-mix(in srgb, var(--acento) 14%, var(--superficie)); }
+.pronostico-temp { margin: 0; font-family: var(--fuente-titulos); font-size: clamp(2.8rem, 2.2rem + 2vw, 3.6rem); font-weight: 700; line-height: 1; }
+.pronostico-temp span { font-size: 0.45em; font-weight: 600; color: var(--texto-suave); margin-left: 2px; }
+.pronostico-cielo { margin: 4px 0 0; font-size: 1.1rem; font-weight: 700; }
+.pronostico-detalles { display: flex; flex-wrap: wrap; gap: 2px 16px; margin: 0; padding: 0; list-style: none; color: var(--texto-suave); font-size: 0.92rem; }
+.pronostico-detalles strong { color: var(--texto); }
+@media (min-width: 640px) { .pronostico-detalles { flex-direction: column; margin-left: auto; text-align: right; } }
+.pronostico-aviso {
+  display: flex; align-items: center; gap: 10px; margin: 0; padding: 10px 14px; border-radius: var(--radio-chico);
+  background: var(--exc-fondo); font-size: 0.95rem; font-weight: 600;
+}
+.pronostico-aviso svg { flex: none; }
+.pronostico-aviso-lluvia { background: color-mix(in srgb, var(--acento) 14%, var(--superficie)); }
+.pronostico-aviso-error { background: var(--bue-fondo); font-weight: 400; }
+.pronostico-dias { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.pronostico-dia {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; padding: 10px 2px;
+  border-radius: var(--radio-chico); background: var(--superficie-2); font-size: 0.88rem; text-align: center;
+}
+.pronostico-dia:first-child { background: var(--primario-suave); }
+.pronostico-dia-nombre { font-weight: 700; }
+.pronostico-dia-icono { display: grid; place-items: center; height: 32px; color: var(--texto-suave); }
+.pronostico-dia strong { font-size: 1.02rem; }
+.pronostico-min { color: var(--texto-suave); }
+.pronostico-prob { display: inline-flex; align-items: center; gap: 2px; color: var(--acento); font-size: 0.78rem; font-weight: 700; }
+.pronostico-pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; color: var(--texto-suave); font-size: 0.82rem; }
+/* Celular angosto: los 7 días siguen cabiendo en una fila */
+@media (max-width: 440px) {
+  .pronostico-dias { gap: 3px; }
+  .pronostico-dia { padding: 8px 0; font-size: 0.78rem; }
+  .pronostico-dia strong { font-size: 0.92rem; }
+  .pronostico-prob svg { display: none; }
+  .pronostico-icono { width: 72px; height: 72px; }
+}
+
 .modulos { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); margin: 24px 0 32px; }
 @media (min-width: 600px) {
   .modulos { grid-template-columns: repeat(2, minmax(0, 1fr)); }

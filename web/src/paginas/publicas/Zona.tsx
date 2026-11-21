@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
 import GraficoLinea from '../../componentes/GraficoLinea';
+import { TarjetaPronostico } from '../../componentes/Pronostico';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
 import { usePreferencias } from '../../contexto/PreferenciasContext';
 import { algolia } from '../../servicios/algolia';
@@ -57,6 +58,7 @@ function Contenido({ z }: { z: RegistroZona }) {
 
       <div className="columnas columnas-mitad">
         <div className="col-principal">
+          <TarjetaPronostico lat={z._geoloc.lat} lng={z._geoloc.lng} lugar={`${z.distrito}, ${z.canton}`} />
           <h2>{tz.comoEsta}</h2>
           <div className="fichas">
             <Ficha icono="termometro" titulo={tz.temperatura} valor={sd(z.clima.temp_media_c, (v) => `${v} °C`)} detalle={z.clima.temp_min_c !== null && z.clima.temp_max_c !== null ? tz.entre(z.clima.temp_min_c, z.clima.temp_max_c) : undefined} />
