@@ -74,7 +74,7 @@ export default function Sembrar() {
             <img className="escenario-foto" src="./imagenes/cr-campos.jpg" alt="" loading="lazy" />
           </div>
           {(alertas.datos ?? []).map((a) => (
-            <Link key={a.objectID} to="/alertas" className={`alerta-corta alerta-${a.nivel}`}>
+            <Link key={a.objectID} to="/alertas?ver=alertas" className={`alerta-corta alerta-${a.nivel}`}>
               <Icono nombre="alertas" tam={18} /> <strong>{a.titulo}</strong>
             </Link>
           ))}

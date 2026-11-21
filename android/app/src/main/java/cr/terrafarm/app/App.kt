@@ -26,7 +26,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 enum class Seccion(val ruta: String, val es: String, val en: String) {
     SEMBRAR("/sembrar", "Sembrar", "Plant"),
     PRECIOS("/precios", "Precios", "Prices"),
-    ALERTAS("/alertas", "Alertas", "Alerts"),
+    ALERTAS("/alertas", "Tiempo", "Weather"), // pronóstico del tiempo + alertas de la CNE y el IMN
     CURSOS("/capacitaciones", "Cursos", "Courses"),
     FINCA("/mi-finca", "Mi finca", "My farm"),
 }

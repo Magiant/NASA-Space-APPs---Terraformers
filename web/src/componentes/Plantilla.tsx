@@ -22,7 +22,7 @@ export default function Plantilla() {
     { a: '/', icono: 'inicio', texto: t.nav.inicio, fin: true },
     { a: '/sembrar', icono: 'sembrar', texto: t.nav.sembrar },
     { a: '/precios', icono: 'precios', texto: t.nav.precios },
-    { a: '/alertas', icono: 'alertas', texto: t.nav.alertas },
+    { a: '/alertas', icono: 'nubeSol', texto: t.nav.alertas }, // pestaña "Tiempo": pronóstico + alertas
     { a: '/capacitaciones', icono: 'cursos', texto: t.nav.cursos },
     { a: '/mi-finca', icono: 'finca', texto: t.nav.miFinca },
   ] as const;

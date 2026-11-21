@@ -28,7 +28,7 @@ struct ContentView: View {
         TabView(selection: $seccion) {
             Tab(texto("Sembrar", "Plant"), systemImage: "leaf", value: .sembrar) { pagina(.sembrar) }
             Tab(texto("Precios", "Prices"), systemImage: "chart.bar", value: .precios) { pagina(.precios) }
-            Tab(texto("Alertas", "Alerts"), systemImage: "exclamationmark.triangle", value: .alertas) { pagina(.alertas) }
+            Tab(texto("Tiempo", "Weather"), systemImage: "cloud.sun", value: .alertas) { pagina(.alertas) } // pronóstico + alertas
             Tab(texto("Cursos", "Courses"), systemImage: "graduationcap", value: .cursos) { pagina(.cursos) }
             Tab(texto("Mi finca", "My farm"), systemImage: "house", value: .finca) { pagina(.finca) }
         }

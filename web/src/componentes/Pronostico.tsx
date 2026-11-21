@@ -1,13 +1,16 @@
-// Tarjeta "El tiempo": cómo está ahora, si va a llover en las próximas horas y los próximos 7 días.
-// - TarjetaPronostico: el pronóstico de un punto (los 7 días en una fila).
+// Tarjeta "El tiempo": cómo está ahora, si va a llover en las próximas horas y los próximos días.
+// - TarjetaPronostico: el pronóstico de un punto. Resumida (7 días en una fila) o `detalle`
+//   (hora por hora y una lista Hoy / Mañana / …), que es la que usa la página del tiempo.
 // - PronosticoZona: el tiempo del lugar elegido (provincia → cantón → distrito, el mismo de Sembrar).
+import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { useT } from '../contexto/PreferenciasContext';
 import { catalogo } from '../servicios/algolia';
 import { aproximar, cieloDe, pedirPronostico, type Pronostico } from '../servicios/tiempo';
-import { useUbicaciones } from '../servicios/ubicaciones';
 import { useCargar } from '../utilidades';
 import { Cargando } from './Estados';
 import { Icono, type NombreIcono } from './Iconos';
+import SelectorUbicacion, { useSeleccionUbicacion } from './SelectorUbicacion';
 
 type Textos = ReturnType<typeof useT>;
 
@@ -38,10 +41,15 @@ const mayuscula = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 /** '2026-11-20T14:00' (hora local del lugar) → '2:00 p. m.' */
 const horaCorta = (t: Textos, iso: string) => new Date(iso).toLocaleTimeString(t.locale, { hour: 'numeric', minute: '2-digit' });
 
-/** Nombre corto del día: Hoy, Sáb, Dom… */
-function nombreDia(t: Textos, fecha: string, i: number): string {
+/** Nombre del día. Corto (Hoy, Sáb, Dom…) para la fila; largo (Hoy, Mañana, Domingo 23…) para la lista. */
+function nombreDia(t: Textos, fecha: string, i: number, largo = false): string {
   if (i === 0) return t.tiempo.hoy;
-  return mayuscula(new Date(`${fecha}T12:00`).toLocaleDateString(t.locale, { weekday: 'short' }).replace('.', ''));
+  if (largo && i === 1) return t.tiempo.manana;
+  const d = new Date(`${fecha}T12:00`);
+  const n = largo
+    ? d.toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric' }).replace(',', '')
+    : d.toLocaleDateString(t.locale, { weekday: 'short' }).replace('.', '');
+  return mayuscula(n);
 }
 
 /** La frase de las próximas 12 horas: desde qué hora es probable que llueva (50 % o más). */
@@ -54,17 +62,70 @@ function avisoLluvia(t: Textos, p: Pronostico): { texto: string; llueve: boolean
   return { texto: t.tiempo.sinLluvia(Math.max(0, ...horas.map((h) => h.lluviaProb ?? 0))), llueve: false };
 }
 
-/** Probabilidad de lluvia con texto para lectores de pantalla. */
-function Lluvia({ t, prob }: { t: Textos; prob: number | null }) {
+/** Probabilidad de lluvia (y mm si se esperan) con texto para lectores de pantalla. */
+function Lluvia({ t, prob, mm }: { t: Textos; prob: number | null; mm?: number | null }) {
   if (prob === null) return null;
+  const milimetros = mm != null && mm >= 0.5 ? ` · ${Math.round(mm)} mm` : '';
   return (
     <span className="pronostico-prob" title={t.tiempo.probLluvia(prob)}>
-      <Icono nombre="gota" tam={12} /> {prob}%<span className="oculto"> {t.tiempo.probLluvia(prob)}</span>
+      <Icono nombre="gota" tam={12} /> {prob}%{milimetros}<span className="oculto"> {t.tiempo.probLluvia(prob)}</span>
     </span>
   );
 }
 
-/** Los 7 días en una fila compacta. */
+/** Próximas 24 horas en una fila que se desliza de lado (dentro de la tarjeta). */
+function PorHora({ t, p }: { t: Textos; p: Pronostico }) {
+  const hoy = p.dias[0]?.fecha;
+  return (
+    <section aria-labelledby="pronostico-por-hora">
+      <h3 id="pronostico-por-hora" className="pronostico-subtitulo">{t.tiempo.porHora}</h3>
+      <ol className="pronostico-horas">
+        {p.horas.map((h, i) => {
+          const fecha = h.hora.slice(0, 10);
+          const cambiaDia = i > 0 && fecha !== p.horas[i - 1].hora.slice(0, 10);
+          return (
+            <li key={h.hora} className={`pronostico-hora${cambiaDia ? ' pronostico-hora-nuevo-dia' : ''}`}>
+              <span className="pronostico-hora-dia">{cambiaDia && fecha > (hoy ?? '') ? t.tiempo.manana : ''}</span>
+              <span className="pronostico-hora-nombre">
+                {i === 0 ? t.tiempo.ahoraCorto : new Date(h.hora).toLocaleTimeString(t.locale, { hour: 'numeric' })}
+              </span>
+              <span className={`pronostico-dia-icono ${tonoCielo(h.codigo, h.esDia)}`} title={t.tiempo.cielo[cieloDe(h.codigo, h.esDia)]}>
+                <Icono nombre={iconoCielo(h.codigo, h.esDia)} tam={24} />
+              </span>
+              <span className="oculto">{t.tiempo.cielo[cieloDe(h.codigo, h.esDia)]}</span>
+              <strong>{grados(h.temp)}</strong>
+              <Lluvia t={t} prob={h.lluviaProb} />
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+/** Hoy, mañana y los próximos días: una fila por día con el cielo, máxima/mínima y lluvia. */
+function PorDia({ t, p }: { t: Textos; p: Pronostico }) {
+  return (
+    <section aria-labelledby="pronostico-por-dia">
+      <h3 id="pronostico-por-dia" className="pronostico-subtitulo">{t.tiempo.porDia}</h3>
+      <ol className="pronostico-lista">
+        {p.dias.map((dia, i) => (
+          <li key={dia.fecha} className="pronostico-fila">
+            <span className="pronostico-fila-dia">{nombreDia(t, dia.fecha, i, true)}</span>
+            <span className={`pronostico-dia-icono ${tonoCielo(dia.codigo, true)}`} aria-hidden>
+              <Icono nombre={iconoCielo(dia.codigo, true)} tam={28} />
+            </span>
+            <span className="pronostico-fila-cielo">{t.tiempo.cielo[cieloDe(dia.codigo)]}</span>
+            <span className="pronostico-fila-temps"><strong>{grados(dia.max)}</strong> <span className="pronostico-min">/ {grados(dia.min)}</span></span>
+            <span className="pronostico-fila-lluvia"><Lluvia t={t} prob={dia.lluviaProb} mm={dia.lluviaMm} /></span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+/** Los 7 días en una fila compacta (Inicio y página del distrito). */
 function SieteDias({ t, p }: { t: Textos; p: Pronostico }) {
   return (
     <ol className="pronostico-dias" aria-label={t.tiempo.semana}>
@@ -84,15 +145,17 @@ function SieteDias({ t, p }: { t: Textos; p: Pronostico }) {
   );
 }
 
-/** Pronóstico de un punto. */
-export function TarjetaPronostico({ lat, lng, lugar }: { lat: number; lng: number; lugar: string }) {
+/** Pronóstico de un punto. `extra` va en el pie (por ejemplo, el botón de usar la ubicación). */
+export function TarjetaPronostico({ lat, lng, lugar, extra, detalle = false }: {
+  lat: number; lng: number; lugar: string; extra?: ReactNode; detalle?: boolean;
+}) {
   const t = useT();
   const tt = t.tiempo;
   const p = useCargar(() => pedirPronostico(lat, lng), [aproximar(lat), aproximar(lng)]);
 
   const cabeza = (
     <header className="pronostico-cabeza">
-      <h2>{tt.titulo}</h2>
+      <h2>{detalle ? tt.ahoraEn : tt.titulo}</h2>
       <p className="pronostico-lugar"><Icono nombre="pin" tam={16} /> {lugar}</p>
     </header>
   );
@@ -106,6 +169,7 @@ export function TarjetaPronostico({ lat, lng, lugar }: { lat: number; lng: numbe
             <p className="pronostico-aviso pronostico-aviso-error"><Icono nombre="sinsenal" tam={18} /> {tt.error}</p>
             <div className="pronostico-pie">
               <button type="button" className="boton boton-secundario boton-pequeno" onClick={p.recargar}>{t.comun.reintentar}</button>
+              {extra}
             </div>
           </>
         ) : <Cargando texto={tt.cargando} />}
@@ -120,7 +184,7 @@ export function TarjetaPronostico({ lat, lng, lugar }: { lat: number; lng: numbe
   const pedido = new Date(d.pedido).toLocaleString(t.locale, { hour: 'numeric', minute: '2-digit', ...(Date.now() - d.pedido > 864e5 ? { day: 'numeric', month: 'short' } : {}) });
 
   return (
-    <section className="tarjeta pronostico">
+    <section className={`tarjeta pronostico${detalle ? ' pronostico-detalle' : ''}`}>
       {cabeza}
 
       {d.guardado && <p className="pronostico-aviso pronostico-aviso-error"><Icono nombre="sinsenal" tam={18} /> {tt.guardado(pedido)}</p>}
@@ -147,23 +211,63 @@ export function TarjetaPronostico({ lat, lng, lugar }: { lat: number; lng: numbe
         </p>
       )}
 
-      <SieteDias t={t} p={d} />
+      {detalle ? (
+        <>
+          {d.horas.length > 1 && <PorHora t={t} p={d} />}
+          <PorDia t={t} p={d} />
+        </>
+      ) : <SieteDias t={t} p={d} />}
 
       <div className="pronostico-pie">
         <span>{tt.fuente(pedido)}</span>
+        {extra}
       </div>
     </section>
   );
 }
 
-/** El tiempo del distrito elegido (el mismo de Sembrar). Si todavía no hay distrito, no muestra nada. */
-export function PronosticoZona({ codigo }: { codigo: string | null }) {
-  const { lista } = useUbicaciones();
-  const u = codigo ? lista.find((x) => x.codigo_distrito === codigo) : undefined;
+// ------------------------------------------------------------------
+// El tiempo del lugar elegido
+// ------------------------------------------------------------------
+
+/**
+ * El tiempo del distrito elegido (el mismo de Sembrar: provincia → cantón → distrito).
+ * - Sin `detalle` (Inicio, Sembrar): si todavía no hay distrito, no muestra nada.
+ * - Con `detalle` y `alCambiar` (pestaña Tiempo): si no hay distrito, muestra las listas y el pronóstico
+ *   aparece solo al elegir el distrito; con distrito, deja ver otro lugar.
+ * El estado de las listas vive aquí, así no se pierde la provincia elegida mientras cambia la tarjeta.
+ */
+export function PronosticoZona({ codigo, alCambiar, detalle = false }: {
+  codigo: string | null; alCambiar?: (codigo: string | null) => void; detalle?: boolean;
+}) {
+  const t = useT();
+  const tt = t.tiempo;
+  const sel = useSeleccionUbicacion(codigo, alCambiar ?? (() => {}));
+  const u = codigo ? sel.lista.find((x) => x.codigo_distrito === codigo) : undefined;
   const z = codigo && !u ? catalogo.zona(codigo) : undefined;
   const punto = u
     ? { lat: u.lat, lng: u.lng, nombre: `${u.distrito}, ${u.canton}` }
     : z ? { lat: z._geoloc.lat, lng: z._geoloc.lng, nombre: `${z.distrito}, ${z.canton}` } : null;
-  if (!punto) return null;
-  return <TarjetaPronostico lat={punto.lat} lng={punto.lng} lugar={punto.nombre} />;
+  const puedeElegir = detalle && !!alCambiar;
+  const selector = puedeElegir ? <SelectorUbicacion valor={codigo} alCambiar={alCambiar!} seleccion={sel} /> : null;
+
+  if (!punto) {
+    if (!puedeElegir) return null;
+    return (
+      <section className="tarjeta pronostico pronostico-sin-lugar">
+        <header className="pronostico-cabeza"><h2>{tt.titulo}</h2></header>
+        {codigo && sel.cargando ? <Cargando texto={tt.cargando} /> : (
+          <>
+            <p className="pronostico-elegir">{tt.eligeLugar}</p>
+            {selector}
+          </>
+        )}
+      </section>
+    );
+  }
+
+  const pie = puedeElegir
+    ? <details className="pronostico-cambiar"><summary>{tt.otroLugar}</summary>{selector}</details>
+    : detalle ? null : <Link to="/alertas" className="pronostico-ver-mas">{tt.verMas} →</Link>;
+  return <TarjetaPronostico lat={punto.lat} lng={punto.lng} lugar={punto.nombre} extra={pie} detalle={detalle} />;
 }
