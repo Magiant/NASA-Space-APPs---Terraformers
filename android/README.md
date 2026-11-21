@@ -35,7 +35,7 @@ El flujo `.github/workflows/android.yml` compila la web y el APK en GitHub (sus 
 de Android) cada vez que cambia `web/`, `android/` o `packages/compartido/`:
 
 - En un **PR** solo comprueba que compila y deja el APK como artefacto del flujo, para probarlo.
-- En **dev** lo publica en la versión del repo `app-android`, siempre en la misma dirección:
+- En **main** lo publica en la versión del repo `app-android`, siempre en la misma dirección:
   `https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk`.
   La página de Inicio y el pie de página tienen el botón "Descargar para Android" con ese enlace (no se
   muestra en iPhone/iPad ni dentro de las apps).

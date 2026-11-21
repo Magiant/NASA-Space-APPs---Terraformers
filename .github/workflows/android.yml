@@ -1,4 +1,4 @@
-# App de Android: compila la web y el APK. En dev, además lo publica como versión del repo
+# App de Android: compila la web y el APK. En main, además lo publica como versión del repo
 # (etiqueta "app-android") para que la página tenga un enlace fijo de descarga:
 #   https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk
 #
@@ -12,7 +12,7 @@ name: App Android
 
 on:
   push:
-    branches: [dev]
+    branches: [main] # donde se unen los cambios del equipo; así el APK de la página siempre trae lo último
     paths: ['android/**', 'web/**', 'packages/compartido/**', 'package-lock.json', '.github/workflows/android.yml']
   pull_request:
     paths: ['android/**', 'web/**', 'packages/compartido/**', 'package-lock.json', '.github/workflows/android.yml']
@@ -91,11 +91,11 @@ jobs:
           retention-days: 14
 
       - name: Publicar para descargar desde la página
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/dev'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          NOTAS="App de TerraFarm para Android, compilada de dev (${GITHUB_SHA::7}). Descargue TerraFarm.apk en el teléfono y ábralo; Android pedirá permitir instalar apps de este origen."
+          NOTAS="App de TerraFarm para Android, compilada de main (${GITHUB_SHA::7}). Descargue TerraFarm.apk en el teléfono y ábralo; Android pedirá permitir instalar apps de este origen."
           if gh release view app-android >/dev/null 2>&1; then
             gh release edit app-android --notes "$NOTAS"
           else
