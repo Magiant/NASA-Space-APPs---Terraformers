@@ -26,7 +26,7 @@ export function Tendencia({ p }: { p: RegistroPrecio }) {
 function FilaPrecio({ p }: { p: RegistroPrecio }) {
   const t = useT();
   const [abierto, setAbierto] = useState(false);
-  const historico = useCargar(() => (abierto ? series.precio(p.producto, p.precio) : Promise.resolve(null)), [abierto]);
+  const historico = useCargar(() => (abierto ? series.precio(p) : Promise.resolve(null)), [abierto]);
   return (
     <li className="fila-precio">
       <button className="fila-precio-boton" aria-expanded={abierto} onClick={() => setAbierto(!abierto)}>

@@ -28,7 +28,21 @@ npm run extraer -- aptitud           # resultado: cruza todo lo anterior
 | Cada cuándo | Diario (`diario.yml`). La llave evita duplicados y el portal lista unas 2 semanas de boletines |
 | Requisitos | Chrome (`CHROME_PATH` si no está en la ruta normal) y `poppler-utils` |
 
-El CNP (frijol, maíz, arroz y café) todavía no tiene extractor, así que esos cultivos no tienen precio.
+## Tema 3 · Precios nacionales semanales del CNP (`precios/cnp.ts`)
+
+| | |
+|---|---|
+| Fuente | Consejo Nacional de Producción, Sistema de Información de Mercados → Precios nacionales semanales → "Lista comparativa": https://www.cnp.go.cr/sim/Precios_Nac_Semanales.aspx |
+| Permiso | El portal se distribuye bajo **Creative Commons Reconocimiento 4.0**: hay que citar al CNP. Sus términos de uso piden citar la fuente y no usarlo con fines comerciales. No tiene `robots.txt` (responde 404) |
+| Cómo entra | La página arma su contenido con la API del portal: `app_httphandlers/subsitios.ashx?format=json&id=322&tree=1` da el árbol de carpetas (Lista comparativa → 2026…) y `…&id=<carpeta>` sus archivos. Se baja un Excel por semana (sin navegador) |
+| Qué guarda | Por producto y unidad, el precio de cada región (Brunca, Central, Huetar Atlántica, Huetar Norte, Pacífico Central, Chorotega) y del promedio nacional, en cada mercado: **Productor**, CENADA, Borbón y Ferias. `mercado` = "Productor · Brunca", "Ferias · Promedio nacional"… ≈ 750 filas por semana |
+| Fecha | El viernes de la semana del boletín ("26 de Octubre al 01 Noviembre 2026" → 30-oct). El CNP publica con ≈ 3 semanas de atraso |
+| Cada cuándo | Semanal (`semanal.yml`, antes de la aptitud): baja las 6 listas más recientes. Para cargar el historial: `npm run extraer -- precios-cnp --desde=2026-01-01` |
+| Cultivos | Frijol (negro, rojo, blanco), papa, cebolla, chile, tomate, zanahoria, repollo, culantro, yuca y piña. El frijol tierno (vaina verde) no se enlaza con el frijol del catálogo |
+
+**Todavía sin precio: maíz, arroz y café.** El maíz solo sale en el boletín de granos básicos del CNP, que desde setiembre de 2026 se publica solo en PDF (los CSV de esa carpeta son la hoja de trabajo del técnico, con notas sueltas). El arroz y el café no vienen en el CNP: sus precios oficiales son de CONARROZ e ICAFE, que no tienen un archivo que se pueda leer automáticamente.
+
+En la web, la pestaña **CNP** de Precios muestra el promedio nacional de cada producto (precio al productor si lo hay; si no, ferias, CENADA o Borbón). En la aptitud, la nota de mercado compara cada serie consigo misma y del CNP usa solo los promedios nacionales.
 
 ## Tema 5 · Catálogo de cultivos (`cultivos/catalogo.ts`)
 

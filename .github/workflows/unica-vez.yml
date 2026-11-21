@@ -37,7 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      # La URL no es secreta: si no existe el secreto SUPABASE_URL, se usa el de la web (VITE_SUPABASE_URL).
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       # Solo lo usa areas-protegidas (token gratis en https://api.protectedplanet.net/request).
       WDPA_API_TOKEN: ${{ secrets.WDPA_API_TOKEN }}

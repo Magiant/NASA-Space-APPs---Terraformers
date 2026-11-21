@@ -1,7 +1,7 @@
 // Login y datos PRIVADOS del usuario en Supabase (Auth + tablas con RLS: migraciones 001–007).
 // No hace falta un servidor propio: Supabase expone cada tabla y la base decide qué puede ver cada usuario.
 // Si la web no tiene las llaves (modo demo), se usa la simulación de ./demo.ts con la misma forma.
-import type { Extraccion, Finca, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron } from '../tipos';
+import type { Extraccion, Finca, RegistroPrecio, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron } from '../tipos';
 import { datosDe, modoReal, supa } from './cliente';
 import * as demo from './demo';
 import { seriePrecio } from './publico';
@@ -154,11 +154,11 @@ const seriesReales = {
     const serie = [...porFecha].sort(([a], [b]) => a.localeCompare(b)).map(([fecha, valor]) => ({ fecha, valor: Math.round(valor * 10) / 10 }));
     return serie.length >= 2 ? serie : demo.series.temperatura(codigo, tempMedia, dias);
   },
-  /** Precio diario del producto en el boletín PIMA-CENADA (precios_historico). Sin datos: la serie de ejemplo. */
-  precio: async (producto: string, actual: number, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
-    const serie = await seriePrecio(producto, dias);
-    return serie.length >= 2 ? serie : demo.series.precio(producto, actual, dias);
-  },
+  // Correccion - Poll: si la base tenia menos de 2 precios se mostraba una serie inventada (la del modo demo) como si
+  // fuera real; ahora se devuelve lo que hay y, sin datos suficientes, no se dibuja el grafico.
+  /** Precios del producto en precios_historico (misma fuente, mercado y unidad). El CNP es semanal: se piden ~4 meses. */
+  precio: async (p: RegistroPrecio, dias = 30): Promise<{ fecha: string; valor: number }[]> =>
+    seriePrecio(p, p.fuente === 'CNP' ? Math.max(dias, 120) : dias),
 };
 
 const ESTADO_EXTRACCION: Record<string, Extraccion['estado']> = { ok: 'ok', sin_cambios: 'ok', error: 'error', en_curso: 'parcial' };

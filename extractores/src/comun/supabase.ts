@@ -4,10 +4,12 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 let cliente: SupabaseClient | null = null
 
+// Correccion - Poll: si SUPABASE_URL llega vacia (GitHub entrega "" cuando el secreto no existe), usar VITE_SUPABASE_URL.
 export function obtenerSupabase(): SupabaseClient {
   if (cliente) return cliente
   // SUPABASE_URL es el nombre que fija el equipo; VITE_SUPABASE_URL se acepta por compatibilidad.
-  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
+  // `||` y no `??`: un texto vacío también cuenta como "no está".
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
   const secretKey = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !secretKey) {
     throw new Error('Faltan SUPABASE_URL (o VITE_SUPABASE_URL) o SUPABASE_SERVICE_ROLE_KEY en el entorno')

@@ -5,6 +5,7 @@ import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { Icono, Tx } from '../../componentes/Iconos';
 import SeccionFondo from '../../componentes/SeccionFondo';
 import MapaUbicacion from '../../componentes/MapaUbicacion';
+import { PronosticoZona } from '../../componentes/Pronostico';
 import SelectorUbicacion, { useSeleccionUbicacion } from '../../componentes/SelectorUbicacion';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
 import { useAuth } from '../../contexto/AuthContext';
@@ -73,7 +74,7 @@ export default function Sembrar() {
             <img className="escenario-foto" src="./imagenes/cr-campos.jpg" alt="" loading="lazy" />
           </div>
           {(alertas.datos ?? []).map((a) => (
-            <Link key={a.objectID} to="/alertas" className={`alerta-corta alerta-${a.nivel}`}>
+            <Link key={a.objectID} to="/alertas?ver=alertas" className={`alerta-corta alerta-${a.nivel}`}>
               <Icono nombre="alertas" tam={18} /> <strong>{a.titulo}</strong>
             </Link>
           ))}
@@ -109,6 +110,9 @@ export default function Sembrar() {
             )}
           </div>
           {zona && !aptitud.cargando && buenos.length === 0 && <p>{t.inicio.ninguno}</p>}
+
+          {/* El tiempo del distrito elegido: aparece solo al elegir provincia, cantón y distrito. */}
+          <PronosticoZona codigo={codigo} />
 
           {otros.length > 0 && (
             <details className="plegable">

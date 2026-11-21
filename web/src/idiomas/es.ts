@@ -39,6 +39,13 @@ export const es = {
     pieAviso: 'Esta herramienta apoya su decisión; no reemplaza el criterio del agricultor ni de los técnicos del MAG.',
   },
 
+  // Gráficos de línea interactivos (componentes/GraficoLinea.tsx)
+  grafico: {
+    pista: 'Toque o pase el mouse sobre el gráfico para ver el valor de cada día.',
+    verTabla: 'Ver los datos en una tabla',
+    fecha: 'Fecha',
+  },
+
   ajustes: {
     titulo: 'Ajustes',
     abrir: 'Abrir ajustes',
@@ -56,7 +63,7 @@ export const es = {
     inicio: 'Inicio',
     sembrar: 'Sembrar',
     precios: 'Precios',
-    alertas: 'Alertas',
+    alertas: 'Tiempo', // la ruta sigue siendo /alertas: pronóstico del tiempo + alertas de la CNE y el IMN
     cursos: 'Cursos',
     miFinca: 'Mi finca',
     administracion: 'Administración',
@@ -115,7 +122,14 @@ export const es = {
   ubicacion: {
     usarMia: 'Usar mi ubicación',
     buscando: 'Buscando su ubicación…',
-    errorGps: 'No se pudo obtener la ubicación. Elíjala en la lista.',
+    // Aviso cuando "Usar mi ubicación" falla, según el motivo.
+    errorGps: {
+      titulo: 'No encontramos su ubicación',
+      permiso: 'No se dio permiso para usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      noDisponible: 'El teléfono no pudo saber dónde está (puede ser la señal o que la ubicación esté apagada). Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      fuera: 'Su ubicación parece estar fuera de Costa Rica. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      noSoportado: 'Este navegador no permite usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+    },
     oLista: 'o elija en la lista',
     provincia: 'Provincia',
     canton: 'Cantón',
@@ -175,7 +189,7 @@ export const es = {
     modulos: 'Módulos de TerraFarm',
     sembrar: 'Vea qué cultivos se dan mejor en su zona y cuándo sembrarlos.',
     precios: 'Precios de hoy en el CENADA y cómo han cambiado.',
-    alertas: 'Avisos de lluvias fuertes, sequía y otros peligros cerca de su finca.',
+    alertas: 'El tiempo de hoy, mañana y la semana, y avisos de lluvias fuertes, sequía y otros peligros.',
     cursos: 'Cursos gratuitos del INA para el campo.',
     miFinca: 'Sus fincas, siembras, reportes de plagas y escaneo con dron.',
     abrir: 'Abrir',
@@ -204,6 +218,39 @@ export const es = {
     eligeZona: 'Elija una zona para ver qué sembrar',
     eligeZonaTexto: 'Use su ubicación o elija provincia, cantón y distrito.',
     sinDatos: (d: string) => `Todavía no tenemos los cultivos recomendados para ${d}. Estamos cargando los datos de todos los distritos.`,
+  },
+
+  // Pronóstico del tiempo (componentes/Pronostico.tsx, fuente Open-Meteo).
+  tiempo: {
+    titulo: 'El tiempo',
+    cargando: 'Cargando el pronóstico…',
+    error: 'No se pudo cargar el pronóstico del tiempo. Revise la señal e intente de nuevo.',
+    eligeLugar: 'Elija la provincia, el cantón y el distrito: el pronóstico aparece al elegir el distrito.',
+    otroLugar: 'Ver otro lugar',
+    sensacion: (g: number) => `Sensación ${g}°`,
+    humedad: (p: number) => `Humedad ${p} %`,
+    viento: (k: number) => `Viento ${k} km/h`,
+    maxMin: (max: string, min: string) => `Hoy: máx. ${max} · mín. ${min}`,
+    lluviaAhora: 'Es probable que llueva en la próxima hora.',
+    // Sin punto final: la hora ya termina en "p. m." / "a. m.".
+    lluviaDesde: (hora: string) => `Lluvia probable desde ${/^1[^0-9]/.test(hora) ? 'la' : 'las'} ${hora}`,
+    sinLluvia: (max: number) =>
+      max >= 20 ? `Poca probabilidad de lluvia en las próximas 12 horas (hasta ${max} %).` : 'No se espera lluvia en las próximas 12 horas.',
+    hoy: 'Hoy',
+    manana: 'Mañana',
+    ahoraCorto: 'Ahora',
+    ahoraEn: 'El tiempo ahora',
+    porHora: 'Próximas 24 horas',
+    porDia: 'Hoy, mañana y los próximos días',
+    verMas: 'Ver por hora y alertas',
+    semana: 'Pronóstico de 7 días',
+    probLluvia: (p: number) => `${p} % de probabilidad de lluvia`,
+    fuente: (hora: string) => `Fuente: Open-Meteo · actualizado: ${hora}`,
+    guardado: (cuando: string) => `Sin señal: se muestra el pronóstico guardado (${cuando}).`,
+    cielo: {
+      soleado: 'Soleado', despejado: 'Despejado', pocoNublado: 'Parcialmente nublado', nublado: 'Nublado', niebla: 'Neblina',
+      llovizna: 'Llovizna', lluvia: 'Lluvia', lluviaFuerte: 'Lluvia fuerte', aguaceros: 'Aguaceros', tormenta: 'Tormenta eléctrica',
+    },
   },
 
   zona: {
@@ -281,9 +328,13 @@ export const es = {
   },
 
   alertas: {
-    portada: 'Información oficial para su zona',
-    titulo: 'Alertas',
-    subtitulo: 'Avisos de la CNE y del IMN sobre lluvias, sequías, volcanes y otros fenómenos.',
+    portada: 'Pronóstico y avisos oficiales',
+    titulo: 'El tiempo y las alertas',
+    subtitulo: 'Cómo estará el tiempo hoy, mañana y los próximos días, y los avisos de la CNE y del IMN sobre lluvias, sequías, volcanes y otros fenómenos.',
+    pestanaTiempo: 'Tiempo',
+    tituloAlertas: 'Alertas',
+    cuantas: (n: number) => (n === 1 ? '1 alerta' : `${n} alertas`),
+    ayudaAlertas: 'Avisos oficiales de la CNE y del IMN.',
     en: (z: string) => `En ${z}`,
     todoPais: 'Todo el país',
     noHay: 'No hay alertas',
@@ -305,6 +356,21 @@ export const es = {
     ayudaCon: 'Ayuda con:',
     verEn: (i: string) => `Ver en ${i} ↗`,
     modalidad: { presencial: '🏫 Presencial', virtual: '💻 Virtual', mixta: '🔀 Mixta' },
+    // Recomendados para los próximos meses (logica/cursos.ts)
+    recomendados: 'Recomendados',
+    todosMeses: 'Todos los meses',
+    nCursos: (n: number) => `${n} cursos`,
+    rangoMeses: (desde: string, hasta: string) => `${desde} a ${hasta}`,
+    porQue: 'Por qué se recomiendan estos cursos',
+    paraSembrar: (rango: string, lugar: string | null) => `Cultivos que se siembran de ${rango}${lugar ? ` y se dan bien en ${lugar}` : ''}:`,
+    epocaSeca: 'Época seca: también se recomiendan los cursos de riego.',
+    epocaLluviosa: 'Época lluviosa: también se recomiendan los cursos de drenaje y conservación de suelos.',
+    para: 'Para:',
+    paraEpocaSeca: 'Para la época seca',
+    paraEpocaLluviosa: 'Para la época lluviosa',
+    sinRecomendados: 'No hay cursos para los cultivos de estos meses con estos filtros.',
+    sinCursos: 'No hay cursos con estos filtros.',
+    verTodos: 'Ver todos los meses',
   },
 
   auth: {

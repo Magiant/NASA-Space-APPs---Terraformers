@@ -31,7 +31,8 @@ object Iconos {
 
     val sembrar = trazo("sembrar", "M12 21v-8M12 13c0-4 2.5-6.5 7-6.5 0 4-2.5 6.5-7 6.5ZM12 15c0-3-2-5-6-5 0 3 2 5 6 5Z")
     val precios = trazo("precios", "M4 19V9M10 19V5M16 19v-7M22 19H2M20 5l-4 4-3-2")
-    val alertas = trazo("alertas", "M12 3 2.5 20h19L12 3ZM12 10v4.5M12 17.2v.1")
+    // Sol con nube (mismo trazo que "nubeSol" en web/src/componentes/Iconos.tsx): la pestaña es "Tiempo".
+    val alertas = trazo("alertas", "M8.5 5.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM8.5 2v1.5M2 8.5h1.5M3.9 3.9l1.1 1.1M13.1 3.9l-1.1 1.1M9 20a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.5 1.5 3.3 3.3 0 0 1-1 6.5Z")
     val cursos = trazo("cursos", "M2 9l10-5 10 5-10 5L2 9ZM6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5M22 9v6")
     val finca = trazo("finca", "M3 11l9-7 9 7M5.5 9.5V20h13V9.5M10 20v-5h4v5")
     val plaga = trazo("plaga", "M12 8a4 4 0 0 1 4 4v3a4 4 0 0 1-8 0v-3a4 4 0 0 1 4-4ZM9 6l1.5 2M15 6l-1.5 2M4 12h4M16 12h4M5 18l3-2M19 18l-3-2")

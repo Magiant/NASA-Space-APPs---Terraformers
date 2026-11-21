@@ -53,6 +53,8 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   'capacidad-uso': temas2y10.capacidadUso,          // unica-vez.yml (al final; necesita pendiente del tema 9)
   // Tema 3 · Precios mayoristas PIMA-CENADA (boletín diario en PDF; necesita Chrome y pdftotext)
   'precios-pima': async (a) => (await import('./precios/pima.ts')).extraerPima(a), // diario.yml (lunes a viernes)
+  // Tema 3 · Precios nacionales semanales del CNP (Excel "Lista comparativa": productor, CENADA, Borbón y ferias por región)
+  'precios-cnp': async (a) => (await import('./precios/cnp.ts')).extraerCNP(a), // semanal.yml (antes de aptitud)
   // Tema 5 · Catálogo de cultivos y reglas de rotación (cultivos + secuencias). Correr ANTES de ecocrop, gaez y aptitud.
   'cultivos': async (a) => (await import('./cultivos/cargar.ts')).cargarCultivos(a), // unica-vez.yml
   // Tema 9 · Altitud y pendiente por distrito (OpenTopoData). Correr ANTES de capacidad-uso y aptitud.
@@ -67,10 +69,17 @@ if (!args.nombre || !EXTRACTORES[args.nombre]) {
   console.error(`Uso: npm run extraer -- <nombre> [opciones]\nDisponibles: ${Object.keys(EXTRACTORES).join(', ')}`)
   process.exit(2)
 }
+// Correccion - Poll: en GitHub Actions el motivo del fallo se muestra en la pagina de la corrida, no solo en el log.
 try {
   await EXTRACTORES[args.nombre](args)
 } catch (e) {
-  console.error(`✘ ${args.nombre}: ${(e as Error).message}`)
+  const mensaje = (e as Error).message
+  console.error(`✘ ${args.nombre}: ${mensaje}`)
+  // Formato de anotación de GitHub (::error::): aparece en el resumen de la corrida, que se ve sin iniciar sesión.
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const limpio = mensaje.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A')
+    console.log(`::error title=Extractor ${args.nombre}::${limpio}`)
+  }
   // exitCode en vez de process.exit(): deja cerrar las conexiones abiertas (en Windows, process.exit
   // con fetch pendientes muestra "Assertion failed" de libuv).
   process.exitCode = 1

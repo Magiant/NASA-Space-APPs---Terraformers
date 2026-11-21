@@ -7,7 +7,7 @@
 import { BASE_INICIAL, type BaseDemo } from '../datos-ejemplo/privados';
 import { semilla } from '../datos-ejemplo/publicos';
 import type {
-  Extraccion, Finca, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron,
+  Extraccion, Finca, RegistroPrecio, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron,
 } from '../tipos';
 import { EXTRACCIONES } from '../datos-ejemplo/publicos';
 import { borrar, guardar, leer, nuevoId } from './almacen';
@@ -189,7 +189,7 @@ export const series = {
   },
 
   /** precios_historico: últimos precios de un producto. */
-  precio: async (producto: string, actual: number, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
+  precio: async ({ producto, precio: actual }: Pick<RegistroPrecio, 'producto' | 'precio'>, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
     const fin = new Date('2026-11-13');
     let v = actual * (0.85 + semilla(producto) * 0.25);
     const puntos = Array.from({ length: dias }, (_, i) => {

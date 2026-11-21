@@ -20,7 +20,7 @@ export default function Inicio() {
   const modulos = [
     { a: '/sembrar', icono: 'sembrar', titulo: t.nav.sembrar, texto: t.portal.sembrar, foto: 'cr-campos.jpg', destacado: true },
     { a: '/precios', icono: 'precios', titulo: t.nav.precios, texto: t.portal.precios, foto: 'mercado.jpg' },
-    { a: '/alertas', icono: 'alertas', titulo: t.nav.alertas, texto: t.portal.alertas, foto: 'alertas/lluvia.jpg' },
+    { a: '/alertas', icono: 'nubeSol', titulo: t.nav.alertas, texto: t.portal.alertas, foto: 'alertas/lluvia.jpg' },
     { a: '/capacitaciones', icono: 'cursos', titulo: t.nav.cursos, texto: t.portal.cursos, foto: 'agricultor.jpg' },
     { a: '/mi-finca', icono: 'finca', titulo: t.nav.miFinca, texto: t.portal.miFinca, foto: 'trabajadores.jpg', privado: true },
   ] as const;
