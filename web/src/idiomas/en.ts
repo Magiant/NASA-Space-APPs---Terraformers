@@ -55,6 +55,12 @@ export const en: Textos = {
           : `You have ${n} pest reports not sent yet on this phone. They will be sent when you sign in again with this same account.`,
       aceptar: 'Sign out',
     },
+    cerrarSiembra: {
+      titulo: (cultivo) => `Close the ${cultivo} planting?`,
+      resumen: (resultado, cantidad) => `Result: ${resultado}${cantidad ? ` · ${cantidad}` : ''}.`,
+      texto: 'Once closed it cannot be reopened and the result cannot be changed. It stays in your history.',
+      aceptar: 'Yes, close the planting',
+    },
   },
 
   ajustes: {

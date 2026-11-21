@@ -58,6 +58,12 @@ export const es = {
           : `Tiene ${n} reportes de plaga sin enviar en este teléfono. Se enviarán cuando vuelva a entrar con esta misma cuenta.`,
       aceptar: 'Cerrar sesión',
     },
+    cerrarSiembra: {
+      titulo: (cultivo: string) => `¿Cerrar la siembra de ${cultivo}?`,
+      resumen: (resultado: string, cantidad: string) => `Resultado: ${resultado}${cantidad ? ` · ${cantidad}` : ''}.`,
+      texto: 'Después de cerrarla no se puede volver a abrir ni cambiar el resultado. Queda guardada en su historial.',
+      aceptar: 'Sí, cerrar la siembra',
+    },
   },
 
   ajustes: {
