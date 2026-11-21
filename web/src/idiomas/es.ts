@@ -46,6 +46,48 @@ export const es = {
     fecha: 'Fecha',
   },
 
+  // Ventanas de "¿Está seguro?" (componentes/Confirmar.tsx)
+  confirmar: {
+    cancelar: 'Cancelar',
+    salir: {
+      titulo: '¿Cerrar sesión?',
+      texto: 'Para volver a ver sus fincas, siembras y reportes tendrá que entrar otra vez con su correo y contraseña.',
+      pendientes: (n: number) =>
+        n === 1
+          ? 'Tiene 1 reporte de plaga sin enviar en este teléfono. Se enviará cuando vuelva a entrar con esta misma cuenta.'
+          : `Tiene ${n} reportes de plaga sin enviar en este teléfono. Se enviarán cuando vuelva a entrar con esta misma cuenta.`,
+      aceptar: 'Cerrar sesión',
+    },
+    cerrarSiembra: {
+      titulo: (cultivo: string) => `¿Cerrar la siembra de ${cultivo}?`,
+      resumen: (resultado: string, cantidad: string) => `Resultado: ${resultado}${cantidad ? ` · ${cantidad}` : ''}.`,
+      texto: 'Después de cerrarla no se puede volver a abrir ni cambiar el resultado. Queda guardada en su historial.',
+      aceptar: 'Sí, cerrar la siembra',
+    },
+    rol: {
+      titulo: (nombre: string, rol: string) => `¿Cambiar a ${nombre} al rol «${rol}»?`,
+      explica: {
+        admin: 'Podrá ver todos los usuarios, fincas y reportes, y cambiar los roles de otras personas.',
+        tecnico: 'Podrá ver y confirmar los reportes de plaga de su distrito.',
+        agricultor: 'Solo podrá ver sus propias fincas, siembras y reportes.',
+      },
+      aceptar: 'Cambiar rol',
+    },
+    reporte: {
+      titulo: '¿Confirmar este reporte de plaga?',
+      texto: (plaga: string, lugar: string) =>
+        `${plaga}${lugar ? ` en ${lugar}` : ''}. Quedará como confirmado para la persona que lo envió y no se puede deshacer.`,
+      aceptar: 'Confirmar reporte',
+    },
+    reiniciar: { titulo: '¿Reiniciar los datos de demo?', aceptar: 'Reiniciar' },
+    sinGuardar: {
+      titulo: '¿Salir sin guardar?',
+      texto: 'Lo que escribió en este formulario todavía no se ha guardado y se va a perder.',
+      aceptar: 'Salir sin guardar',
+      seguir: 'Seguir aquí',
+    },
+  },
+
   ajustes: {
     titulo: 'Ajustes',
     abrir: 'Abrir ajustes',
@@ -109,6 +151,24 @@ export const es = {
     por: 'por',
     cuidado: 'Cuidado con:',
     porQue: '¿Por qué este puntaje?',
+  },
+
+  // Cuándo sembrar, contado desde hoy (componentes/CultivosPorTemporada.tsx y la tarjeta de cada cultivo)
+  temporada: {
+    etiqueta: 'Qué cultivos mostrar',
+    ahora: 'Para sembrar ahora',
+    todos: 'Todos los cultivos',
+    nCultivos: (n: number) => (n === 1 ? '1 cultivo' : `${n} cultivos`),
+    explicaAhora: (rango: string) =>
+      `Se dan bien aquí y se siembran de ${rango}. El orden sale del puntaje: clima, agua, suelo, riesgos y precio en el mercado.`,
+    explicaTodos: 'Todos los que se dan bien aquí, sin importar el mes de siembra, del mejor puntaje al menor.',
+    otrosMeses: (n: number) =>
+      n === 1 ? 'Otro cultivo se da bien aquí, pero se siembra en otros meses.' : `Otros ${n} cultivos se dan bien aquí, pero se siembran en otros meses.`,
+    ninguno: (rango: string) => `Ninguno de los cultivos que se dan bien aquí se siembra de ${rango}.`,
+    verTodos: 'Ver todos los cultivos',
+    todoElAno: 'Todo el año',
+    esteMes: (mes: string) => `Ahora, en ${mes}`,
+    en: (mes: string) => `En ${mes}`,
   },
 
   desglose: {

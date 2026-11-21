@@ -1,3 +1,4 @@
+import { useAvisoSinGuardar, useConfirmar } from '../../componentes/Confirmar';
 import { Icono, NombreIcono } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,6 +25,8 @@ export default function CerrarSiembra() {
   const [unidad, setUnidad] = useState('sacos');
   const [motivo, setMotivo] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const confirmar = useConfirmar();
+  useAvisoSinGuardar(!!resultado || !!cantidad || !!motivo.trim());
 
   if (siembra.cargando) return <Cargando />;
   if (siembra.error || !siembra.datos) return <ErrorCarga mensaje={siembra.error ?? '—'} />;
@@ -32,6 +35,17 @@ export default function CerrarSiembra() {
   async function enviar(e: FormEvent) {
     e.preventDefault();
     if (!resultado) return setError(tc.elija);
+    // Cerrar no tiene vuelta atrás: se confirma mostrando lo que se va a guardar.
+    const tcs = t.confirmar.cerrarSiembra;
+    const cuanto = cantidad ? `${cantidad} ${(tc.unidades as Record<string, string>)[unidad] ?? unidad}` : '';
+    const ok = await confirmar({
+      titulo: tcs.titulo(nombre.toLowerCase()),
+      texto: <><p><strong>{tcs.resumen(tc.opciones[resultado], cuanto)}</strong></p><p>{tcs.texto}</p></>,
+      aceptar: tcs.aceptar,
+      tono: 'peligro',
+      icono: 'check',
+    });
+    if (!ok) return;
     try {
       await datos.cerrarSiembra(id, { resultado, cantidad: cantidad ? Number(cantidad) : 0, unidad, motivo: motivo.trim() || null });
       navegar(`/siembras/${id}`, { replace: true });

@@ -1,3 +1,4 @@
+import { useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,8 @@ export default function NuevaFinca() {
   const [suelo, setSuelo] = useState<Finca['suelo']>('no_se');
   const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+  // Lo que la persona escribió (el distrito viene de su cuenta y no cuenta como cambio).
+  useAvisoSinGuardar(!enviando && (!!nombre.trim() || !!area));
 
   async function enviar(e: FormEvent) {
     e.preventDefault();

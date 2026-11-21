@@ -11,6 +11,8 @@ final class Webs {
 
     @ObservationIgnored private var vistas: [Seccion: WKWebView] = [:]
     @ObservationIgnored private var configuracion = WKWebViewConfiguration()
+    /// La vista web guarda su delegado como referencia débil: aquí se retiene (las constantes no se observan).
+    private let navegador = Navegador()
 
     init() {
         configuracion = Self.crearConfiguracion()
@@ -41,9 +43,13 @@ final class Webs {
         return c
     }
 
+    // Correccion - Poll: sin delegado, los enlaces a otros sitios (cursos, créditos de fotos) no hacían nada
+    // y, si iOS cerraba la web por falta de memoria, la pestaña quedaba en blanco.
     func vista(_ s: Seccion) -> WKWebView {
         if let v = vistas[s] { return v }
         let v = WKWebView(frame: .zero, configuration: configuracion)
+        v.navigationDelegate = navegador
+        v.uiDelegate = navegador
         // Mismo fondo que la web (token `fondo`), para que no se vea una franja blanca al final.
         let fondo = UIColor { $0.userInterfaceStyle == .dark
             ? UIColor(red: 0.04, green: 0.07, blue: 0.13, alpha: 1)   // #0b1120
@@ -89,6 +95,38 @@ final class Mensajero: NSObject, WKScriptMessageHandler {
     func userContentController(_ c: WKUserContentController, didReceive mensaje: WKScriptMessage) {
         let cuerpo = mensaje.body
         MainActor.assumeIsolated { alRecibir(cuerpo) }
+    }
+}
+
+/// Lo que la vista web no resuelve sola: los enlaces a otros sitios y la página que iOS cierra.
+@MainActor
+final class Navegador: NSObject, WKNavigationDelegate, WKUIDelegate {
+    /// Dentro de la app solo se navega por la web empaquetada (app://local); los enlaces a otros
+    /// sitios que abren en la misma pestaña se mandan a Safari, como hace la app de Android.
+    func webView(_ webView: WKWebView, decidePolicyFor accion: WKNavigationAction) async -> WKNavigationActionPolicy {
+        guard accion.targetFrame?.isMainFrame == true else { return .allow }   // marcos internos y ventanas nuevas
+        return Self.abrirAfuera(accion.request.url) ? .cancel : .allow
+    }
+
+    /// Enlaces con target="_blank" (cursos, fuentes, créditos de fotos): en Safari, sin abrir otra vista.
+    func webView(_ webView: WKWebView, createWebViewWith configuracion: WKWebViewConfiguration,
+                 for accion: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        Self.abrirAfuera(accion.request.url)
+        return nil
+    }
+
+    /// iOS puede cerrar la web de una pestaña en segundo plano para liberar memoria; sin esto queda en blanco.
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        webView.reload()
+    }
+
+    /// Si el enlace es de otro sitio, lo abre en Safari y responde true (no hay que seguirlo aquí).
+    /// Función normal, no async: así se usa la versión de open() que no hay que esperar.
+    @discardableResult
+    private static func abrirAfuera(_ url: URL?) -> Bool {
+        guard let url, ["http", "https", "mailto", "tel"].contains(url.scheme?.lowercased() ?? "") else { return false }
+        UIApplication.shared.open(url)
+        return true
     }
 }
 

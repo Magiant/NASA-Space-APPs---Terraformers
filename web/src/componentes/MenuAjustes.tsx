@@ -22,11 +22,13 @@ export default function MenuAjustes() {
 
   useEffect(() => {
     if (!abierto) return;
+    // La ventana de "¿Está seguro?" (por ejemplo, al cerrar sesión) no cuenta como "fuera": el menú sigue abierto detrás.
+    const enVentana = (e: Event) => !!(e.target as Element | null)?.closest?.('dialog.confirmar');
     const fuera = (e: PointerEvent) => {
-      if (!caja.current?.contains(e.target as Node)) setAbierto(false);
+      if (!caja.current?.contains(e.target as Node) && !enVentana(e)) setAbierto(false);
     };
     const tecla = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && !enVentana(e)) {
         setAbierto(false);
         boton.current?.focus();
       }

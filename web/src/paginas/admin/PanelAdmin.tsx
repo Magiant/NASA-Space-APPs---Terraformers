@@ -1,3 +1,4 @@
+import { useConfirmar } from '../../componentes/Confirmar';
 import { Icono, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
@@ -14,6 +15,7 @@ function Resumen() {
   const t = useT();
   const ta = t.admin;
   const r = useCargar(() => admin.resumen(), []);
+  const confirmar = useConfirmar();
   if (r.cargando) return <Cargando />;
   if (r.error) return <ErrorCarga mensaje={r.error} />;
   const d = r.datos!;
@@ -38,7 +40,9 @@ function Resumen() {
         className="boton boton-secundario"
         style={{ marginTop: 16 }}
         onClick={async () => {
-          if (confirm(ta.confirmarReinicio)) {
+          // Correccion - Poll: confirm() del navegador no aparece dentro de la app de iPhone; ahora usa la ventana propia.
+          const tr = t.confirmar.reiniciar;
+          if (await confirmar({ titulo: tr.titulo, texto: ta.confirmarReinicio, aceptar: tr.aceptar, tono: 'peligro' })) {
             await admin.reiniciarDemo();
             r.recargar();
           }
@@ -56,6 +60,7 @@ function Usuarios() {
   const { usuario } = useAuth();
   const lista = useCargar(() => admin.usuarios(), []);
   const [error, setError] = useState<string | null>(null);
+  const confirmar = useConfirmar();
   if (lista.cargando) return <Cargando />;
   if (lista.error) return <ErrorCarga mensaje={lista.error} />;
   return (
@@ -79,8 +84,19 @@ function Usuarios() {
                     disabled={u.id === usuario?.id}
                     onChange={async (e) => {
                       setError(null);
+                      // La lista vuelve sola al rol actual (es un campo controlado); solo cambia si se confirma.
+                      const rol = e.target.value as Rol;
+                      const tr = t.confirmar.rol;
+                      const ok = await confirmar({
+                        titulo: tr.titulo(u.nombre, ta.roles[rol]),
+                        texto: tr.explica[rol],
+                        aceptar: tr.aceptar,
+                        tono: rol === 'admin' ? 'peligro' : 'normal',
+                        icono: 'usuarios',
+                      });
+                      if (!ok) return;
                       try {
-                        await admin.cambiarRol(u.id, e.target.value as Rol);
+                        await admin.cambiarRol(u.id, rol);
                         lista.recargar();
                       } catch (err) {
                         setError((err as Error).message);
@@ -104,6 +120,7 @@ function Reportes() {
   const t = useT();
   const ta = t.admin;
   const lista = useCargar(() => admin.reportes(), []);
+  const confirmar = useConfirmar();
   if (lista.cargando) return <Cargando />;
   if (lista.error) return <ErrorCarga mensaje={lista.error} />;
   return (
@@ -118,7 +135,17 @@ function Reportes() {
             {r.con_foto ? <> · <Tx>{ta.conFoto}</Tx></> : ''}
           </p>
           {r.estado === 'pendiente' && (
-            <button className="boton boton-pequeno" onClick={async () => { await admin.confirmarReporte(r.id); lista.recargar(); }}>
+            <button
+              className="boton boton-pequeno"
+              onClick={async () => {
+                const tr = t.confirmar.reporte;
+                const plaga = r.plaga_id ? nombrePlaga(t, r.plaga_id) : ta.sinIdentificar(r.tipo);
+                const lugar = catalogo.zona(r.codigo_distrito)?.distrito ?? '';
+                if (!(await confirmar({ titulo: tr.titulo, texto: tr.texto(plaga, lugar), aceptar: tr.aceptar, icono: 'plaga' }))) return;
+                await admin.confirmarReporte(r.id);
+                lista.recargar();
+              }}
+            >
               {ta.confirmar}
             </button>
           )}

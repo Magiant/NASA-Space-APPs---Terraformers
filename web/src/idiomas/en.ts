@@ -44,6 +44,46 @@ export const en: Textos = {
     fecha: 'Date',
   },
 
+  confirmar: {
+    cancelar: 'Cancel',
+    salir: {
+      titulo: 'Sign out?',
+      texto: 'To see your farms, plantings and reports again you will need to sign in with your email and password.',
+      pendientes: (n) =>
+        n === 1
+          ? 'You have 1 pest report not sent yet on this phone. It will be sent when you sign in again with this same account.'
+          : `You have ${n} pest reports not sent yet on this phone. They will be sent when you sign in again with this same account.`,
+      aceptar: 'Sign out',
+    },
+    cerrarSiembra: {
+      titulo: (cultivo) => `Close the ${cultivo} planting?`,
+      resumen: (resultado, cantidad) => `Result: ${resultado}${cantidad ? ` · ${cantidad}` : ''}.`,
+      texto: 'Once closed it cannot be reopened and the result cannot be changed. It stays in your history.',
+      aceptar: 'Yes, close the planting',
+    },
+    rol: {
+      titulo: (nombre, rol) => `Change ${nombre} to the “${rol}” role?`,
+      explica: {
+        admin: 'They will see every user, farm and report, and can change other people’s roles.',
+        tecnico: 'They will see and confirm the pest reports of their district.',
+        agricultor: 'They will only see their own farms, plantings and reports.',
+      },
+      aceptar: 'Change role',
+    },
+    reporte: {
+      titulo: 'Confirm this pest report?',
+      texto: (plaga, lugar) => `${plaga}${lugar ? ` in ${lugar}` : ''}. It will show as confirmed to the person who sent it, and it cannot be undone.`,
+      aceptar: 'Confirm report',
+    },
+    reiniciar: { titulo: 'Reset the demo data?', aceptar: 'Reset' },
+    sinGuardar: {
+      titulo: 'Leave without saving?',
+      texto: 'What you typed in this form has not been saved yet and will be lost.',
+      aceptar: 'Leave without saving',
+      seguir: 'Stay here',
+    },
+  },
+
   ajustes: {
     titulo: 'Settings',
     abrir: 'Open settings',
@@ -107,6 +147,23 @@ export const en: Textos = {
     por: 'per',
     cuidado: 'Watch out for:',
     porQue: 'Why this score?',
+  },
+
+  temporada: {
+    etiqueta: 'Which crops to show',
+    ahora: 'To plant now',
+    todos: 'All crops',
+    nCultivos: (n) => (n === 1 ? '1 crop' : `${n} crops`),
+    explicaAhora: (rango) =>
+      `They grow well here and are planted from ${rango}. The order comes from the score: climate, water, soil, risks and market price.`,
+    explicaTodos: 'Every crop that grows well here, whatever its planting month, from the highest score down.',
+    otrosMeses: (n) =>
+      n === 1 ? 'One more crop grows well here, but it is planted in other months.' : `${n} more crops grow well here, but they are planted in other months.`,
+    ninguno: (rango) => `None of the crops that grow well here is planted from ${rango}.`,
+    verTodos: 'See all crops',
+    todoElAno: 'All year',
+    esteMes: (mes) => `Now, in ${mes}`,
+    en: (mes) => `In ${mes}`,
   },
 
   desglose: {

@@ -1,8 +1,10 @@
 import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando } from '../../componentes/Estados';
 import ListaSugerencias from '../../componentes/ListaSugerencias';
+import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
 import { recomendarSiguiente } from '../../logica/recomendacion';
 import { cola } from '../../offline/cola';
@@ -84,6 +86,9 @@ export default function ReportarPlaga() {
   const [foto, setFoto] = useState<string | null>(null);
   const [enviado, setEnviado] = useState<{ enCola: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { usuario } = useAuth();
+  // Reporte empezado y sin enviar: avisar antes de salir.
+  useAvisoSinGuardar(!enviado && (!!tipo || !!plagaId || !!sintomas.trim() || !!foto));
 
   if (fincas.cargando || siembras.cargando) return <Cargando />;
   const activas = (siembras.datos ?? []).filter((s) => s.estado === 'activa');
@@ -118,15 +123,16 @@ export default function ReportarPlaga() {
       tipo, plaga_id: plagaId || null, sintomas: sintomas.trim(), gravedad,
       con_foto: !!foto, fecha: hoy(),
     };
+    // En la cola queda de quién es el reporte, para no enviarlo con otra cuenta (offline/cola.ts).
     if (!enLinea) {
-      cola.agregar(reporte);
+      cola.agregar(reporte, usuario!.id);
       return setEnviado({ enCola: true });
     }
     try {
       await datos.reportarPlaga(reporte);
       setEnviado({ enCola: false });
     } catch {
-      cola.agregar(reporte);
+      cola.agregar(reporte, usuario!.id);
       setEnviado({ enCola: true });
     }
   }

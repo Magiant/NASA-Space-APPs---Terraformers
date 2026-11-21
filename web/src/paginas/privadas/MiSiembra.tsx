@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
 import { catalogo } from '../../servicios/algolia';
@@ -16,6 +17,7 @@ export default function MiSiembra() {
   const notas = useCargar(() => datos.seguimiento(id), [id]);
   const [tipo, setTipo] = useState<Seguimiento['tipo']>('riego');
   const [nota, setNota] = useState('');
+  useAvisoSinGuardar(!!nota.trim()); // nota escrita y sin guardar
 
   if (siembra.cargando) return <Cargando />;
   if (siembra.error || !siembra.datos) return <ErrorCarga mensaje={siembra.error ?? '—'} />;
