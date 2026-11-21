@@ -419,6 +419,7 @@ select:disabled { opacity: 0.55; }
 .tarjeta-curso .tarjeta-h { min-height: 2.4em; }
 .tarjeta-curso .datos-rapidos { margin-bottom: 16px; }
 .tarjeta-curso > .boton { margin-top: auto; align-self: flex-start; }
+.curso-para { color: var(--primario); font-weight: 600; }
 .acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
 .acciones > * { flex: 1 1 160px; }
 .elegido { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--primario); font-size: 1.15rem; }

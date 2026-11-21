@@ -350,6 +350,7 @@ export const en: Textos = {
     ayudaCon: 'Helps with:',
     verEn: (i) => `View at ${i} ↗`,
     modalidad: { presencial: '🏫 In person', virtual: '💻 Online', mixta: '🔀 Blended' },
+    para: 'For:',
   },
 
   auth: {

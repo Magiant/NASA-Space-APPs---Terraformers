@@ -2,7 +2,9 @@ import { FotoFranja, Icono, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
+import { cultivosDelCurso, esParaCualquierCultivo } from '../../logica/cursos';
 import { algolia, catalogo } from '../../servicios/algolia';
+import type { RegistroCapacitacion } from '../../tipos';
 import { nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
 
 export default function Capacitaciones() {
@@ -11,16 +13,20 @@ export default function Capacitaciones() {
   const cursos = useCargar(() => algolia.capacitaciones(), []);
   const [cultivo, setCultivo] = useState('');
   const [tema, setTema] = useState('');
+  const todos = cursos.datos ?? [];
   // El tema viene como "Agricultura · Capacitación": el filtro y la etiqueta usan solo el área (antes del punto).
-  const temas = [...new Set((cursos.datos ?? []).map((c) => c.tema.split(' · ')[0]))];
-  const lista = (cursos.datos ?? []).filter((c) => {
-    if (tema && !c.tema.startsWith(tema)) return false;
-    if (cultivo) {
-      const plagas = catalogo.cultivo(cultivo)?.plagas ?? [];
-      return c.cultivo_id === cultivo || (c.plaga_id && plagas.includes(c.plaga_id)) || c.cultivo_id === null;
-    }
-    return true;
-  });
+  const temas = [...new Set(todos.map((c) => c.tema.split(' · ')[0]))];
+
+  // Correccion - Poll: ningun curso del INA trae el cultivo enlazado, asi que "Lo que siembro" mostraba todos
+  // (tambien los de ganaderia y forestal). Ahora muestra los de ese cultivo y los de agricultura para cualquier cultivo.
+  const sirveParaCultivo = (c: RegistroCapacitacion) => {
+    const plagas = catalogo.cultivo(cultivo)?.plagas ?? [];
+    return cultivosDelCurso(c).includes(cultivo) || (!!c.plaga_id && plagas.includes(c.plaga_id)) || esParaCualquierCultivo(c);
+  };
+  const lista = todos
+    .filter((c) => (!tema || c.tema.startsWith(tema)) && (!cultivo || sirveParaCultivo(c)))
+    // Primero los cursos de un cultivo; después los generales.
+    .sort((a, b) => Number(cultivosDelCurso(b).length > 0) - Number(cultivosDelCurso(a).length > 0));
 
   return (
     <>
@@ -53,6 +59,7 @@ export default function Capacitaciones() {
       <div className="lista-tarjetas lista-cursos">
         {lista.map((c) => {
           const [area, tipo] = c.tema.split(' · ');
+          const para = cultivosDelCurso(c);
           return (
             <article key={c.objectID} className="tarjeta tarjeta-curso">
               <p className="etiqueta" title={c.tema}>{area}</p>
@@ -60,6 +67,7 @@ export default function Capacitaciones() {
               <ul className="datos-rapidos">
                 <li><Tx>{tc.modalidad[c.modalidad]}</Tx> · {c.duracion_horas} {tc.horas}{tipo ? ` · ${tipo}` : ''}</li>
                 <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>
+                {para.length > 0 && <li className="curso-para"><Icono nombre="sembrar" tam={16} /> {tc.para} {para.map((id) => nombreCultivo(t, id)).join(' · ')}</li>}
                 {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
               </ul>
               <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">

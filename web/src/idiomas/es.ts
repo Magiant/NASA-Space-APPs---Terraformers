@@ -356,6 +356,7 @@ export const es = {
     ayudaCon: 'Ayuda con:',
     verEn: (i: string) => `Ver en ${i} ↗`,
     modalidad: { presencial: '🏫 Presencial', virtual: '💻 Virtual', mixta: '🔀 Mixta' },
+    para: 'Para:',
   },
 
   auth: {
