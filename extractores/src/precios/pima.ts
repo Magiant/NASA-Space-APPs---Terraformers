@@ -20,16 +20,10 @@ import { promisify } from 'node:util'
 import type { Precio } from '@terraformes/compartido'
 import type { Argumentos } from '../comun/argumentos.ts'
 import { ejecutarExtractor } from '../comun/ejecutar.ts'
+import { clasificarProducto } from '../comun/productos.ts'
 
 const PORTAL = 'https://bpm.pima.go.cr/cm.aspx?id=4'
 const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms))
-
-/** Nombre en el boletín → id del cultivo (catálogo del tema 5). El orden importa: el primero que calce. */
-const PRODUCTOS: [RegExp, string][] = [
-  [/^papa\b/i, 'papa'], [/^cebolla\b/i, 'cebolla'], [/^zanahoria\b/i, 'zanahoria'], [/^repollo\b/i, 'repollo'],
-  [/^tomate\b/i, 'tomate'], [/^chile dulce\b/i, 'chile'], [/^culantro\b/i, 'culantro'], [/^yuca\b/i, 'yuca'],
-  [/^piña\b/i, 'pina'], [/^frijol\b/i, 'frijol'], [/^café\b/i, 'cafe'], [/^arroz\b/i, 'arroz'],
-]
 
 const numero = (s: string) => Number(s.replace(/,/g, ''))
 
@@ -45,10 +39,7 @@ export function leerBoletin(texto: string): Precio[] {
     if (!m) continue
     const [, original, unidad, min, max, moda, prom] = m
     const producto_original = original.trim()
-    const par = PRODUCTOS.find(([re]) => re.test(producto_original))
-    const cultivo_id = par?.[1] ?? null
-    const producto = cultivo_id ?? producto_original.toLowerCase()
-    const variedad = par ? producto_original.replace(par[0], '').replace(/^\s*-\s*/, '').trim().toLowerCase() : ''
+    const { producto, variedad, cultivo_id } = clasificarProducto(producto_original)
     const fila: Precio = {
       fuente: 'pima', mercado: 'CENADA', fecha_dato, producto, variedad, producto_original, cultivo_id,
       unidad: unidad.trim(), moneda: 'CRC',
