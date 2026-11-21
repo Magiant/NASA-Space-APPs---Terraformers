@@ -11,9 +11,10 @@ export default function Capacitaciones() {
   const cursos = useCargar(() => algolia.capacitaciones(), []);
   const [cultivo, setCultivo] = useState('');
   const [tema, setTema] = useState('');
-  const temas = [...new Set((cursos.datos ?? []).map((c) => c.tema))];
+  // El tema viene como "Agricultura · Capacitación": el filtro y la etiqueta usan solo el área (antes del punto).
+  const temas = [...new Set((cursos.datos ?? []).map((c) => c.tema.split(' · ')[0]))];
   const lista = (cursos.datos ?? []).filter((c) => {
-    if (tema && c.tema !== tema) return false;
+    if (tema && !c.tema.startsWith(tema)) return false;
     if (cultivo) {
       const plagas = catalogo.cultivo(cultivo)?.plagas ?? [];
       return c.cultivo_id === cultivo || (c.plaga_id && plagas.includes(c.plaga_id)) || c.cultivo_id === null;
@@ -49,21 +50,24 @@ export default function Capacitaciones() {
       {cursos.cargando && <Cargando />}
       {cursos.error && <ErrorCarga mensaje={cursos.error} reintentar={cursos.recargar} />}
 
-      <div className="lista-tarjetas">
-        {lista.map((c) => (
-          <article key={c.objectID} className="tarjeta">
-            <p className="etiqueta">{c.tema}</p>
-            <h2 className="tarjeta-h">{c.titulo}</h2>
-            <ul className="datos-rapidos">
-              <li><Tx>{tc.modalidad[c.modalidad]}</Tx> · {c.duracion_horas} {tc.horas}</li>
-              <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>
-              {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
-            </ul>
-            <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">
-              {tc.verEn(c.institucion)}
-            </a>
-          </article>
-        ))}
+      <div className="lista-tarjetas lista-cursos">
+        {lista.map((c) => {
+          const [area, tipo] = c.tema.split(' · ');
+          return (
+            <article key={c.objectID} className="tarjeta tarjeta-curso">
+              <p className="etiqueta" title={c.tema}>{area}</p>
+              <h2 className="tarjeta-h">{c.titulo}</h2>
+              <ul className="datos-rapidos">
+                <li><Tx>{tc.modalidad[c.modalidad]}</Tx> · {c.duracion_horas} {tc.horas}{tipo ? ` · ${tipo}` : ''}</li>
+                <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>
+                {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
+              </ul>
+              <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">
+                {tc.verEn(c.institucion)}
+              </a>
+            </article>
+          );
+        })}
       </div>
     </>
   );
