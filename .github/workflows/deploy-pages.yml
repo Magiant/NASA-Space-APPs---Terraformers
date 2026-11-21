@@ -53,15 +53,17 @@ jobs:
 
       # La herramienta gh-pages (la misma de `npm run deploy`) sube web/dist a la rama gh-pages. En GitHub hay que
       # darle la llave temporal de la corrida en la dirección del repo para que pueda subir.
+      # El autor de la publicación va en la configuración de git y no en la opción -u de gh-pages: esa opción no
+      # acepta los corchetes de "github-actions[bot]" ("Could not parse name and email from user option").
       - name: Publicar en GitHub Pages
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           cd web
-          npx gh-pages -d dist --nojekyll \
-            -m "Publicar la web (${GITHUB_SHA::7})" \
-            -u "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          npx gh-pages -d dist --nojekyll -m "Publicar la web (${GITHUB_SHA::7})"
 
       - name: Resumen
         run: |
