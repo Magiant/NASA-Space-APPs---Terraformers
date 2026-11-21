@@ -20,6 +20,7 @@ import { cargarTemperaturaHistorica } from './cargas-unicas/temperatura-historic
 const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   // Revisión de datos nuevos (diario.yml, cada 3 horas): decide qué extractores hace falta correr. Solo lee Supabase.
   'novedades': async (a) => (await import('./comun/novedades.ts')).revisarNovedades(a),
+  'precios-nuevos': async (a) => (await import('./comun/novedades.ts')).preciosNuevos(a), // después del PIMA: ¿boletín nuevo?
   // Tema 0 · Distritos (HDX/INEC): correr PRIMERO, una vez. Todos los demás dependen de esta tabla.
   'distritos': async (a) => (await import('./cargas-unicas/distritos.ts')).cargarDistritosHdx(a), // unica-vez.yml
   // Tema 1 · Clima

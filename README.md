@@ -419,7 +419,7 @@ NASA-Space-APPs---Terraformers/
 | Workflow | When (Costa Rica time) | What it runs |
 |---|---|---|
 | `migraciones.yml` | On every push that changes `supabase/migrations/` | Applies new SQL migrations |
-| `diario.yml` | Every 3 hours, only when there is new data | A first job checks in Supabase how up to date each topic is and runs only what is missing: Open-Meteo climate and water balance, Open-Meteo soil moisture (never in the same hour as climate, to respect the API's hourly limit), PIMA-CENADA prices on weekdays until today's bulletin arrives, and the IMN subseasonal forecast once a day |
+| `diario.yml` | Every 3 hours, only when there is new data | A first job checks in Supabase how up to date each topic is and runs only what is missing: Open-Meteo climate and water balance, Open-Meteo soil moisture (never in the same hour as climate, to respect the API's hourly limit), PIMA-CENADA prices on weekdays until today's bulletin arrives (and then the suitability score), and the IMN subseasonal forecast once a day |
 | `semanal.yml` | Mondays 02:00 | INA courses |
 | `semanal.yml` | Mondays 04:00 | NASA POWER soil moisture and temperature, heat waves, ECOSTRESS, and finally the **suitability score** |
 | `unica-vez.yml` | By hand from the Actions tab | Districts, historical climate and temperature, soils, EcoCrop, GAEZ, crop catalog, terrain, hazards, land-use capability, protected areas, suitability |

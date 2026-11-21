@@ -108,10 +108,18 @@ export async function revisarNovedades(_a: Argumentos) {
   const nombres: Record<Tema, string> = { clima: 'Clima (Open-Meteo)', humedad: 'Humedad del suelo', precios: 'Precios PIMA', imn: 'Pronóstico IMN' }
   for (const t of Object.keys(d) as Tema[]) console.log(`${d[t].correr ? '▶ corre ' : '· no    '} ${nombres[t].padEnd(20)} ${d[t].motivo}`)
 
-  await salida((Object.keys(d) as Tema[]).map((t) => `${t}=${d[t].correr}`))
+  // precios_hasta: para saber después si el PIMA trajo un boletín más nuevo (y recalcular la aptitud).
+  await salida([...(Object.keys(d) as Tema[]).map((t) => `${t}=${d[t].correr}`), `precios_hasta=${pima ?? ''}`])
   if (process.env.GITHUB_STEP_SUMMARY) {
     const filas = (Object.keys(d) as Tema[]).map((t) => `| ${nombres[t]} | ${d[t].correr ? '▶ Sí' : 'No'} | ${d[t].motivo} |`)
     await appendFile(process.env.GITHUB_STEP_SUMMARY, ['### ¿Hay datos nuevos?', '', '| Tema | ¿Se baja? | Por qué |', '|---|---|---|', ...filas, ''].join('\n'))
   }
 }
 
+/** Después de correr el PIMA: ¿quedó un boletín más nuevo que el de antes (--desde)? Deja nuevos=true/false. */
+export async function preciosNuevos(a: Argumentos) {
+  const ahora = await fechaMasNueva('precios_historico', 'fecha_dato', 'pima')
+  const nuevos = !!ahora && (!a.desde || ahora > a.desde)
+  console.log(nuevos ? `Boletín nuevo: ${dma(ahora)} (antes ${dma(a.desde ?? null)})` : `Sin boletín nuevo (sigue ${dma(ahora)})`)
+  await salida([`nuevos=${nuevos}`])
+}

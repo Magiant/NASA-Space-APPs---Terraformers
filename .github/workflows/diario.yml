@@ -43,6 +43,7 @@ jobs:
       humedad: ${{ steps.revision.outputs.humedad }}
       precios: ${{ steps.revision.outputs.precios }}
       imn: ${{ steps.revision.outputs.imn }}
+      precios_hasta: ${{ steps.revision.outputs.precios_hasta }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -100,6 +101,8 @@ jobs:
     if: needs.revisar.outputs.precios == 'true' || inputs.grupo == 'precios'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      nuevos: ${{ steps.boletin.outputs.nuevos }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -110,6 +113,30 @@ jobs:
       - run: sudo apt-get install -y poppler-utils
       - name: Precios PIMA-CENADA
         run: npm run extraer -- precios-pima
+      # Si el portal todavía no publica el de hoy, se guardan los mismos (la llave evita duplicados) y no se
+      # recalcula nada; la próxima revisión vuelve a probar.
+      - name: ¿Llegó un boletín nuevo?
+        id: boletin
+        env:
+          ANTES: ${{ needs.revisar.outputs.precios_hasta }}
+        run: npm run extraer -- precios-nuevos --desde="$ANTES"
+
+  # Resultado · Con precios nuevos cambia la nota de mercado: se recalcula el orden de los cultivos recomendados
+  # (también corre los lunes en semanal.yml, con el clima de NASA POWER y los precios del CNP).
+  aptitud:
+    needs: precios-pima
+    if: needs.precios-pima.outputs.nuevos == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Aptitud de cultivos por distrito
+        run: npm run extraer -- aptitud
 
   # Tema 8 · Pronóstico subestacional del IMN: automático, una consulta a su página pública por día.
   imn-subestacional:
