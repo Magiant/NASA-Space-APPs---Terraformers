@@ -35,6 +35,11 @@ El flujo `.github/workflows/android.yml` compila la web y el APK en GitHub (sus 
 de Android) cada vez que cambia `web/`, `android/` o `packages/compartido/`:
 
 - En un **PR** solo comprueba que compila y deja el APK como artefacto del flujo, para probarlo.
+- **Actualizar desde la app**: cada APK lleva el número de la corrida del flujo como versión, y junto a él se
+  publica `version.json`. Al abrir, la app lo revisa y, si hay uno más nuevo, muestra "Hay una versión nueva de
+  TerraFarm": baja el APK ahí mismo y abre el instalador de Android (que pide confirmar; la primera vez, también
+  permitir instalar apps desde TerraFarm). Para que se instale encima sin perder datos, todos los APK deben ir
+  firmados con la misma llave del equipo (secretos de abajo); si la firma no coincide, la app lo explica.
 - En **main** lo publica en la versión del repo `app-android`, siempre en la misma dirección:
   `https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk`.
   La página de Inicio y el pie de página tienen el botón "Descargar para Android" con ese enlace (no se

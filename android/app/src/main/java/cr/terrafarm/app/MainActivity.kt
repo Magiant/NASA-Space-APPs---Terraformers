@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 class MainActivity : ComponentActivity(), Webs.Anfitrion {
 
     private lateinit var webs: Webs
+    private lateinit var actualizador: Actualizador
     private var ubicacionPendiente: Pair<String, GeolocationPermissions.Callback>? = null
     private var archivoPendiente: ValueCallback<Array<Uri>>? = null
 
@@ -38,7 +39,17 @@ class MainActivity : ComponentActivity(), Webs.Anfitrion {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         webs = Webs(this, this)
-        setContent { AppTerraFarm(webs, alSalir = { finish() }) }
+        actualizador = Actualizador(applicationContext)
+        setContent {
+            AppTerraFarm(
+                webs,
+                actualizador,
+                abrirPaginaDescarga = { abrirFuera(Uri.parse(Actualizador.URL_PAGINA)) },
+                alSalir = { finish() },
+            )
+        }
+        // Al abrir, revisa en segundo plano si GitHub tiene una versión más nueva de la app.
+        if (savedInstanceState == null) actualizador.revisar()
     }
 
     override fun onDestroy() {

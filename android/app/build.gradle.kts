@@ -32,8 +32,11 @@ android {
         applicationId = "cr.terrafarm.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        // Cada compilación de GitHub lleva un número mayor (el de la corrida del flujo); así la app sabe si el APK
+        // publicado es más nuevo que el instalado (Actualizador.kt). Compilada en la computadora: 1.
+        val numero = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
+        versionCode = numero
+        versionName = "1.0.$numero"
     }
 
     // Firma de la versión para publicar: la llave del equipo llega por variables de entorno (en GitHub,

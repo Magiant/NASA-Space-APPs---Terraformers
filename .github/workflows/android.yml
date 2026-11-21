@@ -6,8 +6,12 @@
 #   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_ALGOLIA_APP_ID, VITE_ALGOLIA_SEARCH_KEY
 #     → llaves PÚBLICAS de la web: la app abre con datos reales (sin ellas, en modo demo).
 #   ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD
-#     → llave de firma del equipo: versión optimizada que se actualiza sin desinstalar.
+#     → llave de firma del equipo: versión optimizada que se actualiza sin desinstalar, también con el aviso
+#     "Hay una versión nueva" de la app (android/app/src/main/java/cr/terrafarm/app/Actualizador.kt).
 #     Sin llave se firma con una de prueba: funciona, pero para actualizar hay que desinstalar la anterior.
+#
+# Junto al APK se publica version.json con el número de la corrida (el versionCode del APK): la app lo lee al
+# abrir y, si es mayor que el suyo, ofrece actualizar.
 name: App Android
 
 on:
@@ -95,10 +99,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          NOTAS="App de TerraFarm para Android, compilada de main (${GITHUB_SHA::7}). Descargue TerraFarm.apk en el teléfono y ábralo; Android pedirá permitir instalar apps de este origen."
+          NOTAS="App de TerraFarm para Android, versión 1.0.${GITHUB_RUN_NUMBER}, compilada de main (${GITHUB_SHA::7}). Descargue TerraFarm.apk en el teléfono y ábralo; Android pedirá permitir instalar apps de este origen. Quien ya la tiene recibe el aviso de actualizar dentro de la app."
           if gh release view app-android >/dev/null 2>&1; then
             gh release edit app-android --notes "$NOTAS"
           else
             gh release create app-android --title "TerraFarm para Android" --notes "$NOTAS" --target "$GITHUB_SHA"
           fi
           gh release upload app-android TerraFarm.apk --clobber
+          # version.json va después del APK: la app solo avisa cuando el APK nuevo ya se puede bajar.
+          # El número es el mismo versionCode que puso Gradle (android/app/build.gradle.kts).
+          printf '{"versionCode": %s, "versionName": "1.0.%s", "commit": "%s"}\n' \
+            "$GITHUB_RUN_NUMBER" "$GITHUB_RUN_NUMBER" "${GITHUB_SHA::7}" > version.json
+          gh release upload app-android version.json --clobber
