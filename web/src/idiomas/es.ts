@@ -39,6 +39,13 @@ export const es = {
     pieAviso: 'Esta herramienta apoya su decisión; no reemplaza el criterio del agricultor ni de los técnicos del MAG.',
   },
 
+  // Gráficos de línea interactivos (componentes/GraficoLinea.tsx)
+  grafico: {
+    pista: 'Toque o pase el mouse sobre el gráfico para ver el valor de cada día.',
+    verTabla: 'Ver los datos en una tabla',
+    fecha: 'Fecha',
+  },
+
   ajustes: {
     titulo: 'Ajustes',
     abrir: 'Abrir ajustes',

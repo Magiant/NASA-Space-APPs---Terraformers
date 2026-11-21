@@ -38,6 +38,12 @@ export const en: Textos = {
     pieAviso: 'This tool supports your decision; it does not replace the judgment of farmers or MAG technicians.',
   },
 
+  grafico: {
+    pista: 'Tap or hover over the chart to see the value for each day.',
+    verTabla: 'See the data as a table',
+    fecha: 'Date',
+  },
+
   ajustes: {
     titulo: 'Settings',
     abrir: 'Open settings',
