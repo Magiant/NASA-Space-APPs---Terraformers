@@ -24,7 +24,6 @@ import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
 import org.json.JSONObject
-import java.util.Locale
 import kotlin.math.roundToInt
 
 /**
@@ -45,7 +44,9 @@ class Webs(private val contexto: Context, private val anfitrion: Anfitrion) {
     }
 
     /** Idioma y tema elegidos en Ajustes de la web; la barra nativa los sigue (null = el del teléfono). */
-    var ingles by mutableStateOf(Locale.getDefault().language == "en")
+    // Correccion - Poll: la barra de pestañas empezaba en inglés si el teléfono estaba en inglés. Ahora empieza en
+    // español, igual que la web, y cambia solo si la persona elige English en Ajustes.
+    var ingles by mutableStateOf(false)
         private set
     var oscuro by mutableStateOf<Boolean?>(null)
         private set

@@ -17,10 +17,12 @@ const CLAVE_TEMA = 'tf-tema';
 
 const Contexto = createContext<ValorPreferencias | null>(null);
 
+// Correccion - Poll: antes la web abría en inglés si el navegador o el teléfono estaban en inglés. Ahora siempre
+// abre en español; solo cambia si la persona elige English en Ajustes (esa elección se guarda en el teléfono).
 function idiomaInicial(): Idioma {
   const guardado = leer<Idioma | null>(CLAVE_IDIOMA, null);
   if (guardado && guardado in IDIOMAS) return guardado;
-  return navigator.language?.toLowerCase().startsWith('en') ? 'en' : 'es';
+  return 'es';
 }
 
 function temaInicial(): Tema {
