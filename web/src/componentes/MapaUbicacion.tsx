@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as EventoPuntero } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as EventoPuntero } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
+import { Icono } from './Iconos';
 import type { SeleccionUbicacion } from './SelectorUbicacion';
 
 /**
@@ -9,7 +10,11 @@ import type { SeleccionUbicacion } from './SelectorUbicacion';
  * sigue siendo el camino principal (los distritos de ciudad son diminutos en el mapa).
  * Formas: ./mapas/*.json (extractores/scripts/mapas-web.ts). Dibujo en SVG, sin librerías.
  *
- * Al pasar el mouse sobre una forma, esta se levanta con sombra y su nombre sale en grande.
+ * En el teléfono se acerca y se mueve con los dedos (y los botones + / − / encuadrar): acercar de más entra a
+ * la provincia, cantón o distrito, y alejar de más vuelve al nivel anterior. En la computadora el mapa no se
+ * acerca ni se arrastra: la rueda hacia abajo solo vuelve al nivel anterior. Con todo Costa Rica a la vista,
+ * la rueda y un dedo siguen moviendo la página. Al pasar el mouse sobre una forma, esta se levanta con sombra
+ * y su nombre sale en grande.
  */
 
 type Anillo = number[][];
@@ -118,6 +123,49 @@ function teselasPara(v: Caja, anchoPx: number): Tesela[] {
 }
 
 const pocoMovimiento = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+/** Teléfono o tableta sin mouse: la pista habla de dedos, no de la rueda. */
+const soloDedos = () => window.matchMedia?.('(hover: none)').matches ?? false;
+
+const ZOOM_MAX = 8; // cuánto más cerca que el nivel completo se puede llegar
+const PASO_BOTON = 1.6; // cada toque de + o −
+const BOTON_MS = 240;
+// Cambio de nivel con el zoom: alejar más de SALIR veces el nivel completo sube un nivel; con los dedos (o los
+// botones en el teléfono), acercar más de ENTRAR veces entra a la forma entre los dedos (provincia → cantones → distritos).
+// Entre 1 y ESTIRAR el mapa se deja alejar un poco más, para que se vea que va a salir; si se suelta antes, vuelve.
+const ENTRAR = 2.2;
+const SALIR = 1.4;
+const ESTIRAR = 1.6;
+const PAUSA_NIVEL_MS = 650; // tras cambiar de nivel, el gesto que sigue no cuenta (evita saltar dos niveles)
+
+/** Acerca (f > 1) o aleja (f < 1) la vista dejando quieto el punto del mapa que está bajo (px, py). */
+function zoomEn(v: Caja, f: number, px: number, py: number, anchoPx: number): Caja {
+  const u = (v[2] - v[0]) / anchoPx; // unidades del mapa por píxel
+  const x0 = v[0] + px * u - (px * u) / f, y0 = v[1] + py * u - (py * u) / f;
+  return [x0, y0, x0 + (v[2] - v[0]) / f, y0 + (v[3] - v[1]) / f];
+}
+
+const mover = (v: Caja, dx: number, dy: number): Caja => [v[0] + dx, v[1] + dy, v[2] + dx, v[3] + dy];
+
+/**
+ * Ni más de `acercarHasta` veces más cerca que el nivel completo, ni más lejos que `alejarHasta` veces, y sin
+ * salirse de él. Más lejos que el nivel completo, el mapa queda centrado.
+ */
+function limitar(v: Caja, l: Caja, alejarHasta = 1, acercarHasta = ZOOM_MAX): Caja {
+  const escala = Math.min(alejarHasta, Math.max(1 / acercarHasta, (v[2] - v[0]) / (l[2] - l[0])));
+  const w = (l[2] - l[0]) * escala, h = (l[3] - l[1]) * escala;
+  if (escala >= 1) {
+    const x0 = (l[0] + l[2] - w) / 2, y0 = (l[1] + l[3] - h) / 2;
+    return [x0, y0, x0 + w, y0 + h];
+  }
+  const cx = (v[0] + v[2]) / 2, cy = (v[1] + v[3]) / 2;
+  const x0 = Math.min(Math.max(cx - w / 2, l[0]), l[2] - w);
+  const y0 = Math.min(Math.max(cy - h / 2, l[1]), l[3] - h);
+  return [x0, y0, x0 + w, y0 + h];
+}
+
+type Punto = { x: number; y: number };
+
+const casiIgual = (a: Caja, b: Caja | null) => !!b && a.every((x, i) => Math.abs(x - b[i]) < (b[2] - b[0]) * 0.003);
 
 export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
   const t = useT();
@@ -161,36 +209,234 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
     return base ? encuadrar(base, tam.ancho, tam.alto) : null;
   }, [nivel, provincias.formas, cantonesProvincia, vistaCanton, elegida, tam.ancho, tam.alto]);
 
-  // Acercamiento animado del viewBox (corto y sin animación si la persona pidió menos movimiento).
+  // Hasta dónde se puede alejar y mover a mano: el nivel completo (con distrito elegido, todo el cantón).
+  const limite = nivel === 'distritos' ? vistaCanton : objetivo;
+  const limiteRef = useRef(limite);
+  limiteRef.current = limite;
+  const objetivoRef = useRef(objetivo);
+  objetivoRef.current = objetivo;
+
+  // Vista que se dibuja (viewBox). Se anima hacia el encuadre de la selección y la persona la mueve a mano.
   const [vista, setVista] = useState<Caja | null>(null);
   const vistaRef = useRef<Caja | null>(null);
+  const cuadro = useRef(0);
+  const poner = useCallback((v: Caja) => { vistaRef.current = v; setVista(v); }, []);
+  /** Movimiento suave (corto, y sin animación si la persona pidió menos movimiento). */
+  const animarA = useCallback((destino: Caja, ms: number) => {
+    cancelAnimationFrame(cuadro.current);
+    const desde = vistaRef.current;
+    if (!desde || pocoMovimiento()) { poner(destino); return; }
+    const inicio = performance.now();
+    const paso = (ahora: number) => {
+      const k = Math.min(1, (ahora - inicio) / ms);
+      const e = 1 - (1 - k) ** 3;
+      poner(desde.map((a, i) => a + (destino[i] - a) * e) as Caja);
+      if (k < 1) cuadro.current = requestAnimationFrame(paso);
+    };
+    cuadro.current = requestAnimationFrame(paso);
+  }, [poner]);
+
+  // movido: la persona acercó o movió el mapa. quieta: esa vista cuando deja de moverla (para pedir relieve nítido).
+  const [movido, setMovido] = useState(false);
+  const [usoZoom, setUsoZoom] = useState(false);
+  const [quieta, setQuieta] = useState<Caja | null>(null);
+  const reloj = useRef(0);
+  const punteros = useRef(new Map<number, Punto>());
+  /** Al terminar el gesto: si quedó más lejos que el nivel completo (sin llegar a salir), vuelve a él. */
+  const asentar = useCallback(() => {
+    const v = vistaRef.current, l = limiteRef.current;
+    if (!v || !l || punteros.current.size) return;
+    if (v[2] - v[0] > (l[2] - l[0]) * 1.001) {
+      animarA(l, 220);
+      setMovido(!casiIgual(l, objetivoRef.current));
+      setQuieta(null);
+    } else setQuieta(v);
+  }, [animarA]);
+  const recordar = useCallback((v: Caja, ms: number) => {
+    setMovido(!casiIgual(v, objetivoRef.current));
+    setUsoZoom(true);
+    clearTimeout(reloj.current);
+    reloj.current = window.setTimeout(asentar, ms);
+  }, [asentar]);
+
+  // Cambio de nivel con el zoom (ver ENTRAR y SALIR). Usa la selección más reciente sin volver a crear los manejadores.
+  const sRef = useRef(s);
+  sRef.current = s;
+  const nivelRef = useRef(nivel);
+  nivelRef.current = nivel;
+  const pausa = useRef(0);
+  // Alejar de más siempre vuelve al nivel anterior. Acercar para entrar solo con los dedos o en el teléfono:
+  // en la computadora la rueda y los botones solo acercan, para mirar de cerca sin cambiar de lugar.
+  const cambiarNivel = useCallback((v: Caja, l: Caja, foco: Punto | null, puedeEntrar: boolean): boolean => {
+    const sel = sRef.current, n = nivelRef.current;
+    const escala = (v[2] - v[0]) / (l[2] - l[0]);
+    let cambio = false;
+    if (escala > SALIR && n !== 'provincias') {
+      if (n === 'distritos') sel.elegirCanton(''); else sel.elegirProvincia('');
+      cambio = true;
+    } else if (puedeEntrar && escala < 1 / ENTRAR && foco && !(n === 'distritos' && sel.distrito)) {
+      // La forma que está bajo el mouse o entre los dedos (las formas tocables llevan data-c con su código).
+      const el = document.elementFromPoint(foco.x, foco.y);
+      const c = el instanceof SVGElement && caja.current?.contains(el) ? el.dataset.c : undefined;
+      if (c) {
+        if (n === 'provincias') sel.elegirProvincia(c); else if (n === 'cantones') sel.elegirCanton(c); else sel.elegirDistrito(c);
+        cambio = true;
+      }
+    }
+    if (cambio) pausa.current = performance.now() + PAUSA_NIVEL_MS;
+    return cambio;
+  }, []);
+  const enPausa = () => performance.now() < pausa.current;
+
+  // Al cambiar la selección (o el tamaño del recuadro) el mapa va solo al nuevo encuadre.
   useEffect(() => {
     if (!objetivo) return;
-    const desde = vistaRef.current;
-    if (!desde || pocoMovimiento()) { vistaRef.current = objetivo; setVista(objetivo); return; }
-    const inicio = performance.now();
-    let cuadro = 0;
-    const paso = (ahora: number) => {
-      const k = Math.min(1, (ahora - inicio) / DURACION_MS);
-      const e = 1 - (1 - k) ** 3;
-      const v = desde.map((a, i) => a + (objetivo[i] - a) * e) as Caja;
-      vistaRef.current = v;
-      setVista(v);
-      if (k < 1) cuadro = requestAnimationFrame(paso);
-    };
-    cuadro = requestAnimationFrame(paso);
-    return () => cancelAnimationFrame(cuadro);
-  }, [objetivo]);
+    setMovido(false);
+    setQuieta(null);
+    animarA(objetivo, DURACION_MS);
+    return () => cancelAnimationFrame(cuadro.current);
+  }, [objetivo, animarA]);
 
-  // Relieve: una capa que cubre todo el cantón y, al acercarse a un distrito, una capa más nítida encima.
-  // Así, durante el acercamiento, el fondo nunca queda vacío.
+  /**
+   * Cambio hecho a mano: inmediato y dentro de los límites. `foco` (rueda y dedos: el punto de la pantalla
+   * donde se acerca) permite cambiar de nivel; el arrastre no lo manda, así que solo mueve. `puedeEntrar`:
+   * acercar de más entra a la forma del foco (solo con los dedos). `puedeAcercar`: en la computadora la rueda
+   * no acerca, solo aleja para volver al nivel anterior.
+   */
+  const aplicar = useCallback((nueva: Caja, foco?: Punto, puedeEntrar = false, puedeAcercar = true) => {
+    const l = limiteRef.current;
+    if (!l || enPausa()) return;
+    cancelAnimationFrame(cuadro.current);
+    const v = limitar(nueva, l, nivelRef.current === 'provincias' ? 1 : ESTIRAR, puedeAcercar ? ZOOM_MAX : 1);
+    poner(v);
+    if (foco && cambiarNivel(v, l, foco, puedeEntrar)) return; // la nueva selección trae su propio encuadre
+    recordar(v, 250);
+  }, [poner, recordar, cambiarNivel]);
+
+  /** Botones + y −: acercan o alejan desde el centro, con un movimiento corto (y también cambian de nivel). */
+  const zoomBoton = (f: number) => {
+    const v = vistaRef.current, l = limiteRef.current, el = caja.current;
+    if (!v || !l || !el || enPausa()) return;
+    const destino = limitar(zoomEn(v, f, el.clientWidth / 2, el.clientHeight / 2, el.clientWidth), l, nivel === 'provincias' ? 1 : ESTIRAR);
+    const r = el.getBoundingClientRect();
+    if (cambiarNivel(destino, l, { x: r.left + r.width / 2, y: r.top + r.height / 2 }, soloDedos())) return;
+    animarA(destino, BOTON_MS);
+    recordar(destino, BOTON_MS + 50);
+  };
+  const encuadrarDeNuevo = () => {
+    if (!objetivo) return;
+    animarA(objetivo, DURACION_MS);
+    setMovido(false);
+    setQuieta(null);
+  };
+
+  // Rueda del mouse (y pellizco del trackpad, que llega como rueda con Ctrl). En la computadora no acerca: hacia
+  // abajo aleja hasta volver al nivel anterior; hacia arriba solo deshace ese alejamiento y, si no, mueve la página.
+  // Con todo Costa Rica a la vista, la rueda hacia abajo también baja la página como siempre.
+  useEffect(() => {
+    const el = caja.current;
+    if (!el) return;
+    const rueda = (e: WheelEvent) => {
+      const v = vistaRef.current, l = limiteRef.current;
+      if (!v || !l) return;
+      const delta = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+      const f = Math.exp(-delta * (e.ctrlKey ? 0.01 : 0.002));
+      const completo = v[2] - v[0] >= (l[2] - l[0]) * 0.999, deMas = v[2] - v[0] > (l[2] - l[0]) * 1.001;
+      const acerca = soloDedos();
+      if (!enPausa()) {
+        if (f < 1 && nivelRef.current === 'provincias' && completo) return;
+        if (f > 1 && !acerca && !deMas) return;
+      }
+      e.preventDefault();
+      if (!acerca && f < 1 && !completo) {
+        // Acercado al distrito elegido: la primera vuelta hacia abajo muestra todo el cantón, con un movimiento suave.
+        if (!enPausa()) { animarA(l, DURACION_MS); recordar(l, DURACION_MS + 50); pausa.current = performance.now() + DURACION_MS; }
+        return;
+      }
+      const r = el.getBoundingClientRect();
+      aplicar(zoomEn(v, f, e.clientX - r.left, e.clientY - r.top, r.width), { x: e.clientX, y: e.clientY }, false, acerca);
+    };
+    el.addEventListener('wheel', rueda, { passive: false });
+    return () => el.removeEventListener('wheel', rueda);
+  }, [aplicar, animarA, recordar]);
+
+  // Dedos y mouse: un puntero arrastra el mapa; dos punteros (pellizco) acercan o alejan y lo mueven.
+  // Un arrastre no cuenta como toque: no elige la forma sobre la que termina.
+  const recorrido = useRef(0);
+  const arrastro = useRef(false);
+  const [arrastrando, setArrastrando] = useState(false);
+  const alBajar = (e: EventoPuntero<SVGSVGElement>) => {
+    if (e.pointerType === 'mouse') return; // con el mouse el mapa no se arrastra: solo se toca
+    punteros.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (punteros.current.size === 1) { recorrido.current = 0; arrastro.current = false; }
+  };
+  const alMover = (e: EventoPuntero<SVGSVGElement>) => {
+    const antes = punteros.current.get(e.pointerId);
+    const v = vistaRef.current, el = caja.current;
+    if (!antes || !v || !el) return;
+    const ahora = { x: e.clientX, y: e.clientY };
+    const r = el.getBoundingClientRect();
+    if (punteros.current.size === 1) {
+      recorrido.current += Math.abs(ahora.x - antes.x) + Math.abs(ahora.y - antes.y);
+      if (recorrido.current > 6) {
+        if (!arrastro.current) {
+          arrastro.current = true;
+          setArrastrando(true);
+          e.currentTarget.setPointerCapture(e.pointerId); // sigue aunque el puntero salga del mapa
+        }
+        const u = (v[2] - v[0]) / r.width;
+        aplicar(mover(v, -(ahora.x - antes.x) * u, -(ahora.y - antes.y) * u));
+      }
+    } else if (punteros.current.size === 2) {
+      const otro = [...punteros.current].find(([id]) => id !== e.pointerId)![1];
+      const dAntes = Math.hypot(antes.x - otro.x, antes.y - otro.y);
+      const dAhora = Math.hypot(ahora.x - otro.x, ahora.y - otro.y);
+      const mAntes = { x: (antes.x + otro.x) / 2 - r.left, y: (antes.y + otro.y) / 2 - r.top };
+      const mAhora = { x: (ahora.x + otro.x) / 2 - r.left, y: (ahora.y + otro.y) / 2 - r.top };
+      if (!arrastro.current) {
+        // El mapa retiene los dos dedos: si el pellizco cambia de nivel, la forma donde empezaron desaparece.
+        for (const idp of punteros.current.keys()) try { e.currentTarget.setPointerCapture(idp); } catch { /* ya no está */ }
+      }
+      if (dAntes > 0) {
+        // El punto que estaba entre los dedos queda entre los dedos: se acerca ahí y se mueve con ellos.
+        const z = zoomEn(v, dAhora / dAntes, mAntes.x, mAntes.y, r.width);
+        const u = (z[2] - z[0]) / r.width;
+        aplicar(mover(z, -(mAhora.x - mAntes.x) * u, -(mAhora.y - mAntes.y) * u), { x: mAhora.x + r.left, y: mAhora.y + r.top }, true);
+        arrastro.current = true;
+      }
+    }
+    punteros.current.set(e.pointerId, ahora);
+  };
+  // Soltar se escucha en toda la ventana: si el dedo se levanta fuera del mapa (o sobre una forma que ya no
+  // existe), el mapa igual se entera y no se queda creyendo que ese dedo sigue apoyado.
+  useEffect(() => {
+    const soltar = (e: PointerEvent) => {
+      if (!punteros.current.delete(e.pointerId) || punteros.current.size) return;
+      setArrastrando(false);
+      if (arrastro.current) asentar(); // si quedó alejado sin llegar a salir, vuelve al nivel completo
+    };
+    window.addEventListener('pointerup', soltar);
+    window.addEventListener('pointercancel', soltar);
+    return () => {
+      window.removeEventListener('pointerup', soltar);
+      window.removeEventListener('pointercancel', soltar);
+    };
+  }, [asentar]);
+
+  // Relieve: una capa que cubre todo el cantón y, encima, capas más nítidas para el distrito elegido y para
+  // lo que la persona acercó a mano. Así el fondo nunca queda vacío mientras se mueve.
   const teselas = useMemo(() => {
     if (!vistaCanton) return [];
     const base = teselasPara(vistaCanton, tam.ancho);
-    if (!objetivo || objetivo === vistaCanton) return base;
     const zBase = base[0]?.z ?? 0;
-    return [...base, ...teselasPara(objetivo, tam.ancho).filter((ts) => ts.z > zBase)];
-  }, [vistaCanton, objetivo, tam.ancho]);
+    const urls = new Set(base.map((ts) => ts.url));
+    const extra: Tesela[] = [];
+    for (const capa of [objetivo !== vistaCanton ? objetivo : null, quieta]) {
+      if (!capa) continue;
+      for (const ts of teselasPara(capa, tam.ancho)) if (ts.z > zBase && !urls.has(ts.url)) { urls.add(ts.url); extra.push(ts); }
+    }
+    return [...base, ...extra.sort((a, b) => a.z - b.z)]; // las más nítidas, arriba
+  }, [vistaCanton, objetivo, quieta, tam.ancho]);
 
   const v = vista ?? objetivo;
   const ppu = v ? tam.ancho / (v[2] - v[0]) : 1; // píxeles por unidad del mapa
@@ -204,7 +450,7 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
   const [encima, setEncima] = useState<string | null>(null);
   useEffect(() => setEncima(null), [nivel, s.provincia, s.canton]);
   const activas = nivel === 'provincias' ? provincias.formas ?? [] : nivel === 'cantones' ? cantonesProvincia : distritos.formas ?? [];
-  const resaltada = encima ? activas.find((f) => f.c === encima) : undefined;
+  const resaltada = encima && !arrastrando ? activas.find((f) => f.c === encima) : undefined;
   const soltar = (c: string) => setEncima((x) => (x === c ? null : x));
 
   const tocable = (f: Forma, elegir: (c: string) => void, clase: string, elegida = false) => ({
@@ -214,6 +460,7 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
     tabIndex: 0,
     'aria-label': f.n,
     'aria-pressed': elegida,
+    'data-c': f.c, // para saber qué forma queda bajo el mouse o los dedos al acercar (cambiarNivel)
     onClick: () => elegir(f.c),
     onKeyDown: (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); elegir(f.c); }
@@ -257,14 +504,23 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
 
   const ayuda = nivel === 'provincias' ? t.mapa.toqueProvincia : nivel === 'cantones' ? t.mapa.toqueCanton : t.mapa.toqueDistrito;
 
+  const anchoLimite = limite ? limite[2] - limite[0] : 0;
+  const enLimite = !v || !limite || v[2] - v[0] >= anchoLimite * 0.999; // se ve el nivel completo
+  const alMaximo = !!v && !!limite && v[2] - v[0] <= (anchoLimite / ZOOM_MAX) * 1.001;
+  // Acercado a mano: un dedo mueve el mapa (en vez de bajar la página) y el cursor es una mano.
+  const acercado = movido && !enLimite;
+
   return (
-    <div className="mapa-ubicacion" ref={caja}>
+    <div className={`mapa-ubicacion${acercado ? ' acercado' : ''}${arrastrando ? ' arrastrando' : ''}`} ref={caja}>
       {v && (
         <svg
           viewBox={`${v[0]} ${v[1]} ${v[2] - v[0]} ${v[3] - v[1]}`}
           preserveAspectRatio="xMidYMid meet"
           role="group"
           aria-label={`${t.mapa.titulo}. ${ayuda}`}
+          onPointerDown={alBajar}
+          onPointerMove={alMover}
+          onClickCapture={(e) => { if (arrastro.current) { e.stopPropagation(); arrastro.current = false; } }}
         >
           <defs>
             {/* Sombra de la forma resaltada, en unidades del mapa para que mida lo mismo con cualquier zoom */}
@@ -356,8 +612,30 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
         )}
       </nav>
 
+      {/* Botones de zoom solo en el teléfono: en la computadora el mapa no se acerca */}
+      {v && !error && soloDedos() && (
+        <div className="mapa-zoom" role="group" aria-label={t.mapa.zoom}>
+          <button type="button" onClick={() => zoomBoton(PASO_BOTON)} disabled={alMaximo} aria-label={t.mapa.acercar} title={t.mapa.acercar}>
+            <Icono nombre="mas" tam={20} />
+          </button>
+          {/* Con el nivel completo a la vista, − sube un nivel; solo se apaga con todo Costa Rica a la vista */}
+          <button type="button" onClick={() => zoomBoton(1 / PASO_BOTON)} disabled={enLimite && nivel === 'provincias'} aria-label={t.mapa.alejar} title={t.mapa.alejar}>
+            <Icono nombre="menos" tam={20} />
+          </button>
+          {movido && (
+            <button type="button" onClick={encuadrarDeNuevo} aria-label={t.mapa.encuadrar} title={t.mapa.encuadrar}>
+              <Icono nombre="encuadrar" tam={20} />
+            </button>
+          )}
+        </div>
+      )}
+
       <p className="mapa-pie">
         {error ? t.mapa.error : !v || (nivel === 'distritos' && !distritos.formas) ? t.mapa.cargando : ayuda}
+        {/* La pista de cómo acercar se va después de usarla una vez */}
+        {v && !error && !usoZoom && (soloDedos() || nivel !== 'provincias') && (
+          <><br /><small>{soloDedos() ? t.mapa.gestosDedos : t.mapa.gestosMouse}</small></>
+        )}
         {nivel === 'distritos' && distritos.formas && <><br /><small>{t.mapa.fuenteRelieve}</small></>}
       </p>
     </div>

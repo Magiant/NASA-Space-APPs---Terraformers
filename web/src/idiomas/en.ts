@@ -205,6 +205,12 @@ export const en: Textos = {
     cargando: 'Loading the map…',
     error: 'Could not load the map. Use the list.',
     fuenteRelieve: 'Relief: NASA ASTER GDEM (GIBS)',
+    gestosMouse: 'Scroll the mouse wheel down to go back',
+    gestosDedos: 'Two fingers: zoom in to enter, zoom out to go back',
+    zoom: 'Zoom the map in or out',
+    acercar: 'Zoom in',
+    alejar: 'Zoom out',
+    encuadrar: 'Fit the map again',
   },
 
   fondos: {

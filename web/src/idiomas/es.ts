@@ -211,6 +211,12 @@ export const es = {
     cargando: 'Cargando el mapa…',
     error: 'No se pudo cargar el mapa. Use la lista.',
     fuenteRelieve: 'Relieve: NASA ASTER GDEM (GIBS)',
+    gestosMouse: 'Gire la rueda del mouse hacia abajo para volver',
+    gestosDedos: 'Dos dedos: acerque para entrar, aleje para salir',
+    zoom: 'Acercar o alejar el mapa',
+    acercar: 'Acercar',
+    alejar: 'Alejar',
+    encuadrar: 'Volver a encuadrar',
   },
 
   fondos: {
