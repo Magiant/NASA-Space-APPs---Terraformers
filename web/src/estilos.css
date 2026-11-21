@@ -1567,6 +1567,13 @@ body::before {
 .cuenta-aviso { margin: 0 0 22px; }
 .cuenta-demo { margin: 20px 0 0; }
 
+/* Cuenta creada, falta confirmar el correo */
+.cuenta-confirmar { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; max-width: 460px; }
+.cuenta-confirmar h1 { margin: 6px 0 0; }
+.cuenta-confirmar p { margin: 0; }
+.cuenta-confirmar-icono { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 22px; background: var(--exc-fondo); color: var(--exc); }
+.cuenta-confirmar .boton { margin-top: 10px; }
+
 /* Celular: el panel arriba y corto (sin la lista de beneficios) para llegar rápido al formulario */
 @media (max-width: 899px) {
   .cuenta { margin: -16px -16px 24px; border-width: 0 0 1px; box-shadow: none; }

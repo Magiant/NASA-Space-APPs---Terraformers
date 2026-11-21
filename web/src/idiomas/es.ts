@@ -414,6 +414,10 @@ export const es = {
     requisitos: { largo: 'Al menos 8 caracteres', mezcla: 'Letras y números', extra: 'Una mayúscula o un símbolo' },
     opcional: 'Opcional',
     ubicacionAyuda: 'Así le mostramos de una vez lo que mejor se da en su zona.',
+    confirmarTitulo: 'Revise su correo',
+    confirmarTexto: (c: string) => `Su cuenta ya está creada. Le enviamos un enlace a «${c}»: ábralo para activarla y después entre.`,
+    confirmarSpam: 'Si no lo ve en unos minutos, revise también «Spam» o «Promociones».',
+    irEntrar: 'Ir a Entrar',
     errores: {
       nombre: 'Escriba su nombre (al menos 2 letras). Así lo saludamos y su técnico sabe quién reporta.',
       nombreLargo: 'El nombre es muy largo: use como máximo 80 letras.',

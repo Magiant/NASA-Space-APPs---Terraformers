@@ -41,6 +41,7 @@ export default function Registrarse() {
   const [distrito, setDistrito] = useState<string | null>(zonaElegida);
   const [error, setError] = useState<string | null>(null);
   const [campoError, setCampoError] = useState<Campo | null>(null);
+  const [confirmar, setConfirmar] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const campos = { nombre: useRef<HTMLInputElement>(null), correo: useRef<HTMLInputElement>(null), clave: useRef<HTMLInputElement>(null) };
 
@@ -79,9 +80,26 @@ export default function Registrarse() {
       await registrarse(nombre, correo, clave, distrito);
       navegar(state?.desde ?? '/mi-finca', { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      // Si Supabase pide confirmar el correo, la cuenta sí se creó: no es un error.
+      if ((err as { confirmarCorreo?: boolean }).confirmarCorreo) setConfirmar(true);
+      else setError((err as Error).message);
       setEnviando(false);
     }
+  }
+
+  // Cuenta creada, pero Supabase pide confirmar el correo: en vez del formulario, cómo seguir.
+  if (confirmar) {
+    return (
+      <MarcoCuenta idTitulo="titulo-registro">
+        <div className="cuenta-confirmar" role="status">
+          <span className="cuenta-confirmar-icono" aria-hidden><Icono nombre="correo" tam={40} /></span>
+          <h1 id="titulo-registro">{ta.confirmarTitulo}</h1>
+          <p>{ta.confirmarTexto(correo.trim())}</p>
+          <p className="ayuda">{ta.confirmarSpam}</p>
+          <Link to="/ingresar" state={state} className="boton boton-ancho">{ta.irEntrar}</Link>
+        </div>
+      </MarcoCuenta>
+    );
   }
 
   return (

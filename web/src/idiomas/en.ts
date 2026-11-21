@@ -406,6 +406,10 @@ export const en: Textos = {
     requisitos: { largo: 'At least 8 characters', mezcla: 'Letters and numbers', extra: 'A capital letter or a symbol' },
     opcional: 'Optional',
     ubicacionAyuda: 'So we can show you right away what grows best in your area.',
+    confirmarTitulo: 'Check your email',
+    confirmarTexto: (c) => `Your account is ready. We sent a link to “${c}”: open it to activate your account, then sign in.`,
+    confirmarSpam: 'If you do not see it in a few minutes, check “Spam” or “Promotions” too.',
+    irEntrar: 'Go to sign in',
     errores: {
       nombre: 'Type your name (at least 2 letters) so we can greet you and your technician knows who reports.',
       nombreLargo: 'The name is too long: use at most 80 letters.',
