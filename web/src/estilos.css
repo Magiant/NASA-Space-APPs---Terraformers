@@ -333,6 +333,24 @@ select:disabled { opacity: 0.55; }
   background: color-mix(in srgb, var(--superficie) 92%, transparent); color: var(--texto); font-size: 0.9rem; font-weight: 600; pointer-events: none;
 }
 .mapa-pie small { color: var(--texto-suave); font-weight: 400; font-size: 0.75rem; }
+/* Forma bajo el mouse: se levanta con sombra (filtro #mapa-sombra) y su nombre sale en grande */
+.mapa-resalte {
+  fill: color-mix(in srgb, var(--primario) 62%, var(--superficie)); stroke: var(--superficie); stroke-width: 2.5;
+  stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none;
+}
+.mapa-resalte.sobre-relieve { fill: color-mix(in srgb, var(--primario) 30%, transparent); stroke: #fff; stroke-width: 3.5; }
+.mapa-rotulo {
+  position: absolute; transform: translate(-50%, -50%); pointer-events: none; white-space: nowrap;
+  padding: 7px 16px; border-radius: 999px; border: 2px solid var(--primario);
+  background: var(--superficie); color: var(--primario); box-shadow: 0 8px 22px rgb(0 0 0 / 0.28);
+  font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 800; letter-spacing: 0.01em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mapa-rotulo { animation: mapa-rotulo 0.18s cubic-bezier(0.3, 1.4, 0.5, 1); }
+  .mapa-resalte { animation: mapa-resalte 0.18s ease-out; }
+  @keyframes mapa-rotulo { from { opacity: 0; transform: translate(-50%, -35%) scale(0.85); } }
+  @keyframes mapa-resalte { from { opacity: 0; } }
+}
 .titulo-resultado { scroll-margin-top: 96px; }
 .titulo-resultado:focus { outline: none; }
 

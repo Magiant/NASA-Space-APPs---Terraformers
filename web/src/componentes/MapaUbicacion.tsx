@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as EventoPuntero } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
 import type { SeleccionUbicacion } from './SelectorUbicacion';
 
@@ -8,6 +8,8 @@ import type { SeleccionUbicacion } from './SelectorUbicacion';
  * Comparte el estado con SelectorUbicacion: tocar el mapa o usar la lista da lo mismo, y la lista
  * sigue siendo el camino principal (los distritos de ciudad son diminutos en el mapa).
  * Formas: ./mapas/*.json (extractores/scripts/mapas-web.ts). Dibujo en SVG, sin librerías.
+ *
+ * Al pasar el mouse sobre una forma, esta se levanta con sombra y su nombre sale en grande.
  */
 
 type Anillo = number[][];
@@ -198,6 +200,13 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
   const nombreCanton = s.cantones.find((c) => c.codigo === s.canton)?.nombre ?? '';
   const error = provincias.error || cantones.error || distritos.error;
 
+  // Forma bajo el mouse (o con el foco del teclado): se levanta con sombra y su nombre sale en grande.
+  const [encima, setEncima] = useState<string | null>(null);
+  useEffect(() => setEncima(null), [nivel, s.provincia, s.canton]);
+  const activas = nivel === 'provincias' ? provincias.formas ?? [] : nivel === 'cantones' ? cantonesProvincia : distritos.formas ?? [];
+  const resaltada = encima ? activas.find((f) => f.c === encima) : undefined;
+  const soltar = (c: string) => setEncima((x) => (x === c ? null : x));
+
   const tocable = (f: Forma, elegir: (c: string) => void, clase: string, elegida = false) => ({
     d: f.d,
     className: `${clase}${elegida ? ' elegida' : ''}`,
@@ -209,6 +218,11 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
     onKeyDown: (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); elegir(f.c); }
     },
+    // En el celular no hay "pasar por encima": el toque elige directamente.
+    onPointerEnter: (e: EventoPuntero) => { if (e.pointerType !== 'touch') setEncima(f.c); },
+    onPointerLeave: () => soltar(f.c),
+    onFocus: () => setEncima(f.c),
+    onBlur: () => soltar(f.c),
   });
 
   /**
@@ -224,6 +238,7 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
     const puestas: Caja[] = [];
     const lista = [];
     for (const f of orden) {
+      if (f === resaltada) continue; // su nombre sale en grande encima del mapa
       const anchoPx = (f.caja[2] - f.caja[0]) * ppu;
       if (!forzar(f) && anchoPx < Math.max(36, f.n.length * 6)) continue; // muy chica: el nombre está en la lista
       const x = (f.etiqueta[0] - v[0]) * ppu, y = (f.etiqueta[1] - v[1]) * ppu;
@@ -251,9 +266,16 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
           role="group"
           aria-label={`${t.mapa.titulo}. ${ayuda}`}
         >
+          <defs>
+            {/* Sombra de la forma resaltada, en unidades del mapa para que mida lo mismo con cualquier zoom */}
+            <filter id="mapa-sombra" x="-15%" y="-15%" width="130%" height="140%">
+              <feDropShadow dx="0" dy={3 / ppu} stdDeviation={5 / ppu} floodColor="#000" floodOpacity="0.35" />
+            </filter>
+          </defs>
           {nivel === 'provincias' && provincias.formas?.map((f, i) => (
             <path key={f.c} {...tocable(f, s.elegirProvincia, `mapa-forma tono-${i % 4}`)} />
           ))}
+          {nivel === 'provincias' && resaltada && <path d={resaltada.d} className="mapa-resalte" filter="url(#mapa-sombra)" aria-hidden />}
           {nivel === 'provincias' && provincias.formas && etiquetas(provincias.formas, () => true)}
 
           {nivel !== 'provincias' && cantones.formas?.map((f, i) => (
@@ -261,6 +283,7 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
               ? <path key={f.c} {...tocable(f, s.elegirCanton, `mapa-forma tono-${i % 4}`)} />
               : <path key={f.c} d={f.d} className="mapa-forma apagada" aria-hidden />
           ))}
+          {nivel === 'cantones' && resaltada && <path d={resaltada.d} className="mapa-resalte" filter="url(#mapa-sombra)" aria-hidden />}
           {nivel === 'cantones' && etiquetas(cantonesProvincia, () => false)}
 
           {nivel === 'distritos' && distritos.formas && (
@@ -281,10 +304,27 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
               {distritos.formas.map((f) => (
                 <path key={f.c} {...tocable(f, (c) => s.elegirDistrito(c), 'mapa-distrito', f.c === s.distrito)} />
               ))}
+              {resaltada && <path d={resaltada.d} className="mapa-resalte sobre-relieve" filter="url(#mapa-sombra)" aria-hidden />}
               {etiquetas(distritos.formas, (f) => f.c === s.distrito)}
             </>
           )}
         </svg>
+      )}
+
+      {/* Nombre de la forma bajo el mouse, en grande (el lector de pantalla ya lo lee de la forma) */}
+      {resaltada && v && (
+        <span
+          key={resaltada.c}
+          className="mapa-rotulo"
+          style={{
+            // Dentro del recuadro y debajo de las migas, aunque el centro de la forma quede fuera de la vista.
+            left: Math.min(Math.max((resaltada.etiqueta[0] - v[0]) * ppu, resaltada.n.length * 6 + 30), tam.ancho - resaltada.n.length * 6 - 30),
+            top: Math.min(Math.max((resaltada.etiqueta[1] - v[1]) * ppu, 84), tam.alto - 64),
+          }}
+          aria-hidden
+        >
+          {resaltada.n}
+        </span>
       )}
 
       {/* Con 4 niveles, en celular se esconde "Costa Rica" para que las migas quepan en una fila. */}
