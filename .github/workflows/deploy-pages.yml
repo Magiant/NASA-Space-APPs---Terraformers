@@ -1,0 +1,72 @@
+# Página web (GitHub Pages): compila la web y la publica sola cada vez que se une un cambio a main.
+#
+# Publica en la rama gh-pages, lo mismo que `npm run deploy` desde la computadora, así que la página sigue
+# configurada igual (Settings > Pages > Deploy from a branch: gh-pages) y las dos formas sirven.
+# Los datos (clima, precios…) no necesitan esto: la página los lee de Supabase cada vez que se abre.
+#
+# Secretos (los mismos de la app de Android): VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY, llaves PÚBLICAS de la
+# web. Sin ellas la página quedaría en modo demo, con datos de ejemplo: en ese caso el flujo se detiene y no
+# publica nada.
+name: Página web
+
+on:
+  push:
+    branches: [main]
+    paths: ['web/**', 'packages/compartido/**', 'package.json', 'package-lock.json', '.github/workflows/deploy-pages.yml']
+  workflow_dispatch:
+
+# Una publicación a la vez; si llegan dos cambios seguidos, el segundo espera y publica lo último.
+concurrency:
+  group: pagina-web
+  cancel-in-progress: false
+
+permissions:
+  contents: write # subir la rama gh-pages
+
+jobs:
+  publicar:
+    # Solo main: aunque se corra a mano eligiendo otra rama en "Run workflow", no publica nada.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Revisar las llaves de la web
+        run: |
+          if [ -z "$VITE_SUPABASE_URL" ] || [ -z "$VITE_SUPABASE_ANON_KEY" ]; then
+            echo "::error::Faltan los secretos VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY: la página quedaría en modo demo y no se publica."
+            exit 1
+          fi
+
+      # tsc + vite build (si hay un error de tipos, no se publica)
+      - name: Compilar la web
+        run: npm run build
+
+      # La herramienta gh-pages (la misma de `npm run deploy`) sube web/dist a la rama gh-pages. En GitHub hay que
+      # darle la llave temporal de la corrida en la dirección del repo para que pueda subir.
+      - name: Publicar en GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git remote set-url origin "https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          cd web
+          npx gh-pages -d dist --nojekyll \
+            -m "Publicar la web (${GITHUB_SHA::7})" \
+            -u "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+
+      - name: Resumen
+        run: |
+          {
+            echo "### Página publicada"
+            echo ""
+            echo "Versión ${GITHUB_SHA::7}. GitHub Pages tarda uno o dos minutos en mostrarla."
+          } >> "$GITHUB_STEP_SUMMARY"
