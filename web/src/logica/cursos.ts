@@ -1,5 +1,6 @@
-// Para qué cultivo sirve cada curso. El INA solo publica el nombre del curso (ninguno trae el cultivo
-// enlazado), así que se deduce del título. Lo usa la pantalla de Cursos para el filtro "Lo que siembro".
+// Para qué cultivo y en qué época sirve cada curso. El INA solo publica el nombre del curso (ninguno trae el
+// cultivo enlazado), así que se deduce del título. Lo usa la pantalla de Cursos para el filtro "Lo que siembro"
+// y para "Recomendados para los próximos meses".
 import type { RegistroCapacitacion } from '../tipos';
 
 const HORTALIZAS = ['tomate', 'chile', 'cebolla', 'zanahoria', 'repollo', 'culantro'];
@@ -35,4 +36,28 @@ export function esParaCualquierCultivo(c: Pick<RegistroCapacitacion, 'titulo' | 
   if (!/^(agricultura|gesti[oó]n de la producci[oó]n)/i.test(c.tema)) return false;
   if (cultivosDelCurso(c).length) return false;
   return !/^cultivo de|ornamental|jard[ií]n|orqu[ií]dea|hongos|asadas|henificaci/i.test(c.titulo);
+}
+
+export type Epoca = 'seca' | 'lluviosa';
+
+/** Cursos que conviene llevar antes o durante una época: riego para la seca; drenaje y conservación para la lluviosa. */
+export function epocaDelCurso(c: Pick<RegistroCapacitacion, 'titulo'>): Epoca | null {
+  if (/riego|captaci[oó]n de aguas/i.test(c.titulo)) return 'seca';
+  if (/drenaje|conservaci[oó]n de suelos/i.test(c.titulo)) return 'lluviosa';
+  return null;
+}
+
+/** Los próximos `n` meses (1–12), empezando por el actual. */
+export function proximosMeses(n = 3, hoy = new Date()): number[] {
+  return Array.from({ length: n }, (_, i) => ((hoy.getMonth() + i) % 12) + 1);
+}
+
+/**
+ * Época que predomina en esos meses. Diciembre a abril es la época seca del Pacífico, el Valle Central y la zona
+ * norte; el Caribe (provincia de Limón, códigos CR7…) llueve todo el año, así que ahí no se recomienda por época.
+ */
+export function epocaDeLosMeses(meses: number[], codigoDistrito?: string | null): Epoca | null {
+  if (codigoDistrito?.startsWith('CR7')) return null;
+  const secos = meses.filter((m) => m === 12 || m <= 4).length;
+  return secos * 2 > meses.length ? 'seca' : 'lluviosa';
 }

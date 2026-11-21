@@ -356,7 +356,21 @@ export const es = {
     ayudaCon: 'Ayuda con:',
     verEn: (i: string) => `Ver en ${i} ↗`,
     modalidad: { presencial: '🏫 Presencial', virtual: '💻 Virtual', mixta: '🔀 Mixta' },
+    // Recomendados para los próximos meses (logica/cursos.ts)
+    recomendados: 'Recomendados',
+    todosMeses: 'Todos los meses',
+    nCursos: (n: number) => `${n} cursos`,
+    rangoMeses: (desde: string, hasta: string) => `${desde} a ${hasta}`,
+    porQue: 'Por qué se recomiendan estos cursos',
+    paraSembrar: (rango: string, lugar: string | null) => `Cultivos que se siembran de ${rango}${lugar ? ` y se dan bien en ${lugar}` : ''}:`,
+    epocaSeca: 'Época seca: también se recomiendan los cursos de riego.',
+    epocaLluviosa: 'Época lluviosa: también se recomiendan los cursos de drenaje y conservación de suelos.',
     para: 'Para:',
+    paraEpocaSeca: 'Para la época seca',
+    paraEpocaLluviosa: 'Para la época lluviosa',
+    sinRecomendados: 'No hay cursos para los cultivos de estos meses con estos filtros.',
+    sinCursos: 'No hay cursos con estos filtros.',
+    verTodos: 'Ver todos los meses',
   },
 
   auth: {

@@ -1,21 +1,46 @@
-import { FotoFranja, Icono, Tx } from '../../componentes/Iconos';
+import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
-import { cultivosDelCurso, esParaCualquierCultivo } from '../../logica/cursos';
+import { cultivosDelCurso, epocaDelCurso, epocaDeLosMeses, esParaCualquierCultivo, proximosMeses } from '../../logica/cursos';
 import { algolia, catalogo } from '../../servicios/algolia';
 import type { RegistroCapacitacion } from '../../tipos';
-import { nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
+import { nombreCultivo, nombrePlaga, useCargar, useZonaElegida } from '../../utilidades';
 
+type Vista = 'recomendados' | 'todos';
+
+/**
+ * Cursos para el agricultor. Dos vistas:
+ * - Recomendados: cursos de los cultivos que se siembran en los próximos 3 meses (si eligió su zona, solo los que
+ *   se dan bien ahí) y los de la época que viene (riego para la seca; drenaje y suelos para la lluviosa).
+ * - Todos los meses: todos los cursos.
+ * En las dos se puede filtrar por cultivo y por tema.
+ */
 export default function Capacitaciones() {
   const t = useT();
   const tc = t.cursos;
   const cursos = useCargar(() => algolia.capacitaciones(), []);
+  const [vista, setVista] = useState<Vista>('recomendados');
   const [cultivo, setCultivo] = useState('');
   const [tema, setTema] = useState('');
+  const [zona] = useZonaElegida();
+  const lugar = zona ? catalogo.zona(zona) : undefined;
+  const aptitud = useCargar(() => (zona ? algolia.aptitudDeZona(zona) : Promise.resolve(null)), [zona]);
+
+  // Cultivos que se siembran en los próximos meses (calendario MAG/INTA); con zona, solo los que se dan bien ahí.
+  const meses = proximosMeses(3);
+  const porCalendario = catalogo.cultivos.filter((c) => c.meses_siembra.some((m) => meses.includes(m))).map((c) => c.id);
+  const aptos = aptitud.datos ? new Set(aptitud.datos.filter((a) => a.nivel === 'excelente' || a.nivel === 'bueno').map((a) => a.cultivo_id)) : null;
+  const enZona = aptos ? porCalendario.filter((id) => aptos.has(id)) : [];
+  const recomendados = enZona.length ? enZona : porCalendario;
+  const epoca = epocaDeLosMeses(meses, zona);
+  const rango = tc.rangoMeses(t.meses[meses[0] - 1], t.meses[meses[meses.length - 1] - 1]);
+
   const todos = cursos.datos ?? [];
-  // El tema viene como "Agricultura · Capacitación": el filtro y la etiqueta usan solo el área (antes del punto).
   const temas = [...new Set(todos.map((c) => c.tema.split(' · ')[0]))];
+  const esRecomendado = (c: RegistroCapacitacion) =>
+    cultivosDelCurso(c).some((id) => recomendados.includes(id)) || (!!epoca && epocaDelCurso(c) === epoca);
 
   // Correccion - Poll: ningun curso del INA trae el cultivo enlazado, asi que "Lo que siembro" mostraba todos
   // (tambien los de ganaderia y forestal). Ahora muestra los de ese cultivo y los de agricultura para cualquier cultivo.
@@ -24,8 +49,8 @@ export default function Capacitaciones() {
     return cultivosDelCurso(c).includes(cultivo) || (!!c.plaga_id && plagas.includes(c.plaga_id)) || esParaCualquierCultivo(c);
   };
   const lista = todos
-    .filter((c) => (!tema || c.tema.startsWith(tema)) && (!cultivo || sirveParaCultivo(c)))
-    // Primero los cursos de un cultivo; después los generales.
+    .filter((c) => (vista === 'todos' || esRecomendado(c)) && (!tema || c.tema.startsWith(tema)) && (!cultivo || sirveParaCultivo(c)))
+    // Primero los cursos del cultivo (o de los cultivos recomendados); después los generales.
     .sort((a, b) => Number(cultivosDelCurso(b).length > 0) - Number(cultivosDelCurso(a).length > 0));
 
   return (
@@ -35,6 +60,29 @@ export default function Capacitaciones() {
         <p>{tc.subtitulo}</p>
       </header>
       <FotoFranja foto="agricultor" />
+
+      <div className="interruptor" role="tablist" aria-label={tc.titulo}>
+        <button type="button" role="tab" aria-selected={vista === 'recomendados'} onClick={() => setVista('recomendados')}>
+          {tc.recomendados}<small>{rango}</small>
+        </button>
+        <button type="button" role="tab" aria-selected={vista === 'todos'} onClick={() => setVista('todos')}>
+          {tc.todosMeses}<small>{tc.nCursos(todos.length)}</small>
+        </button>
+      </div>
+
+      {vista === 'recomendados' && (
+        <section className="tarjeta cursos-motivo" aria-label={tc.porQue}>
+          <p>{tc.paraSembrar(rango, enZona.length && lugar ? lugar.distrito : null)}</p>
+          <ul className="chips">
+            {recomendados.map((id) => (
+              <li key={id}>
+                <Link to={`/cultivo/${id}`} className="chip chip-cultivo"><IconoCultivo id={id} /> {nombreCultivo(t, id)}</Link>
+              </li>
+            ))}
+          </ul>
+          {epoca && <p className="ayuda"><Icono nombre={epoca === 'seca' ? 'sol' : 'lluvia'} tam={16} /> {epoca === 'seca' ? tc.epocaSeca : tc.epocaLluviosa}</p>}
+        </section>
+      )}
 
       <div className="filtros">
         <label>
@@ -55,11 +103,18 @@ export default function Capacitaciones() {
 
       {cursos.cargando && <Cargando />}
       {cursos.error && <ErrorCarga mensaje={cursos.error} reintentar={cursos.recargar} />}
+      {!cursos.cargando && !cursos.error && lista.length === 0 && (
+        <div className="aviso">
+          <p>{vista === 'recomendados' ? tc.sinRecomendados : tc.sinCursos}</p>
+          {vista === 'recomendados' && <button type="button" className="boton boton-secundario boton-pequeno" onClick={() => setVista('todos')}>{tc.verTodos}</button>}
+        </div>
+      )}
 
       <div className="lista-tarjetas lista-cursos">
         {lista.map((c) => {
           const [area, tipo] = c.tema.split(' · ');
           const para = cultivosDelCurso(c);
+          const porEpoca = vista === 'recomendados' && !!epoca && epocaDelCurso(c) === epoca;
           return (
             <article key={c.objectID} className="tarjeta tarjeta-curso">
               <p className="etiqueta" title={c.tema}>{area}</p>
@@ -68,6 +123,7 @@ export default function Capacitaciones() {
                 <li><Tx>{tc.modalidad[c.modalidad]}</Tx> · {c.duracion_horas} {tc.horas}{tipo ? ` · ${tipo}` : ''}</li>
                 <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>
                 {para.length > 0 && <li className="curso-para"><Icono nombre="sembrar" tam={16} /> {tc.para} {para.map((id) => nombreCultivo(t, id)).join(' · ')}</li>}
+                {porEpoca && <li className="curso-para"><Icono nombre={epoca === 'seca' ? 'sol' : 'lluvia'} tam={16} /> {epoca === 'seca' ? tc.paraEpocaSeca : tc.paraEpocaLluviosa}</li>}
                 {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
               </ul>
               <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">
