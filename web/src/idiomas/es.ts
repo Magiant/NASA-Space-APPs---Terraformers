@@ -64,6 +64,22 @@ export const es = {
       texto: 'Después de cerrarla no se puede volver a abrir ni cambiar el resultado. Queda guardada en su historial.',
       aceptar: 'Sí, cerrar la siembra',
     },
+    rol: {
+      titulo: (nombre: string, rol: string) => `¿Cambiar a ${nombre} al rol «${rol}»?`,
+      explica: {
+        admin: 'Podrá ver todos los usuarios, fincas y reportes, y cambiar los roles de otras personas.',
+        tecnico: 'Podrá ver y confirmar los reportes de plaga de su distrito.',
+        agricultor: 'Solo podrá ver sus propias fincas, siembras y reportes.',
+      },
+      aceptar: 'Cambiar rol',
+    },
+    reporte: {
+      titulo: '¿Confirmar este reporte de plaga?',
+      texto: (plaga: string, lugar: string) =>
+        `${plaga}${lugar ? ` en ${lugar}` : ''}. Quedará como confirmado para la persona que lo envió y no se puede deshacer.`,
+      aceptar: 'Confirmar reporte',
+    },
+    reiniciar: { titulo: '¿Reiniciar los datos de demo?', aceptar: 'Reiniciar' },
   },
 
   ajustes: {

@@ -61,6 +61,21 @@ export const en: Textos = {
       texto: 'Once closed it cannot be reopened and the result cannot be changed. It stays in your history.',
       aceptar: 'Yes, close the planting',
     },
+    rol: {
+      titulo: (nombre, rol) => `Change ${nombre} to the “${rol}” role?`,
+      explica: {
+        admin: 'They will see every user, farm and report, and can change other people’s roles.',
+        tecnico: 'They will see and confirm the pest reports of their district.',
+        agricultor: 'They will only see their own farms, plantings and reports.',
+      },
+      aceptar: 'Change role',
+    },
+    reporte: {
+      titulo: 'Confirm this pest report?',
+      texto: (plaga, lugar) => `${plaga}${lugar ? ` in ${lugar}` : ''}. It will show as confirmed to the person who sent it, and it cannot be undone.`,
+      aceptar: 'Confirm report',
+    },
+    reiniciar: { titulo: 'Reset the demo data?', aceptar: 'Reset' },
   },
 
   ajustes: {
