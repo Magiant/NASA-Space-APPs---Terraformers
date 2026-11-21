@@ -220,46 +220,103 @@ export async function completarCultivos(): Promise<void> {
   }
 }
 
-interface FilaPrecio { fecha_dato: string; producto_original: string; cultivo_id: string | null; variedad: string; unidad: string; precio_promedio: number | null }
+interface FilaPrecio { fecha_dato: string; producto_original: string; cultivo_id: string | null; variedad: string; unidad: string; mercado: string; precio_promedio: number | null }
 
-/** Último precio de cada producto del boletín PIMA-CENADA, con el del boletín anterior para la tendencia. */
-export async function preciosReales(): Promise<RegistroPrecio[]> {
-  const filas = datosDe<FilaPrecio[]>(
-    await db().from('precios_historico').select('fecha_dato,producto_original,cultivo_id,variedad,unidad,precio_promedio')
-      .eq('fuente', 'pima').gte('fecha_dato', haceDias(45)).order('fecha_dato', { ascending: false }).limit(5000),
-    'Leer precios',
-  );
+/** Filas de un mismo producto, mercado y unidad (de la más nueva a la más vieja) → registro con su tendencia. */
+function aRegistro(fuente: RegistroPrecio['fuente'], [ultimo, anterior]: FilaPrecio[]): RegistroPrecio {
+  const precio = Math.round(Number(ultimo.precio_promedio));
+  const previo = anterior ? Math.round(Number(anterior.precio_promedio)) : precio;
+  const cambio = previo ? precio / previo - 1 : 0;
+  return {
+    objectID: `precio-${fuente.toLowerCase()}-${ultimo.producto_original}-${ultimo.unidad}`,
+    producto: ultimo.producto_original, cultivo_id: ultimo.cultivo_id, fuente, mercado: ultimo.mercado,
+    unidad: ultimo.unidad, precio, precio_anterior: previo,
+    tendencia: cambio > 0.02 ? 'sube' : cambio < -0.02 ? 'baja' : 'estable',
+    fecha: ultimo.fecha_dato,
+  };
+}
+
+function agrupar(filas: FilaPrecio[], clave: (f: FilaPrecio) => string): Map<string, FilaPrecio[]> {
   const grupos = new Map<string, FilaPrecio[]>();
   for (const f of filas) {
     if (f.precio_promedio == null) continue;
-    const k = `${f.producto_original}|${f.unidad}`;
+    const k = clave(f);
     if (!grupos.has(k)) grupos.set(k, []);
     grupos.get(k)!.push(f);
   }
-  return [...grupos.values()].map(([ultimo, anterior]) => {
-    const precio = Math.round(Number(ultimo.precio_promedio));
-    const previo = anterior ? Math.round(Number(anterior.precio_promedio)) : precio;
-    const cambio = previo ? precio / previo - 1 : 0;
-    return {
-      objectID: `precio-pima-${ultimo.producto_original}-${ultimo.unidad}`,
-      producto: ultimo.producto_original, cultivo_id: ultimo.cultivo_id, fuente: 'PIMA' as const, mercado: 'CENADA',
-      unidad: ultimo.unidad, precio, precio_anterior: previo,
-      tendencia: cambio > 0.02 ? 'sube' as const : cambio < -0.02 ? 'baja' as const : 'estable' as const,
-      fecha: ultimo.fecha_dato,
-    };
-  });
+  return grupos;
 }
 
-/** Precio de referencia de un cultivo: la variedad "primera" si existe (calidad que reporta el PIMA). */
+const COLUMNAS_PRECIO = 'fecha_dato,producto_original,cultivo_id,variedad,unidad,mercado,precio_promedio';
+
+/** Último precio de cada producto del boletín PIMA-CENADA, con el del boletín anterior para la tendencia. */
+async function preciosPima(): Promise<RegistroPrecio[]> {
+  const filas = datosDe<FilaPrecio[]>(
+    await db().from('precios_historico').select(COLUMNAS_PRECIO)
+      .eq('fuente', 'pima').gte('fecha_dato', haceDias(45)).order('fecha_dato', { ascending: false }).limit(5000),
+    'Leer precios',
+  );
+  return [...agrupar(filas, (f) => `${f.producto_original}|${f.unidad}`).values()].map((g) => aRegistro('PIMA', g));
+}
+
+/** Del CNP se muestra el promedio nacional; si hay varios mercados, el que más le sirve al agricultor. */
+const ORDEN_MERCADO_CNP = ['Productor', 'Ferias', 'CENADA', 'Borbón'];
+
+/**
+ * Lista comparativa semanal del CNP: por producto, el promedio nacional de la última semana publicada y el de la
+ * anterior. El CNP publica con unas 3 semanas de atraso, así que se buscan sus dos semanas más recientes.
+ */
+async function preciosCnp(): Promise<RegistroPrecio[]> {
+  const ultima = datosDe<{ fecha_dato: string }[]>(
+    await db().from('precios_historico').select('fecha_dato').eq('fuente', 'cnp').order('fecha_dato', { ascending: false }).limit(1),
+    'Leer precios CNP',
+  )[0]?.fecha_dato;
+  if (!ultima) return [];
+  const desde = new Date(Date.parse(ultima) - 13 * 864e5).toISOString().slice(0, 10);
+  const filas = datosDe<FilaPrecio[]>(
+    await db().from('precios_historico').select(COLUMNAS_PRECIO)
+      .eq('fuente', 'cnp').like('mercado', '%Promedio nacional').gte('fecha_dato', desde).order('fecha_dato', { ascending: false }),
+    'Leer precios CNP',
+  );
+  const series = agrupar(filas, (f) => `${f.producto_original}|${f.unidad}|${f.mercado}`);
+  const elegidas = new Map<string, FilaPrecio[]>();
+  const rango = (m: string) => { const i = ORDEN_MERCADO_CNP.indexOf(m.split(' · ')[0]); return i < 0 ? 99 : i; };
+  for (const g of series.values()) {
+    const k = `${g[0].producto_original}|${g[0].unidad}`;
+    const actual = elegidas.get(k);
+    // Solo cuenta un mercado con precio en la última semana publicada; entre esos, el primero de ORDEN_MERCADO_CNP.
+    if (g[0].fecha_dato !== ultima) continue;
+    if (!actual || rango(g[0].mercado) < rango(actual[0].mercado)) elegidas.set(k, g);
+  }
+  return [...elegidas.values()].map((g) => aRegistro('CNP', g));
+}
+
+/** Precios de las dos fuentes nacionales; la pantalla de Precios las separa con las pestañas PIMA y CNP. */
+export async function preciosReales(): Promise<RegistroPrecio[]> {
+  const [pima, cnp] = await Promise.all([preciosPima(), preciosCnp().catch((e) => { console.warn('Precios CNP:', e); return []; })]);
+  return [...pima, ...cnp];
+}
+
+/**
+ * Precio de referencia de un cultivo. Primero el PIMA (diario), con la variedad "primera" si existe; si el PIMA no
+ * tiene el cultivo (frijol), el CNP: precio al productor antes que ferias, y frijol rojo, el más común.
+ */
 export function precioDeCultivo(precios: RegistroPrecio[], cultivoId: string): RegistroPrecio | null {
   const del = precios.filter((p) => p.cultivo_id === cultivoId);
-  return del.find((p) => /primera/i.test(p.producto)) ?? del[0] ?? null;
+  const pima = del.filter((p) => p.fuente === 'PIMA');
+  if (pima.length) return pima.find((p) => /primera/i.test(p.producto)) ?? pima[0];
+  const cnp = [...del].sort((a, b) => Number(!a.mercado.startsWith('Productor')) - Number(!b.mercado.startsWith('Productor')));
+  return cnp.find((p) => /primera|rojo/i.test(p.producto)) ?? cnp[0] ?? null;
 }
 
-/** Serie diaria de un producto del boletín (para el gráfico). */
-export async function seriePrecio(producto: string, dias = 30): Promise<{ fecha: string; valor: number }[]> {
+/**
+ * Serie de un producto para el gráfico: misma fuente, mismo mercado y misma unidad (el aguacate "por unidad"
+ * y "por kg" son dos series distintas).
+ */
+export async function seriePrecio(p: Pick<RegistroPrecio, 'producto' | 'fuente' | 'mercado' | 'unidad'>, dias = 30): Promise<{ fecha: string; valor: number }[]> {
   const filas = datosDe<{ fecha_dato: string; precio_promedio: number | null }[]>(
-    await db().from('precios_historico').select('fecha_dato,precio_promedio').eq('fuente', 'pima').eq('producto_original', producto)
+    await db().from('precios_historico').select('fecha_dato,precio_promedio')
+      .eq('fuente', p.fuente.toLowerCase()).eq('producto_original', p.producto).eq('mercado', p.mercado).eq('unidad', p.unidad)
       .gte('fecha_dato', haceDias(dias + 15)).order('fecha_dato'),
     'Leer serie de precios',
   );

@@ -18,7 +18,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
   const tc = t.cultivo;
   const precio = useCargar(() => algolia.precioDeCultivo(c.id), [c.id]);
   const historico = useCargar(
-    () => (precio.datos ? series.precio(precio.datos.producto, precio.datos.precio) : Promise.resolve([])),
+    () => (precio.datos ? series.precio(precio.datos) : Promise.resolve([])),
     [precio.datos?.objectID],
   );
   const zonas = useCargar(() => algolia.aptitudDeCultivo(c.id), [c.id]);
