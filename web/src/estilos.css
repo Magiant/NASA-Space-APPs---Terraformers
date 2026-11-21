@@ -1562,6 +1562,10 @@ body::before {
 .cuenta-pie { display: grid; gap: 6px; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--borde); text-align: center; color: var(--texto-suave); }
 .cuenta-pie p { margin: 0; }
 .cuenta-pie a { font-weight: 700; }
+.cuenta-pie .cuenta-seguir { font-weight: 600; color: var(--texto-suave); }
+/* Entrar: aviso cuando la app pidió la cuenta y usuarios de prueba */
+.cuenta-aviso { margin: 0 0 22px; }
+.cuenta-demo { margin: 20px 0 0; }
 
 /* Celular: el panel arriba y corto (sin la lista de beneficios) para llegar rápido al formulario */
 @media (max-width: 899px) {
