@@ -211,19 +211,33 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
     },
   });
 
-  const etiqueta = (f: Forma, forzar = false) => {
-    const anchoPx = (f.caja[2] - f.caja[0]) * ppu;
-    if (!forzar && anchoPx < Math.max(36, f.n.length * 6)) return null; // muy chica: el nombre está en la lista
-    // El nombre del distrito elegido manda: se ocultan los vecinos que quedarían encima.
-    if (elegida && f !== elegida) {
-      const dx = Math.abs(f.etiqueta[0] - elegida.etiqueta[0]) * ppu, dy = Math.abs(f.etiqueta[1] - elegida.etiqueta[1]) * ppu;
-      if (dy < 26 && dx < (f.n.length + elegida.n.length) * 4.5) return null;
+  /**
+   * Nombres sobre el mapa, sin que se monten: primero el distrito elegido y luego de la forma más grande a la más
+   * chica; el que chocaría con uno ya puesto no se dibuja (aparece al acercar). `forzar`: mostrarlo aunque la
+   * forma sea muy chica para su nombre (provincias y distrito elegido).
+   */
+  const etiquetas = (formas: Forma[], forzar: (f: Forma) => boolean) => {
+    if (!v) return null;
+    const px = letra * ppu; // tamaño de letra en píxeles
+    const area = (f: Forma) => (f.caja[2] - f.caja[0]) * (f.caja[3] - f.caja[1]);
+    const orden = [...formas].sort((a, b) => Number(b === elegida) - Number(a === elegida) || area(b) - area(a));
+    const puestas: Caja[] = [];
+    const lista = [];
+    for (const f of orden) {
+      const anchoPx = (f.caja[2] - f.caja[0]) * ppu;
+      if (!forzar(f) && anchoPx < Math.max(36, f.n.length * 6)) continue; // muy chica: el nombre está en la lista
+      const x = (f.etiqueta[0] - v[0]) * ppu, y = (f.etiqueta[1] - v[1]) * ppu;
+      const medio = (f.n.length * px * 0.6) / 2 + 3, alto = px * 0.7;
+      const caja: Caja = [x - medio, y - alto, x + medio, y + alto];
+      if (f !== elegida && puestas.some((p) => caja[0] < p[2] && caja[2] > p[0] && caja[1] < p[3] && caja[3] > p[1])) continue;
+      puestas.push(caja);
+      lista.push(
+        <text key={'t' + f.c} x={f.etiqueta[0]} y={f.etiqueta[1]} className="mapa-etiqueta" style={{ fontSize: letra, strokeWidth: 3 / ppu }}>
+          {f.n}
+        </text>,
+      );
     }
-    return (
-      <text key={'t' + f.c} x={f.etiqueta[0]} y={f.etiqueta[1]} className="mapa-etiqueta" style={{ fontSize: letra, strokeWidth: 3 / ppu }}>
-        {f.n}
-      </text>
-    );
+    return lista;
   };
 
   const ayuda = nivel === 'provincias' ? t.mapa.toqueProvincia : nivel === 'cantones' ? t.mapa.toqueCanton : t.mapa.toqueDistrito;
@@ -240,14 +254,14 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
           {nivel === 'provincias' && provincias.formas?.map((f, i) => (
             <path key={f.c} {...tocable(f, s.elegirProvincia, `mapa-forma tono-${i % 4}`)} />
           ))}
-          {nivel === 'provincias' && provincias.formas?.map((f) => etiqueta(f, true))}
+          {nivel === 'provincias' && provincias.formas && etiquetas(provincias.formas, () => true)}
 
           {nivel !== 'provincias' && cantones.formas?.map((f, i) => (
             nivel === 'cantones' && f.p === s.provincia
               ? <path key={f.c} {...tocable(f, s.elegirCanton, `mapa-forma tono-${i % 4}`)} />
               : <path key={f.c} d={f.d} className="mapa-forma apagada" aria-hidden />
           ))}
-          {nivel === 'cantones' && cantonesProvincia.map((f) => etiqueta(f))}
+          {nivel === 'cantones' && etiquetas(cantonesProvincia, () => false)}
 
           {nivel === 'distritos' && distritos.formas && (
             <>
@@ -267,7 +281,7 @@ export default function MapaUbicacion({ s }: { s: SeleccionUbicacion }) {
               {distritos.formas.map((f) => (
                 <path key={f.c} {...tocable(f, (c) => s.elegirDistrito(c), 'mapa-distrito', f.c === s.distrito)} />
               ))}
-              {distritos.formas.map((f) => etiqueta(f, f.c === s.distrito))}
+              {etiquetas(distritos.formas, (f) => f.c === s.distrito)}
             </>
           )}
         </svg>
