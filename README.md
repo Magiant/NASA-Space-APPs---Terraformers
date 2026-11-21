@@ -124,7 +124,7 @@ Legumes such as beans return nitrogen to the soil. Repeating the same family (po
 | Real data loaded | Climate, temperature, soil moisture, water balance, soils, terrain, heat waves, hazards, crop requirements, FAO suitability, wholesale prices, IMN forecasts and INA courses for all 492 districts. | Row counts in [The database today](#the-database-today) |
 | Recommendation engine | Rotation rules, crop suitability scoring per district and per crop, sowing month. | `extractores/src/cultivos/catalogo.ts`, `extractores/src/aptitud/calcular.ts` |
 | Tests | 100 automated tests for the extractors (no internet needed). | `extractores/test/` |
-| Deployment | Public site on GitHub Pages. | `npm run deploy` → branch `gh-pages` |
+| Deployment | Public site on GitHub Pages, published automatically on every change to `main` (or by hand with `npm run deploy`). | `.github/workflows/deploy-pages.yml` → branch `gh-pages` |
 | Mobile apps | Native Android shell (APK built and published by GitHub Actions) and native iOS shell. | `android/`, `ios/`, `.github/workflows/android.yml`, `.github/workflows/ios.yml` |
 | Demo video | 28-second video: map zoom, drone scan, real app footage, storm alert, globe; subtitles and an "AI-assisted" watermark. | `video/`, `docs/video/guion.md` |
 | Next stage | Agronomic validation, maize/rice/coffee prices, NDVI, census, real users. | [Next steps](#development-status-and-next-steps) |
@@ -404,7 +404,7 @@ NASA-Space-APPs---Terraformers/
 | Extractors | Node.js 22+ running TypeScript directly, `@turf/turf` for polygons, `geotiff` for FAO rasters, headless Chrome + `pdftotext` for PIMA | One command per source: `npm run extraer -- <name>` |
 | Database & auth | Supabase (PostgreSQL, Auth, RLS) | 14 migrations, roles farmer / technician / admin |
 | Automation | GitHub Actions | Migrations on push, daily and weekly extractions, manual one-time loads |
-| Hosting | GitHub Pages (branch `gh-pages`) | `npm run deploy` |
+| Hosting | GitHub Pages (branch `gh-pages`) | `deploy-pages.yml` on every push to `main`; `npm run deploy` by hand |
 | Android | Kotlin, Jetpack Compose, Material 3, WebView | One web view per tab with the packaged web; same language/theme bridge as iOS; location permission, photo picker and Back button; APK built by GitHub Actions |
 | iOS | SwiftUI + WebKit | One web view per tab, shared session; `ios/preparar-web.sh` copies the built web into the app |
 | Demo video | Remotion (React video), Node scripts for audio and voice cleanup | `npm run render` inside `video/` produces `out/terrafarm-demo.mp4` |
@@ -425,7 +425,7 @@ NASA-Space-APPs---Terraformers/
 | `unica-vez.yml` | By hand from the Actions tab | Districts, historical climate and temperature, soils, EcoCrop, GAEZ, crop catalog, terrain, hazards, land-use capability, protected areas, suitability |
 | `android.yml` | On every push to `main` that changes the web or the Android app, and on pull requests | Builds the Android APK and, from `main`, publishes it in the `app-android` release |
 | `ios.yml` | On every push to `dev` that changes the web or the iOS app, and on pull requests | Builds the iOS app on a macOS runner (unsigned, for the simulator) and checks its permission texts |
-| `deploy-pages.yml` | — | Empty for now: the site is published by hand with `npm run deploy` |
+| `deploy-pages.yml` | On every push to `main` that changes the web, or by hand | Builds the web and publishes it to the `gh-pages` branch (same as `npm run deploy`); stops if the Supabase keys are missing, so the site never goes out in demo mode |
 
 Secrets live in **Settings → Secrets and variables → Actions** and are never in the code.
 
@@ -628,7 +628,7 @@ npm run dev                 # web at http://localhost:5173  (routes like /#/semb
 npm run build               # type check + production build into web/dist/
 npm run preview             # serve the production build locally
 npm run test:extractores    # 100 offline tests
-npm run deploy              # build and publish web/dist to the gh-pages branch (GitHub Pages)
+npm run deploy              # build and publish web/dist to gh-pages by hand (GitHub Actions also does it on every push to main)
 ```
 
 **Running an extractor:**
