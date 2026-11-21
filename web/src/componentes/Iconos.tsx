@@ -71,6 +71,12 @@ const TRAZOS: Record<string, string> = {
   volcan: 'M2 20l7-10h6l7 10ZM10 10l-1-3M14 10l1-3M12 9V5',
   mapa: 'M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2ZM9 4v14M15 6v14',
   candado: 'M5 11h14v10H5ZM8 11V8a4 4 0 0 1 8 0v3M12 15v2',
+  // Formulario de cuenta: persona, correo, mostrar/ocultar contraseña y requisito sin cumplir.
+  persona: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6',
+  correo: 'M3 6h18v12H3ZM3 7l9 6 9-6',
+  ojo: 'M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
+  ojoNo: 'M3 3l18 18M10.6 5.1A10.5 10.5 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3 3.9M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7c1.9 0 3.5-.6 4.9-1.4M9.9 9.9a3 3 0 0 0 4.2 4.2',
+  circulo: 'M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z',
   arbol: 'M12 21v-6M12 3c4 0 7 3 6 6 2 1 2 5-1 6H7c-3-1-3-5-1-6-1-3 2-6 6-6Z',
   escuela: 'M3 10l9-6 9 6M5 10v9h14v-9M9 19v-5h6v5',
   laptop: 'M5 6h14v9H5ZM2 19h20',

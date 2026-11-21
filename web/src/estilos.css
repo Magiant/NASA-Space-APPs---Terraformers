@@ -1468,3 +1468,117 @@ body::before {
 .descarga-app-texto p { margin: 0 0 12px; }
 .descarga-app-ayuda { color: var(--texto-suave); font-size: 0.9rem; }
 .pie-descarga { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px; font-weight: 700; }
+
+/* ===== Pantallas de cuenta: Entrar y Crear una cuenta (componentes/MarcoCuenta.tsx) =====
+   Computadora: panel con foto a la izquierda y formulario a la derecha. Celular: el panel arriba, más corto.
+   El formulario es una .tarjeta: en el tema claro conserva letras oscuras aunque la página sea verde. */
+.cuenta {
+  display: grid; grid-template-columns: minmax(0, 1fr); max-width: 1120px; margin: 8px auto 32px;
+  overflow: hidden; border: 1px solid var(--borde); background: var(--superficie); box-shadow: var(--sombra-fuerte);
+}
+@media (min-width: 900px) { .cuenta { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); margin-top: 16px; } }
+
+.cuenta-panel {
+  position: relative; isolation: isolate; display: flex; flex-direction: column; gap: 22px;
+  padding: clamp(22px, 4vw, 48px); background: #0f2a1c; color: #fff;
+}
+.cuenta-panel > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.cuenta-panel::after {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(165deg, rgb(9 30 19 / 0.93) 0%, rgb(9 30 19 / 0.74) 52%, rgb(9 30 19 / 0.92) 100%);
+}
+.cuenta-marca { display: inline-flex; align-items: center; gap: 10px; font-family: var(--fuente-titulos); font-size: 1.25rem; font-weight: 700; color: #fff; }
+.cuenta-marca img { border-radius: 9px; }
+.cuenta-presentacion { display: grid; gap: 10px; }
+.cuenta-sello {
+  justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px;
+  background: rgb(134 214 160 / 0.16); border: 1px solid rgb(134 214 160 / 0.35); color: #a8e6bc; font-size: 0.82rem; font-weight: 700;
+}
+.cuenta-panel h2 { margin: 0; font-family: var(--fuente-titulos); font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.6rem); line-height: 1.1; color: #fff; }
+.cuenta-panel p { margin: 0; color: rgb(255 255 255 / 0.86); max-width: 42ch; }
+.cuenta-beneficios { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.cuenta-beneficios li { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; row-gap: 2px; align-items: start; color: #fff; }
+.cuenta-beneficio-icono {
+  grid-row: span 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px;
+  background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.14); color: #a8e6bc;
+}
+.cuenta-beneficios strong { color: #fff; font-size: 1rem; }
+.cuenta-beneficios li > span:last-child { color: rgb(255 255 255 / 0.74); font-size: 0.92rem; }
+.cuenta-privacidad {
+  margin-top: auto !important; display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+  border: 1px solid rgb(255 255 255 / 0.16); background: rgb(255 255 255 / 0.07); font-size: 0.86rem;
+}
+.cuenta-privacidad svg { flex: none; margin-top: 2px; color: #a8e6bc; }
+
+.cuenta-formulario { padding: clamp(22px, 4vw, 48px); border: 0; }
+.cuenta-formulario:hover { box-shadow: none; }
+.cuenta-formulario h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 1.4rem + 1vw, 2.2rem); }
+.cuenta-sub { margin: 0 0 26px; color: var(--texto-suave); }
+.cuenta-campos { gap: 20px; }
+
+/* Campos con ícono a la izquierda (y botón "Mostrar" a la derecha en la contraseña) */
+.campo-icono { position: relative; display: block; font-weight: 400; }
+.campo-icono > .icono-svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--texto-suave); pointer-events: none; }
+.campo-icono input { padding-left: 48px; }
+.campo-icono input.con-boton { padding-right: 112px; }
+.campo-icono input::placeholder { color: var(--texto-suave); opacity: 0.7; }
+.campo-icono input:focus + .ver-clave, .campo-icono:focus-within > .icono-svg { color: var(--primario); }
+.cuenta-campos input[aria-invalid='true'] { border-color: var(--error); box-shadow: 0 0 0 1px var(--error); }
+.ver-clave {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radio-chico); background: transparent;
+  color: var(--primario); font: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer;
+}
+.ver-clave:hover { background: var(--primario-suave); }
+.campo-clave { display: flex; flex-direction: column; gap: 6px; }
+
+/* Seguridad de la contraseña: tres barras y la lista de requisitos que se van marcando */
+.fuerza { display: flex; align-items: center; gap: 12px; min-height: 20px; margin-top: 4px; }
+.fuerza-barras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; width: 132px; flex: none; }
+.fuerza-barras span { height: 6px; border-radius: 99px; background: var(--superficie-3); transition: background-color 0.2s; }
+.fuerza-1 .fuerza-barras span:first-child { background: var(--error); }
+.fuerza-2 .fuerza-barras span:nth-child(-n + 2) { background: var(--bue); }
+.fuerza-3 .fuerza-barras span { background: var(--ok); }
+.fuerza-texto { color: var(--texto-suave); font-size: 0.85rem; font-weight: 600; }
+.fuerza-0 .fuerza-texto { display: none; }
+.requisitos { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; padding: 0; list-style: none; color: var(--texto-suave); font-size: 0.85rem; }
+.requisitos li { display: inline-flex; align-items: center; gap: 5px; }
+.requisitos li.cumple { color: var(--ok); font-weight: 600; }
+
+/* Ubicación (opcional) en su propio recuadro */
+.cuenta-ubicacion { padding: 16px 18px 18px; border: 1px dashed var(--borde-fuerte); background: var(--superficie-2); }
+.cuenta-ubicacion legend { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0; padding: 0 6px; }
+.cuenta-ubicacion legend svg { flex: none; color: var(--primario); }
+.cuenta-ubicacion .ayuda { margin: 0; }
+/* Las tres listas una debajo de otra: lado a lado no cabe "Elija una provincia" en esta columna */
+.cuenta-ubicacion .selector-ubicacion { margin-top: 0; }
+.insignia-opcional {
+  flex: none; padding: 2px 9px; border-radius: 999px; background: var(--primario-suave); color: var(--primario);
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; overflow-wrap: normal;
+}
+
+.cuenta-boton { gap: 10px; margin-top: 4px; }
+.cuenta-boton .girando { width: 18px; height: 18px; border-color: rgb(255 255 255 / 0.35); border-top-color: currentColor; }
+.cuenta-pie { display: grid; gap: 6px; margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--borde); text-align: center; color: var(--texto-suave); }
+.cuenta-pie p { margin: 0; }
+.cuenta-pie a { font-weight: 700; }
+.cuenta-pie .cuenta-seguir { font-weight: 600; color: var(--texto-suave); }
+/* Entrar: aviso cuando la app pidió la cuenta y usuarios de prueba */
+.cuenta-aviso { margin: 0 0 22px; }
+.cuenta-demo { margin: 20px 0 0; }
+
+/* Cuenta creada, falta confirmar el correo */
+.cuenta-confirmar { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; max-width: 460px; }
+.cuenta-confirmar h1 { margin: 6px 0 0; }
+.cuenta-confirmar p { margin: 0; }
+.cuenta-confirmar-icono { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 22px; background: var(--exc-fondo); color: var(--exc); }
+.cuenta-confirmar .boton { margin-top: 10px; }
+
+/* Celular: el panel arriba y corto (sin la lista de beneficios) para llegar rápido al formulario */
+@media (max-width: 899px) {
+  .cuenta { margin: -16px -16px 24px; border-width: 0 0 1px; box-shadow: none; }
+  .cuenta-panel { gap: 14px; padding: 22px 18px 20px; }
+  .cuenta-beneficios { display: none; }
+  .cuenta-panel h2 { font-size: 1.7rem; }
+  .cuenta-formulario { padding: 24px 18px 28px; }
+}

@@ -68,6 +68,8 @@ const authReal = {
     if (!p) throw new Error('La cuenta no tiene perfil. Avise al equipo.');
     return p;
   },
+  // Correccion - Poll: cuando Supabase pide confirmar el correo, la cuenta SI se creo, pero la pantalla lo mostraba
+  // como un error rojo. Ahora el aviso lleva la marca `confirmarCorreo` y la pantalla muestra "Revise su correo".
   /** Toda cuenta nueva es agricultor (lo asegura la base). Si Supabase pide confirmar el correo, lo avisa. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {
     if (clave.length < 8) throw new Error(`La contraseña tiene ${clave.length} caracteres: necesita al menos 8.`);
@@ -78,8 +80,10 @@ const authReal = {
     if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
     // Con "Confirm email" activo, Supabase responde sin sesión. Si el correo ya existía, responde un usuario sin identidades.
     if (data.user && data.user.identities?.length === 0) throw new Error(mensajeAuth('already registered', 'user_already_exists', correo.trim()));
-    if (!data.session || !data.user)
-      throw new Error(`Cuenta creada. Le enviamos un correo a «${correo.trim()}» para confirmarla: ábralo (revise también «Spam» o «Promociones»), toque el enlace y después entre.`);
+    if (!data.session || !data.user) {
+      const aviso = `Cuenta creada. Le enviamos un correo a «${correo.trim()}» para confirmarla: ábralo (revise también «Spam» o «Promociones»), toque el enlace y después entre.`;
+      throw Object.assign(new Error(aviso), { confirmarCorreo: true });
+    }
     const p = await perfilDe(data.user.id, data.user.email);
     if (!p) throw new Error('No se pudo crear el perfil.');
     return p;
