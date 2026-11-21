@@ -114,7 +114,13 @@ export const en: Textos = {
   ubicacion: {
     usarMia: 'Use my location',
     buscando: 'Finding your location…',
-    errorGps: 'Could not get your location. Choose it from the list.',
+    errorGps: {
+      titulo: 'We could not find your location',
+      permiso: 'Permission to use your location was not given. Choose the province, canton and district manually below.',
+      noDisponible: 'Your device could not tell where you are (weak signal or location turned off). Choose the province, canton and district manually below.',
+      fuera: 'Your location seems to be outside Costa Rica. Choose the province, canton and district manually below.',
+      noSoportado: 'This browser cannot use your location. Choose the province, canton and district manually below.',
+    },
     oLista: 'or choose from the list',
     provincia: 'Province',
     canton: 'Canton',

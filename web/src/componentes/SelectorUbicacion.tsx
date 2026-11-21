@@ -1,9 +1,12 @@
 import { Icono } from './Iconos';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
 import { masCercana, useUbicaciones, type Ubicacion } from '../servicios/ubicaciones';
 
 export interface Opcion { codigo: string; nombre: string }
+
+/** Por qué no se pudo usar "Usar mi ubicación" (cada motivo tiene su texto en idiomas → ubicacion.errorGps). */
+type MotivoErrorGps = 'permiso' | 'noDisponible' | 'fuera' | 'noSoportado';
 
 /** Estado compartido provincia → cantón → distrito (lo usan la lista y el mapa a la vez). */
 export interface SeleccionUbicacion {
@@ -72,19 +75,49 @@ export default function SelectorUbicacion({
   const t = useT();
   const propia = useSeleccionUbicacion(valor, alCambiar);
   const s = seleccion ?? propia;
-  const [gps, setGps] = useState<'listo' | 'buscando' | 'error'>('listo');
+  const [buscando, setBuscando] = useState(false);
+  const [errorGps, setErrorGps] = useState<MotivoErrorGps | null>(null);
+  const intento = useRef(0); // para ignorar una respuesta que llega después de darse por perdida
   const sinLista = s.lista.length === 0;
   const siguiente = !s.provincia ? 'provincia' : !s.canton ? 'canton' : !s.distrito ? 'distrito' : null;
 
+  // En cuanto hay un distrito (lista o mapa), el aviso ya no hace falta.
+  useEffect(() => {
+    if (s.distrito) setErrorGps(null);
+  }, [s.distrito]);
+
+  // Correccion - Poll: cuando no se encontraba la ubicacion, el aviso era un texto gris que casi no se
+  // veia, y si el permiso quedaba sin respuesta el boton se quedaba en "Buscando..." para siempre.
   function usarGps() {
-    if (!('geolocation' in navigator) || sinLista) return setGps('error');
-    setGps('buscando');
+    const fallar = (motivo: MotivoErrorGps) => {
+      intento.current++;
+      setBuscando(false);
+      setErrorGps(motivo);
+    };
+    setErrorGps(null);
+    if (!('geolocation' in navigator)) return fallar('noSoportado');
+    if (sinLista) return;
+    const n = ++intento.current;
+    setBuscando(true);
+    // Si la persona no responde la pregunta del permiso, el navegador nunca avisa: a los 20 s se da por perdida.
+    const reloj = setTimeout(() => intento.current === n && fallar('noDisponible'), 20000);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setGps('listo');
-        s.elegirDistrito(masCercana(s.lista, pos.coords.latitude, pos.coords.longitude).codigo_distrito);
+        if (intento.current !== n) return;
+        clearTimeout(reloj);
+        const { latitude: lat, longitude: lng } = pos.coords;
+        const u = masCercana(s.lista, lat, lng);
+        // Más de ~55 km del distrito más cercano: el punto no está en Costa Rica (o el GPS se equivocó).
+        const k = Math.cos((lat * Math.PI) / 180);
+        if (Math.hypot((u.lng - lng) * k, u.lat - lat) > 0.5) return fallar('fuera');
+        setBuscando(false);
+        s.elegirDistrito(u.codigo_distrito);
       },
-      () => setGps('error'),
+      (e) => {
+        if (intento.current !== n) return;
+        clearTimeout(reloj);
+        fallar(e.code === e.PERMISSION_DENIED ? 'permiso' : 'noDisponible');
+      },
       { timeout: 10000, maximumAge: 600000 },
     );
   }
@@ -95,10 +128,15 @@ export default function SelectorUbicacion({
     <div className="selector-ubicacion">
       {conGps && (
         <>
-          <button type="button" className="boton boton-ancho" onClick={usarGps} disabled={gps === 'buscando' || sinLista}>
-            <Icono nombre="pin" tam={20} /> {gps === 'buscando' ? t.ubicacion.buscando : t.ubicacion.usarMia}
+          <button type="button" className="boton boton-ancho" onClick={usarGps} disabled={buscando || sinLista}>
+            <Icono nombre="pin" tam={20} /> {buscando ? t.ubicacion.buscando : t.ubicacion.usarMia}
           </button>
-          {gps === 'error' && <p className="ayuda" role="alert">{t.ubicacion.errorGps}</p>}
+          {errorGps && (
+            <div className="aviso aviso-error aviso-ubicacion" role="alert">
+              <p className="aviso-ubicacion-titulo"><Icono nombre="alertas" tam={20} /> <strong>{t.ubicacion.errorGps.titulo}</strong></p>
+              <p>{t.ubicacion.errorGps[errorGps]}</p>
+            </div>
+          )}
           <p className="separador"><span>{conMapa ? t.ubicacion.oMapaLista : t.ubicacion.oLista}</span></p>
         </>
       )}

@@ -115,7 +115,14 @@ export const es = {
   ubicacion: {
     usarMia: 'Usar mi ubicación',
     buscando: 'Buscando su ubicación…',
-    errorGps: 'No se pudo obtener la ubicación. Elíjala en la lista.',
+    // Aviso cuando "Usar mi ubicación" falla, según el motivo.
+    errorGps: {
+      titulo: 'No encontramos su ubicación',
+      permiso: 'No se dio permiso para usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      noDisponible: 'El teléfono no pudo saber dónde está (puede ser la señal o que la ubicación esté apagada). Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      fuera: 'Su ubicación parece estar fuera de Costa Rica. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      noSoportado: 'Este navegador no permite usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+    },
     oLista: 'o elija en la lista',
     provincia: 'Provincia',
     canton: 'Cantón',

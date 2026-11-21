@@ -230,6 +230,10 @@ select:disabled { opacity: 0.55; }
 .aviso { padding: 12px 16px; border-radius: var(--radio-chico); background: var(--bue-fondo); font-weight: 400; }
 .aviso-error { background: var(--nor-fondo); }
 .aviso-ok { background: var(--exc-fondo); font-weight: 600; }
+/* "No encontramos su ubicación": tiene que verse, no es un texto de ayuda */
+.aviso-ubicacion { display: grid; gap: 4px; border-left: 5px solid var(--error); color: var(--texto); }
+.aviso-ubicacion p { margin: 0; }
+.aviso-ubicacion-titulo { display: flex; align-items: center; gap: 8px; color: var(--error); }
 .actualizado { font-size: 0.85rem; color: var(--texto-suave); margin: 4px 0 12px; }
 .cargando { display: flex; align-items: center; gap: 10px; color: var(--texto-suave); padding: 16px 0; }
 .girando { width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--borde); border-top-color: var(--primario); animation: girar 0.8s linear infinite; }
