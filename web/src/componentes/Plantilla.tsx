@@ -14,7 +14,7 @@ export default function Plantilla() {
   const { t } = usePreferencias();
   const enLinea = useEnLinea();
   const { pathname } = useLocation();
-  const [enCola, setEnCola] = useState(() => cola.pendientes().length);
+  const [enCola, setEnCola] = useState(() => cola.pendientes(usuario?.id).length);
   const [aviso, setAviso] = useState<number | null>(null);
 
   const pestanas = [
@@ -33,16 +33,17 @@ export default function Plantilla() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Reportes guardados sin señal: se envían solos al volver la conexión.
+  // Reportes guardados sin señal (solo los de la cuenta abierta): se envían solos al volver la conexión.
   useEffect(() => {
-    const actualizar = () => setEnCola(cola.pendientes().length);
+    const actualizar = () => setEnCola(cola.pendientes(usuario?.id).length);
+    actualizar();
     window.addEventListener('tf-cola', actualizar);
     return () => window.removeEventListener('tf-cola', actualizar);
-  }, []);
+  }, [usuario]);
 
   useEffect(() => {
-    if (enLinea && usuario && cola.pendientes().length) {
-      cola.enviar().then((n) => n && setAviso(n));
+    if (enLinea && usuario && cola.pendientes(usuario.id).length) {
+      cola.enviar(usuario.id).then((n) => n && setAviso(n));
     }
   }, [enLinea, usuario]);
 
