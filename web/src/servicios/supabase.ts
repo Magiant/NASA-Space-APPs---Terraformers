@@ -154,11 +154,11 @@ const seriesReales = {
     const serie = [...porFecha].sort(([a], [b]) => a.localeCompare(b)).map(([fecha, valor]) => ({ fecha, valor: Math.round(valor * 10) / 10 }));
     return serie.length >= 2 ? serie : demo.series.temperatura(codigo, tempMedia, dias);
   },
-  /** Precio diario del producto en el boletín PIMA-CENADA (precios_historico). Sin datos: la serie de ejemplo. */
-  precio: async (producto: string, actual: number, dias = 30): Promise<{ fecha: string; valor: number }[]> => {
-    const serie = await seriePrecio(producto, dias);
-    return serie.length >= 2 ? serie : demo.series.precio(producto, actual, dias);
-  },
+  // Correccion - Poll: si la base tenia menos de 2 precios se mostraba una serie inventada (la del modo demo) como si
+  // fuera real; ahora se devuelve lo que hay y, sin datos suficientes, no se dibuja el grafico.
+  /** Precio diario del producto en el boletín PIMA-CENADA (precios_historico). */
+  precio: async (producto: string, _actual: number, dias = 30): Promise<{ fecha: string; valor: number }[]> =>
+    seriePrecio(producto, dias),
 };
 
 const ESTADO_EXTRACCION: Record<string, Extraccion['estado']> = { ok: 'ok', sin_cambios: 'ok', error: 'error', en_curso: 'parcial' };
