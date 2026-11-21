@@ -150,6 +150,17 @@ export const en: Textos = {
   },
 
   temporada: {
+    etiqueta: 'Which crops to show',
+    ahora: 'To plant now',
+    todos: 'All crops',
+    nCultivos: (n) => (n === 1 ? '1 crop' : `${n} crops`),
+    explicaAhora: (rango) =>
+      `They grow well here and are planted from ${rango}. The order comes from the score: climate, water, soil, risks and market price.`,
+    explicaTodos: 'Every crop that grows well here, whatever its planting month, from the highest score down.',
+    otrosMeses: (n) =>
+      n === 1 ? 'One more crop grows well here, but it is planted in other months.' : `${n} more crops grow well here, but they are planted in other months.`,
+    ninguno: (rango) => `None of the crops that grow well here is planted from ${rango}.`,
+    verTodos: 'See all crops',
     todoElAno: 'All year',
     esteMes: (mes) => `Now, in ${mes}`,
     en: (mes) => `In ${mes}`,

@@ -8,6 +8,7 @@ import MapaUbicacion from '../../componentes/MapaUbicacion';
 import { PronosticoZona } from '../../componentes/Pronostico';
 import SelectorUbicacion, { useSeleccionUbicacion } from '../../componentes/SelectorUbicacion';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
+import CultivosPorTemporada from '../../componentes/CultivosPorTemporada';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
 import { algolia, catalogo } from '../../servicios/algolia';
@@ -95,9 +96,11 @@ export default function Sembrar() {
           {aptitud.cargando && <Cargando texto={t.inicio.buscando} />}
           {aptitud.error && <ErrorCarga mensaje={aptitud.error} reintentar={aptitud.recargar} />}
 
-          <div className="lista-tarjetas rejilla-productos">
-            {buenos.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
-            {buenos.length > 0 && (
+          {/* Correccion - Poll: la lista no tomaba en cuenta el mes de hoy (salian primero cultivos que se siembran
+              dentro de medio año). Ahora se puede ver lo que se siembra ahora o todos los cultivos. */}
+          <CultivosPorTemporada
+            cultivos={buenos}
+            alFinal={
               <Link to={`/zona/${codigo}`} className="tarjeta tarjeta-cta">
                 <img src="./imagenes/fondos/satelite.jpg" alt="" aria-hidden loading="lazy" />
                 <span className="tarjeta-cta-texto">
@@ -107,8 +110,8 @@ export default function Sembrar() {
                   <span className="tarjeta-cta-boton">{t.inicio.verZona} →</span>
                 </span>
               </Link>
-            )}
-          </div>
+            }
+          />
           {zona && !aptitud.cargando && buenos.length === 0 && <p>{t.inicio.ninguno}</p>}
 
           {/* El tiempo del distrito elegido: aparece solo al elegir provincia, cantón y distrito. */}

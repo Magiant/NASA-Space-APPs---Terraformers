@@ -1610,3 +1610,7 @@ body::before {
   @keyframes confirmar-aparece { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
   @keyframes confirmar-fondo { from { opacity: 0; } }
 }
+
+/* Interruptor "Para sembrar ahora / Todos los cultivos" (componentes/CultivosPorTemporada.tsx) */
+.temporada-explica { margin: 0 0 14px; max-width: 72ch; }
+.temporada-otros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 16px 0 0; }

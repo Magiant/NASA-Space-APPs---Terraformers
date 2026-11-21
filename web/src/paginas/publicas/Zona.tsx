@@ -4,7 +4,7 @@ import AvisoActualizado from '../../componentes/AvisoActualizado';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
 import GraficoLinea from '../../componentes/GraficoLinea';
 import { TarjetaPronostico } from '../../componentes/Pronostico';
-import TarjetaCultivo from '../../componentes/TarjetaCultivo';
+import CultivosPorTemporada from '../../componentes/CultivosPorTemporada';
 import { usePreferencias } from '../../contexto/PreferenciasContext';
 import { algolia } from '../../servicios/algolia';
 import { series } from '../../servicios/supabase';
@@ -31,7 +31,8 @@ function Contenido({ z }: { z: RegistroZona }) {
   const temp = useCargar(() => series.temperatura(z.codigo_distrito, z.clima.temp_media_c ?? 20), [z.codigo_distrito]);
   /** Valor con formato, o "Sin dato" si la fuente todavía no lo tiene. */
   const sd = <T,>(v: T | null | undefined, f: (x: T) => string) => (v === null || v === undefined ? t.comun.sinDato : f(v));
-  const mejores = (aptitud.datos ?? []).filter((a) => a.nivel !== 'descartado').slice(0, 8);
+  // Los mismos que en Sembrar: solo los que se dan bien (para no recomendar "sembrar ahora" uno de 47 puntos).
+  const posibles = (aptitud.datos ?? []).filter((a) => a.nivel === 'excelente' || a.nivel === 'bueno');
 
   return (
     <>
@@ -52,9 +53,9 @@ function Contenido({ z }: { z: RegistroZona }) {
       {/* Lo más importante primero y a todo el ancho: los mejores cultivos, de 4 en 4 en computadora. */}
       <h2>{tz.mejores}</h2>
       {aptitud.cargando && <Cargando />}
-      <div className="lista-tarjetas rejilla-productos">
-        {mejores.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
-      </div>
+      {/* Correccion - Poll: igual que en Sembrar, primero lo que se siembra ahora; "Todos los cultivos" muestra los 8 mejores. */}
+      <CultivosPorTemporada cultivos={posibles} limite={8} />
+      {!aptitud.cargando && !aptitud.error && posibles.length === 0 && <p>{t.inicio.ninguno}</p>}
 
       <div className="columnas columnas-mitad">
         <div className="col-principal">

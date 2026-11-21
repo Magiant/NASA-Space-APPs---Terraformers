@@ -153,8 +153,19 @@ export const es = {
     porQue: '¿Por qué este puntaje?',
   },
 
-  // Cuándo sembrar, contado desde hoy (tarjeta de cada cultivo)
+  // Cuándo sembrar, contado desde hoy (componentes/CultivosPorTemporada.tsx y la tarjeta de cada cultivo)
   temporada: {
+    etiqueta: 'Qué cultivos mostrar',
+    ahora: 'Para sembrar ahora',
+    todos: 'Todos los cultivos',
+    nCultivos: (n: number) => (n === 1 ? '1 cultivo' : `${n} cultivos`),
+    explicaAhora: (rango: string) =>
+      `Se dan bien aquí y se siembran de ${rango}. El orden sale del puntaje: clima, agua, suelo, riesgos y precio en el mercado.`,
+    explicaTodos: 'Todos los que se dan bien aquí, sin importar el mes de siembra, del mejor puntaje al menor.',
+    otrosMeses: (n: number) =>
+      n === 1 ? 'Otro cultivo se da bien aquí, pero se siembra en otros meses.' : `Otros ${n} cultivos se dan bien aquí, pero se siembran en otros meses.`,
+    ninguno: (rango: string) => `Ninguno de los cultivos que se dan bien aquí se siembra de ${rango}.`,
+    verTodos: 'Ver todos los cultivos',
     todoElAno: 'Todo el año',
     esteMes: (mes: string) => `Ahora, en ${mes}`,
     en: (mes: string) => `En ${mes}`,
