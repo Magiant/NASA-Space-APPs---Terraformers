@@ -38,6 +38,16 @@ export function esParaCualquierCultivo(c: Pick<RegistroCapacitacion, 'titulo' | 
   return !/^cultivo de|ornamental|jard[ií]n|orqu[ií]dea|hongos|asadas|henificaci/i.test(c.titulo);
 }
 
+/**
+ * Cursos para quien siembra: los de Agricultura y los de gestión de la finca (riego, suelos, maquinaria,
+ * administración y mercadeo). Quedan fuera Ganadería, Forestal, los de asadas (acueductos comunales) y los de
+ * henificación (pasto para el ganado).
+ */
+export function esDeAgricultura(c: Pick<RegistroCapacitacion, 'titulo' | 'tema'>): boolean {
+  if (/^(ganader[íi]a|forestal|pecuari|pesca|acuicultura)/i.test(c.tema)) return false;
+  return !/asadas?|henificaci|ganad|bovin|porcin|av[íi]col|lecher/i.test(c.titulo);
+}
+
 export type Epoca = 'seca' | 'lluviosa';
 
 /** Cursos que conviene llevar antes o durante una época: riego para la seca; drenaje y conservación para la lluviosa. */
