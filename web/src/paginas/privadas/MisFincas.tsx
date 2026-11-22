@@ -4,7 +4,7 @@ import { useAuth } from '../../contexto/AuthContext';
 import { usePreferencias } from '../../contexto/PreferenciasContext';
 import { catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
-import { fecha, nombreCultivo, useCargar } from '../../utilidades';
+import { fecha, nombreCultivo, useCargar, fuentesDeAgua } from '../../utilidades';
 import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 
 export default function MisFincas() {
@@ -51,7 +51,7 @@ export default function MisFincas() {
                   <Link to={`/zona/${f.codigo_distrito}`} className="boton boton-pequeno boton-secundario">{tf.verZona}</Link>
                 </div>
                 <p className="ayuda">
-                  {zona ? `${zona.distrito}, ${zona.canton}` : f.codigo_distrito} · {f.area_ha} ha · {tf.agua}: {tf.fuenteAgua[f.fuente_agua]}
+                  {zona ? `${zona.distrito}, ${zona.canton}` : f.codigo_distrito} · {f.area_ha} ha · {tf.agua}: {fuentesDeAgua(f).map((k) => tf.fuenteAgua[k]).join(', ')}
                   {f.riego ? ` · ${tf.conRiego}` : ''}
                 </p>
 

@@ -114,8 +114,16 @@ const datosReales = {
   },
   finca: async (id: string): Promise<Finca> =>
     datosDe(await db().from('fincas').select('*').eq('id', id).single(), 'Finca no encontrada'),
-  crearFinca: async (f: Omit<Finca, 'id' | 'usuario_id' | 'creado'>): Promise<Finca> =>
-    datosDe(await db().from('fincas').insert(f).select().single(), 'Guardar finca'),
+  crearFinca: async (f: Omit<Finca, 'id' | 'usuario_id' | 'creado'>): Promise<Finca> => {
+    const r = await db().from('fincas').insert(f).select().single();
+    // Si la base todavía no tiene la columna fuentes_agua (migración 015 sin aplicar), se guarda sin la lista:
+    // queda la fuente principal (fuente_agua), como antes.
+    if (r.error && /fuentes_agua/.test(r.error.message)) {
+      const { fuentes_agua: _lista, ...sinLista } = f;
+      return datosDe(await db().from('fincas').insert(sinLista).select().single(), 'Guardar finca');
+    }
+    return datosDe(r, 'Guardar finca');
+  },
   /** Cambia datos de una finca propia (RLS: solo el dueño). Por ahora, el tamaño. */
   actualizarFinca: async (id: string, cambios: Partial<Pick<Finca, 'area_ha'>>): Promise<Finca> =>
     datosDe(await db().from('fincas').update(cambios).eq('id', id).select().single(), 'Cambiar finca'),

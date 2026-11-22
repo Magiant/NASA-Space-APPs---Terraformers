@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { guardar, leer } from './servicios/almacen';
+import type { Finca, FuenteAgua } from './tipos';
 
 /** 2026-11-13 → 13-11-2026 */
 export function fecha(iso: string | null | undefined): string {
@@ -70,3 +71,9 @@ export function useZonaElegida(): [string | null, (codigo: string | null) => voi
   };
   return [codigo, cambiar];
 }
+
+/** Fuentes de agua de una finca: todas las marcadas, o la única que tenían las fincas de antes. */
+export function fuentesDeAgua(f: Pick<Finca, 'fuente_agua' | 'fuentes_agua'>): FuenteAgua[] {
+  return f.fuentes_agua?.length ? f.fuentes_agua : [f.fuente_agua];
+}
+
