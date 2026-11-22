@@ -606,6 +606,17 @@ export const es = {
       `Escribió ${siembra} ha, pero la finca «${finca}» está registrada con ${haFinca} ha. Si la finca en realidad es más grande, cambie su tamaño; si no, corrija el área sembrada.`,
     agrandar: (finca: string, ha: string) => `Cambiar «${finca}» a ${ha} ha`,
     corregir: 'Corregir el área',
+    // Consejos según lo que la persona dijo de su finca (tipo de suelo, de dónde saca el agua, si tiene riego).
+    consejos: {
+      titulo: 'Consejos para su finca',
+      suelo: {
+        volcanico: 'Suelo volcánico: suele ser fértil y suelto, pero puede ser ácido. Si puede, haga un análisis de suelo y aplique cal según el resultado.',
+        franco: 'Suelo suelto y de buena tierra: le sirve a la mayoría de cultivos. Manténgalo cubierto (rastrojo o cobertura) para que la lluvia no lo lave.',
+        arcilloso: 'Suelo barroso: se encharca fácil. Siembre en camas o lomillos altos, abra zanjas para sacar el agua y no lo trabaje cuando esté muy mojado.',
+        arenoso: 'Suelo arenoso: el agua y el abono se van rápido. Riegue poco pero seguido, abone en varias partes y agréguele materia orgánica (compost o broza).',
+      } as Record<string, string>,
+      soloLluvia: 'Su finca depende solo de la lluvia: siembre cuando ya estén entrando las lluvias, para que a las plantas no les falte agua al principio.',
+    },
     fecha: 'Fecha de siembra',
     cosechaAyuda: (a: number, b: number) => `Cosecha esperada: entre ${a} y ${b} días después de sembrar.`,
     guardar: 'Guardar siembra',

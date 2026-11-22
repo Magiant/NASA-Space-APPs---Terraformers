@@ -8,7 +8,7 @@ import { useT } from '../../contexto/PreferenciasContext';
 import { recomendarSiguiente } from '../../logica/recomendacion';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
-import { hoy, nombreCultivo, sumarDias, useCargar } from '../../utilidades';
+import { fuentesDeAgua, hoy, nombreCultivo, sumarDias, useCargar } from '../../utilidades';
 import { FotoCultivo, Icono, Tx } from '../../componentes/Iconos';
 
 export default function NuevaSiembra() {
@@ -42,6 +42,13 @@ export default function NuevaSiembra() {
   const { sugerencias, evitados } = recomendarSiguiente(aptitud.datos ?? [], { anterior: anterior?.cultivo_id });
   const cultivo = catalogo.cultivo(cultivoId);
   const advertencia = cultivo && evitados.find((e) => e.cultivo === cultivo.id);
+  // Lo que la persona contó de su finca al registrarla, convertido en consejos para esta siembra.
+  const consejos = finca
+    ? [
+        ts.consejos.suelo[finca.suelo],
+        !finca.riego && fuentesDeAgua(finca).every((f) => f === 'lluvia') ? ts.consejos.soloLluvia : undefined,
+      ].filter((c): c is string => !!c)
+    : [];
 
   // Correccion - Poll: si la siembra era más grande que la finca, el navegador solo decía "el valor debe ser menor o
   // igual a 0.5", sin explicar por qué ni cómo seguir. Ahora el campo dice desde el inicio cuánto mide la finca y, si se
@@ -126,6 +133,12 @@ export default function NuevaSiembra() {
             <button type="button" className="enlace" onClick={() => setCultivoId('')}>{ts.cambiar}</button>
           </div>
           {advertencia && <p className="aviso aviso-error"><Tx>{ts.noRecomienda(textoMotivo(t, advertencia.motivo))}</Tx></p>}
+          {consejos.length > 0 && (
+            <div className="consejo-finca">
+              <strong><Icono nombre="tierra" tam={18} /> {ts.consejos.titulo}</strong>
+              <ul>{consejos.map((c) => <li key={c}>{c}</li>)}</ul>
+            </div>
+          )}
           <CampoArea
             etiqueta={ts.area}
             alCambiar={setAreaHa}

@@ -591,6 +591,16 @@ export const en: Textos = {
       `You typed ${siembra} ha, but the farm “${finca}” is registered with ${haFinca} ha. If the farm is actually bigger, change its size; if not, correct the planted area.`,
     agrandar: (finca, ha) => `Change “${finca}” to ${ha} ha`,
     corregir: 'Correct the area',
+    consejos: {
+      titulo: 'Tips for your farm',
+      suelo: {
+        volcanico: 'Volcanic soil: usually fertile and loose, but it can be acidic. If you can, get a soil test and apply lime according to the result.',
+        franco: 'Loose, good soil: it suits most crops. Keep it covered (crop residue or cover) so the rain does not wash it away.',
+        arcilloso: 'Clayey soil: it floods easily. Plant on raised beds or ridges, dig ditches to drain the water and do not work it when it is very wet.',
+        arenoso: 'Sandy soil: water and fertilizer drain away fast. Water little but often, fertilize in several parts and add organic matter (compost).',
+      },
+      soloLluvia: 'Your farm depends only on rain: plant when the rains are already starting, so the plants do not lack water at the beginning.',
+    },
     fecha: 'Planting date',
     cosechaAyuda: (a, b) => `Expected harvest: ${a} to ${b} days after planting.`,
     guardar: 'Save planting',
