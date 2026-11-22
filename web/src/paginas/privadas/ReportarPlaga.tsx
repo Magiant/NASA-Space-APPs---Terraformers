@@ -131,9 +131,16 @@ export default function ReportarPlaga() {
     try {
       await datos.reportarPlaga(reporte);
       setEnviado({ enCola: false });
-    } catch {
-      cola.agregar(reporte, usuario!.id);
-      setEnviado({ enCola: true });
+    } catch (err) {
+      // Correccion - Poll: antes cualquier error dejaba el reporte "para enviar después", aunque hubiera señal (y
+      // fallaría igual al reintentar). Ahora solo se guarda para después si falta conexión; si no, se avisa el error.
+      const mensaje = (err as Error).message;
+      if (/fetch|network|load failed|conexi/i.test(mensaje)) {
+        cola.agregar(reporte, usuario!.id);
+        setEnviado({ enCola: true });
+      } else {
+        avisar({ titulo: t.avisos.noSeEnvio, texto: mensaje, tono: 'error' });
+      }
     }
   }
 
