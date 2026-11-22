@@ -8,7 +8,7 @@ import { useT } from '../../contexto/PreferenciasContext';
 import { algolia } from '../../servicios/algolia';
 import { series } from '../../servicios/supabase';
 import type { RegistroPrecio } from '../../tipos';
-import { colones, useCargar } from '../../utilidades';
+import { colones, useCargar, porUnidad } from '../../utilidades';
 
 export function Tendencia({ p }: { p: RegistroPrecio }) {
   const t = useT();
@@ -32,7 +32,7 @@ function FilaPrecio({ p }: { p: RegistroPrecio }) {
       <button className="fila-precio-boton" aria-expanded={abierto} onClick={() => setAbierto(!abierto)}>
         <span>
           <strong>{p.producto}</strong>
-          <small>{p.unidad}</small>
+          <small>{porUnidad(t, p.unidad)}</small>
         </span>
         <span className="fila-precio-valor">
           <strong>{colones(p.precio)}</strong>

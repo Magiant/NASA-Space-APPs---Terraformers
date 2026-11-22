@@ -9,7 +9,7 @@ import { SIGUIENTES } from '../../datos-ejemplo/publicos';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { series } from '../../servicios/supabase';
 import type { RegistroCultivo } from '../../tipos';
-import { colones, nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
+import { colones, nombreCultivo, nombrePlaga, useCargar, porUnidad } from '../../utilidades';
 import { Tendencia } from './Precios';
 import { CreditoFoto, FotoCultivo, FotoPlaga, Icono, IconoCultivo } from '../../componentes/Iconos';
 
@@ -121,7 +121,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
           {precio.datos ? (
             <section className="tarjeta">
               <p className="precio-grande">
-                {colones(precio.datos.precio)} <small>{t.tarjeta.por} {precio.datos.unidad}</small>
+                {colones(precio.datos.precio)} <small>{porUnidad(t, precio.datos.unidad)}</small>
               </p>
               <Tendencia p={precio.datos} />
               {historico.datos && <GraficoLinea puntos={historico.datos} formato={colones} etiqueta={nombre} />}

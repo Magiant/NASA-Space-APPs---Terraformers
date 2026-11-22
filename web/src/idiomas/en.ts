@@ -174,6 +174,7 @@ export const en: Textos = {
     epoca: 'Good time to plant:',
     precio: 'Price:',
     por: 'per',
+    java: 'java (wooden crate)',
     cuidado: 'Watch out for:',
     porQue: 'Why this score?',
   },

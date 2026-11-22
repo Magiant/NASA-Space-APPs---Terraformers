@@ -77,3 +77,10 @@ export function fuentesDeAgua(f: Pick<Finca, 'fuente_agua' | 'fuentes_agua'>): F
   return f.fuentes_agua?.length ? f.fuentes_agua : [f.fuente_agua];
 }
 
+// Correccion - Poll: el precio decía solo "Java" debajo del producto y no se entendía que es la unidad de venta (la caja
+// de madera del CENADA). Ahora se lee "por java (caja de madera)", "por kilo", "por caja plástica (18 kg)"…
+/** Unidad de venta de un precio, lista para leer después del precio: "por kilo". */
+export function porUnidad(t: { tarjeta: { por: string; java: string } }, unidad: string): string {
+  const u = unidad.trim().toLowerCase();
+  return `${t.tarjeta.por} ${u === 'java' ? t.tarjeta.java : u}`;
+}

@@ -181,6 +181,8 @@ export const es = {
     epoca: 'Buena época para sembrar:',
     precio: 'Precio:',
     por: 'por',
+    // Unidades del boletín del PIMA que no se entienden solas.
+    java: 'java (caja de madera)',
     cuidado: 'Cuidado con:',
     porQue: '¿Por qué este puntaje?',
   },
