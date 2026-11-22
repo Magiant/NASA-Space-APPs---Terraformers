@@ -106,6 +106,15 @@ export const datos = {
     return esperar(nueva);
   },
 
+  /** Cambia datos de una finca propia (por ahora, el tamaño: cuando la siembra resulta más grande). */
+  actualizarFinca: async (id: string, cambios: Partial<Pick<Finca, 'area_ha'>>): Promise<Finca> => {
+    const b = base();
+    const f = fincaPropia(b, id, usuarioActual());
+    Object.assign(f, cambios);
+    escribir(b);
+    return esperar({ ...f });
+  },
+
   // ---------------- Siembras ----------------
   misSiembras: async (): Promise<Siembra[]> => {
     const u = usuarioActual();

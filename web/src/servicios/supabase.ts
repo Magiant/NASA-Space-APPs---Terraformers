@@ -116,6 +116,9 @@ const datosReales = {
     datosDe(await db().from('fincas').select('*').eq('id', id).single(), 'Finca no encontrada'),
   crearFinca: async (f: Omit<Finca, 'id' | 'usuario_id' | 'creado'>): Promise<Finca> =>
     datosDe(await db().from('fincas').insert(f).select().single(), 'Guardar finca'),
+  /** Cambia datos de una finca propia (RLS: solo el dueño). Por ahora, el tamaño. */
+  actualizarFinca: async (id: string, cambios: Partial<Pick<Finca, 'area_ha'>>): Promise<Finca> =>
+    datosDe(await db().from('fincas').update(cambios).eq('id', id).select().single(), 'Cambiar finca'),
 
   // ---------------- Siembras (no se borran: se cierran) ----------------
   misSiembras: async (): Promise<Siembra[]> => {

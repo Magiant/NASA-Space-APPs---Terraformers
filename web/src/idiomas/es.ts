@@ -168,6 +168,14 @@ export const es = {
     nematodo: 'Nematodo agallador', hernia: 'Hernia de las crucíferas', trips: 'Trips de la cebolla', 'polilla-papa': 'Polilla de la papa',
   } as Record<string, string>,
 
+  // Campo de área con unidad (componentes/CampoArea.tsx)
+  area: {
+    unidad: 'Unidad del área',
+    ha: 'hectáreas',
+    m2: 'm² (metros)',
+    mz: 'manzanas',
+  },
+
   tarjeta: {
     puntaje: (n: number) => `Puntaje ${n} de 100`,
     epoca: 'Buena época para sembrar:',
@@ -564,8 +572,8 @@ export const es = {
     ejemplo: 'Ej.: La Esperanza',
     donde: '¿Dónde está?',
     eligeDistrito: 'Elija el distrito donde está la finca.',
-    tamano: 'Tamaño (hectáreas)',
-    tamanoAyuda: '1 hectárea = 10 000 m² (una manzana ≈ 0,7 ha)',
+    tamano: 'Tamaño de la finca',
+    tamanoAyuda: 'Escríbalo en hectáreas, metros cuadrados o manzanas. 1 hectárea = 10 000 m² (una manzana ≈ 0,7 ha)',
     aguaPregunta: '¿De dónde saca el agua?',
     aguaOpciones: { lluvia: 'Solo lluvia', rio: 'Río o quebrada', pozo: 'Pozo', acueducto: 'Acueducto', otra: 'Otra' },
     riego: '¿Tiene riego?',
@@ -586,7 +594,14 @@ export const es = {
     eligeCultivo: 'Elija un cultivo',
     cambiar: 'Cambiar',
     noRecomienda: (m: string) => `⚠️ No se recomienda: ${m}. Puede seguir, pero hay más riesgo de plagas.`,
-    area: 'Área sembrada (hectáreas)',
+    area: 'Área sembrada',
+    areaMax: (finca: string, ha: string) => `La finca «${finca}» mide ${ha} ha: la siembra puede ocupar hasta eso.`,
+    faltaArea: 'Escriba cuánto va a sembrar (un número mayor que 0).',
+    masGrande: 'La siembra es más grande que la finca',
+    masGrandeTexto: (siembra: string, finca: string, haFinca: string) =>
+      `Escribió ${siembra} ha, pero la finca «${finca}» está registrada con ${haFinca} ha. Si la finca en realidad es más grande, cambie su tamaño; si no, corrija el área sembrada.`,
+    agrandar: (finca: string, ha: string) => `Cambiar «${finca}» a ${ha} ha`,
+    corregir: 'Corregir el área',
     fecha: 'Fecha de siembra',
     cosechaAyuda: (a: number, b: number) => `Cosecha esperada: entre ${a} y ${b} días después de sembrar.`,
     guardar: 'Guardar siembra',

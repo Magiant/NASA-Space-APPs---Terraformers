@@ -178,6 +178,11 @@ select:disabled { opacity: 0.55; }
 .campo-suelto { margin: 12px 0; max-width: 520px; }
 .fila-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .ayuda { color: var(--texto-suave); font-size: 0.92rem; font-weight: 400; }
+/* Área con unidad (componentes/CampoArea.tsx): número y unidad lado a lado */
+.campo-area { display: flex; flex-direction: column; gap: 6px; }
+.campo-area > label { display: block; }
+.campo-area-fila { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 8px; }
+.campo-area-equivale { font-weight: 700; color: var(--texto); }
 .filtros { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 16px; max-width: 760px; }
 
 .opciones-grandes { flex-direction: row; flex-wrap: wrap; }

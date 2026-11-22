@@ -162,6 +162,13 @@ export const en: Textos = {
     nematodo: 'Root-knot nematode', hernia: 'Clubroot', trips: 'Onion thrips', 'polilla-papa': 'Potato tuber moth',
   },
 
+  area: {
+    unidad: 'Area unit',
+    ha: 'hectares',
+    m2: 'm² (meters)',
+    mz: 'manzanas (≈ 0.7 ha)',
+  },
+
   tarjeta: {
     puntaje: (n) => `Score ${n} out of 100`,
     epoca: 'Good time to plant:',
@@ -550,8 +557,8 @@ export const en: Textos = {
     ejemplo: 'E.g.: La Esperanza',
     donde: 'Where is it?',
     eligeDistrito: 'Choose the district where the farm is.',
-    tamano: 'Size (hectares)',
-    tamanoAyuda: '1 hectare = 10,000 m² (one manzana ≈ 0.7 ha)',
+    tamano: 'Farm size',
+    tamanoAyuda: 'Type it in hectares, square meters or manzanas. 1 hectare = 10,000 m² (one manzana ≈ 0.7 ha)',
     aguaPregunta: 'Where does your water come from?',
     aguaOpciones: { lluvia: 'Rain only', rio: 'River or stream', pozo: 'Well', acueducto: 'Water main', otra: 'Other' },
     riego: 'Do you have irrigation?',
@@ -572,7 +579,14 @@ export const en: Textos = {
     eligeCultivo: 'Choose a crop',
     cambiar: 'Change',
     noRecomienda: (m) => `⚠️ Not recommended: ${m}. You can continue, but the pest risk is higher.`,
-    area: 'Planted area (hectares)',
+    area: 'Planted area',
+    areaMax: (finca, ha) => `The farm “${finca}” measures ${ha} ha: the planting can take up to that.`,
+    faltaArea: 'Type how much you will plant (a number greater than 0).',
+    masGrande: 'The planting is bigger than the farm',
+    masGrandeTexto: (siembra, finca, haFinca) =>
+      `You typed ${siembra} ha, but the farm “${finca}” is registered with ${haFinca} ha. If the farm is actually bigger, change its size; if not, correct the planted area.`,
+    agrandar: (finca, ha) => `Change “${finca}” to ${ha} ha`,
+    corregir: 'Correct the area',
     fecha: 'Planting date',
     cosechaAyuda: (a, b) => `Expected harvest: ${a} to ${b} days after planting.`,
     guardar: 'Save planting',

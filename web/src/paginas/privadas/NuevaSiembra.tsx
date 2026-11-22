@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useAvisoSinGuardar } from '../../componentes/Confirmar';
+import CampoArea, { formatoHa } from '../../componentes/CampoArea';
+import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando, Vacio } from '../../componentes/Estados';
 import ListaSugerencias, { textoMotivo } from '../../componentes/ListaSugerencias';
 import { useT } from '../../contexto/PreferenciasContext';
@@ -19,12 +20,12 @@ export default function NuevaSiembra() {
   const siembras = useCargar(() => datos.misSiembras(), []);
   const [fincaId, setFincaId] = useState(params.get('finca') ?? '');
   const [cultivoId, setCultivoId] = useState(params.get('cultivo') ?? '');
-  const [area, setArea] = useState('');
+  const [areaHa, setAreaHa] = useState<number | null>(null);
   const [fechaSiembra, setFechaSiembra] = useState(hoy());
-  const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+  const avisar = useAvisar();
   // Lo que la persona eligió o escribió (la finca y el cultivo pueden venir ya puestos desde otra pantalla).
-  useAvisoSinGuardar(!enviando && (!!area || cultivoId !== (params.get('cultivo') ?? '')));
+  useAvisoSinGuardar(!enviando && (areaHa !== null || cultivoId !== (params.get('cultivo') ?? '')));
 
   useEffect(() => {
     if (!fincaId && fincas.datos?.length) setFincaId(fincas.datos[0].id);
@@ -42,21 +43,39 @@ export default function NuevaSiembra() {
   const cultivo = catalogo.cultivo(cultivoId);
   const advertencia = cultivo && evitados.find((e) => e.cultivo === cultivo.id);
 
+  // Correccion - Poll: si la siembra era más grande que la finca, el navegador solo decía "el valor debe ser menor o
+  // igual a 0.5", sin explicar por qué ni cómo seguir. Ahora el campo dice desde el inicio cuánto mide la finca y, si se
+  // pasa, una ventana lo explica y deja cambiar el tamaño de la finca ahí mismo (el área se puede escribir en ha, m² o mz).
   async function enviar(e: FormEvent) {
     e.preventDefault();
     if (!cultivo || !finca) return;
+    if (!areaHa) return void avisar({ titulo: t.avisos.revisarDato, texto: ts.faltaArea, tono: 'error' });
+    if (areaHa > finca.area_ha) {
+      const ha = formatoHa(areaHa, t.locale);
+      const r = await avisar({
+        titulo: ts.masGrande, tono: 'error', icono: 'finca',
+        texto: ts.masGrandeTexto(ha, finca.nombre, formatoHa(finca.area_ha, t.locale)),
+        acciones: [{ id: 'corregir', texto: ts.corregir }, { id: 'agrandar', texto: ts.agrandar(finca.nombre, ha), principal: true }],
+      });
+      if (r !== 'agrandar') return;
+      try {
+        await datos.actualizarFinca(finca.id, { area_ha: areaHa });
+      } catch (err) {
+        return void avisar({ titulo: t.avisos.noSeCambio, texto: (err as Error).message, tono: 'error' });
+      }
+    }
     setEnviando(true);
     try {
       const s = await datos.crearSiembra({
         finca_id: finca.id,
         cultivo_id: cultivo.id,
-        area_ha: Number(area),
+        area_ha: areaHa,
         fecha_siembra: fechaSiembra,
         cosecha_esperada: sumarDias(fechaSiembra, Math.round((cultivo.ciclo_dias_min + cultivo.ciclo_dias_max) / 2)),
       });
       navegar(`/siembras/${s.id}`, { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      avisar({ titulo: t.avisos.noSeGuardo, texto: (err as Error).message, tono: 'error' });
       setEnviando(false);
     }
   }
@@ -107,16 +126,16 @@ export default function NuevaSiembra() {
             <button type="button" className="enlace" onClick={() => setCultivoId('')}>{ts.cambiar}</button>
           </div>
           {advertencia && <p className="aviso aviso-error"><Tx>{ts.noRecomienda(textoMotivo(t, advertencia.motivo))}</Tx></p>}
-          <label>
-            {ts.area}
-            <input type="number" inputMode="decimal" min="0.01" step="0.01" max={finca?.area_ha} required value={area} onChange={(e) => setArea(e.target.value)} />
-          </label>
+          <CampoArea
+            etiqueta={ts.area}
+            alCambiar={setAreaHa}
+            ayuda={finca ? ts.areaMax(finca.nombre, formatoHa(finca.area_ha, t.locale)) : undefined}
+          />
           <label>
             {ts.fecha}
             <input type="date" required value={fechaSiembra} onChange={(e) => setFechaSiembra(e.target.value)} />
           </label>
           <p className="ayuda">{ts.cosechaAyuda(cultivo.ciclo_dias_min, cultivo.ciclo_dias_max)}</p>
-          {error && <p className="aviso aviso-error" role="alert">{error}</p>}
           <button className="boton boton-ancho" disabled={enviando}>{enviando ? t.comun.guardando : ts.guardar}</button>
         </form>
       )}
