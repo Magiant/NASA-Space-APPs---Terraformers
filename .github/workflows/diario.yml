@@ -8,6 +8,8 @@
 #
 # Secretos necesarios (Settings > Secrets and variables > Actions):
 #   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
+#   EARTHDATA_USERNAME, EARTHDATA_PASSWORD: lluvia por satélite (GPM IMERG). La cuenta de Earthdata debe tener
+#   autorizada la aplicación "NASA GESDISC DATA ARCHIVE" (Profile > Applications > Authorized Apps).
 #
 # Open-Meteo gratis permite 10 000 llamadas/día y 5 000/hora. Clima (tema 1) y humedad (tema 2) consultan
 # ~4 000 puntos cada uno: la revisión nunca los corre en la misma hora. Si Open-Meteo falla (por ejemplo, por
@@ -22,7 +24,7 @@ on:
       grupo:
         description: 'Qué correr a mano (revisar = solo lo que tenga datos nuevos)'
         type: choice
-        options: [revisar, clima-y-agua, humedad, riesgos, precios]
+        options: [revisar, clima-y-agua, humedad, riesgos, precios, lluvia-satelite]
         default: revisar
 
 concurrency:
@@ -44,6 +46,7 @@ jobs:
       humedad: ${{ steps.revision.outputs.humedad }}
       precios: ${{ steps.revision.outputs.precios }}
       imn: ${{ steps.revision.outputs.imn }}
+      lluvia: ${{ steps.revision.outputs.lluvia }}
       precios_hasta: ${{ steps.revision.outputs.precios_hasta }}
     steps:
       - uses: actions/checkout@v4
@@ -114,6 +117,26 @@ jobs:
         run: |
           echo "::warning title=Respaldo de humedad::Open-Meteo no respondió; la humedad del suelo sale de NASA POWER."
           npm run extraer -- humedad-power
+
+  # Lluvia por satélite (NASA GPM IMERG, producto Early diario de 0,1°): una consulta por día UTC para todo el
+  # país. Se guarda aparte (lluvia_satelite) y el resumen de la corrida la compara con la lluvia de Open-Meteo.
+  lluvia-satelite:
+    needs: revisar
+    if: needs.revisar.outputs.lluvia == 'true' || inputs.grupo == 'lluvia-satelite'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Lluvia GPM IMERG
+        env:
+          EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+          EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
+        run: npm run extraer -- lluvia-imerg
 
   # Tema 3 · Boletín diario PIMA-CENADA (lunes a viernes, hasta que salga el de hoy). El portal necesita Chrome
   # (ya viene en ubuntu-latest) y el PDF se lee con pdftotext (poppler-utils).

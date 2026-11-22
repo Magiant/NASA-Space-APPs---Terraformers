@@ -299,6 +299,18 @@ export const OlaCalor = z.object({
 });
 
 // ---------------------------------------------------------------------
+// 8. Lluvia por satélite (016_lluvia_satelite.sql, NASA GPM IMERG)
+// ---------------------------------------------------------------------
+export const LluviaSatelite = z.object({
+  codigo_distrito: CodigoDistrito,
+  fecha, // día UTC de IMERG
+  fuente: z.enum(["imerg"]),
+  producto: z.enum(["early", "late", "final"]),
+  lluvia_mm: rango(0, 1000),
+  celdas: z.number().int().positive(),
+});
+
+// ---------------------------------------------------------------------
 // Tabla de Supabase ↔ esquema, y su llave para el upsert.
 // ejecutarExtractor() usa esto para no equivocarse de tabla ni de llave.
 // ---------------------------------------------------------------------
@@ -321,6 +333,7 @@ export const TABLAS = {
   capacitaciones:     { esquema: Capacitacion,     claveUnica: "url" },
   aptitud:            { esquema: Aptitud,          claveUnica: "codigo_distrito,cultivo_id" },
   olas_calor:         { esquema: OlaCalor,         claveUnica: "codigo_distrito,fuente,inicio" },
+  lluvia_satelite:    { esquema: LluviaSatelite,   claveUnica: "codigo_distrito,fecha,fuente" },
 } as const;
 
 export type NombreTabla = keyof typeof TABLAS;
@@ -344,3 +357,4 @@ export type CensoCanton = z.infer<typeof CensoCanton>;
 export type Capacitacion = z.infer<typeof Capacitacion>;
 export type Aptitud = z.infer<typeof Aptitud>;
 export type OlaCalor = z.infer<typeof OlaCalor>;
+export type LluviaSatelite = z.infer<typeof LluviaSatelite>;
