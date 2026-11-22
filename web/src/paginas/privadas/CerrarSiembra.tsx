@@ -32,12 +32,16 @@ export default function CerrarSiembra() {
   if (siembra.error || !siembra.datos) return <ErrorCarga mensaje={siembra.error ?? '—'} />;
   const nombre = nombreCultivo(t, siembra.datos.cultivo_id);
 
+  // Correccion - Poll: el resumen decia "1 unidades"; con una sola se usa el singular ("1 unidad", "1 saco").
+  // Correccion - Poll: si la siembra se perdio, la cantidad es lo que se perdio ("Perdio 3 sacos"), no lo cosechado.
+  // Sin cantidad se guarda vacia (antes se guardaba 0 y se mostraba "Cosecho 0 sacos").
   async function enviar(e: FormEvent) {
     e.preventDefault();
     if (!resultado) return void avisar({ titulo: t.avisos.revisarDato, texto: tc.elija, tono: 'error' });
     // Cerrar no tiene vuelta atrás: se confirma mostrando lo que se va a guardar.
     const tcs = t.confirmar.cerrarSiembra;
-    const cuanto = cantidad ? `${cantidad} ${(tc.unidades as Record<string, string>)[unidad] ?? unidad}` : '';
+    const hay = Number(cantidad) > 0;
+    const cuanto = hay ? tc.cantidadFue(resultado === 'perdida', `${cantidad} ${(Number(cantidad) === 1 ? tc.unidadesUna : tc.unidades)[unidad] ?? unidad}`) : '';
     const ok = await confirmar({
       titulo: tcs.titulo(nombre.toLowerCase()),
       texto: <><p><strong>{tcs.resumen(tc.opciones[resultado], cuanto)}</strong></p><p>{tcs.texto}</p></>,
@@ -47,7 +51,7 @@ export default function CerrarSiembra() {
     });
     if (!ok) return;
     try {
-      await datos.cerrarSiembra(id, { resultado, cantidad: cantidad ? Number(cantidad) : 0, unidad, motivo: motivo.trim() || null });
+      await datos.cerrarSiembra(id, { resultado, cantidad: hay ? Number(cantidad) : null, unidad: hay ? unidad : null, motivo: motivo.trim() || null });
       navegar(`/siembras/${id}`, { replace: true });
     } catch (err) {
       avisar({ titulo: t.avisos.noSeGuardo, texto: (err as Error).message, tono: 'error' });
@@ -69,18 +73,24 @@ export default function CerrarSiembra() {
           ))}
         </div>
 
-        <div className="fila-campos">
-          <label>
-            {tc.cuanto}
-            <input type="number" inputMode="decimal" min="0" value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
-          </label>
-          <label>
-            {tc.unidad}
-            <select value={unidad} onChange={(e) => setUnidad(e.target.value)}>
-              {Object.entries(tc.unidades).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-            </select>
-          </label>
-        </div>
+        {/* La pregunta aparece al elegir cómo le fue, y cambia con la respuesta (cosechó, alcanzó a cosechar, perdió). */}
+        {resultado && (
+          <div>
+            <div className="fila-campos">
+              <label>
+                {tc.cuanto[resultado]}
+                <input type="number" inputMode="decimal" min="0" value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
+              </label>
+              <label>
+                {tc.unidad}
+                <select value={unidad} onChange={(e) => setUnidad(e.target.value)}>
+                  {Object.entries(tc.unidades).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                </select>
+              </label>
+            </div>
+            <small className="ayuda">{tc.cuantoAyuda[resultado]}</small>
+          </div>
+        )}
 
         {resultado && resultado !== 'exitosa' && (
           <label>
