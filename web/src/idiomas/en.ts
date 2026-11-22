@@ -201,7 +201,10 @@ export const en: Textos = {
     buscando: 'Finding your location…',
     errorGps: {
       titulo: 'We could not find your location',
-      permiso: 'Permission to use your location was not given. Choose the province, canton and district manually below.',
+      permiso: 'There is no permission to use the phone’s location. Meanwhile, you can choose the province, canton and district from the list.',
+      comoPermitir: 'How to give permission:',
+      pasosApp: ['Open the phone’s Settings.', 'Go to Apps and find TerraFarm.', 'Tap Permissions → Location → “Allow only while using the app”.', 'Go back to TerraFarm and tap “Use my location” again.'],
+      pasosNavegador: ['Tap the lock or the icon next to the page address.', 'Go to Permissions (or Site settings) → Location.', 'Choose “Allow” and reload the page.', 'Tap “Use my location” again.'],
       noDisponible: 'Your device could not tell where you are (weak signal or location turned off). Choose the province, canton and district manually below.',
       fuera: 'Your location seems to be outside Costa Rica. Choose the province, canton and district manually below.',
       noSoportado: 'This browser cannot use your location. Choose the province, canton and district manually below.',

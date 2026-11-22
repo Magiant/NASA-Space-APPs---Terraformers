@@ -2,12 +2,14 @@ package cr.terrafarm.app
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.webkit.GeolocationPermissions
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
@@ -29,10 +31,16 @@ class MainActivity : ComponentActivity(), Webs.Anfitrion {
     /** Dónde guarda la cámara la foto que se toma (la cámara no la devuelve: la escribe ahí). */
     private var fotoCamara: Uri? = null
 
+    // Correccion - Poll: si la persona había dicho "No permitir" (dos veces, o "no volver a preguntar"), Android ya no
+    // muestra la pregunta y "Usar mi ubicación" fallaba sin salida. Ahora se ofrece abrir los ajustes de la app.
     /** Permiso de ubicación para "Usar mi ubicación" (se pide solo cuando la persona lo toca). */
     private val pedirPermisoUbicacion = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { r ->
-        ubicacionPendiente?.let { (origen, callback) -> callback.invoke(origen, r.values.any { it }, false) }
+        val permitido = r.values.any { it }
+        ubicacionPendiente?.let { (origen, callback) -> callback.invoke(origen, permitido, false) }
         ubicacionPendiente = null
+        val sePuedePreguntar = shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) ||
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (!permitido && !sePuedePreguntar) ofrecerAjustesUbicacion()
     }
 
     // Correccion - Poll: el selector solo abría la galería (o, en el navegador, solo la cámara). Ahora la persona elige:
@@ -112,6 +120,23 @@ class MainActivity : ComponentActivity(), Webs.Anfitrion {
             .forEach { grantUriPermission(it.activityInfo.packageName, uri, permisos) }
         camara
     }.getOrNull()
+
+    /** Ubicación bloqueada para siempre: explicar y llevar a los ajustes de la app, donde se permite. */
+    private fun ofrecerAjustesUbicacion() {
+        AlertDialog.Builder(this)
+            .setTitle(webs.texto("TerraFarm no tiene permiso de ubicación", "TerraFarm has no location permission"))
+            .setMessage(
+                webs.texto(
+                    "Android ya no vuelve a preguntar. Para usar «Usar mi ubicación», abra los ajustes de TerraFarm y en Permisos → Ubicación elija «Permitir solo mientras se usa la app».",
+                    "Android will not ask again. To use “Use my location”, open TerraFarm’s settings and under Permissions → Location choose “Allow only while using the app”.",
+                ),
+            )
+            .setPositiveButton(webs.texto("Abrir ajustes", "Open settings")) { _, _ ->
+                runCatching { startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", packageName, null))) }
+            }
+            .setNegativeButton(webs.texto("Ahora no", "Not now"), null)
+            .show()
+    }
 
     override fun abrirFuera(uri: Uri) {
         try {

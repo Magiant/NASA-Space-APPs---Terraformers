@@ -209,7 +209,10 @@ export const es = {
     // Aviso cuando "Usar mi ubicación" falla, según el motivo.
     errorGps: {
       titulo: 'No encontramos su ubicación',
-      permiso: 'No se dio permiso para usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      permiso: 'No hay permiso para usar la ubicación del teléfono. Mientras tanto, puede elegir la provincia, el cantón y el distrito en la lista.',
+      comoPermitir: 'Cómo dar el permiso:',
+      pasosApp: ['Abra los Ajustes del teléfono.', 'Entre a Aplicaciones y busque TerraFarm.', 'Toque Permisos → Ubicación → «Permitir solo mientras se usa la app».', 'Vuelva a TerraFarm y toque otra vez «Usar mi ubicación».'],
+      pasosNavegador: ['Toque el candado o el ícono que está junto a la dirección de la página.', 'Entre a Permisos (o Configuración del sitio) → Ubicación.', 'Elija «Permitir» y recargue la página.', 'Toque otra vez «Usar mi ubicación».'],
       noDisponible: 'El teléfono no pudo saber dónde está (puede ser la señal o que la ubicación esté apagada). Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
       fuera: 'Su ubicación parece estar fuera de Costa Rica. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
       noSoportado: 'Este navegador no permite usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',

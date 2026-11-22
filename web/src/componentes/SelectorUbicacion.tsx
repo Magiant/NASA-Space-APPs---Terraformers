@@ -1,3 +1,4 @@
+import { useAvisar } from './Confirmar';
 import { Icono } from './Iconos';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useT } from '../contexto/PreferenciasContext';
@@ -76,25 +77,31 @@ export default function SelectorUbicacion({
   const propia = useSeleccionUbicacion(valor, alCambiar);
   const s = seleccion ?? propia;
   const [buscando, setBuscando] = useState(false);
-  const [errorGps, setErrorGps] = useState<MotivoErrorGps | null>(null);
+  const avisar = useAvisar();
   const intento = useRef(0); // para ignorar una respuesta que llega después de darse por perdida
   const sinLista = s.lista.length === 0;
   const siguiente = !s.provincia ? 'provincia' : !s.canton ? 'canton' : !s.distrito ? 'distrito' : null;
 
-  // En cuanto hay un distrito (lista o mapa), el aviso ya no hace falta.
-  useEffect(() => {
-    if (s.distrito) setErrorGps(null);
-  }, [s.distrito]);
-
   // Correccion - Poll: cuando no se encontraba la ubicacion, el aviso era un texto gris que casi no se
   // veia, y si el permiso quedaba sin respuesta el boton se quedaba en "Buscando..." para siempre.
   function usarGps() {
+    // Correccion - Poll: el aviso de "no encontramos su ubicación" quedaba dentro de la página y, sin permiso, no decía
+    // cómo darlo. Ahora es una ventana flotante con "Aceptar" y, si falta el permiso, los pasos para darlo (distintos en
+    // la app y en el navegador).
     const fallar = (motivo: MotivoErrorGps) => {
       intento.current++;
       setBuscando(false);
-      setErrorGps(motivo);
+      const te = t.ubicacion.errorGps;
+      const enApp = !!document.documentElement.dataset.nativo;
+      const pasos = motivo === 'permiso' ? (enApp ? te.pasosApp : te.pasosNavegador) : null;
+      avisar({
+        titulo: te.titulo, tono: 'error', icono: 'pin',
+        texto: <>
+          <p>{te[motivo]}</p>
+          {pasos && <><p><strong>{te.comoPermitir}</strong></p><ol>{pasos.map((p) => <li key={p}>{p}</li>)}</ol></>}
+        </>,
+      });
     };
-    setErrorGps(null);
     if (!('geolocation' in navigator)) return fallar('noSoportado');
     if (sinLista) return;
     const n = ++intento.current;
@@ -131,12 +138,6 @@ export default function SelectorUbicacion({
           <button type="button" className="boton boton-ancho" onClick={usarGps} disabled={buscando || sinLista}>
             <Icono nombre="pin" tam={20} /> {buscando ? t.ubicacion.buscando : t.ubicacion.usarMia}
           </button>
-          {errorGps && (
-            <div className="aviso aviso-error aviso-ubicacion" role="alert">
-              <p className="aviso-ubicacion-titulo"><Icono nombre="alertas" tam={20} /> <strong>{t.ubicacion.errorGps.titulo}</strong></p>
-              <p>{t.ubicacion.errorGps[errorGps]}</p>
-            </div>
-          )}
           <p className="separador"><span>{conMapa ? t.ubicacion.oMapaLista : t.ubicacion.oLista}</span></p>
         </>
       )}
