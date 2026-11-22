@@ -109,6 +109,7 @@ export default function Plantilla() {
           <div className="pie-columna">
             <strong>{t.comun.pieFuentes}</strong>
             <span>{t.comun.pie.replace(/^[^:]+:\s*/, '')}</span>
+            <Link to="/creditos">{t.creditos.enlace}</Link>
           </div>
         </div>
         <div className="pie-final">© 2026 TerraFarm · Together we grow · NASA Space Apps Challenge · Costa Rica</div>

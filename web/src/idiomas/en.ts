@@ -162,6 +162,17 @@ export const en: Textos = {
     nematodo: 'Root-knot nematode', hernia: 'Clubroot', trips: 'Onion thrips', 'polilla-papa': 'Potato tuber moth',
   },
 
+  creditos: {
+    titulo: 'Photo credits',
+    enlace: 'Photo credits',
+    intro: 'TerraFarm photos come from Wikimedia Commons. Their authors share them under free licenses that ask to be credited: here they are, with each license.',
+    cultivos: 'Crops',
+    plagas: 'Pests',
+    alertas: 'Weather alerts',
+    fondos: 'Backgrounds',
+    nombres: { lluvia: 'Rain', volcan: 'Volcano', sequia: 'Drought', satelite: 'Costa Rica from space', dron: 'Drone', ndvi: 'Crop fields', cafetal: 'Coffee farm' },
+  },
+
   area: {
     unidad: 'Area unit',
     ha: 'hectares',

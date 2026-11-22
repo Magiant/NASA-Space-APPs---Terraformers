@@ -212,16 +212,8 @@ export function FotoCultivo({ id, prioridad = false }: { id: string; prioridad?:
   );
 }
 
-/** Crédito del autor de la foto (lo exigen las licencias CC BY y CC BY-SA). */
-export function CreditoFoto({ id, etiqueta }: { id: string; etiqueta: string }) {
-  const c = CREDITOS_FOTOS[id];
-  if (!c) return null;
-  return (
-    <p className="credito-foto">
-      {etiqueta}: <a href={c.url} target="_blank" rel="noreferrer">{c.autor}</a> · {c.licencia} · Wikimedia Commons
-    </p>
-  );
-}
+// Los créditos de las fotos (autor y licencia) no van debajo de cada foto: están todos juntos en la página
+// "Créditos de las fotos" (paginas/publicas/Creditos.tsx), enlazada desde el pie. Así lo permiten CC BY y CC BY-SA.
 
 // ------------------------------------------------------------------
 // Fotos reales de plagas y de tipos de alerta (para reconocerlas en el campo)
@@ -229,16 +221,15 @@ export function CreditoFoto({ id, etiqueta }: { id: string; etiqueta: string }) 
 
 type Credito = { autor: string; licencia: string; url: string };
 
-/** Foto con su crédito debajo; si la foto no carga, no se muestra nada. */
-function FotoConCredito({ src, credito, etiqueta, clase }: { src: string; credito: Credito; etiqueta: string; clase: string }) {
+// Correccion - Poll: debajo de cada foto salía "Foto: autor · licencia · Wikimedia Commons" y llenaba la pantalla de
+// letras. Ahora la foto va sola y los créditos están en la página "Créditos de las fotos".
+/** Foto descriptiva; si no carga, no se muestra nada. Su crédito está en la página de créditos. */
+function FotoConCredito({ src, clase }: { src: string; credito?: Credito; etiqueta?: string; clase: string }) {
   const [fallo, setFallo] = useState(false);
   if (fallo) return null;
   return (
     <figure className={`foto-descriptiva ${clase}`}>
       <img src={src} alt="" loading="lazy" decoding="async" onError={() => setFallo(true)} />
-      <figcaption className="credito-foto">
-        {etiqueta}: <a href={credito.url} target="_blank" rel="noreferrer">{credito.autor}</a> · {credito.licencia} · Wikimedia Commons
-      </figcaption>
     </figure>
   );
 }

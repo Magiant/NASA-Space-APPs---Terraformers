@@ -168,6 +168,18 @@ export const es = {
     nematodo: 'Nematodo agallador', hernia: 'Hernia de las crucíferas', trips: 'Trips de la cebolla', 'polilla-papa': 'Polilla de la papa',
   } as Record<string, string>,
 
+  // Página de créditos de las fotos (paginas/publicas/Creditos.tsx)
+  creditos: {
+    titulo: 'Créditos de las fotos',
+    enlace: 'Créditos de las fotos',
+    intro: 'Las fotos de TerraFarm son de Wikimedia Commons. Sus autores las comparten con licencias libres que piden nombrarlos: aquí están, con la licencia de cada una.',
+    cultivos: 'Cultivos',
+    plagas: 'Plagas',
+    alertas: 'Avisos del tiempo',
+    fondos: 'Fondos',
+    nombres: { lluvia: 'Lluvias', volcan: 'Volcán', sequia: 'Sequía', satelite: 'Costa Rica desde el espacio', dron: 'Dron', ndvi: 'Campos de cultivo', cafetal: 'Cafetal' } as Record<string, string>,
+  },
+
   // Campo de área con unidad (componentes/CampoArea.tsx)
   area: {
     unidad: 'Unidad del área',

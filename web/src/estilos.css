@@ -1660,3 +1660,8 @@ body::before {
 /* Interruptor "Para sembrar ahora / Todos los cultivos" (componentes/CultivosPorTemporada.tsx) */
 .temporada-explica { margin: 0 0 14px; max-width: 72ch; }
 .temporada-otros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 16px 0 0; }
+
+/* Página "Créditos de las fotos" (paginas/publicas/Creditos.tsx) */
+.creditos { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.creditos ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 0.95rem; }
+.creditos a { overflow-wrap: anywhere; }
