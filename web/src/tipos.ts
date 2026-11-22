@@ -187,13 +187,18 @@ export interface Usuario {
   creado: string;
 }
 
+export type FuenteAgua = 'lluvia' | 'rio' | 'pozo' | 'acueducto' | 'otra';
+
 export interface Finca {
   id: string;
   usuario_id: string;
   nombre: string;
   codigo_distrito: string;
   area_ha: number;
-  fuente_agua: 'lluvia' | 'rio' | 'pozo' | 'acueducto' | 'otra';
+  /** La principal (la primera que se marcó). La siguen escribiendo las versiones viejas de la app. */
+  fuente_agua: FuenteAgua;
+  /** Todas las fuentes de agua (migración 015). En las fincas de antes es null: vale solo fuente_agua. */
+  fuentes_agua?: FuenteAgua[] | null;
   riego: boolean;
   suelo: 'no_se' | 'arcilloso' | 'arenoso' | 'franco' | 'volcanico';
   creado: string;

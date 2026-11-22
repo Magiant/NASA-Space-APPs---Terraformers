@@ -5,7 +5,7 @@ import { useT } from '../contexto/PreferenciasContext';
  * Descarga de la app de Android. El APK lo compila y publica GitHub Actions (.github/workflows/android.yml)
  * en cada cambio de main, siempre en la misma dirección, así este enlace no cambia.
  */
-export const URL_APK = 'https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk';
+export const URL_APK = 'https://github.com/Magiant/TerraFarm/releases/download/app-android/TerraFarm.apk';
 
 /**
  * Se ofrece en teléfonos Android y en computadoras (para pasarla al teléfono), pero no dentro de las

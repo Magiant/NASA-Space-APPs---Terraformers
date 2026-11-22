@@ -1,10 +1,12 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAvisar } from '../../componentes/Confirmar';
 import { Icono } from '../../componentes/Iconos';
 import MarcoCuenta from '../../componentes/MarcoCuenta';
 import SelectorUbicacion from '../../componentes/SelectorUbicacion';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
+import { auth } from '../../servicios/supabase';
 import { useZonaElegida } from '../../utilidades';
 
 type Campo = 'nombre' | 'correo' | 'clave';
@@ -32,14 +34,15 @@ export default function Registrarse() {
   const ta = t.auth;
   const { registrarse } = useAuth();
   const navegar = useNavigate();
-  const { state } = useLocation() as { state: { desde?: string } | null };
+  // correo: viene de Entrar cuando ese correo no tenía cuenta (la ventana ofrece crearla).
+  const { state } = useLocation() as { state: { desde?: string; correo?: string } | null };
   const [zonaElegida] = useZonaElegida();
   const [nombre, setNombre] = useState('');
-  const [correo, setCorreo] = useState('');
+  const [correo, setCorreo] = useState(state?.correo ?? '');
   const [clave, setClave] = useState('');
   const [verClave, setVerClave] = useState(false);
   const [distrito, setDistrito] = useState<string | null>(zonaElegida);
-  const [error, setError] = useState<string | null>(null);
+  const avisar = useAvisar();
   const [campoError, setCampoError] = useState<Campo | null>(null);
   const [confirmar, setConfirmar] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -68,12 +71,12 @@ export default function Registrarse() {
       : clave !== clave.trim() ? ['clave', te.claveEspacios]
       : [null, null];
     if (campo && problema) {
-      setError(problema);
       setCampoError(campo);
+      // Ventana flotante con qué falta; al aceptar, el cursor queda en ese campo.
+      await avisar({ titulo: t.avisos.revisarDato, texto: problema, tono: 'error' });
       campos[campo].current?.focus();
       return;
     }
-    setError(null);
     setCampoError(null);
     setEnviando(true);
     try {
@@ -82,8 +85,18 @@ export default function Registrarse() {
     } catch (err) {
       // Si Supabase pide confirmar el correo, la cuenta sí se creó: no es un error.
       if ((err as { confirmarCorreo?: boolean }).confirmarCorreo) setConfirmar(true);
-      else setError((err as Error).message);
+      else avisar({ titulo: ta.noSeCreo, texto: (err as Error).message, tono: 'error' });
       setEnviando(false);
+    }
+  }
+
+  /** El correo de confirmación no llegó (o llevaba a una dirección que no abría): mandarlo otra vez. */
+  async function reenviar() {
+    try {
+      await auth.reenviarConfirmacion(correo);
+      await avisar({ titulo: ta.reenviadoTitulo, texto: ta.reenviado(correo.trim()), tono: 'exito', icono: 'correo' });
+    } catch (err) {
+      await avisar({ titulo: ta.noReenviado, texto: (err as Error).message, tono: 'error' });
     }
   }
 
@@ -97,6 +110,7 @@ export default function Registrarse() {
           <p>{ta.confirmarTexto(correo.trim())}</p>
           <p className="ayuda">{ta.confirmarSpam}</p>
           <Link to="/ingresar" state={state} className="boton boton-ancho">{ta.irEntrar}</Link>
+          <button type="button" className="boton boton-secundario boton-ancho" onClick={reenviar}>{ta.noLlego}</button>
         </div>
       </MarcoCuenta>
     );
@@ -165,8 +179,6 @@ export default function Registrarse() {
           <p className="ayuda">{ta.ubicacionAyuda}</p>
           <SelectorUbicacion valor={distrito} alCambiar={setDistrito} />
         </fieldset>
-
-        {error && <p className="aviso aviso-error" role="alert">{error}</p>}
 
         <button className="boton boton-ancho cuenta-boton" disabled={enviando}>
           {enviando

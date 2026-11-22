@@ -19,6 +19,7 @@ import ReportarPlaga from './paginas/privadas/ReportarPlaga';
 import Ajustes from './paginas/publicas/Ajustes';
 import Alertas from './paginas/publicas/Alertas';
 import Capacitaciones from './paginas/publicas/Capacitaciones';
+import Creditos from './paginas/publicas/Creditos';
 import Cultivo from './paginas/publicas/Cultivo';
 import Inicio from './paginas/publicas/Inicio';
 import Sembrar from './paginas/publicas/Sembrar';
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="alertas" element={<Alertas />} />
             <Route path="ajustes" element={<Ajustes />} />
             <Route path="capacitaciones" element={<Capacitaciones />} />
+            <Route path="creditos" element={<Creditos />} />
             <Route path="ingresar" element={<Ingresar />} />
             <Route path="registrarse" element={<Registrarse />} />
 

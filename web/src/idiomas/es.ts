@@ -49,6 +49,7 @@ export const es = {
   // Ventanas de "¿Está seguro?" (componentes/Confirmar.tsx)
   confirmar: {
     cancelar: 'Cancelar',
+    aceptar: 'Aceptar',
     salir: {
       titulo: '¿Cerrar sesión?',
       texto: 'Para volver a ver sus fincas, siembras y reportes tendrá que entrar otra vez con su correo y contraseña.',
@@ -86,6 +87,29 @@ export const es = {
       aceptar: 'Salir sin guardar',
       seguir: 'Seguir aquí',
     },
+  },
+
+  // Ventanas flotantes con "Aceptar" (componentes/Confirmar.tsx)
+  avisos: {
+    revisarDato: 'Revise este dato',
+    // Cuando el navegador rechaza un campo al enviar: n = nombre del campo tal como se ve en pantalla.
+    campo: {
+      falta: (n: string) => (n ? `Falta llenar «${n}».` : 'Falta llenar un dato.'),
+      elegir: (n: string) => (n ? `Elija una opción en «${n}».` : 'Falta elegir una opción.'),
+      archivo: (n: string) => (n ? `Falta «${n}».` : 'Falta elegir un archivo.'),
+      numero: (n: string) => `«${n}»: escriba solo un número (por ejemplo 1.5).`,
+      correo: (n: string) => `«${n}»: revise que el correo esté bien escrito (por ejemplo nombre@correo.com).`,
+      formato: (n: string) => `«${n}»: revise lo que escribió.`,
+      maximo: (n: string, max: string) => `«${n}»: el número más alto que se acepta es ${max}.`,
+      minimo: (n: string, min: string) => `«${n}»: el número más bajo que se acepta es ${min}.`,
+      corto: (n: string, c: number) => `«${n}»: escriba al menos ${c} caracteres.`,
+      largo: (n: string, c: number) => `«${n}»: escriba como máximo ${c} caracteres.`,
+      decimales: (n: string) => `«${n}»: use como máximo dos decimales.`,
+    },
+    noSeGuardo: 'No se pudo guardar',
+    noSeEnvio: 'No se pudo enviar',
+    noSeCambio: 'No se pudo cambiar',
+    reportesEnviados: 'Reportes enviados',
   },
 
   ajustes: {
@@ -144,11 +168,33 @@ export const es = {
     nematodo: 'Nematodo agallador', hernia: 'Hernia de las crucíferas', trips: 'Trips de la cebolla', 'polilla-papa': 'Polilla de la papa',
   } as Record<string, string>,
 
+  // Página de créditos de las fotos (paginas/publicas/Creditos.tsx)
+  creditos: {
+    titulo: 'Créditos de las fotos',
+    enlace: 'Créditos de las fotos',
+    intro: 'Las fotos de TerraFarm son de Wikimedia Commons. Sus autores las comparten con licencias libres que piden nombrarlos: aquí están, con la licencia de cada una.',
+    cultivos: 'Cultivos',
+    plagas: 'Plagas',
+    alertas: 'Avisos del tiempo',
+    fondos: 'Fondos',
+    nombres: { lluvia: 'Lluvias', volcan: 'Volcán', sequia: 'Sequía', satelite: 'Costa Rica desde el espacio', dron: 'Dron', ndvi: 'Campos de cultivo', cafetal: 'Cafetal' } as Record<string, string>,
+  },
+
+  // Campo de área con unidad (componentes/CampoArea.tsx)
+  area: {
+    unidad: 'Unidad del área',
+    ha: 'hectáreas',
+    m2: 'm² (metros)',
+    mz: 'manzanas',
+  },
+
   tarjeta: {
     puntaje: (n: number) => `Puntaje ${n} de 100`,
     epoca: 'Buena época para sembrar:',
     precio: 'Precio:',
     por: 'por',
+    // Unidades del boletín del PIMA que no se entienden solas.
+    java: 'java (caja de madera)',
     cuidado: 'Cuidado con:',
     porQue: '¿Por qué este puntaje?',
   },
@@ -185,7 +231,10 @@ export const es = {
     // Aviso cuando "Usar mi ubicación" falla, según el motivo.
     errorGps: {
       titulo: 'No encontramos su ubicación',
-      permiso: 'No se dio permiso para usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
+      permiso: 'No hay permiso para usar la ubicación del teléfono. Mientras tanto, puede elegir la provincia, el cantón y el distrito en la lista.',
+      comoPermitir: 'Cómo dar el permiso:',
+      pasosApp: ['Abra los Ajustes del teléfono.', 'Entre a Aplicaciones y busque TerraFarm.', 'Toque Permisos → Ubicación → «Permitir solo mientras se usa la app».', 'Vuelva a TerraFarm y toque otra vez «Usar mi ubicación».'],
+      pasosNavegador: ['Toque el candado o el ícono que está junto a la dirección de la página.', 'Entre a Permisos (o Configuración del sitio) → Ubicación.', 'Elija «Permitir» y recargue la página.', 'Toque otra vez «Usar mi ubicación».'],
       noDisponible: 'El teléfono no pudo saber dónde está (puede ser la señal o que la ubicación esté apagada). Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
       fuera: 'Su ubicación parece estar fuera de Costa Rica. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
       noSoportado: 'Este navegador no permite usar la ubicación. Elija manualmente la provincia, el cantón y el distrito aquí abajo.',
@@ -484,6 +533,18 @@ export const es = {
     confirmarTexto: (c: string) => `Su cuenta ya está creada. Le enviamos un enlace a «${c}»: ábralo para activarla y después entre.`,
     confirmarSpam: 'Si no lo ve en unos minutos, revise también «Spam» o «Promociones».',
     irEntrar: 'Ir a Entrar',
+    // Ventanas flotantes al entrar o crear la cuenta
+    noEntro: 'No se pudo entrar',
+    ofrecerCrear: '¿Todavía no tiene cuenta? Puede crearla con este correo.',
+    crearCuenta: 'Crear una cuenta',
+    otraVez: 'Intentar de nuevo',
+    faltaConfirmar: 'Falta confirmar el correo',
+    reenviar: 'Reenviar el correo',
+    reenviadoTitulo: 'Correo enviado',
+    reenviado: (c: string) => `Le enviamos de nuevo el correo de confirmación a «${c}». Ábralo (revise también «Spam» o «Promociones») y toque el enlace.`,
+    noReenviado: 'No se pudo reenviar el correo',
+    noLlego: '¿No le llegó? Reenviar el correo',
+    noSeCreo: 'No se pudo crear la cuenta',
     errores: {
       nombre: 'Escriba su nombre (al menos 2 letras). Así lo saludamos y su técnico sabe quién reporta.',
       nombreLargo: 'El nombre es muy largo: use como máximo 80 letras.',
@@ -525,14 +586,18 @@ export const es = {
     ejemplo: 'Ej.: La Esperanza',
     donde: '¿Dónde está?',
     eligeDistrito: 'Elija el distrito donde está la finca.',
-    tamano: 'Tamaño (hectáreas)',
-    tamanoAyuda: '1 hectárea = 10 000 m² (una manzana ≈ 0,7 ha)',
+    tamano: 'Tamaño de la finca',
+    tamanoAyuda: 'Escríbalo en hectáreas, metros cuadrados o manzanas. 1 hectárea = 10 000 m² (una manzana ≈ 0,7 ha)',
+    faltaTamano: 'Escriba cuánto mide la finca (un número mayor que 0).',
     aguaPregunta: '¿De dónde saca el agua?',
-    aguaOpciones: { lluvia: 'Solo lluvia', rio: 'Río o quebrada', pozo: 'Pozo', acueducto: 'Acueducto', otra: 'Otra' },
+    aguaAyuda: 'Marque todas las que use.',
+    faltaAgua: 'Marque al menos una fuente de agua.',
+    aguaOpciones: { lluvia: 'Lluvia', rio: 'Río o quebrada', pozo: 'Pozo', acueducto: 'Acueducto', otra: 'Otra' },
     riego: '¿Tiene riego?',
     si: 'Sí',
     no: 'No',
     suelo: 'Tipo de suelo',
+    sueloAyuda: 'Con esto le damos consejos para preparar el terreno y regar cuando siembre. ¿No sabe cuál es? Apriete un puño de tierra húmeda: si se pega y hace una bola, es barroso; si se deshace y raspa, es arenoso.',
     suelos: { no_se: 'No sé', volcanico: 'Negro, volcánico', franco: 'Suelto, buena tierra', arcilloso: 'Barroso, pegajoso', arenoso: 'Arenoso' },
     guardar: 'Guardar finca',
   },
@@ -547,7 +612,25 @@ export const es = {
     eligeCultivo: 'Elija un cultivo',
     cambiar: 'Cambiar',
     noRecomienda: (m: string) => `⚠️ No se recomienda: ${m}. Puede seguir, pero hay más riesgo de plagas.`,
-    area: 'Área sembrada (hectáreas)',
+    area: 'Área sembrada',
+    areaMax: (finca: string, ha: string) => `La finca «${finca}» mide ${ha} ha: la siembra puede ocupar hasta eso.`,
+    faltaArea: 'Escriba cuánto va a sembrar (un número mayor que 0).',
+    masGrande: 'La siembra es más grande que la finca',
+    masGrandeTexto: (siembra: string, finca: string, haFinca: string) =>
+      `Escribió ${siembra} ha, pero la finca «${finca}» está registrada con ${haFinca} ha. Si la finca en realidad es más grande, cambie su tamaño; si no, corrija el área sembrada.`,
+    agrandar: (finca: string, ha: string) => `Cambiar «${finca}» a ${ha} ha`,
+    corregir: 'Corregir el área',
+    // Consejos según lo que la persona dijo de su finca (tipo de suelo, de dónde saca el agua, si tiene riego).
+    consejos: {
+      titulo: 'Consejos para su finca',
+      suelo: {
+        volcanico: 'Suelo volcánico: suele ser fértil y suelto, pero puede ser ácido. Si puede, haga un análisis de suelo y aplique cal según el resultado.',
+        franco: 'Suelo suelto y de buena tierra: le sirve a la mayoría de cultivos. Manténgalo cubierto (rastrojo o cobertura) para que la lluvia no lo lave.',
+        arcilloso: 'Suelo barroso: se encharca fácil. Siembre en camas o lomillos altos, abra zanjas para sacar el agua y no lo trabaje cuando esté muy mojado.',
+        arenoso: 'Suelo arenoso: el agua y el abono se van rápido. Riegue poco pero seguido, abone en varias partes y agréguele materia orgánica (compost o broza).',
+      } as Record<string, string>,
+      soloLluvia: 'Su finca depende solo de la lluvia: siembre cuando ya estén entrando las lluvias, para que a las plantas no les falte agua al principio.',
+    },
     fecha: 'Fecha de siembra',
     cosechaAyuda: (a: number, b: number) => `Cosecha esperada: entre ${a} y ${b} días después de sembrar.`,
     guardar: 'Guardar siembra',

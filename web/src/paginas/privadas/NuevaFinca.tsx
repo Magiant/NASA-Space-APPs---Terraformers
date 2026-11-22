@@ -1,4 +1,5 @@
-import { useAvisoSinGuardar } from '../../componentes/Confirmar';
+import CampoArea from '../../componentes/CampoArea';
+import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,33 +7,43 @@ import SelectorUbicacion from '../../componentes/SelectorUbicacion';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
 import { datos } from '../../servicios/supabase';
-import type { Finca } from '../../tipos';
+import type { Finca, FuenteAgua } from '../../tipos';
 
 export default function NuevaFinca() {
   const t = useT();
   const tn = t.nuevaFinca;
   const { usuario } = useAuth();
   const navegar = useNavigate();
+  const avisar = useAvisar();
   const [nombre, setNombre] = useState('');
   const [distrito, setDistrito] = useState<string | null>(usuario?.codigo_distrito ?? null);
-  const [area, setArea] = useState('');
-  const [agua, setAgua] = useState<Finca['fuente_agua']>('lluvia');
+  const [areaHa, setAreaHa] = useState<number | null>(null);
+  // Correccion - Poll: solo se podía elegir una fuente de agua ("¿y si saco agua de varias?"). Ahora se marcan todas.
+  const [agua, setAgua] = useState<FuenteAgua[]>(['lluvia']);
   const [riego, setRiego] = useState(false);
   const [suelo, setSuelo] = useState<Finca['suelo']>('no_se');
-  const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
   // Lo que la persona escribió (el distrito viene de su cuenta y no cuenta como cambio).
-  useAvisoSinGuardar(!enviando && (!!nombre.trim() || !!area));
+  useAvisoSinGuardar(!enviando && (!!nombre.trim() || areaHa !== null));
+
+  const alternarAgua = (k: FuenteAgua) => setAgua((a) => (a.includes(k) ? a.filter((x) => x !== k) : [...a, k]));
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    if (!distrito) return setError(tn.eligeDistrito);
+    const revisar = (texto: string) => avisar({ titulo: t.avisos.revisarDato, texto, tono: 'error' });
+    if (!distrito) return void revisar(tn.eligeDistrito);
+    if (!areaHa) return void revisar(tn.faltaTamano);
+    if (!agua.length) return void revisar(tn.faltaAgua);
     setEnviando(true);
     try {
-      const f = await datos.crearFinca({ nombre: nombre.trim(), codigo_distrito: distrito, area_ha: Number(area), fuente_agua: agua, riego, suelo });
+      // fuente_agua: la principal (la primera marcada), para las versiones de la app que solo conocen una.
+      const f = await datos.crearFinca({
+        nombre: nombre.trim(), codigo_distrito: distrito, area_ha: areaHa,
+        fuente_agua: agua[0], fuentes_agua: agua, riego, suelo,
+      });
       navegar(`/siembras/nueva?finca=${f.id}`, { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      avisar({ titulo: t.avisos.noSeGuardo, texto: (err as Error).message, tono: 'error' });
       setEnviando(false);
     }
   }
@@ -50,17 +61,18 @@ export default function NuevaFinca() {
           <legend>{tn.donde}</legend>
           <SelectorUbicacion valor={distrito} alCambiar={setDistrito} conGps />
         </fieldset>
-        <label>
-          {tn.tamano}
-          <input type="number" inputMode="decimal" min="0.01" step="0.01" required value={area} onChange={(e) => setArea(e.target.value)} />
-          <small className="ayuda">{tn.tamanoAyuda}</small>
-        </label>
-        <label>
-          {tn.aguaPregunta}
-          <select value={agua} onChange={(e) => setAgua(e.target.value as Finca['fuente_agua'])}>
-            {(Object.keys(tn.aguaOpciones) as Finca['fuente_agua'][]).map((k) => <option key={k} value={k}>{tn.aguaOpciones[k]}</option>)}
-          </select>
-        </label>
+        <CampoArea etiqueta={tn.tamano} alCambiar={setAreaHa} ayuda={tn.tamanoAyuda} />
+        <fieldset>
+          <legend>{tn.aguaPregunta}</legend>
+          <p className="ayuda">{tn.aguaAyuda}</p>
+          <div className="chips" role="group" aria-label={tn.aguaPregunta}>
+            {(Object.keys(tn.aguaOpciones) as FuenteAgua[]).map((k) => (
+              <button type="button" key={k} role="checkbox" aria-checked={agua.includes(k)} className="chip" onClick={() => alternarAgua(k)}>
+                {tn.aguaOpciones[k]}
+              </button>
+            ))}
+          </div>
+        </fieldset>
         <fieldset className="opciones-grandes">
           <legend>{tn.riego}</legend>
           <label><input type="radio" name="riego" checked={riego} onChange={() => setRiego(true)} /> {tn.si}</label>
@@ -71,8 +83,8 @@ export default function NuevaFinca() {
           <select value={suelo} onChange={(e) => setSuelo(e.target.value as Finca['suelo'])}>
             {(Object.keys(tn.suelos) as Finca['suelo'][]).map((k) => <option key={k} value={k}>{tn.suelos[k]}</option>)}
           </select>
+          <small className="ayuda">{tn.sueloAyuda}</small>
         </label>
-        {error && <p className="aviso aviso-error" role="alert">{error}</p>}
         <button className="boton boton-ancho" disabled={enviando}>{enviando ? t.comun.guardando : tn.guardar}</button>
       </form>
     </section>

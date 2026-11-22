@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { CREDITOS_FONDOS, type Fondo } from '../fotos/creditos-fondos';
+import type { Fondo } from '../fotos/creditos-fondos';
 
 /**
  * Sección a todo lo ancho de la pantalla con una foto de fondo que se mueve más lento que la página
@@ -53,7 +53,6 @@ export default function SeccionFondo({
     };
   }, []);
 
-  const credito = CREDITOS_FONDOS[foto];
   return (
     <section ref={seccion} className={`seccion-fondo seccion-fondo-${alto}`}>
       <img ref={imagen} className="seccion-fondo-foto" src={`./imagenes/fondos/${foto}.jpg`} alt="" aria-hidden loading="lazy" decoding="async" />
@@ -61,9 +60,6 @@ export default function SeccionFondo({
         <h2>{titulo}</h2>
         {children}
       </div>
-      <a className="seccion-fondo-credito" href={credito.url} target="_blank" rel="noreferrer">
-        {etiquetaCredito}: {credito.autor} · {credito.licencia}
-      </a>
     </section>
   );
 }

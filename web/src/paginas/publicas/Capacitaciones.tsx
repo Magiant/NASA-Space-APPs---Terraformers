@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
-import { cultivosDelCurso, epocaDelCurso, epocaDeLosMeses, esParaCualquierCultivo, proximosMeses } from '../../logica/cursos';
+import { cultivosDelCurso, epocaDelCurso, epocaDeLosMeses, esDeAgricultura, esParaCualquierCultivo, proximosMeses } from '../../logica/cursos';
 import { algolia, catalogo } from '../../servicios/algolia';
 import type { RegistroCapacitacion } from '../../tipos';
 import { nombreCultivo, nombrePlaga, useCargar, useZonaElegida } from '../../utilidades';
@@ -37,7 +37,9 @@ export default function Capacitaciones() {
   const epoca = epocaDeLosMeses(meses, zona);
   const rango = tc.rangoMeses(t.meses[meses[0] - 1], t.meses[meses[meses.length - 1] - 1]);
 
-  const todos = cursos.datos ?? [];
+  // Correccion - Poll: con "Lo que siembro: Maíz" se podía elegir el tema "Ganadería", que no tiene sentido. Por ahora
+  // la página es solo para agricultura: sin los cursos de ganadería, forestal ni asadas (logica/cursos.ts).
+  const todos = (cursos.datos ?? []).filter(esDeAgricultura);
   const temas = [...new Set(todos.map((c) => c.tema.split(' · ')[0]))];
   const esRecomendado = (c: RegistroCapacitacion) =>
     cultivosDelCurso(c).some((id) => recomendados.includes(id)) || (!!epoca && epocaDelCurso(c) === epoca);

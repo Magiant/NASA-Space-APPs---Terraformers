@@ -10,6 +10,14 @@
          La primera vez Android pide permitir instalar apps desde TerraFarm. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!-- Foto del reporte de plagas: ver las apps de cámara para ofrecerlas junto a la galería (MainActivity.kt).
+         No hace falta el permiso CAMERA: la foto la toma la app de cámara del teléfono. -->
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

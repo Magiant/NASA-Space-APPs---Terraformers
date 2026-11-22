@@ -6,6 +6,12 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const llave = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
+/**
+ * Dirección pública de la página (GitHub Pages). Los correos de Supabase (confirmar la cuenta) llevan aquí: no a la
+ * dirección desde donde se creó la cuenta, que en la app de Android o en una computadora de pruebas no se abre.
+ */
+export const SITIO_PUBLICO = (import.meta.env.VITE_SITIO_URL as string | undefined) || 'https://magiant.github.io/TerraFarm/';
+
 /** true = base real de Supabase; false = datos de ejemplo guardados en el navegador. */
 export const modoReal = Boolean(url && llave);
 

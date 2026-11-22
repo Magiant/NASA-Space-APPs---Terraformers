@@ -1,4 +1,4 @@
-import { useConfirmar } from '../../componentes/Confirmar';
+import { useAvisar, useConfirmar } from '../../componentes/Confirmar';
 import { Icono, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
@@ -59,13 +59,12 @@ function Usuarios() {
   const ta = t.admin;
   const { usuario } = useAuth();
   const lista = useCargar(() => admin.usuarios(), []);
-  const [error, setError] = useState<string | null>(null);
   const confirmar = useConfirmar();
+  const avisar = useAvisar();
   if (lista.cargando) return <Cargando />;
   if (lista.error) return <ErrorCarga mensaje={lista.error} />;
   return (
     <>
-      {error && <p className="aviso aviso-error">{error}</p>}
       <div className="tabla-envoltura">
         <table className="tabla">
           <thead>
@@ -83,7 +82,6 @@ function Usuarios() {
                     value={u.rol}
                     disabled={u.id === usuario?.id}
                     onChange={async (e) => {
-                      setError(null);
                       // La lista vuelve sola al rol actual (es un campo controlado); solo cambia si se confirma.
                       const rol = e.target.value as Rol;
                       const tr = t.confirmar.rol;
@@ -99,7 +97,7 @@ function Usuarios() {
                         await admin.cambiarRol(u.id, rol);
                         lista.recargar();
                       } catch (err) {
-                        setError((err as Error).message);
+                        avisar({ titulo: t.avisos.noSeCambio, texto: (err as Error).message, tono: 'error' });
                       }
                     }}
                   >

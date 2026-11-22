@@ -1,7 +1,7 @@
 import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useAvisoSinGuardar } from '../../componentes/Confirmar';
+import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando } from '../../componentes/Estados';
 import ListaSugerencias from '../../componentes/ListaSugerencias';
 import { useAuth } from '../../contexto/AuthContext';
@@ -85,7 +85,7 @@ export default function ReportarPlaga() {
   const [gravedad, setGravedad] = useState<Gravedad>('moderada');
   const [foto, setFoto] = useState<string | null>(null);
   const [enviado, setEnviado] = useState<{ enCola: boolean } | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const avisar = useAvisar();
   const { usuario } = useAuth();
   // Reporte empezado y sin enviar: avisar antes de salir.
   useAvisoSinGuardar(!enviado && (!!tipo || !!plagaId || !!sintomas.trim() || !!foto));
@@ -116,7 +116,7 @@ export default function ReportarPlaga() {
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    if (!tipo) return setError(tp.eligeTipo);
+    if (!tipo) return void avisar({ titulo: t.avisos.revisarDato, texto: tp.eligeTipo, tono: 'error' });
     const reporte = {
       siembra_id: siembra?.id ?? null,
       codigo_distrito: finca!.codigo_distrito,
@@ -131,9 +131,16 @@ export default function ReportarPlaga() {
     try {
       await datos.reportarPlaga(reporte);
       setEnviado({ enCola: false });
-    } catch {
-      cola.agregar(reporte, usuario!.id);
-      setEnviado({ enCola: true });
+    } catch (err) {
+      // Correccion - Poll: antes cualquier error dejaba el reporte "para enviar después", aunque hubiera señal (y
+      // fallaría igual al reintentar). Ahora solo se guarda para después si falta conexión; si no, se avisa el error.
+      const mensaje = (err as Error).message;
+      if (/fetch|network|load failed|conexi/i.test(mensaje)) {
+        cola.agregar(reporte, usuario!.id);
+        setEnviado({ enCola: true });
+      } else {
+        avisar({ titulo: t.avisos.noSeEnvio, texto: mensaje, tono: 'error' });
+      }
     }
   }
 
@@ -200,7 +207,8 @@ export default function ReportarPlaga() {
         <label className="subir-foto">
           <Icono nombre="camara" tam={22} /> {foto ? tp.cambiarFoto : tp.foto}
           <input
-            type="file" accept="image/*" capture="environment"
+            // Sin capture: el teléfono deja elegir entre tomar la foto o buscarla en la galería.
+            type="file" accept="image/*"
             onChange={(e) => {
               const f = e.target.files?.[0];
               setFoto(f ? URL.createObjectURL(f) : null);
@@ -209,7 +217,6 @@ export default function ReportarPlaga() {
         </label>
         {foto && <img src={foto} alt={tp.fotoAlt} className="vista-foto" />}
 
-        {error && <p className="aviso aviso-error" role="alert">{error}</p>}
         <button className="boton boton-ancho">{enLinea ? tp.enviar : tp.guardarDespues}</button>
       </form>
     </section>

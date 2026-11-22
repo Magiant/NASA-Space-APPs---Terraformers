@@ -178,6 +178,15 @@ select:disabled { opacity: 0.55; }
 .campo-suelto { margin: 12px 0; max-width: 520px; }
 .fila-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .ayuda { color: var(--texto-suave); font-size: 0.92rem; font-weight: 400; }
+/* Área con unidad (componentes/CampoArea.tsx): número y unidad lado a lado */
+.campo-area { display: flex; flex-direction: column; gap: 6px; }
+.campo-area > label { display: block; }
+.campo-area-fila { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 8px; }
+.campo-area-equivale { font-weight: 700; color: var(--texto); }
+/* Consejos según el suelo y el agua de la finca (NuevaSiembra.tsx) */
+.consejo-finca { display: grid; gap: 6px; padding: 12px 14px; border-radius: 12px; border-left: 4px solid var(--primario); background: var(--primario-suave); color: var(--texto); }
+.consejo-finca strong { display: inline-flex; align-items: center; gap: 6px; }
+.consejo-finca ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 0.95rem; }
 .filtros { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 16px; max-width: 760px; }
 
 .opciones-grandes { flex-direction: row; flex-wrap: wrap; }
@@ -955,10 +964,10 @@ body::before {
 :root[data-tema='crema'] { --topo-color: #9ad9ae; --topo-opacidad: 0.08; }
 :root[data-tema='crema'] body { background: var(--mesa-degradado), var(--mesa); background-attachment: fixed; }
 
-:root[data-tema='crema'] .contenido :is(h1, h2, h3, p, li, label, legend, dt, dd, figcaption, .vacio, .secuencia, .leyenda, .cargando):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto)) {
+:root[data-tema='crema'] .contenido :is(h1, h2, h3, p, li, label, legend, dt, dd, figcaption, .vacio, .secuencia, .leyenda, .cargando):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .consejo-finca) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .consejo-finca)) {
   color: var(--mesa-texto);
 }
-:root[data-tema='crema'] .contenido :is(small, .ayuda, .actualizado, .separador, .ajustes-grupo h2):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .seccion-fondo, .tarjeta-cta) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto)) {
+:root[data-tema='crema'] .contenido :is(small, .ayuda, .actualizado, .separador, .ajustes-grupo h2):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .consejo-finca, .seccion-fondo, .tarjeta-cta) *):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces a, .fila-precio, .acceso, .alerta, .alerta-corta, .aviso, .tabla-envoltura, .linea-tiempo li, .pasos-control > li, .interruptor, .calendario, .portada, .ajustes-lista, .elegido, .subir-foto, .consejo-finca)) {
   color: var(--mesa-texto-suave);
 }
 :root[data-tema='crema'] .contenido .separador:not(:is(.tarjeta, .formulario-centrado, .portada) *)::before,
@@ -1088,7 +1097,7 @@ body::before {
 /* Formularios (Entrar, Crear cuenta, Nueva finca, Nueva siembra, Reportar plaga…) directo sobre el verde:
    letras claras. Las cajas para escribir siguen claras con letra oscura, y lo que tiene fondo propio
    (avisos, opciones Sí/No, la sección de usuarios de prueba) no cambia. */
-:root[data-tema='crema'] .contenido .formulario-centrado :is(h1, h2, h3, p, label, legend, strong, dt, dd, li):not(:is(.aviso, .plegable, .opciones-grandes label, .opciones-cara, .chips, .elegido, .subir-foto, .tarjeta, .ficha) *):not(.aviso, .opciones-grandes label, .subir-foto) {
+:root[data-tema='crema'] .contenido .formulario-centrado :is(h1, h2, h3, p, label, legend, strong, dt, dd, li):not(:is(.aviso, .plegable, .opciones-grandes label, .opciones-cara, .chips, .elegido, .subir-foto, .consejo-finca, .tarjeta, .ficha) *):not(.aviso, .opciones-grandes label, .subir-foto) {
   color: var(--mesa-texto);
 }
 :root[data-tema='crema'] .contenido .formulario-centrado :is(small, .ayuda, .separador):not(:is(.aviso, .plegable, .tarjeta, .ficha, .elegido) *) { color: var(--mesa-texto-suave); }
@@ -1158,9 +1167,8 @@ body::before {
 .alerta-fuente { margin: 0 0 6px; color: var(--texto-suave); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
 .alerta-cuerpo :is(h2, h3) { margin: 0 0 10px; font-size: clamp(1.2rem, 1.8vw, 1.65rem); }
 .alerta-descripcion { margin: 0; line-height: 1.5; }
-.alerta-detalles { margin-top: 10px; }
-.alerta-detalles summary { color: var(--primario); font-weight: 700; cursor: pointer; }
-.alerta-detalles p { margin: 8px 0 0; }
+/* "Leer el aviso completo": abre el aviso entero en una ventana flotante (Alertas.tsx) */
+.alerta-leer { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 4px; color: var(--primario); font-weight: 700; }
 .alerta-pie { display: flex; flex-wrap: wrap; gap: 12px 18px; width: 100%; margin-top: auto; padding-top: 16px; }
 .alerta-fechas, .alerta-ubicaciones { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0; color: var(--texto-suave); font-size: 0.85rem; }
 .alerta-ubicaciones a { padding: 3px 8px; border: 1px solid var(--borde); color: var(--primario); font-size: 0.8rem; text-decoration: none; }
@@ -1626,6 +1634,11 @@ body::before {
 .confirmar-caja { display: grid; gap: 12px; padding: 26px 24px 22px; }
 .confirmar-icono { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; background: var(--primario-suave); color: var(--primario); }
 .confirmar-peligro .confirmar-icono { background: var(--nor-fondo); color: var(--nor); }
+.confirmar-info .confirmar-icono { background: var(--bue-fondo); color: var(--bue); }
+/* Para leer un texto largo (un aviso del IMN completo): más ancha y el texto se desplaza adentro */
+.confirmar-amplio { width: min(720px, calc(100vw - 32px)); }
+.confirmar-amplio .confirmar-texto { max-height: min(60vh, 560px); overflow-y: auto; padding-right: 6px; line-height: 1.6; }
+.confirmar-texto ul, .confirmar-texto ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .confirmar h2 { margin: 4px 0 0; font-size: 1.3rem; line-height: 1.25; }
 .confirmar-texto { display: grid; gap: 8px; color: var(--texto-suave); }
 .confirmar-texto p { margin: 0; }
@@ -1647,3 +1660,8 @@ body::before {
 /* Interruptor "Para sembrar ahora / Todos los cultivos" (componentes/CultivosPorTemporada.tsx) */
 .temporada-explica { margin: 0 0 14px; max-width: 72ch; }
 .temporada-otros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 16px 0 0; }
+
+/* Página "Créditos de las fotos" (paginas/publicas/Creditos.tsx) */
+.creditos { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.creditos ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 0.95rem; }
+.creditos a { overflow-wrap: anywhere; }

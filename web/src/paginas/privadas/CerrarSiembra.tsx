@@ -1,4 +1,4 @@
-import { useAvisoSinGuardar, useConfirmar } from '../../componentes/Confirmar';
+import { useAvisar, useAvisoSinGuardar, useConfirmar } from '../../componentes/Confirmar';
 import { Icono, NombreIcono } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,8 +24,8 @@ export default function CerrarSiembra() {
   const [cantidad, setCantidad] = useState('');
   const [unidad, setUnidad] = useState('sacos');
   const [motivo, setMotivo] = useState('');
-  const [error, setError] = useState<string | null>(null);
   const confirmar = useConfirmar();
+  const avisar = useAvisar();
   useAvisoSinGuardar(!!resultado || !!cantidad || !!motivo.trim());
 
   if (siembra.cargando) return <Cargando />;
@@ -34,7 +34,7 @@ export default function CerrarSiembra() {
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    if (!resultado) return setError(tc.elija);
+    if (!resultado) return void avisar({ titulo: t.avisos.revisarDato, texto: tc.elija, tono: 'error' });
     // Cerrar no tiene vuelta atrás: se confirma mostrando lo que se va a guardar.
     const tcs = t.confirmar.cerrarSiembra;
     const cuanto = cantidad ? `${cantidad} ${(tc.unidades as Record<string, string>)[unidad] ?? unidad}` : '';
@@ -50,7 +50,7 @@ export default function CerrarSiembra() {
       await datos.cerrarSiembra(id, { resultado, cantidad: cantidad ? Number(cantidad) : 0, unidad, motivo: motivo.trim() || null });
       navegar(`/siembras/${id}`, { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      avisar({ titulo: t.avisos.noSeGuardo, texto: (err as Error).message, tono: 'error' });
     }
   }
 
@@ -89,7 +89,6 @@ export default function CerrarSiembra() {
           </label>
         )}
 
-        {error && <p className="aviso aviso-error" role="alert">{error}</p>}
         <button className="boton boton-ancho">{tc.guardar}</button>
       </form>
     </section>

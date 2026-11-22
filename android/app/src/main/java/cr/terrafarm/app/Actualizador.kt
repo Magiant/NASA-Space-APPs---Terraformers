@@ -162,10 +162,10 @@ class Actualizador(private val contexto: Context) {
     }
 
     companion object {
-        private const val DESCARGAS = "https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android"
+        private const val DESCARGAS = "https://github.com/Magiant/TerraFarm/releases/download/app-android"
         const val URL_APK = "$DESCARGAS/TerraFarm.apk"
         const val URL_VERSION = "$DESCARGAS/version.json"
         /** Página de la versión, para bajarla a mano cuando la firma no coincide. */
-        const val URL_PAGINA = "https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/tag/app-android"
+        const val URL_PAGINA = "https://github.com/Magiant/TerraFarm/releases/tag/app-android"
     }
 }

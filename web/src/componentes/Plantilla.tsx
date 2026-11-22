@@ -5,6 +5,7 @@ import { usePreferencias } from '../contexto/PreferenciasContext';
 import { cola } from '../offline/cola';
 import { useEnLinea } from '../utilidades';
 import { EnlaceDescargaApp } from './DescargarApp';
+import { useAvisar } from './Confirmar';
 import { Icono } from './Iconos';
 import MenuAjustes from './MenuAjustes';
 import { modoReal } from '../servicios/cliente';
@@ -15,7 +16,7 @@ export default function Plantilla() {
   const enLinea = useEnLinea();
   const { pathname } = useLocation();
   const [enCola, setEnCola] = useState(() => cola.pendientes(usuario?.id).length);
-  const [aviso, setAviso] = useState<number | null>(null);
+  const avisar = useAvisar();
 
   const pestanas = [
     // Inicio va primero: reemplaza al antiguo botón "Volver" (siempre se puede regresar a los módulos).
@@ -43,9 +44,10 @@ export default function Plantilla() {
 
   useEffect(() => {
     if (enLinea && usuario && cola.pendientes(usuario.id).length) {
-      cola.enviar(usuario.id).then((n) => n && setAviso(n));
+      // Reportes que estaban guardados sin señal y ya se enviaron: aviso flotante con "Aceptar".
+      cola.enviar(usuario.id).then((n) => { if (n) avisar({ titulo: t.avisos.reportesEnviados, texto: t.conexion.enviados(n), tono: 'exito' }); });
     }
-  }, [enLinea, usuario]);
+  }, [enLinea, usuario, avisar, t]);
 
   return (
     <div className="app">
@@ -84,11 +86,6 @@ export default function Plantilla() {
           <Icono nombre="sinsenal" tam={18} /> {t.conexion.sinSenal}{enCola ? ` · ${t.conexion.porEnviar(enCola)}` : ''}.
         </p>
       )}
-      {aviso !== null && (
-        <p className="banda banda-ok" role="status" onClick={() => setAviso(null)}>
-          <Icono nombre="check" tam={18} /> {t.conexion.enviados(aviso)}
-        </p>
-      )}
 
       <main className="contenido">
         <Outlet />
@@ -112,6 +109,7 @@ export default function Plantilla() {
           <div className="pie-columna">
             <strong>{t.comun.pieFuentes}</strong>
             <span>{t.comun.pie.replace(/^[^:]+:\s*/, '')}</span>
+            <Link to="/creditos">{t.creditos.enlace}</Link>
           </div>
         </div>
         <div className="pie-final">© 2026 TerraFarm · Together we grow · NASA Space Apps Challenge · Costa Rica</div>

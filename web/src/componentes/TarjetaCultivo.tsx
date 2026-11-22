@@ -4,7 +4,7 @@ import type { Textos } from '../idiomas';
 import { mesesDeSiembra, proximaSiembra } from '../logica/temporada';
 import { catalogo } from '../servicios/algolia';
 import type { Notas, RegistroAptitud } from '../tipos';
-import { colones, mes, nombreCultivo, nombrePlaga } from '../utilidades';
+import { colones, mes, nombreCultivo, nombrePlaga, porUnidad } from '../utilidades';
 import InsigniaNivel from './InsigniaNivel';
 import { FotoCultivo, Icono } from './Iconos';
 
@@ -94,7 +94,7 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
               <div>
                 <dt><Icono nombre="moneda" tam={16} /> {t.tarjeta.precio}</dt>
                 <dd>
-                  {colones(a.precio_referencia.valor)} <small>{t.tarjeta.por} {a.precio_referencia.unidad}</small>
+                  {colones(a.precio_referencia.valor)} <small>{porUnidad(t, a.precio_referencia.unidad)}</small>
                 </dd>
               </div>
             )}
