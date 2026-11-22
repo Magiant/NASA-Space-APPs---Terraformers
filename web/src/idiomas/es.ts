@@ -478,6 +478,7 @@ export const es = {
     rangoMeses: (desde: string, hasta: string) => `${desde} a ${hasta}`,
     porQue: 'Por qué se recomiendan estos cursos',
     paraSembrar: (rango: string, lugar: string | null) => `Cultivos que se siembran de ${rango}${lugar ? ` y se dan bien en ${lugar}` : ''}:`,
+    toqueUno: 'Toque un cultivo para ver solo sus cursos; tóquelo otra vez para ver todos.',
     epocaSeca: 'Época seca: también se recomiendan los cursos de riego.',
     epocaLluviosa: 'Época lluviosa: también se recomiendan los cursos de drenaje y conservación de suelos.',
     para: 'Para:',

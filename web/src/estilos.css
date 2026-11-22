@@ -467,6 +467,8 @@ select:disabled { opacity: 0.55; }
 .cursos-motivo .chips { margin: 10px 0; padding: 0; list-style: none; }
 .chip-cultivo { display: inline-flex; align-items: center; gap: 6px; color: var(--texto); text-decoration: none; }
 .chip-cultivo:hover { border-color: var(--primario); }
+button.chip-cultivo { font: inherit; cursor: pointer; }
+.chip-cultivo[aria-pressed='true'] { border-color: var(--primario); background: var(--primario); color: var(--primario-texto); font-weight: 700; }
 .acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
 .acciones > * { flex: 1 1 160px; }
 .elegido { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--primario); font-size: 1.15rem; }

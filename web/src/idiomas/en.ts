@@ -463,6 +463,7 @@ export const en: Textos = {
     rangoMeses: (desde, hasta) => `${desde} to ${hasta}`,
     porQue: 'Why these courses are recommended',
     paraSembrar: (rango, lugar) => `Crops planted from ${rango}${lugar ? ` that grow well in ${lugar}` : ''}:`,
+    toqueUno: 'Tap a crop to see only its courses; tap it again to see them all.',
     epocaSeca: 'Dry season: irrigation courses are recommended too.',
     epocaLluviosa: 'Rainy season: drainage and soil conservation courses are recommended too.',
     para: 'For:',

@@ -1,6 +1,5 @@
 import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
 import { cultivosDelCurso, epocaDelCurso, epocaDeLosMeses, esDeAgricultura, esParaCualquierCultivo, proximosMeses } from '../../logica/cursos';
@@ -17,6 +16,7 @@ type Vista = 'recomendados' | 'todos';
  * - Todos los meses: todos los cursos.
  * En las dos se puede filtrar por cultivo y por tema.
  */
+// Correccion - Poll: los cultivos recomendados abrian la ficha del cultivo en vez de filtrar los cursos; ahora filtran.
 export default function Capacitaciones() {
   const t = useT();
   const tc = t.cursos;
@@ -78,11 +78,15 @@ export default function Capacitaciones() {
           <ul className="chips">
             {recomendados.map((id) => (
               <li key={id}>
-                <Link to={`/cultivo/${id}`} className="chip chip-cultivo"><IconoCultivo id={id} /> {nombreCultivo(t, id)}</Link>
+                {/* Filtra los cursos (lo mismo que "Lo que siembro"); tocarlo otra vez quita el filtro. */}
+                <button type="button" className="chip chip-cultivo" aria-pressed={cultivo === id} onClick={() => setCultivo(cultivo === id ? '' : id)}>
+                  <IconoCultivo id={id} /> {nombreCultivo(t, id)}
+                </button>
               </li>
             ))}
           </ul>
-          {epoca && <p className="ayuda"><Icono nombre={epoca === 'seca' ? 'sol' : 'lluvia'} tam={16} /> {epoca === 'seca' ? tc.epocaSeca : tc.epocaLluviosa}</p>}
+          <p className="ayuda">{tc.toqueUno}</p>
+          {epoca &&<p className="ayuda"><Icono nombre={epoca === 'seca' ? 'sol' : 'lluvia'} tam={16} /> {epoca === 'seca' ? tc.epocaSeca : tc.epocaLluviosa}</p>}
         </section>
       )}
 
