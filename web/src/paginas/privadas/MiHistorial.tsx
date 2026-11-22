@@ -10,6 +10,8 @@ import { Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 const ICONO: Record<ResultadoSiembra, string> = { exitosa: '✔', regular: '◐', perdida: '✕' };
 const RESULTADOS = Object.keys(ICONO) as ResultadoSiembra[];
 
+// Correccion - Poll: con una sola unidad cosechada se muestra en singular ("1 saco", no "1 sacos").
+// Correccion - Poll: dice "Cosecho 22 quintales" o "Perdio 3 sacos" segun el resultado, no solo el numero.
 export default function MiHistorial() {
   const t = useT();
   const th = t.historial;
@@ -56,7 +58,7 @@ export default function MiHistorial() {
                       <strong><IconoCultivo id={s.cultivo_id} /> {nombreCultivo(t, s.cultivo_id, c?.nombre)}</strong>
                       {s.resultado && <> — <Tx>{ICONO[s.resultado]}</Tx> {th.resultado[s.resultado]}</>}
                     </Link>
-                    {s.cantidad ? <p>{s.cantidad} {t.cerrar.unidades[s.unidad ?? ''] ?? s.unidad} {th.en} {s.area_ha} ha</p> : null}
+                    {s.cantidad ? <p>{t.cerrar.cantidadFue(s.resultado === 'perdida', `${s.cantidad} ${(s.cantidad === 1 ? t.cerrar.unidadesUna : t.cerrar.unidades)[s.unidad ?? ''] ?? s.unidad}`)} {th.en} {s.area_ha} ha</p> : null}
                     {s.motivo && <p className="ayuda">{s.motivo}</p>}
                   </li>
                 );

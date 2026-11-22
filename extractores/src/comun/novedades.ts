@@ -8,6 +8,7 @@
 //              Open-Meteo de 5 000 llamadas por hora.
 //   precios    de lunes a viernes, mientras no esté el boletín PIMA de hoy (los fines de semana no publica).
 //   imn        una vez al día: el pronóstico subestacional cambia cada semana y leerlo es una sola consulta.
+//   lluvia     falta el día UTC de ayer en lluvia_satelite (GPM IMERG). No corre si la tabla no existe todavía.
 //
 // En GitHub deja las respuestas en GITHUB_OUTPUT (clima=true, ...) y una tabla en el resumen de la corrida.
 import { appendFile } from 'node:fs/promises'
@@ -34,9 +35,11 @@ export interface Estado {
   imnUltimaOk: string | null
   /** Inicio de la última corrida del clima de Open-Meteo (cuenta para el límite por hora). */
   climaUltimoInicio: Date | null
+  /** Día UTC más nuevo de lluvia por satélite (GPM IMERG); undefined = la tabla todavía no existe (migración 016). */
+  imerg?: string | null
 }
 
-export type Tema = 'clima' | 'humedad' | 'precios' | 'imn'
+export type Tema = 'clima' | 'humedad' | 'precios' | 'imn' | 'lluvia'
 export type Decision = Record<Tema, { correr: boolean; motivo: string }>
 
 const dma = (f: string | null) => (f ? f.split('-').reverse().join('-') : 'nada')
@@ -70,7 +73,16 @@ export function decidir(e: Estado): Decision {
     ? { correr: false, motivo: 'ya se revisó hoy' }
     : { correr: true, motivo: `última revisión: ${dma(e.imnUltimaOk)}` }
 
-  return { clima, humedad, precios, imn }
+  // Lluvia por satélite: la NASA publica el día UTC unas horas después de que termina; si todavía no sale, la
+  // próxima revisión vuelve a probar.
+  const ayerUtc = new Date(e.ahora.getTime() - 864e5).toISOString().slice(0, 10)
+  const lluvia = e.imerg === undefined
+    ? { correr: false, motivo: 'falta la tabla lluvia_satelite (migración 016)' }
+    : e.imerg && e.imerg >= ayerUtc
+      ? { correr: false, motivo: `al día (hasta ${dma(e.imerg)}, día UTC)` }
+      : { correr: true, motivo: `falta el día UTC ${dma(ayerUtc)} (hay hasta ${dma(e.imerg)})` }
+
+  return { clima, humedad, precios, imn, lluvia }
 }
 
 async function fechaMasNueva(tabla: string, columna: string, fuente: string): Promise<string | null> {
@@ -103,9 +115,13 @@ export async function revisarNovedades(_a: Argumentos) {
     ultimaCorrida('imn-subestacional', true),
     ultimaCorrida('clima-open-meteo', false),
   ])
-  const d = decidir({ ahora, clima, humedad, pima, imnUltimaOk: imnOk ? fechaCR(0, imnOk) : null, climaUltimoInicio: climaInicio })
+  // La tabla de lluvia por satélite puede no existir todavía (migración 016 sin aplicar): eso no frena lo demás.
+  const imerg = await fechaMasNueva('lluvia_satelite', 'fecha', 'imerg').catch(() => undefined)
+  const d = decidir({ ahora, clima, humedad, pima, imnUltimaOk: imnOk ? fechaCR(0, imnOk) : null, climaUltimoInicio: climaInicio, imerg })
 
-  const nombres: Record<Tema, string> = { clima: 'Clima (Open-Meteo)', humedad: 'Humedad del suelo', precios: 'Precios PIMA', imn: 'Pronóstico IMN' }
+  const nombres: Record<Tema, string> = {
+    clima: 'Clima (Open-Meteo)', humedad: 'Humedad del suelo', precios: 'Precios PIMA', imn: 'Pronóstico IMN', lluvia: 'Lluvia por satélite',
+  }
   for (const t of Object.keys(d) as Tema[]) console.log(`${d[t].correr ? '▶ corre ' : '· no    '} ${nombres[t].padEnd(20)} ${d[t].motivo}`)
 
   // precios_hasta: para saber después si el PIMA trajo un boletín más nuevo (y recalcular la aptitud).

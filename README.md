@@ -410,7 +410,7 @@ TerraFarm/
 | Demo video | Remotion (React video), Node scripts for audio and voice cleanup | `npm run render` inside `video/` produces `out/terrafarm-demo.mp4` |
 
 **Extractor commands available** (`extractores/src/main.ts`):
-`distritos`, `clima`, `clima-historico`, `humedad-open-meteo`, `humedad-power`, `agua-open-meteo`, `agua-ecostress`, `agua-historica`, `temperatura-power`, `temperatura-historica`, `temperatura-comparar`, `olas-calor`, `imn-subestacional`, `cne`, `imn`, `amenazas-estimar`, `amenazas`, `soilgrids`, `ecocrop`, `gaez`, `areas-protegidas`, `censo`, `capacidad-uso`, `precios-pima`, `cultivos`, `terreno`, `aptitud`, `capacitacion-ina-web`, `capacitacion-ina`.
+`distritos`, `clima`, `clima-historico`, `lluvia-imerg`, `humedad-open-meteo`, `humedad-power`, `agua-open-meteo`, `agua-ecostress`, `agua-historica`, `temperatura-power`, `temperatura-historica`, `temperatura-comparar`, `olas-calor`, `imn-subestacional`, `cne`, `imn`, `amenazas-estimar`, `amenazas`, `soilgrids`, `ecocrop`, `gaez`, `areas-protegidas`, `censo`, `capacidad-uso`, `precios-pima`, `cultivos`, `terreno`, `aptitud`, `capacitacion-ina-web`, `capacitacion-ina`.
 
 ---
 
@@ -648,7 +648,7 @@ Recommended order for a fresh database:
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | Web (embedded in the site) | Yes — protected by row-level security |
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Extractors, demo loader | **No** |
 | `SUPABASE_DB_URL` | Migration runner | **No** |
-| `EARTHDATA_USERNAME`, `EARTHDATA_PASSWORD`, `EARTHDATA_TOKEN` | ECOSTRESS / MODIS | **No** |
+| `EARTHDATA_USERNAME`, `EARTHDATA_PASSWORD`, `EARTHDATA_TOKEN` | ECOSTRESS / MODIS, GPM IMERG satellite rain | **No** |
 | `WDPA_API_TOKEN` | Protected areas | **No** |
 | `CENSO_EXCEL` | Path to the INEC census Excel file | — |
 | `DEMO_ADMIN_CLAVE` | Password of the demo admin account | **No** |

@@ -1,6 +1,8 @@
 // GET de JSON con reintentos (espera exponencial) ante errores temporales (429, 5xx, red).
 const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
+// Correccion - Poll: con el límite DIARIO de Open-Meteo ("Daily API request limit exceeded") se reintentaba cada
+// minuto como si fuera el límite por minuto, sin servir de nada. Ahora se rinde de una vez (y el flujo usa el respaldo).
 export async function obtenerJson<T = unknown>(url: string, intentos = 5, timeoutMs = 120_000): Promise<T> {
   let ultimo: unknown
   for (let i = 0; i < intentos; i++) {
@@ -10,6 +12,10 @@ export async function obtenerJson<T = unknown>(url: string, intentos = 5, timeou
       const cuerpo = await r.text()
       // 4xx que no sea 429 = error nuestro (parámetro mal escrito): no tiene sentido reintentar.
       if (r.status !== 429 && r.status < 500) throw Object.assign(new Error(`HTTP ${r.status}: ${cuerpo.slice(0, 300)}`), { definitivo: true })
+      // 429 con el límite del día: no se libera hasta mañana.
+      if (r.status === 429 && /daily|per day|tomorrow/i.test(cuerpo)) {
+        throw Object.assign(new Error(`HTTP 429 (límite diario): ${cuerpo.slice(0, 300)}`), { definitivo: true, limiteDiario: true })
+      }
       ultimo = new Error(`HTTP ${r.status}: ${cuerpo.slice(0, 200)}`)
       // 429 de Open-Meteo = límite por minuto: esperar al menos un minuto.
       await esperar(r.status === 429 ? 61_000 : 2_000 * 2 ** i)

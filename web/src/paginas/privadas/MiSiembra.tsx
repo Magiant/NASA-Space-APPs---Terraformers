@@ -9,6 +9,8 @@ import type { Seguimiento } from '../../tipos';
 import { fecha, hoy, nombreCultivo, useCargar } from '../../utilidades';
 import { FotoCultivo, Tx } from '../../componentes/Iconos';
 
+// Correccion - Poll: con una sola unidad cosechada se muestra en singular ("Cosecho 1 saco").
+// Correccion - Poll: si la siembra se perdio dice "Perdio 3 sacos" (no "Cosecho"), y sin cantidad no muestra "Cosecho 0".
 export default function MiSiembra() {
   const t = useT();
   const ts = t.siembra;
@@ -58,7 +60,7 @@ export default function MiSiembra() {
           ) : (
             <section className="tarjeta">
               <p><strong>{s.resultado && <Tx>{ts.resultado[s.resultado]}</Tx>}</strong> · {ts.cerradaEl(fecha(s.fecha_cierre))}</p>
-              {s.cantidad !== null && <p>{ts.cosecho(s.cantidad, t.cerrar.unidades[s.unidad ?? ''] ?? s.unidad ?? '')}</p>}
+              {!!s.cantidad && <p>{t.cerrar.cantidadFue(s.resultado === 'perdida', `${s.cantidad} ${(s.cantidad === 1 ? t.cerrar.unidadesUna : t.cerrar.unidades)[s.unidad ?? ''] ?? s.unidad ?? ''}`)}</p>}
               {s.motivo && <p className="ayuda">{s.motivo}</p>}
               <Link to={`/siembras/nueva?finca=${s.finca_id}`} className="boton">{ts.queAhora}</Link>
             </section>

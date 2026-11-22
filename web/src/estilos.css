@@ -467,6 +467,8 @@ select:disabled { opacity: 0.55; }
 .cursos-motivo .chips { margin: 10px 0; padding: 0; list-style: none; }
 .chip-cultivo { display: inline-flex; align-items: center; gap: 6px; color: var(--texto); text-decoration: none; }
 .chip-cultivo:hover { border-color: var(--primario); }
+button.chip-cultivo { font: inherit; cursor: pointer; }
+.chip-cultivo[aria-pressed='true'] { border-color: var(--primario); background: var(--primario); color: var(--primario-texto); font-weight: 700; }
 .acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
 .acciones > * { flex: 1 1 160px; }
 .elegido { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radio); background: var(--superficie); border: 2px solid var(--primario); font-size: 1.15rem; }
@@ -1626,35 +1628,74 @@ body::before {
 
 /* ===== Ventana "¿Está seguro?" (componentes/Confirmar.tsx) =====
    Va fuera de .contenido: en el tema claro no le tocan las letras claras de la "mesa" verde. */
+/* Correccion - Poll: la ventana se veia brusca (esquinas rectas, borde verde en "Cancelar", fondo muy oscuro).
+   Ahora: esquinas redondas, icono en un circulo con halo, texto centrado, botones suaves y, en el celular,
+   sube desde abajo como las hojas del sistema. */
 .confirmar {
+  /* El color del tono (verde, rojo o azul) lo toman el icono, su halo y el brillo de arriba */
+  --tono: var(--primario); --tono-fondo: var(--primario-suave);
   width: min(460px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); margin: auto; padding: 0;
-  border: 1px solid var(--borde); background: var(--superficie); color: var(--texto); box-shadow: 0 24px 64px rgb(0 0 0 / 0.35);
+  border: 1px solid color-mix(in srgb, var(--borde) 70%, transparent); border-radius: 26px;
+  background: var(--superficie); color: var(--texto); overflow: hidden auto;
+  box-shadow: 0 28px 60px -16px rgb(0 0 0 / 0.4), 0 10px 24px -12px rgb(0 0 0 / 0.3);
 }
-.confirmar::backdrop { background: rgb(8 20 14 / 0.6); backdrop-filter: blur(2px); }
-.confirmar-caja { display: grid; gap: 12px; padding: 26px 24px 22px; }
-.confirmar-icono { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; background: var(--primario-suave); color: var(--primario); }
-.confirmar-peligro .confirmar-icono { background: var(--nor-fondo); color: var(--nor); }
-.confirmar-info .confirmar-icono { background: var(--bue-fondo); color: var(--bue); }
-/* Para leer un texto largo (un aviso del IMN completo): más ancha y el texto se desplaza adentro */
-.confirmar-amplio { width: min(720px, calc(100vw - 32px)); }
-.confirmar-amplio .confirmar-texto { max-height: min(60vh, 560px); overflow-y: auto; padding-right: 6px; line-height: 1.6; }
-.confirmar-texto ul, .confirmar-texto ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
-.confirmar h2 { margin: 4px 0 0; font-size: 1.3rem; line-height: 1.25; }
-.confirmar-texto { display: grid; gap: 8px; color: var(--texto-suave); }
+.confirmar-peligro { --tono: var(--nor); --tono-fondo: var(--nor-fondo); }
+.confirmar-info { --tono: var(--bue); --tono-fondo: var(--bue-fondo); }
+.confirmar::backdrop { background: rgb(8 20 14 / 0.42); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.confirmar-caja {
+  display: grid; justify-items: center; gap: 10px; padding: 32px 26px 24px; text-align: center;
+  background: radial-gradient(130% 80px at 50% 0, color-mix(in srgb, var(--tono-fondo) 70%, transparent), transparent);
+}
+.confirmar-icono {
+  display: grid; place-items: center; width: 62px; height: 62px; margin-bottom: 6px; border-radius: 50%;
+  background: var(--tono-fondo); color: var(--tono);
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--tono-fondo) 45%, transparent);
+}
+.confirmar h2 { margin: 0; font-size: 1.25rem; line-height: 1.3; text-wrap: balance; }
+.confirmar-texto { display: grid; gap: 8px; max-width: 38ch; color: var(--texto-suave); line-height: 1.55; text-wrap: pretty; }
 .confirmar-texto p { margin: 0; }
 .confirmar-texto strong { color: var(--texto); }
+.confirmar-texto ul, .confirmar-texto ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; text-align: left; }
 /* Lo que la persona tiene que leer sí o sí (por ejemplo, reportes sin enviar al cerrar sesión) */
-.confirmar-importante { padding: 10px 12px; border-left: 4px solid var(--bue); background: var(--bue-fondo); color: var(--texto); }
-.confirmar-botones { display: flex; flex-wrap: wrap-reverse; gap: 10px; margin-top: 8px; }
-.confirmar-botones .boton { flex: 1 1 170px; min-height: 52px; }
+.confirmar-importante { padding: 12px 14px; border-radius: 14px; background: var(--bue-fondo); color: var(--texto); }
+/* Para leer un texto largo (un aviso del IMN completo): más ancha, alineada a la izquierda y con desplazamiento */
+.confirmar-amplio { width: min(720px, calc(100vw - 32px)); }
+.confirmar-amplio .confirmar-texto { max-width: none; max-height: min(60vh, 560px); overflow-y: auto; padding-right: 6px; line-height: 1.6; text-align: left; }
+.confirmar-botones { display: flex; flex-wrap: wrap-reverse; gap: 10px; width: 100%; margin-top: 14px; }
+.confirmar-botones .boton { flex: 1 1 150px; min-height: 50px; border-radius: 14px; transition: background 0.15s, box-shadow 0.15s, transform 0.1s; }
+.confirmar-botones .boton:not(.boton-secundario) { box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--primario) 70%, transparent); }
+.confirmar-botones .boton-peligro { box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--error) 70%, transparent); }
+/* "Cancelar" y las opciones de al lado: gris suave, sin borde verde que compita con el botón principal */
+.confirmar-botones .boton-secundario { background: var(--superficie-2); border-color: transparent; color: var(--texto); }
+.confirmar-botones .boton-secundario:hover { background: color-mix(in srgb, var(--texto) 9%, var(--superficie-2)); color: var(--texto); }
 /* Botón de una acción que no se puede deshacer: rojo del tema, con letra del color de la tarjeta */
 .boton-peligro, .boton-peligro:hover { background: var(--error); border-color: var(--error); color: var(--superficie); }
-.boton-peligro:hover { filter: brightness(0.92); }
+.boton-peligro:hover { filter: brightness(0.94); }
+
+/* Celular: la ventana sube desde abajo, a todo lo ancho, con los botones cerca del pulgar */
+@media (max-width: 560px) {
+  .confirmar:not(.confirmar-amplio) {
+    width: 100%; max-height: 88dvh; margin: auto 0 0; border-width: 1px 0 0; border-radius: 26px 26px 0 0;
+  }
+  .confirmar:not(.confirmar-amplio) .confirmar-caja { padding: 14px 20px calc(20px + env(safe-area-inset-bottom)); }
+  /* Un botón por fila, a todo lo ancho: el principal queda arriba (wrap-reverse) */
+  .confirmar-botones .boton { flex-basis: 100%; }
+  /* Rayita de arriba, como en las hojas del sistema */
+  .confirmar:not(.confirmar-amplio) .confirmar-caja::before {
+    content: ''; width: 40px; height: 4px; margin-bottom: 12px; border-radius: 999px; background: var(--borde-fuerte);
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
-  .confirmar[open] { animation: confirmar-aparece 0.16s ease-out; }
-  .confirmar[open]::backdrop { animation: confirmar-fondo 0.16s ease-out; }
-  @keyframes confirmar-aparece { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+  .confirmar[open] { animation: confirmar-aparece 0.24s cubic-bezier(0.2, 0.9, 0.3, 1.15); }
+  .confirmar[open]::backdrop { animation: confirmar-fondo 0.24s ease-out; }
+  .confirmar[open] .confirmar-icono { animation: confirmar-icono 0.4s 0.06s cubic-bezier(0.2, 0.9, 0.3, 1.3) both; }
+  @keyframes confirmar-aparece { from { opacity: 0; transform: translateY(12px) scale(0.96); } }
   @keyframes confirmar-fondo { from { opacity: 0; } }
+  @keyframes confirmar-icono { from { opacity: 0; transform: scale(0.6); } }
+  @media (max-width: 560px) {
+    .confirmar[open]:not(.confirmar-amplio) { animation: confirmar-sube 0.3s cubic-bezier(0.2, 0.9, 0.3, 1); }
+    @keyframes confirmar-sube { from { transform: translateY(100%); } }
+  }
 }
 
 /* Interruptor "Para sembrar ahora / Todos los cultivos" (componentes/CultivosPorTemporada.tsx) */

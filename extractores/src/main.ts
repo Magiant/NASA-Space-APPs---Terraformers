@@ -26,6 +26,8 @@ const EXTRACTORES: Record<string, (a: Argumentos) => Promise<void>> = {
   // Tema 1 · Clima
   'clima': extraerClimaOpenMeteo,          // diario.yml
   'clima-historico': cargarClimaHistorico, // unica-vez.yml
+  // Lluvia por satélite (NASA GPM IMERG, necesita EARTHDATA_USERNAME/PASSWORD) → lluvia_satelite, para comparar con Open-Meteo
+  'lluvia-imerg': async (a) => (await import('./clima/imerg.ts')).extraerLluviaImerg(a), // diario.yml
   // Tema 2 · Humedad del suelo (docs/temas-2-y-10.md)
   'humedad-open-meteo': temas2y10.humedadOpenMeteo, // diario.yml
   'humedad-power': temas2y10.humedadPower,          // semanal.yml

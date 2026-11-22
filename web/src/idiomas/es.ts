@@ -478,6 +478,7 @@ export const es = {
     rangoMeses: (desde: string, hasta: string) => `${desde} a ${hasta}`,
     porQue: 'Por qué se recomiendan estos cursos',
     paraSembrar: (rango: string, lugar: string | null) => `Cultivos que se siembran de ${rango}${lugar ? ` y se dan bien en ${lugar}` : ''}:`,
+    toqueUno: 'Toque un cultivo para ver solo sus cursos; tóquelo otra vez para ver todos.',
     epocaSeca: 'Época seca: también se recomiendan los cursos de riego.',
     epocaLluviosa: 'Época lluviosa: también se recomiendan los cursos de drenaje y conservación de suelos.',
     para: 'Para:',
@@ -654,7 +655,6 @@ export const es = {
     reportar: '🐛 Reportar plaga',
     yaCoseche: '🧺 Ya coseché',
     cerradaEl: (f: string) => `Cerrada el ${f}`,
-    cosecho: (n: number, u: string) => `Cosechó ${n} ${u}`,
     queAhora: '¿Qué siembro ahora?',
     seguimiento: 'Seguimiento',
     tipoNota: 'Tipo de nota',
@@ -670,9 +670,15 @@ export const es = {
     ayuda: 'Su resultado ayuda a mejorar las recomendaciones para su zona. No se muestra su nombre.',
     opciones: { exitosa: 'Buena cosecha', regular: 'Regular', perdida: 'Se perdió' },
     elija: 'Elija cómo le fue.',
-    cuanto: '¿Cuánto cosechó?',
+    // La pregunta de la cantidad cambia con el resultado: si se perdió, se pregunta cuánto se perdió.
+    cuanto: { exitosa: '¿Cuánto cosechó?', regular: '¿Cuánto alcanzó a cosechar?', perdida: '¿Cuánto perdió?' } as Record<string, string>,
+    cuantoAyuda: { exitosa: 'Puede dejarlo en blanco.', regular: 'Lo que sí pudo cosechar. Puede dejarlo en blanco.', perdida: 'Lo que pensaba cosechar y se perdió, más o menos. Puede dejarlo en blanco.' } as Record<string, string>,
+    /** "Cosechó 3 sacos" o "Perdió 3 sacos", según el resultado. */
+    cantidadFue: (perdida: boolean, cuanto: string) => `${perdida ? 'Perdió' : 'Cosechó'} ${cuanto}`,
     unidad: 'Unidad',
     unidades: { sacos: 'sacos', cajas: 'cajas', quintales: 'quintales', kilos: 'kilos', unidades: 'unidades' } as Record<string, string>,
+    /** Las mismas, para una sola ("1 saco", no "1 sacos"). */
+    unidadesUna: { sacos: 'saco', cajas: 'caja', quintales: 'quintal', kilos: 'kilo', unidades: 'unidad' } as Record<string, string>,
     quePaso: '¿Qué pasó?',
     ejemplo: 'Ej.: mucha lluvia, plaga, mal precio…',
     guardar: 'Guardar resultado',
