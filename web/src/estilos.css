@@ -1158,9 +1158,8 @@ body::before {
 .alerta-fuente { margin: 0 0 6px; color: var(--texto-suave); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
 .alerta-cuerpo :is(h2, h3) { margin: 0 0 10px; font-size: clamp(1.2rem, 1.8vw, 1.65rem); }
 .alerta-descripcion { margin: 0; line-height: 1.5; }
-.alerta-detalles { margin-top: 10px; }
-.alerta-detalles summary { color: var(--primario); font-weight: 700; cursor: pointer; }
-.alerta-detalles p { margin: 8px 0 0; }
+/* "Leer el aviso completo": abre el aviso entero en una ventana flotante (Alertas.tsx) */
+.alerta-leer { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 4px; color: var(--primario); font-weight: 700; }
 .alerta-pie { display: flex; flex-wrap: wrap; gap: 12px 18px; width: 100%; margin-top: auto; padding-top: 16px; }
 .alerta-fechas, .alerta-ubicaciones { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0; color: var(--texto-suave); font-size: 0.85rem; }
 .alerta-ubicaciones a { padding: 3px 8px; border: 1px solid var(--borde); color: var(--primario); font-size: 0.8rem; text-decoration: none; }

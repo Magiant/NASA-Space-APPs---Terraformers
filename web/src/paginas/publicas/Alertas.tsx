@@ -1,10 +1,12 @@
 import { FotoAlerta, Icono } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useAvisar } from '../../componentes/Confirmar';
 import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
 import { PronosticoZona } from '../../componentes/Pronostico';
 import { useT } from '../../contexto/PreferenciasContext';
 import { algolia, catalogo } from '../../servicios/algolia';
+import type { RegistroAlerta } from '../../tipos';
 import { fecha, useCargar, useZonaElegida } from '../../utilidades';
 
 /**
@@ -17,7 +19,20 @@ import { fecha, useCargar, useZonaElegida } from '../../utilidades';
 export default function Alertas() {
   const t = useT();
   const ta = t.alertas;
+  const avisar = useAvisar();
   const [params, setParams] = useSearchParams();
+
+  // Correccion - Poll: "Leer el aviso completo" se desplegaba dentro de la tarjeta, en media pantalla. Ahora el aviso
+  // completo se lee en una ventana flotante ancha, con su fuente y fechas, y se cierra con "Aceptar".
+  const leerCompleto = (a: RegistroAlerta) =>
+    avisar({
+      titulo: a.titulo, tono: 'info', icono: 'alertas', amplio: true,
+      texto: <>
+        <p className="alerta-fuente">{a.fuente} · {a.tipo} · {ta.desde} {fecha(a.inicio)}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''}</p>
+        {a.descripcion.split(/\n+/).filter(Boolean).map((parrafo, i) => <p key={i}>{parrafo}</p>)}
+      </>,
+    });
+
   const vista = params.get('ver') === 'alertas' ? 'alertas' : 'tiempo';
   const verVista = (v: 'tiempo' | 'alertas') => setParams(v === 'alertas' ? { ver: 'alertas' } : {}, { replace: true });
   const [zona, setZona] = useZonaElegida();
@@ -97,10 +112,9 @@ export default function Alertas() {
                   <h3>{a.titulo}</h3>
                   <p className="alerta-descripcion">{resumen(a.descripcion)}</p>
                   {a.descripcion.length > 150 && (
-                    <details className="alerta-detalles">
-                      <summary>{ta.verCompleto}</summary>
-                      <p>{a.descripcion}</p>
-                    </details>
+                    <button type="button" className="enlace alerta-leer" onClick={() => leerCompleto(a)}>
+                      <Icono nombre="libro" tam={18} /> {ta.verCompleto}
+                    </button>
                   )}
                   <div className="alerta-pie">
                     <p className="alerta-fechas">
