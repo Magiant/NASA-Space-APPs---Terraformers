@@ -10,7 +10,8 @@
 #   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (+ los de cada fuente que los necesite).
 #
 # Open-Meteo gratis permite 10 000 llamadas/día y 5 000/hora. Clima (tema 1) y humedad (tema 2) consultan
-# ~4 000 puntos cada uno: la revisión nunca los corre en la misma hora.
+# ~4 000 puntos cada uno: la revisión nunca los corre en la misma hora. Si Open-Meteo falla (por ejemplo, por
+# el límite diario, que GitHub comparte entre usuarios), el clima y la humedad salen de NASA POWER.
 name: Extractores diarios
 
 on:
@@ -70,7 +71,18 @@ jobs:
 
       # Tema 1 · Clima (Open-Meteo, últimos 7 días, 492 distritos)
       - name: Clima Open-Meteo
+        id: clima
+        continue-on-error: true # si falla, entra el respaldo de abajo; la próxima revisión vuelve a probar Open-Meteo
         run: npm run extraer -- clima
+
+      # Respaldo: si Open-Meteo no responde (por ejemplo, se pasó su límite diario, que GitHub comparte con otros
+      # usuarios), el clima de los últimos días sale de NASA POWER (≈ 30 consultas para todo el país). La web ya usa
+      # POWER para los días que no tengan Open-Meteo. POWER publica con 2 o 3 días de atraso.
+      - name: Clima NASA POWER (respaldo)
+        if: steps.clima.outcome == 'failure'
+        run: |
+          echo "::warning title=Respaldo de clima::Open-Meteo no respondió; el clima de estos días sale de NASA POWER."
+          npm run extraer -- temperatura-power
 
       # Tema 4 · Estudio hídrico: suma lo que el paso anterior guardó en clima_diario (sin llamadas a APIs)
       - name: Agua Open-Meteo
@@ -92,7 +104,16 @@ jobs:
 
       # Tema 2 · Humedad del suelo (Open-Meteo, 3 profundidades, últimos 7 días)
       - name: Humedad del suelo Open-Meteo
+        id: humedad
+        continue-on-error: true
         run: npm run extraer -- humedad-open-meteo
+
+      # Respaldo: la humedad del suelo de NASA POWER (superficie, raíz y perfil), igual que el clima.
+      - name: Humedad del suelo NASA POWER (respaldo)
+        if: steps.humedad.outcome == 'failure'
+        run: |
+          echo "::warning title=Respaldo de humedad::Open-Meteo no respondió; la humedad del suelo sale de NASA POWER."
+          npm run extraer -- humedad-power
 
   # Tema 3 · Boletín diario PIMA-CENADA (lunes a viernes, hasta que salga el de hoy). El portal necesita Chrome
   # (ya viene en ubuntu-latest) y el PDF se lee con pdftotext (poppler-utils).
