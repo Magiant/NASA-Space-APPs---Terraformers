@@ -207,7 +207,8 @@ export default function ReportarPlaga() {
         <label className="subir-foto">
           <Icono nombre="camara" tam={22} /> {foto ? tp.cambiarFoto : tp.foto}
           <input
-            type="file" accept="image/*" capture="environment"
+            // Sin capture: el teléfono deja elegir entre tomar la foto o buscarla en la galería.
+            type="file" accept="image/*"
             onChange={(e) => {
               const f = e.target.files?.[0];
               setFoto(f ? URL.createObjectURL(f) : null);

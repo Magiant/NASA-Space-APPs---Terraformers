@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Lo único que la app comparte con el instalador de Android: el APK de la actualización (Actualizador.kt). -->
+<!-- Lo único que la app comparte con otras apps, siempre en su caché:
+     el APK de la actualización (Actualizador.kt) y la foto que toma la cámara para el reporte de plagas (MainActivity.kt). -->
 <paths>
     <cache-path name="actualizacion" path="actualizacion/" />
+    <cache-path name="fotos" path="fotos/" />
 </paths>
