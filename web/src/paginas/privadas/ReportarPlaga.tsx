@@ -1,7 +1,7 @@
 import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useAvisoSinGuardar } from '../../componentes/Confirmar';
+import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando } from '../../componentes/Estados';
 import ListaSugerencias from '../../componentes/ListaSugerencias';
 import { useAuth } from '../../contexto/AuthContext';
@@ -85,7 +85,7 @@ export default function ReportarPlaga() {
   const [gravedad, setGravedad] = useState<Gravedad>('moderada');
   const [foto, setFoto] = useState<string | null>(null);
   const [enviado, setEnviado] = useState<{ enCola: boolean } | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const avisar = useAvisar();
   const { usuario } = useAuth();
   // Reporte empezado y sin enviar: avisar antes de salir.
   useAvisoSinGuardar(!enviado && (!!tipo || !!plagaId || !!sintomas.trim() || !!foto));
@@ -116,7 +116,7 @@ export default function ReportarPlaga() {
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    if (!tipo) return setError(tp.eligeTipo);
+    if (!tipo) return void avisar({ titulo: t.avisos.revisarDato, texto: tp.eligeTipo, tono: 'error' });
     const reporte = {
       siembra_id: siembra?.id ?? null,
       codigo_distrito: finca!.codigo_distrito,
@@ -209,7 +209,6 @@ export default function ReportarPlaga() {
         </label>
         {foto && <img src={foto} alt={tp.fotoAlt} className="vista-foto" />}
 
-        {error && <p className="aviso aviso-error" role="alert">{error}</p>}
         <button className="boton boton-ancho">{enLinea ? tp.enviar : tp.guardarDespues}</button>
       </form>
     </section>

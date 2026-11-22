@@ -49,6 +49,7 @@ export const es = {
   // Ventanas de "¿Está seguro?" (componentes/Confirmar.tsx)
   confirmar: {
     cancelar: 'Cancelar',
+    aceptar: 'Aceptar',
     salir: {
       titulo: '¿Cerrar sesión?',
       texto: 'Para volver a ver sus fincas, siembras y reportes tendrá que entrar otra vez con su correo y contraseña.',
@@ -86,6 +87,29 @@ export const es = {
       aceptar: 'Salir sin guardar',
       seguir: 'Seguir aquí',
     },
+  },
+
+  // Ventanas flotantes con "Aceptar" (componentes/Confirmar.tsx)
+  avisos: {
+    revisarDato: 'Revise este dato',
+    // Cuando el navegador rechaza un campo al enviar: n = nombre del campo tal como se ve en pantalla.
+    campo: {
+      falta: (n: string) => (n ? `Falta llenar «${n}».` : 'Falta llenar un dato.'),
+      elegir: (n: string) => (n ? `Elija una opción en «${n}».` : 'Falta elegir una opción.'),
+      archivo: (n: string) => (n ? `Falta «${n}».` : 'Falta elegir un archivo.'),
+      numero: (n: string) => `«${n}»: escriba solo un número (por ejemplo 1.5).`,
+      correo: (n: string) => `«${n}»: revise que el correo esté bien escrito (por ejemplo nombre@correo.com).`,
+      formato: (n: string) => `«${n}»: revise lo que escribió.`,
+      maximo: (n: string, max: string) => `«${n}»: el número más alto que se acepta es ${max}.`,
+      minimo: (n: string, min: string) => `«${n}»: el número más bajo que se acepta es ${min}.`,
+      corto: (n: string, c: number) => `«${n}»: escriba al menos ${c} caracteres.`,
+      largo: (n: string, c: number) => `«${n}»: escriba como máximo ${c} caracteres.`,
+      decimales: (n: string) => `«${n}»: use como máximo dos decimales.`,
+    },
+    noSeGuardo: 'No se pudo guardar',
+    noSeEnvio: 'No se pudo enviar',
+    noSeCambio: 'No se pudo cambiar',
+    reportesEnviados: 'Reportes enviados',
   },
 
   ajustes: {

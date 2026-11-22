@@ -46,6 +46,7 @@ export const en: Textos = {
 
   confirmar: {
     cancelar: 'Cancel',
+    aceptar: 'OK',
     salir: {
       titulo: 'Sign out?',
       texto: 'To see your farms, plantings and reports again you will need to sign in with your email and password.',
@@ -82,6 +83,27 @@ export const en: Textos = {
       aceptar: 'Leave without saving',
       seguir: 'Stay here',
     },
+  },
+
+  avisos: {
+    revisarDato: 'Check this field',
+    campo: {
+      falta: (n) => (n ? `“${n}” is missing.` : 'A field is missing.'),
+      elegir: (n) => (n ? `Choose an option in “${n}”.` : 'Choose an option.'),
+      archivo: (n) => (n ? `“${n}” is missing.` : 'Choose a file.'),
+      numero: (n) => `“${n}”: type a number only (for example 1.5).`,
+      correo: (n) => `“${n}”: check that the email is written correctly (for example name@mail.com).`,
+      formato: (n) => `“${n}”: check what you typed.`,
+      maximo: (n, max) => `“${n}”: the highest number accepted is ${max}.`,
+      minimo: (n, min) => `“${n}”: the lowest number accepted is ${min}.`,
+      corto: (n, c) => `“${n}”: type at least ${c} characters.`,
+      largo: (n, c) => `“${n}”: type at most ${c} characters.`,
+      decimales: (n) => `“${n}”: use at most two decimals.`,
+    },
+    noSeGuardo: 'Could not save',
+    noSeEnvio: 'Could not send',
+    noSeCambio: 'Could not change',
+    reportesEnviados: 'Reports sent',
   },
 
   ajustes: {

@@ -1626,6 +1626,11 @@ body::before {
 .confirmar-caja { display: grid; gap: 12px; padding: 26px 24px 22px; }
 .confirmar-icono { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; background: var(--primario-suave); color: var(--primario); }
 .confirmar-peligro .confirmar-icono { background: var(--nor-fondo); color: var(--nor); }
+.confirmar-info .confirmar-icono { background: var(--bue-fondo); color: var(--bue); }
+/* Para leer un texto largo (un aviso del IMN completo): más ancha y el texto se desplaza adentro */
+.confirmar-amplio { width: min(720px, calc(100vw - 32px)); }
+.confirmar-amplio .confirmar-texto { max-height: min(60vh, 560px); overflow-y: auto; padding-right: 6px; line-height: 1.6; }
+.confirmar-texto ul, .confirmar-texto ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .confirmar h2 { margin: 4px 0 0; font-size: 1.3rem; line-height: 1.25; }
 .confirmar-texto { display: grid; gap: 8px; color: var(--texto-suave); }
 .confirmar-texto p { margin: 0; }
