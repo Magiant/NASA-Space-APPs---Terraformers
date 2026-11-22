@@ -2,7 +2,7 @@
 // No hace falta un servidor propio: Supabase expone cada tabla y la base decide qué puede ver cada usuario.
 // Si la web no tiene las llaves (modo demo), se usa la simulación de ./demo.ts con la misma forma.
 import type { Extraccion, Finca, RegistroPrecio, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron } from '../tipos';
-import { datosDe, modoReal, supa } from './cliente';
+import { datosDe, modoReal, SITIO_PUBLICO, supa } from './cliente';
 import * as demo from './demo';
 import { seriePrecio } from './publico';
 
@@ -61,21 +61,29 @@ const authReal = {
     const u = data.session?.user;
     return u ? perfilDe(u.id, u.email) : null;
   },
+  // Correccion - Poll: la pantalla no sabía si el problema era la contraseña o el correo sin confirmar. Ahora el error
+  // lleva el motivo: con 'credenciales' se ofrece crear una cuenta; con 'sin_confirmar', reenviar el correo.
   ingresar: async (correo: string, clave: string): Promise<Usuario> => {
     const { data, error } = await db().auth.signInWithPassword({ email: correo.trim(), password: clave });
-    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
+    if (error) {
+      const motivo = /invalid login credentials/i.test(error.message) ? 'credenciales'
+        : error.code === 'email_not_confirmed' || /email not confirmed/i.test(error.message) ? 'sin_confirmar' : undefined;
+      throw Object.assign(new Error(mensajeAuth(error.message, error.code, correo.trim())), { motivo });
+    }
     const p = await perfilDe(data.user.id, data.user.email);
     if (!p) throw new Error('La cuenta no tiene perfil. Avise al equipo.');
     return p;
   },
   // Correccion - Poll: cuando Supabase pide confirmar el correo, la cuenta SI se creo, pero la pantalla lo mostraba
   // como un error rojo. Ahora el aviso lleva la marca `confirmarCorreo` y la pantalla muestra "Revise su correo".
+  // Correccion - Poll: el enlace del correo de confirmación llevaba a "localhost" (la dirección de pruebas del panel de
+  // Supabase) y no abría. Ahora se le dice a Supabase que vuelva a la página pública (SITIO_PUBLICO).
   /** Toda cuenta nueva es agricultor (lo asegura la base). Si Supabase pide confirmar el correo, lo avisa. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {
     if (clave.length < 8) throw new Error(`La contraseña tiene ${clave.length} caracteres: necesita al menos 8.`);
     const { data, error } = await db().auth.signUp({
       email: correo.trim(), password: clave,
-      options: { data: { nombre: nombre.trim(), codigo_distrito: codigoDistrito } },
+      options: { data: { nombre: nombre.trim(), codigo_distrito: codigoDistrito }, emailRedirectTo: SITIO_PUBLICO },
     });
     if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
     // Con "Confirm email" activo, Supabase responde sin sesión. Si el correo ya existía, responde un usuario sin identidades.
@@ -87,6 +95,11 @@ const authReal = {
     const p = await perfilDe(data.user.id, data.user.email);
     if (!p) throw new Error('No se pudo crear el perfil.');
     return p;
+  },
+  /** Vuelve a mandar el correo de confirmación (por ejemplo, si el primero llevaba a una dirección que no abría). */
+  reenviarConfirmacion: async (correo: string): Promise<void> => {
+    const { error } = await db().auth.resend({ type: 'signup', email: correo.trim(), options: { emailRedirectTo: SITIO_PUBLICO } });
+    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
   },
   salir: async (): Promise<void> => {
     await db().auth.signOut();

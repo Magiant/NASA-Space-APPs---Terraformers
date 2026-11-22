@@ -62,10 +62,13 @@ export const auth = {
 
   ingresar: async (correo: string, clave: string): Promise<Usuario> => {
     const u = base().usuarios.find((x) => x.correo.toLowerCase() === correo.trim().toLowerCase());
-    if (!u || u.clave !== clave) throw new Error('Correo o contraseña incorrectos.');
+    if (!u || u.clave !== clave) throw Object.assign(new Error('Correo o contraseña incorrectos.'), { motivo: 'credenciales' });
     guardar(CLAVE_SESION, u.id);
     return esperar(sinClave(u));
   },
+
+  /** En modo demo no hay correos: las cuentas quedan confirmadas al crearlas. */
+  reenviarConfirmacion: async (_correo: string): Promise<void> => {},
 
   /** Todo usuario nuevo es agricultor. Los roles técnico y admin solo los asigna un administrador. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {

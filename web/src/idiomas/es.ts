@@ -511,6 +511,18 @@ export const es = {
     confirmarTexto: (c: string) => `Su cuenta ya está creada. Le enviamos un enlace a «${c}»: ábralo para activarla y después entre.`,
     confirmarSpam: 'Si no lo ve en unos minutos, revise también «Spam» o «Promociones».',
     irEntrar: 'Ir a Entrar',
+    // Ventanas flotantes al entrar o crear la cuenta
+    noEntro: 'No se pudo entrar',
+    ofrecerCrear: '¿Todavía no tiene cuenta? Puede crearla con este correo.',
+    crearCuenta: 'Crear una cuenta',
+    otraVez: 'Intentar de nuevo',
+    faltaConfirmar: 'Falta confirmar el correo',
+    reenviar: 'Reenviar el correo',
+    reenviadoTitulo: 'Correo enviado',
+    reenviado: (c: string) => `Le enviamos de nuevo el correo de confirmación a «${c}». Ábralo (revise también «Spam» o «Promociones») y toque el enlace.`,
+    noReenviado: 'No se pudo reenviar el correo',
+    noLlego: '¿No le llegó? Reenviar el correo',
+    noSeCreo: 'No se pudo crear la cuenta',
     errores: {
       nombre: 'Escriba su nombre (al menos 2 letras). Así lo saludamos y su técnico sabe quién reporta.',
       nombreLargo: 'El nombre es muy largo: use como máximo 80 letras.',

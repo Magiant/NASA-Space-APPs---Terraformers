@@ -1,10 +1,12 @@
 import { Icono, Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAvisar } from '../../componentes/Confirmar';
 import MarcoCuenta from '../../componentes/MarcoCuenta';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
 import { modoReal } from '../../servicios/cliente';
+import { auth } from '../../servicios/supabase';
 
 /** Entrar con la cuenta, dentro del marco de las pantallas de cuenta (componentes/MarcoCuenta.tsx). */
 export default function Ingresar() {
@@ -17,20 +19,50 @@ export default function Ingresar() {
   const [correo, setCorreo] = useState('');
   const [clave, setClave] = useState('');
   const [verClave, setVerClave] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+  const avisar = useAvisar();
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    setError(null);
     setEnviando(true);
     try {
       const u = await ingresar(correo, clave);
       navegar(desde ?? (u.rol === 'admin' ? '/admin' : '/mi-finca'), { replace: true });
     } catch (err) {
-      setError((err as Error).message);
       setEnviando(false);
+      await explicar(err as Error & { motivo?: string });
     }
+  }
+
+  // Correccion - Poll: con un correo sin cuenta solo decía "correo o contraseña incorrectos". Supabase no dice si un
+  // correo existe (así nadie puede averiguar quién tiene cuenta), pero la ventana ofrece crearla con ese correo.
+  /** El error de entrar, en una ventana flotante con lo que se puede hacer. */
+  async function explicar(err: Error & { motivo?: string }) {
+    if (err.motivo === 'credenciales') {
+      const r = await avisar({
+        titulo: ta.noEntro, tono: 'error',
+        texto: <><p>{err.message}</p><p><strong>{ta.ofrecerCrear}</strong></p></>,
+        acciones: [{ id: 'otra', texto: ta.otraVez }, { id: 'crear', texto: ta.crearCuenta, principal: true }],
+      });
+      if (r === 'crear') navegar('/registrarse', { state: { ...(state ?? {}), correo: correo.trim() } });
+      return;
+    }
+    if (err.motivo === 'sin_confirmar') {
+      const r = await avisar({
+        titulo: ta.faltaConfirmar, texto: err.message, tono: 'info', icono: 'correo',
+        acciones: [{ id: 'aceptar', texto: t.confirmar.aceptar }, { id: 'reenviar', texto: ta.reenviar, principal: true }],
+      });
+      if (r === 'reenviar') {
+        try {
+          await auth.reenviarConfirmacion(correo);
+          await avisar({ titulo: ta.reenviadoTitulo, texto: ta.reenviado(correo.trim()), tono: 'exito', icono: 'correo' });
+        } catch (e2) {
+          await avisar({ titulo: ta.noReenviado, texto: (e2 as Error).message, tono: 'error' });
+        }
+      }
+      return;
+    }
+    await avisar({ titulo: ta.noEntro, texto: err.message, tono: 'error' });
   }
 
   const demo = (c: string) => {
@@ -71,8 +103,6 @@ export default function Ingresar() {
             </button>
           </span>
         </div>
-
-        {error && <p className="aviso aviso-error" role="alert">{error}</p>}
 
         <button className="boton boton-ancho cuenta-boton" disabled={enviando}>
           {enviando
