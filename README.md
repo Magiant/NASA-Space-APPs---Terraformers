@@ -59,7 +59,7 @@ The initial geographic focus is **Costa Rica**. TerraFarm combines NASA Earth-ob
 TerraFarm is available in three ways, all showing the same screens and data:
 
 - **Web application** (a Progressive Web App) that works on desktop and mobile browsers and keeps working with a weak signal.
-- **Android app** (`android/`, Kotlin + Jetpack Compose). It packages the web app with native Material 3 tabs, works without internet, and is built automatically by GitHub Actions. The APK can be downloaded from the web ("Download the app" button) or directly: [TerraFarm.apk](https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk). It is **not on Google Play**.
+- **Android app** (`android/`, Kotlin + Jetpack Compose). It packages the web app with native Material 3 tabs, works without internet, and is built automatically by GitHub Actions. The APK can be downloaded from the web ("Download the app" button) or directly: [TerraFarm.apk](https://github.com/Magiant/TerraFarm/releases/download/app-android/TerraFarm.apk). It is **not on Google Play**.
 - **iOS app** (`ios/`, SwiftUI + WebKit), with native tabs. GitHub Actions builds it in the cloud (no Mac needed), but it is **not yet on TestFlight or the App Store** (steps in `ios/README.md`).
 
 A **28-second demo video** for the judges is produced in code with Remotion (`video/`).
@@ -372,7 +372,7 @@ All migrations live in `supabase/migrations/` (001 → 014). They are applied au
 TerraFarm is an **npm monorepo**:
 
 ```text
-NASA-Space-APPs---Terraformers/
+TerraFarm/
 ├── web/                     Web app (React 18 + TypeScript + Vite 6, HashRouter, PWA)
 │   ├── src/paginas/         Screens: publicas/, privadas/, auth/, admin/
 │   ├── src/componentes/     Layout, cards, charts, map, 3D farm view, settings menu…
@@ -752,15 +752,15 @@ The team used AI assistants during development and documentation: **Claude (incl
 ## Live deployment
 
 <h1 align="center">
-  🌱 <a href="https://magiant.github.io/NASA-Space-APPs---Terraformers/">magiant.github.io/NASA-Space-APPs---Terraformers</a>
+  🌱 <a href="https://magiant.github.io/TerraFarm/">magiant.github.io/TerraFarm</a>
 </h1>
 
 <h2 align="center">
-  👉 <a href="https://magiant.github.io/NASA-Space-APPs---Terraformers/">OPEN TERRAFARM</a> 👈
+  👉 <a href="https://magiant.github.io/TerraFarm/">OPEN TERRAFARM</a> 👈
 </h2>
 
-<p align="center"><b>https://magiant.github.io/NASA-Space-APPs---Terraformers/</b></p>
+<p align="center"><b>https://magiant.github.io/TerraFarm/</b></p>
 
 <h3 align="center">
-  📱 <a href="https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk">Download the Android app (APK)</a>
+  📱 <a href="https://github.com/Magiant/TerraFarm/releases/download/app-android/TerraFarm.apk">Download the Android app (APK)</a>
 </h3>

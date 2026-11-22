@@ -41,7 +41,7 @@ de Android) cada vez que cambia `web/`, `android/` o `packages/compartido/`:
   permitir instalar apps desde TerraFarm). Para que se instale encima sin perder datos, todos los APK deben ir
   firmados con la misma llave del equipo (secretos de abajo); si la firma no coincide, la app lo explica.
 - En **main** lo publica en la versión del repo `app-android`, siempre en la misma dirección:
-  `https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk`.
+  `https://github.com/Magiant/TerraFarm/releases/download/app-android/TerraFarm.apk`.
   La página de Inicio y el pie de página tienen el botón "Descargar para Android" con ese enlace (no se
   muestra en iPhone/iPad ni dentro de las apps).
 - También se puede correr a mano desde la pestaña **Actions** (App Android → Run workflow).

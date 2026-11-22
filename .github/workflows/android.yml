@@ -1,6 +1,6 @@
 # App de Android: compila la web y el APK. En main, además lo publica como versión del repo
 # (etiqueta "app-android") para que la página tenga un enlace fijo de descarga:
-#   https://github.com/Magiant/NASA-Space-APPs---Terraformers/releases/download/app-android/TerraFarm.apk
+#   https://github.com/Magiant/TerraFarm/releases/download/app-android/TerraFarm.apk
 #
 # Secretos opcionales (Settings > Secrets and variables > Actions):
 #   VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_ALGOLIA_APP_ID, VITE_ALGOLIA_SEARCH_KEY
