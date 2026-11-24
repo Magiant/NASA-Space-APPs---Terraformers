@@ -3,6 +3,7 @@
 // Sin estas variables (por ejemplo, una copia local sin .env), la web funciona en modo demo con datos de ejemplo.
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { errorServidor } from '../errores';
+import { borrar, guardar, leer } from './almacen';
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const llave = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -15,6 +16,12 @@ export const SITIO_PUBLICO = (import.meta.env.VITE_SITIO_URL as string | undefin
 
 /** true = base real de Supabase; false = datos de ejemplo guardados en el navegador. */
 export const modoReal = Boolean(url && llave);
+const CLAVE_DEMO_AISLADO = 'tf-demo-aislado';
+
+export const modoDemoAislado = () => leer(CLAVE_DEMO_AISLADO, false);
+export const activarDemoAislado = () => guardar(CLAVE_DEMO_AISLADO, true);
+export const desactivarDemoAislado = () => borrar(CLAVE_DEMO_AISLADO);
+export const modoRealActual = () => modoReal && !modoDemoAislado();
 
 export const supa: SupabaseClient | null = modoReal
   ? createClient(url!, llave!, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'tf-auth' } })

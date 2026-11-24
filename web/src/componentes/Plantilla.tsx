@@ -9,10 +9,9 @@ import { EnlaceDescargaApp } from './DescargarApp';
 import { useAvisar } from './Confirmar';
 import { Icono } from './Iconos';
 import MenuAjustes from './MenuAjustes';
-import { modoReal } from '../servicios/cliente';
 
 export default function Plantilla() {
-  const { usuario } = useAuth();
+  const { usuario, modoDemo } = useAuth();
   const { t } = usePreferencias();
   const enLinea = useEnLinea();
   const { pathname } = useLocation();
@@ -102,6 +101,7 @@ export default function Plantilla() {
           <Icono nombre="sinsenal" tam={18} /> {t.conexion.sinSenal}{enCola ? ` · ${t.conexion.porEnviar(enCola)}` : ''}.
         </p>
       )}
+      {modoDemo && <p className="banda banda-ejemplo" role="status">{t.comun.demoAislado}</p>}
 
       <main className="contenido">
         <BotonVolver />

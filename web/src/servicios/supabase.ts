@@ -2,7 +2,7 @@
 // No hace falta un servidor propio: Supabase expone cada tabla y la base decide qué puede ver cada usuario.
 // Si la web no tiene las llaves (modo demo), se usa la simulación de ./demo.ts con la misma forma.
 import type { Extraccion, Finca, RegistroPrecio, ReportePlaga, Rol, Seguimiento, Siembra, Usuario, VueloDron } from '../tipos';
-import { datosDe, modoReal, SITIO_PUBLICO, supa } from './cliente';
+import { datosDe, modoDemoAislado, modoReal, SITIO_PUBLICO, supa } from './cliente';
 import * as demo from './demo';
 import { seriePrecio } from './publico';
 import { ErrorApp, errorServidor } from '../errores';
@@ -284,8 +284,20 @@ const adminReal = {
   },
 };
 
-export const auth = modoReal ? authReal : { ...demo.auth, sesion: async () => demo.auth.sesion() };
-export const datos = modoReal ? datosReales : demo.datos;
-export const series = modoReal ? seriesReales : demo.series;
-export const admin = modoReal ? adminReal : demo.admin;
+function servicioSegunModo<T extends object>(real: T, simulada: T): T {
+  if (!modoReal) return simulada;
+  return new Proxy(real, {
+    get(target, propiedad, receptor) {
+      const fuente = modoDemoAislado() ? simulada : target;
+      return Reflect.get(fuente, propiedad, fuente === target ? receptor : fuente);
+    },
+  });
+}
+
+const authDemo = { ...demo.auth, sesion: async () => demo.auth.sesion() };
+
+export const auth = servicioSegunModo(authReal, authDemo);
+export const datos = servicioSegunModo(datosReales, demo.datos);
+export const series = servicioSegunModo(seriesReales, demo.series);
+export const admin = servicioSegunModo(adminReal, demo.admin);
 export { modoReal };

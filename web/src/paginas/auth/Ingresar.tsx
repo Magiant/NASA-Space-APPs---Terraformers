@@ -6,14 +6,14 @@ import { useAvisar } from '../../componentes/Confirmar';
 import MarcoCuenta from '../../componentes/MarcoCuenta';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
-import { modoReal } from '../../servicios/cliente';
+import { modoRealActual } from '../../servicios/cliente';
 import { auth } from '../../servicios/supabase';
 
 /** Entrar con la cuenta, dentro del marco de las pantallas de cuenta (componentes/MarcoCuenta.tsx). */
 export default function Ingresar() {
   const t = useT();
   const ta = t.auth;
-  const { ingresar } = useAuth();
+  const { ingresar, ingresarDemo, modoDemo } = useAuth();
   const navegar = useNavigate();
   const { state } = useLocation() as { state: { desde?: string } | null };
   const desde = state?.desde;
@@ -43,7 +43,7 @@ export default function Ingresar() {
   // Correccion - Poll: el boton no mostraba que estaba enviando y se podia tocar varias veces (y llegar al limite de
   // correos del servidor); ahora dice "Enviando…" y se bloquea mientras espera.
   async function olvide() {
-    if (!modoReal) return void avisar({ titulo: ta.olvide, texto: ta.olvideDemo, tono: 'info' });
+    if (!modoRealActual()) return void avisar({ titulo: ta.olvide, texto: ta.olvideDemo, tono: 'info' });
     if (!correo.trim()) return void avisar({ titulo: ta.olvide, texto: ta.olvideSinCorreo, tono: 'info', icono: 'correo' });
     if (pidiendo) return;
     setPidiendo(true);
@@ -92,6 +92,17 @@ export default function Ingresar() {
     setClave('demo1234');
   };
 
+  async function probarDemo() {
+    setEnviando(true);
+    try {
+      await ingresarDemo();
+      navegar(desde ?? '/mi-finca', { replace: true });
+    } catch (err) {
+      setEnviando(false);
+      await avisar({ titulo: ta.demo, texto: mensajeError(t, err), tono: 'error' });
+    }
+  }
+
   return (
     <MarcoCuenta idTitulo="titulo-entrar">
       <h1 id="titulo-entrar">{ta.entrar}</h1>
@@ -137,7 +148,16 @@ export default function Ingresar() {
       {/* Correccion - Poll: con la base real se ofrecia agricultor@demo.cr con la contrasena publica demo1234: cualquiera
           entraba a una cuenta compartida y mandaba reportes de plaga al tecnico real. Ahora las cuentas de prueba solo
           se ofrecen en la demostracion (sin base de datos). */}
-      {!modoReal && (
+      {modoRealActual() && !modoDemo && (
+        <details className="plegable demo cuenta-demo">
+          <summary>{ta.demo}</summary>
+          <p className="ayuda">{ta.demoAisladoAviso}</p>
+          <button type="button" className="boton boton-ancho" onClick={probarDemo} disabled={enviando}>
+            {enviando ? ta.entrando : ta.demoEntrar}
+          </button>
+        </details>
+      )}
+      {!modoRealActual() && (
       <details className="plegable demo cuenta-demo">
         <summary>{ta.demo}</summary>
         <ul>
