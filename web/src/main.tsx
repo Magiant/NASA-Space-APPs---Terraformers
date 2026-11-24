@@ -1,6 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { EsqueletoInicio } from './componentes/Estados';
+import { PreferenciasProvider } from './contexto/PreferenciasContext';
 import { prepararCatalogo } from './servicios/algolia';
 import './temas/crema.css';
 import './temas/azul.css';
@@ -20,6 +22,12 @@ const mostrar = () =>
       <App />
     </StrictMode>,
   );
+
+raiz.render(
+  <PreferenciasProvider>
+    <EsqueletoInicio />
+  </PreferenciasProvider>,
+);
 
 // Antes de mostrar la app se cargan los 492 distritos (o la copia guardada en el celular).
 // Si no hay forma de cargarlos, la app abre igual y el selector queda vacío hasta que vuelva la señal.
