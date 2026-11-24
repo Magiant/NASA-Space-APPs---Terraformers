@@ -1,4 +1,5 @@
 import { useAvisar, useConfirmar } from '../../componentes/Confirmar';
+import { mensajeError } from '../../errores';
 import { Icono, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
@@ -97,7 +98,7 @@ function Usuarios() {
                         await admin.cambiarRol(u.id, rol);
                         lista.recargar();
                       } catch (err) {
-                        avisar({ titulo: t.avisos.noSeCambio, texto: (err as Error).message, tono: 'error' });
+                        avisar({ titulo: t.avisos.noSeCambio, texto: mensajeError(t, err), tono: 'error' });
                       }
                     }}
                   >

@@ -34,8 +34,11 @@ export default function ListaSugerencias({
   accion?: (cultivoId: string) => void;
 }) {
   const t = useT();
+  // Correccion - Poll: el numero delante de cada cultivo parecia un ranking oficial y un "Excelente" quedaba debajo
+  // de un "Bueno" sin explicacion; ahora se dice arriba como se ordena la lista.
   return (
     <>
+      {sugerencias.length > 1 && <p className="ayuda">{t.siembra.ordenSugerencias}</p>}
       <div className="lista-tarjetas rejilla-productos">
         {sugerencias.map(({ a, razones }, i) => {
           const nombre = nombreCultivo(t, a.cultivo_id, a.cultivo);

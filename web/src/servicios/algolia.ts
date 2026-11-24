@@ -21,6 +21,13 @@ const responder = <T,>(datos: T): Promise<T> =>
 
 const porPuntaje = (a: RegistroAptitud, b: RegistroAptitud) => b.puntaje - a.puntaje;
 
+// Correccion - Poll: la demo mostraba como vigente un aviso que termino el 16-11 (el modo real ya filtraba por fecha);
+// ahora la demo tambien deja fuera los avisos ya terminados.
+const alertasVigentes = () => {
+  const hoy = new Date().toLocaleDateString('en-CA');
+  return ALERTAS.filter((a) => !a.fin || a.fin >= hoy);
+};
+
 // Lista de distritos: en modo real se llena al abrir la app (prepararCatalogo); en demo, los de ejemplo.
 let zonas: RegistroZona[] = modoReal ? [] : ZONAS;
 const cacheZonas = new Map<string, Promise<RegistroZona>>();
@@ -91,7 +98,9 @@ export const algolia = {
     const [z, filas, precios] = await Promise.all([zonaCompleta(codigo), publico.aptitudDeDistrito(codigo), preciosReales().catch(() => [])]);
     if (!z) return [];
     // Si la tabla aún no tiene este distrito, se estima en el navegador con sus datos reales.
-    return (filas.length ? aptitudesDe(z, filas, precios) : aptitudDeZonaEstimada(z)).sort(porPuntaje);
+    // Correccion - Poll: la estimacion se mostraba igual que el calculo completo, sin avisar; ahora va marcada
+    // como "estimado" y la tarjeta dice que es un calculo aproximado.
+    return (filas.length ? aptitudesDe(z, filas, precios) : aptitudDeZonaEstimada(z).map((a) => ({ ...a, estimado: true }))).sort(porPuntaje);
   },
 
   /** En qué distritos va mejor un cultivo (con el clima del mes y el pH de todos los distritos). */
@@ -127,7 +136,7 @@ export const algolia = {
 
   // ---- Con fuente real ----
   alertas: (codigo?: string): Promise<RegistroAlerta[]> =>
-    modoReal ? publico.alertasReales(codigo) : responder(codigo ? ALERTAS.filter((a) => a.codigos_distrito.includes(codigo)) : ALERTAS),
+    modoReal ? publico.alertasReales(codigo) : responder(alertasVigentes().filter((a) => !codigo || a.codigos_distrito.includes(codigo))),
 
   capacitaciones: (): Promise<RegistroCapacitacion[]> =>
     modoReal ? publico.capacitacionesReales() : responder(CAPACITACIONES),

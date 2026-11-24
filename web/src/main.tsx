@@ -6,6 +6,13 @@ import './temas/crema.css';
 import './temas/azul.css';
 import './estilos.css';
 
+// Correccion - Poll: si el enlace del correo "¿Olvido su contrasena?" ya habia vencido, Supabase dejaba el error en la
+// direccion (#error=...&error_code=otp_expired) y la app mostraba "Pagina no encontrada". Ahora lleva a #/nueva-clave,
+// que explica que el enlace vencio y como pedir otro.
+if (/(^#|&)(error_code|error_description)=/.test(window.location.hash)) {
+  window.history.replaceState(null, '', '#/nueva-clave');
+}
+
 const raiz = createRoot(document.getElementById('root')!);
 const mostrar = () =>
   raiz.render(

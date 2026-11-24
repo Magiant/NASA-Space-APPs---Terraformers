@@ -1,8 +1,9 @@
 import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
+import { mensajeError } from '../../errores';
 import { useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
-import { Cargando } from '../../componentes/Estados';
+import { Cargando, ErrorCarga } from '../../componentes/Estados';
 import ListaSugerencias from '../../componentes/ListaSugerencias';
 import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
@@ -11,7 +12,7 @@ import { cola } from '../../offline/cola';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import type { Gravedad, RegistroPlaga, TipoPlaga } from '../../tipos';
-import { hoy, nombreCultivo, nombrePlaga, useCargar, useEnLinea } from '../../utilidades';
+import { copiaPrivada, hoy, nombreCultivo, nombrePlaga, useCargar, useEnLinea } from '../../utilidades';
 
 const TIPOS: { valor: TipoPlaga | 'no_se'; icono: NombreIcono }[] = [
   { valor: 'insecto', icono: 'plaga' },
@@ -76,8 +77,11 @@ export default function ReportarPlaga() {
   const tp = t.plaga;
   const [params] = useSearchParams();
   const enLinea = useEnLinea();
-  const fincas = useCargar(() => datos.misFincas(), []);
-  const siembras = useCargar(() => datos.misSiembras(), []);
+  const { usuario } = useAuth();
+  // Correccion - Poll: si fallaba la carga (por ejemplo sin senal) decia "Registre su primera finca" a quien si tiene;
+  // ahora usa la copia guardada de Mi finca y, si no hay, muestra el error con "Intentar de nuevo".
+  const fincas = useCargar(() => datos.misFincas(), [], copiaPrivada(usuario?.id, 'fincas'));
+  const siembras = useCargar(() => datos.misSiembras(), [], copiaPrivada(usuario?.id, 'siembras'));
   const [siembraId, setSiembraId] = useState(params.get('siembra') ?? '');
   const [tipo, setTipo] = useState<TipoPlaga | 'no_se' | null>(null);
   const [plagaId, setPlagaId] = useState('');
@@ -86,11 +90,11 @@ export default function ReportarPlaga() {
   const [foto, setFoto] = useState<string | null>(null);
   const [enviado, setEnviado] = useState<{ enCola: boolean } | null>(null);
   const avisar = useAvisar();
-  const { usuario } = useAuth();
   // Reporte empezado y sin enviar: avisar antes de salir.
   useAvisoSinGuardar(!enviado && (!!tipo || !!plagaId || !!sintomas.trim() || !!foto));
 
   if (fincas.cargando || siembras.cargando) return <Cargando />;
+  if (fincas.error) return <ErrorCarga mensaje={fincas.error} reintentar={fincas.recargar} />;
   const activas = (siembras.datos ?? []).filter((s) => s.estado === 'activa');
   const siembra = activas.find((s) => s.id === siembraId);
   const finca = fincas.datos?.find((f) => f.id === siembra?.finca_id) ?? fincas.datos?.[0];
@@ -114,6 +118,8 @@ export default function ReportarPlaga() {
     );
   }
 
+  // Correccion - Poll: la foto nunca sale del telefono (no se sube a ningun lado), pero el reporte se guardaba con
+  // con_foto: true y el tecnico creia que habia foto; ahora se guarda false y el formulario avisa que no se envia.
   async function enviar(e: FormEvent) {
     e.preventDefault();
     if (!tipo) return void avisar({ titulo: t.avisos.revisarDato, texto: tp.eligeTipo, tono: 'error' });
@@ -121,7 +127,7 @@ export default function ReportarPlaga() {
       siembra_id: siembra?.id ?? null,
       codigo_distrito: finca!.codigo_distrito,
       tipo, plaga_id: plagaId || null, sintomas: sintomas.trim(), gravedad,
-      con_foto: !!foto, fecha: hoy(),
+      con_foto: false, fecha: hoy(),
     };
     // En la cola queda de quién es el reporte, para no enviarlo con otra cuenta (offline/cola.ts).
     if (!enLinea) {
@@ -134,12 +140,12 @@ export default function ReportarPlaga() {
     } catch (err) {
       // Correccion - Poll: antes cualquier error dejaba el reporte "para enviar después", aunque hubiera señal (y
       // fallaría igual al reintentar). Ahora solo se guarda para después si falta conexión; si no, se avisa el error.
-      const mensaje = (err as Error).message;
-      if (/fetch|network|load failed|conexi/i.test(mensaje)) {
+      // Correccion - Poll: la falta de senal se adivinaba por el texto del error; ahora se usa su codigo.
+      if ((err as { codigo?: string }).codigo === 'sin_conexion' || !navigator.onLine) {
         cola.agregar(reporte, usuario!.id);
         setEnviado({ enCola: true });
       } else {
-        avisar({ titulo: t.avisos.noSeEnvio, texto: mensaje, tono: 'error' });
+        avisar({ titulo: t.avisos.noSeEnvio, texto: mensajeError(t, err), tono: 'error' });
       }
     }
   }
@@ -215,6 +221,7 @@ export default function ReportarPlaga() {
             }}
           />
         </label>
+        <p className="ayuda">{tp.fotoNoSeEnvia}</p>
         {foto && <img src={foto} alt={tp.fotoAlt} className="vista-foto" />}
 
         <button className="boton boton-ancho">{enLinea ? tp.enviar : tp.guardarDespues}</button>

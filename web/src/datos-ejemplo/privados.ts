@@ -123,7 +123,7 @@ export const BASE_INICIAL: BaseDemo = {
     { id: 'g3', siembra_id: 's1', fecha: '2026-11-08', tipo: 'problema', nota: 'Manchas cafés en hojas de la parte baja.' },
   ],
   reportes: [
-    { id: 'r1', usuario_id: 'u-agri', siembra_id: 's1', codigo_distrito: 'CR30101', tipo: 'hongo', plaga_id: 'tizon-tardio', sintomas: 'Manchas cafés en las hojas de abajo.', gravedad: 'moderada', con_foto: true, fecha: '2026-11-08', estado: 'pendiente' },
+    { id: 'r1', usuario_id: 'u-agri', siembra_id: 's1', codigo_distrito: 'CR30101', tipo: 'hongo', plaga_id: 'tizon-tardio', sintomas: 'Manchas cafés en las hojas de abajo.', gravedad: 'moderada', con_foto: false, fecha: '2026-11-08', estado: 'pendiente' },
     { id: 'r2', usuario_id: 'u-agri2', siembra_id: null, codigo_distrito: 'CR21001', tipo: 'insecto', plaga_id: 'mosca-blanca', sintomas: 'Mosquitas blancas debajo de las hojas del chile.', gravedad: 'leve', con_foto: false, fecha: '2026-11-11', estado: 'confirmado' },
   ],
   vuelos: [

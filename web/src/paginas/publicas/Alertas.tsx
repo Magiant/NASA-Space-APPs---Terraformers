@@ -2,7 +2,7 @@ import { FotoAlerta, Icono } from '../../componentes/Iconos';
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAvisar } from '../../componentes/Confirmar';
-import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
+import { AvisoCopia, Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
 import { PronosticoZona } from '../../componentes/Pronostico';
 import { useT } from '../../contexto/PreferenciasContext';
 import { algolia, catalogo } from '../../servicios/algolia';
@@ -16,6 +16,12 @@ import { fecha, useCargar, useZonaElegida } from '../../utilidades';
  * La vista va en la dirección (/alertas?ver=alertas) para poder enlazar directo a las alertas.
  * La zona es la misma de Sembrar; si aún no la eligió, en Tiempo puede elegir provincia, cantón y distrito.
  */
+// Correccion - Poll: la lista salia en el orden de los datos (o por fecha), asi que un aviso de "Peligro" podia quedar
+// debajo de uno de "Vigilancia"; ahora va de mas grave a menos grave y, dentro del mismo nivel, del mas nuevo al mas viejo.
+const GRAVEDAD: Record<RegistroAlerta['nivel'], number> = { roja: 4, naranja: 3, amarilla: 2, verde: 1 };
+const porGravedad = (lista: RegistroAlerta[]) =>
+  [...lista].sort((a, b) => GRAVEDAD[b.nivel] - GRAVEDAD[a.nivel] || (b.inicio ?? '').localeCompare(a.inicio ?? ''));
+
 export default function Alertas() {
   const t = useT();
   const ta = t.alertas;
@@ -28,7 +34,7 @@ export default function Alertas() {
     avisar({
       titulo: a.titulo, tono: 'info', icono: 'alertas', amplio: true,
       texto: <>
-        <p className="alerta-fuente">{a.fuente} · {a.tipo} · {ta.desde} {fecha(a.inicio)}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''}</p>
+        <p className="alerta-fuente">{a.fuente} · {a.tipo} · {a.inicio ? `${ta.desde} ${fecha(a.inicio)}` : ''}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''}</p>
         {a.descripcion.split(/\n+/).filter(Boolean).map((parrafo, i) => <p key={i}>{parrafo}</p>)}
       </>,
     });
@@ -42,7 +48,7 @@ export default function Alertas() {
     setZona(c);
     if (c) setSoloMiZona(true);
   };
-  const alertas = useCargar(() => algolia.alertas(soloMiZona && zona ? zona : undefined), [soloMiZona, zona]);
+  const alertas = useCargar(() => algolia.alertas(soloMiZona && zona ? zona : undefined), [soloMiZona, zona], `tf-copia-alertas-${soloMiZona && zona ? zona : 'pais'}`);
   const nombreZona = zona ? catalogo.zona(zona)?.distrito : null;
   const resumen = (texto: string) => {
     if (texto.length <= 150) return texto;
@@ -81,24 +87,26 @@ export default function Alertas() {
       ) : (
         <div role="tabpanel" id="vista-alertas" aria-labelledby="pestana-alertas">
           <p className="ayuda">{ta.ayudaAlertas}</p>
+          <p className="ayuda">{ta.leyendaNiveles}</p>
 
           {nombreZona && (
-            <div className="interruptor" role="tablist">
-              <button role="tab" aria-selected={soloMiZona} onClick={() => setSoloMiZona(true)}>{ta.en(nombreZona)}</button>
-              <button role="tab" aria-selected={!soloMiZona} onClick={() => setSoloMiZona(false)}>{ta.todoPais}</button>
+            <div className="interruptor" role="group">
+              <button aria-pressed={soloMiZona} onClick={() => setSoloMiZona(true)}>{ta.en(nombreZona)}</button>
+              <button aria-pressed={!soloMiZona} onClick={() => setSoloMiZona(false)}>{ta.todoPais}</button>
             </div>
           )}
 
           {alertas.cargando && <Cargando />}
           {alertas.error && <ErrorCarga mensaje={alertas.error} reintentar={alertas.recargar} />}
+          <AvisoCopia cuando={alertas.guardadoEl} />
           {alertas.datos?.length === 0 && (
             <Vacio icono={<Icono nombre="sol" tam={48} />} titulo={ta.noHay}>
-              <p>{ta.noHayTexto(soloMiZona)}</p>
+              <p>{ta.noHayTexto(soloMiZona && nombreZona ? nombreZona : null)}</p>
             </Vacio>
           )}
 
           <div className="lista-alertas">
-            {alertas.datos?.map((a) => {
+            {porGravedad(alertas.datos ?? []).map((a) => {
               const zonas = a.codigos_distrito.map((c) => catalogo.zona(c)).filter(Boolean);
               return <article key={a.objectID} className={`alerta alerta-${a.nivel}`}>
                 <div className="alerta-visual">
@@ -119,7 +127,7 @@ export default function Alertas() {
                   <div className="alerta-pie">
                     <p className="alerta-fechas">
                       <Icono nombre="reloj" tam={16} />
-                      {ta.desde} {fecha(a.inicio)}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''}
+                      {a.inicio ? `${ta.desde} ${fecha(a.inicio)}` : ''}{a.fin ? ` ${ta.hasta} ${fecha(a.fin)}` : ''}
                     </p>
                     <div className="alerta-ubicaciones">
                       <Icono nombre={zonas.length ? 'pin' : 'globo'} tam={16} />

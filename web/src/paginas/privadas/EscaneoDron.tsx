@@ -1,7 +1,8 @@
 import { Icono, Tx } from '../../componentes/Iconos';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Cargando, Vacio } from '../../componentes/Estados';
+import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
+import { useAuth } from '../../contexto/AuthContext';
 import MapaFinca3D from '../../componentes/MapaFinca3D';
 import { guardar, leer } from '../../servicios/almacen';
 import { useT } from '../../contexto/PreferenciasContext';
@@ -9,7 +10,7 @@ import { datos, modoReal } from '../../servicios/supabase';
 import { BASE_INICIAL } from '../../datos-ejemplo/privados';
 import type { Finca, VueloDron } from '../../tipos';
 import { clave, esArea, esLinea, esPunto, ESTILO, usosNoAgricolas, zonasProteccion } from '../../logica/elementosFinca';
-import { fecha, useCargar } from '../../utilidades';
+import { copiaPrivada, fecha, hoy, useCargar } from '../../utilidades';
 
 /**
  * Escaneo con dron de una finca, pensado para leerse en el campo:
@@ -38,7 +39,8 @@ const nombreParcela = (f: number, c: number) => `${FILAS[f] ?? f + 1}${c + 1}`;
 const SIMBOLO: Record<Salud | Cambio, string> = { sana: '', estres: '•', critica: '!', mejor: '▲', igual: '', peor: '▼' };
 /** Mismos colores que el plano 2D (.dron-celda.estado-*), para dibujar el 3D. */
 const COLOR: Record<Salud | Cambio, string> = { sana: '#2f8a3e', estres: '#d9a400', critica: '#c0391b', mejor: '#2f8a3e', igual: '#8d978f', peor: '#c0391b' };
-const dos = (n: number) => n.toFixed(2);
+// Correccion - Poll: el indice verde salia con punto ("0.74 de 1"); ahora con la coma del idioma ("0,74 de 1").
+const dos = (n: number, locale: string) => n.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 /**
  * Fincas de ejemplo (datos inventados) para ver cómo se ve un escaneo aunque la cuenta real todavía
@@ -58,7 +60,8 @@ export default function EscaneoDron() {
   const td = t.dron;
   const { fincaId } = useParams();
   const navegar = useNavigate();
-  const fincas = useCargar(() => datos.misFincas(), []);
+  const { usuario } = useAuth();
+  const fincas = useCargar(() => datos.misFincas(), [], copiaPrivada(usuario?.id, 'fincas'));
   const vuelos = useCargar(
     () => (!fincaId ? Promise.resolve([]) : esEjemplo(fincaId) ? Promise.resolve(vuelosEjemplo(fincaId)) : datos.vuelosDron(fincaId)),
     [fincaId],
@@ -82,6 +85,10 @@ export default function EscaneoDron() {
   useEffect(() => setParcela(null), [fincaId, elegido]);
 
   if (fincas.cargando || vuelos.cargando) return <Cargando />;
+  // Correccion - Poll: si fallaba la carga de fincas o vuelos decia "Registre su primera finca" o "no hay vuelos";
+  // ahora muestra el error con "Intentar de nuevo".
+  if (fincas.error) return <ErrorCarga mensaje={fincas.error} reintentar={fincas.recargar} />;
+  if (vuelos.error) return <ErrorCarga mensaje={vuelos.error} reintentar={vuelos.recargar} />;
   if (!todas.length) {
     return (
       <Vacio icono={<Icono nombre="dron" tam={48} />} titulo={t.fincas.primero}>
@@ -110,7 +117,8 @@ export default function EscaneoDron() {
         <span className="portada-sello"><Icono nombre="dron" tam={16} /> {td.titulo}{ejemplo ? ` · ${td.ejemplo}` : ''}</span>
         <h1>{finca?.nombre ?? td.esta}</h1>
         <p>
-          {v ? td.vueloDel(fecha(v.fecha)) : td.sinVuelos(finca?.nombre ?? td.esta)}
+          {/* Correccion - Poll: la fecha del vuelo no decia si era vieja; ahora dice hace cuantos dias fue. */}
+          {v ? td.vueloDel(fecha(v.fecha), Math.max(0, Math.round((Date.parse(hoy()) - Date.parse(v.fecha)) / 864e5))) : td.sinVuelos(finca?.nombre ?? td.esta)}
           {finca?.area_ha ? ` · ${td.hectareas(finca.area_ha)}` : ''}
         </p>
         <div className="dron-controles">
@@ -197,7 +205,7 @@ export default function EscaneoDron() {
     const u = usoDe(f, c);
     if (u) return td.parcelaOtro(nombreParcela(f, c), u.nombre ?? td.elementos[u.tipo]);
     const e = estadoDe(f, c);
-    return td.parcelaAria(nombreParcela(f, c), vistaActual === 'cambios' ? td.leyendaCambios[e as Cambio] : td.salud[e as Salud], dos(v.cuadricula[f][c]));
+    return td.parcelaAria(nombreParcela(f, c), vistaActual === 'cambios' ? td.leyendaCambios[e as Cambio] : td.salud[e as Salud], dos(v.cuadricula[f][c], t.locale));
   };
   const tocar = (f: number, c: number) => {
     const activa = parcela?.[0] === f && parcela?.[1] === c;
@@ -222,7 +230,9 @@ export default function EscaneoDron() {
         <div className={`tarjeta dron-veredicto salud-${s}`}>
           <span className={`dron-veredicto-icono estado-${s}`} aria-hidden><Icono nombre={s === 'sana' ? 'hoja' : 'alertas'} tam={34} /></span>
           <div>
-            <h2 id="dron-resumen-titulo">{td.resumen[s]}</h2>
+            {/* Correccion - Poll: decia "Sus plantas estan sanas" aunque justo debajo hubiera parcelas por revisar;
+                ahora, si el promedio es sano pero hay parcelas con estres, el titulo lo dice. */}
+            <h2 id="dron-resumen-titulo">{s === 'sana' && revisar.length > 0 ? td.sanaConRevisar(revisar.length) : td.resumen[s]}</h2>
             <p>{td.estresTerreno(v.area_estres_pct)}</p>
             {tendencia && tendencia !== 'igual' && (
               <p className={`dron-tendencia tendencia-${tendencia}`}>
@@ -235,7 +245,7 @@ export default function EscaneoDron() {
           <div className="ficha">
             <span className="ficha-icono" aria-hidden><Icono nombre="hoja" tam={24} /></span>
             <span className="ficha-titulo">{td.indiceVerde}</span>
-            <strong className="ficha-valor">{td.deUno(dos(v.ndvi_promedio))}</strong>
+            <strong className="ficha-valor">{td.deUno(dos(v.ndvi_promedio, t.locale))}</strong>
             <span className="ficha-detalle">{td.indiceAyuda}</span>
           </div>
           <div className="ficha">
@@ -248,7 +258,8 @@ export default function EscaneoDron() {
             <span className="ficha-icono" aria-hidden><Icono nombre="montana" tam={24} /></span>
             <span className="ficha-titulo">{td.pendiente}</span>
             <strong className="ficha-valor">{v.pendiente_pct} %</strong>
-            <span className="ficha-detalle">{v.pendiente_pct > 30 ? td.pendienteFuerte : td.pendienteSuave}</span>
+            {/* Correccion - Poll: "12 % — Suave" no decia que significa ni desde cuanto es fuerte. */}
+            <span className="ficha-detalle">{v.pendiente_pct > 30 ? td.pendienteFuerte : td.pendienteSuave(v.pendiente_pct)}</span>
           </div>
         </div>
       </section>
@@ -281,6 +292,8 @@ export default function EscaneoDron() {
           <figure className="tarjeta dron-mapa">
             <p className="dron-mapa-ayuda">
               {vistaActual === 'cambios' ? td.cambiosDesde(fecha(anterior!.fecha)) : m2 ? td.mapaAyuda(m2) : td.mapaAyudaSinArea}
+              {/* Correccion - Poll: en el celular el mapa 3D deja parcelas de unos 25 x 12 px, faciles de errar con el dedo. */}
+              {modo === '3d' && <span className="dron-plano-pista"> {td.planoMejor}</span>}
             </p>
             {modo === '3d' ? (
               <>
@@ -332,7 +345,7 @@ export default function EscaneoDron() {
                       style={{ gridRow: f + 2, gridColumn: c + 2, ...(uso ? { background: ESTILO[uso.tipo].color } : {}) }}
                       aria-pressed={activa}
                       aria-label={etiquetaDe(f, c)}
-                      title={dos(n)}
+                      title={dos(n, t.locale)}
                       onClick={() => tocar(f, c)}
                     >
                       {uso ? ESTILO[uso.tipo].simbolo : SIMBOLO[estado]}
@@ -399,11 +412,11 @@ export default function EscaneoDron() {
                   <h3>{td.parcela(nombreParcela(sel.f, sel.c))}</h3>
                   <p className={`dron-estado estado-${salud(sel.n)}`}>
                     <i className={`dron-celda estado-${salud(sel.n)}`} aria-hidden>{SIMBOLO[salud(sel.n)]}</i>
-                    {td.salud[salud(sel.n)]} · {td.indiceVerde.toLowerCase()} {dos(sel.n)}
+                    {td.salud[salud(sel.n)]} · {td.indiceVerde.toLowerCase()} {dos(sel.n, t.locale)}
                   </p>
                   {selAntes !== null && (
                     <p className="dron-detalle-antes">
-                      {td.antes(dos(selAntes), fecha(anterior!.fecha))} · {td.leyendaCambios[cambio(selAntes, sel.n)]}
+                      {td.antes(dos(selAntes, t.locale), fecha(anterior!.fecha))} · {td.leyendaCambios[cambio(selAntes, sel.n)]}
                     </p>
                   )}
                   <p>{td.queHacerParcela[salud(sel.n)]}</p>

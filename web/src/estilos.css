@@ -976,7 +976,7 @@ body::before {
 :root[data-tema='crema'] .contenido .separador:not(:is(.tarjeta, .formulario-centrado, .portada) *)::after { background: var(--mesa-borde); }
 
 /* Enlaces y botones sobre el verde */
-:root[data-tema='crema'] .contenido a:not(.boton, .tarjeta, .acceso, .alerta-corta, .tarjeta-cta, .seccion-fondo-credito):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces, .fila-precio, .alerta, .aviso, .tabla-envoltura, .linea-tiempo li, .portada, .ajustes-lista) *) { color: var(--mesa-primario); }
+:root[data-tema='crema'] .contenido a:not(.boton, .boton-volver, .tarjeta, .acceso, .alerta-corta, .tarjeta-cta, .seccion-fondo-credito):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .lista-enlaces, .fila-precio, .alerta, .aviso, .tabla-envoltura, .linea-tiempo li, .portada, .ajustes-lista) *) { color: var(--mesa-primario); }
 :root[data-tema='crema'] .contenido .boton:not(.boton-secundario):not(:is(.tarjeta, .ficha, .formulario-centrado, .plegable, .alerta, .aviso, .portada, .ajustes-lista, .elegido) *) {
   background: var(--mesa-primario); border-color: var(--mesa-primario); color: var(--mesa-primario-texto);
 }
@@ -1057,7 +1057,7 @@ body::before {
 .rejilla-productos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (min-width: 700px) { .rejilla-productos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .rejilla-productos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 599px) { .rejilla-productos { grid-template-columns: 1fr; } }
+/* (Correccion - Poll: aqui habia una regla de 1 columna bajo 600 px que otra regla mas abajo pisaba; se quito.) */
 
 /* Fotos de plagas y de tipos de alerta (con crédito del autor debajo) */
 .foto-descriptiva { margin: 10px 0 12px; }
@@ -1706,3 +1706,137 @@ body::before {
 .creditos { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
 .creditos ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 0.95rem; }
 .creditos a { overflow-wrap: anywhere; }
+
+/* Correccion - Poll: el boton flotante "Reportar una plaga" (unos 245 x 56 px) tapaba botones y texto en el
+   celular, y el espacio de abajo de la pagina no alcanzaba. En pantallas chicas queda un circulo de 56 px con
+   solo el icono (el nombre sigue para el lector de pantalla) y la pagina deja espacio para leer lo ultimo. */
+@media (max-width: 599px) {
+  .boton-flotante { width: 56px; padding: 0; justify-content: center; }
+  .boton-flotante-texto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (max-width: 1199px) {
+  :root:not([data-nativo]) .app:has(.boton-flotante) { padding-bottom: calc(150px + env(safe-area-inset-bottom)); }
+}
+
+/* Correccion - Poll: en "Nueva siembra" las tarjetas de 2 columnas dejaban unos 70 px al nombre y la palabra se
+   partia letra por letra ("Exc / el / en / te"); ahora la foto va arriba y el nombre y la insignia debajo. */
+@media (max-width: 699px) {
+  .rejilla-productos .tarjeta-cabeza { flex-direction: column; align-items: flex-start; }
+  .rejilla-productos .tarjeta-titulo { min-width: 0; }
+}
+.insignia { white-space: nowrap; }
+
+/* Correccion - Poll: en el celular los avisos de alerta iban de 2 en 2 y el texto se cortaba a las 4 lineas
+   ("Revise los desagu..."), sin boton para leerlo completo; ahora van de 1 en 1 y el texto se lee entero. */
+@media (max-width: 699px) {
+  .lista-alertas { grid-template-columns: 1fr; }
+  .alerta-descripcion { display: block; overflow: visible; -webkit-line-clamp: unset; }
+}
+
+/* Correccion - Poll: candado en la pestana "Mi finca" cuando no hay sesion (avisa antes de tocarla). */
+.pestanas a { position: relative; }
+.pestana-candado { position: absolute; top: 4px; left: calc(50% + 8px); font-size: 0.7rem; line-height: 1; }
+
+/* Correccion - Poll: el aviso "toque Plano" del mapa 3D solo hace falta en pantallas chicas. */
+.dron-plano-pista { display: none; }
+@media (max-width: 599px) { .dron-plano-pista { display: inline; } }
+
+/* Correccion - Poll: en el historial a 360 px, las tres fichas de totales (de unos 130 px cada una, una debajo de otra)
+   empujaban la primera siembra fuera de la pantalla; ahora van en una sola fila compacta. Ademas, el titulo de cada
+   siembra es un enlace y salia subrayado, con la linea cortando el icono. */
+@media (max-width: 599px) {
+  .fichas.fichas-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .fichas-3 .ficha { padding: 10px 6px; text-align: center; justify-items: center; }
+  .fichas-3 .ficha-valor { font-size: 1.4rem; }
+  .fichas-3 .ficha-titulo { font-size: 0.75rem; hyphens: none; overflow-wrap: normal; }
+}
+.linea-tiempo li > a { text-decoration: none; color: inherit; }
+.linea-tiempo li > a strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* Correccion - Poll: la tabla de vecinos partia "Hectareas", "Fincas" y "diciembre" en dos lineas a 320-390 px; ahora
+   no corta las palabras y la caja se desplaza de lado si no cabe. */
+@media (max-width: 599px) {
+  .tabla th, .tabla td { white-space: nowrap; padding: 10px 8px; }
+}
+
+/* Correccion - Poll: "Descargar la app para Android" heredaba el verde de los enlaces y casi no se leia sobre el verde
+   oscuro del pie; ahora usa el mismo tono claro que el resto del pie. */
+.pie .pie-descarga { color: #e6f5ec; }
+
+/* Correccion - Poll: los enlaces del pie median 22 px de alto, la marca 34 px y los botones de texto (cuentas demo,
+   "¿Olvido su contrasena?") 32 px: faciles de errar con el dedo. Ahora todos llegan a 44 px de alto. */
+/* Solo en pantallas tactiles chicas: en computadora el alto de 44 px separaba demasiado los enlaces del pie. */
+@media (max-width: 899px) { .pie-columna a, .pie nav a { display: inline-flex; align-items: center; min-height: 44px; } .pie-columna { gap: 0; } }
+.enlace { min-height: 44px; padding: 10px 0; }
+.marca { min-height: 44px; min-width: 44px; }
+
+/* Correccion - Poll: texto del error debajo del campo de "Crear cuenta" (con icono, no solo color). */
+.campo-error { display: flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--nor); font-weight: 600; font-size: 0.9rem; }
+
+/* Correccion - Poll: varios interruptores se anunciaban como pestanas (role="tab") sin panel ni flechas; ahora son
+   botones con aria-pressed, y este es su estilo de "elegido". */
+.interruptor button[aria-pressed='true'] { background: var(--superficie); color: var(--primario); box-shadow: var(--sombra); }
+
+/* Correccion - Poll: los enlaces de lugar de cada aviso ("Guapiles", "Cot") median 23 px de alto: ahora 44 px. */
+.alerta-ubicaciones a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
+
+/* Correccion - Poll: aviso de mucha siembra vecina dentro de la tarjeta del cultivo. */
+.tc-aviso { display: flex; gap: 6px; align-items: flex-start; margin: 8px 0 0; padding: 8px 10px; font-size: 0.85rem; }
+
+/* Correccion - Poll: a 320 px el nombre del lugar ("Oriental, Cartago") empujaba la tarjeta "El tiempo" fuera de la
+   pantalla por la derecha; ahora el nombre se acomoda en otra linea si no cabe. */
+.pronostico-cabeza { min-width: 0; }
+.pronostico-lugar { min-width: 0; max-width: 100%; flex-wrap: wrap; overflow-wrap: anywhere; }
+
+/* Correccion - Poll: candado SVG en "Mi finca" (barra de abajo, menu de computadora y pie). */
+.pestana-candado { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 999px;
+  background: var(--superficie); color: var(--texto); box-shadow: 0 0 0 1px var(--borde); font-size: inherit; }
+.nav-principal .pestana-candado, .pie-columna .pestana-candado { position: static; margin-left: 4px; background: none; box-shadow: none; }
+.pie .pestana-candado { color: inherit; }
+
+/* Correccion - Poll: a 768 px (3 tarjetas por fila) "Clima", "Agua" y "Suelo" se partian en dos lineas en el desglose
+   del puntaje; ahora el desglose va en columna hasta 1099 px. */
+@media (max-width: 1099px) { .rejilla-productos .desglose-fila { flex-direction: column; gap: 0; } }
+
+/* Correccion - Poll: el boton flotante redondo todavia tapaba a ratos el boton de la columna derecha; se pega mas a la
+   esquina en el celular. */
+@media (max-width: 599px) { .boton-flotante { right: 8px; } }
+
+/* Correccion - Poll: a 360 px las filas de Precios quedaban apretadas (nombre, unidad, precio y tendencia en dos
+   columnas angostas); en pantallas chicas el precio y la tendencia pasan debajo del nombre. */
+@media (max-width: 399px) {
+  .fila-precio-boton { flex-direction: column; align-items: stretch; gap: 6px; }
+  .fila-precio-valor { align-items: flex-start; text-align: left; }
+}
+
+/* Correccion - Poll: en Precios, cuando un nombre era largo ("Banano rechazo de exportacion (verde y maduro)") esa
+   tarjeta crecia y las demas de la fila quedaban mas bajas, dejando huecos. Ahora todas las tarjetas de una fila miden
+   lo mismo, el contenido queda centrado en su alto, el precio y la tendencia no se parten en dos lineas, y la fila que
+   se abre para ver el grafico ocupa todo el ancho (asi no estira a las vecinas). */
+.lista-precios { align-items: stretch; }
+.fila-precio { display: flex; flex-direction: column; }
+.fila-precio-boton { flex: 1; }
+.fila-precio-boton > span:first-child { flex: 1; min-width: 0; }
+.fila-precio-valor { flex: none; }
+.fila-precio-valor .tendencia { white-space: nowrap; }
+.lista-precios .fila-precio:has(> .fila-precio-boton[aria-expanded='true']) { grid-column: 1 / -1; }
+@media (max-width: 399px) { .fila-precio-valor .tendencia { white-space: normal; } }
+
+/* Correccion - Poll: boton "Volver" arriba de las subpaginas (componentes/BotonVolver.tsx). */
+.boton-volver {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: 4px 0 8px; padding: 6px 14px 6px 10px;
+  border: 1px solid var(--borde); background: var(--superficie); color: var(--texto); font-weight: 700; text-decoration: none;
+  box-shadow: var(--sombra);
+}
+.boton-volver:hover { border-color: var(--primario); color: var(--primario); }
+/* Las portadas a todo el ancho (dron, cultivo) suben por debajo del encabezado: el boton va encima de la foto. */
+.boton-volver { position: relative; z-index: 3; }
+.boton-volver .icono-svg, .boton-volver svg { transform: scaleX(-1); }
+
+/* Correccion - Poll: en computadora los enlaces del pie median 22 px de alto (menos del minimo de 24 px para tocar con
+   el dedo en tabletas); 32 px los deja tocables sin separarlos demasiado. */
+@media (min-width: 900px) { .pie-columna a, .pie nav a { display: inline-flex; align-items: center; min-height: 32px; } .pie-columna { gap: 0; } }
+
+/* Correccion - Poll: el boton "Volver" desaparecia al bajar por la pagina; ahora se queda pegado justo debajo del
+   encabezado (que ya es fijo) mientras se desplaza, por encima del contenido pero debajo del encabezado y sus menus. */
+.boton-volver { position: sticky; top: 72px; z-index: 20; display: flex; width: fit-content; }

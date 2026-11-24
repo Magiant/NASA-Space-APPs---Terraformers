@@ -127,7 +127,9 @@ try {
       consola.length = 0;
       await cmd('Emulation.setDeviceMetricsOverride', { width: ancho, height: alto, deviceScaleFactor: 1, mobile: movil });
       await cmd('Page.navigate', { url: `${ORIGEN}/?r=${Math.random()}#/${ruta}` }); await esperar(3500);
-      const base = `${(ruta || 'inicio').replace(/[\/:]/g, '_')}-${ancho}`;
+      // Correccion - Poll: una ruta con "?" (por ejemplo alertas?ver=alertas) cortaba la herramienta en Windows,
+      // que no admite "?" en nombres de archivo; ahora "?", "=" y "&" tambien se cambian por "_".
+      const base = `${(ruta || 'inicio').replace(/[\/:?=&]/g, '_')}-${ancho}`;
       const r = await js(REVISAR);
       writeFileSync(join(SALIDA, `${base}.txt`), (await js(`return document.body.innerText`)) ?? '');
       const pantallas = Math.min(4, Math.ceil(r.alto / alto));

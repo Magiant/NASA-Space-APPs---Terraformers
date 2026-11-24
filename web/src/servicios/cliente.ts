@@ -2,6 +2,7 @@
 // por las reglas RLS de la base (cada usuario ve solo lo suyo; los datos extraídos son de lectura pública).
 // Sin estas variables (por ejemplo, una copia local sin .env), la web funciona en modo demo con datos de ejemplo.
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { errorServidor } from '../errores';
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const llave = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -19,8 +20,10 @@ export const supa: SupabaseClient | null = modoReal
   ? createClient(url!, llave!, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'tf-auth' } })
   : null;
 
-/** Devuelve los datos o lanza un error con un mensaje entendible. */
+/** Devuelve los datos o lanza un error con código (sin conexión, sin permiso o del servidor). */
+// Correccion - Poll: el error llevaba el mensaje crudo del servidor ("Leer fincas: TypeError: Failed to fetch") y
+// llegaba asi a la pantalla; ahora el detalle va a la consola y la pantalla recibe un codigo que traduce.
 export function datosDe<T>(r: { data: T | null; error: { message: string } | null }, que: string): T {
-  if (r.error) throw new Error(`${que}: ${r.error.message}`);
+  if (r.error) throw errorServidor(que, r.error);
   return r.data as T;
 }

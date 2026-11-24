@@ -42,7 +42,8 @@ export default function Sembrar() {
     }, suave ? 900 : 0);
     return () => clearTimeout(reloj);
   }, [codigo, lugar]);
-  const aptitud = useCargar(() => (codigo ? algolia.aptitudDeZona(codigo) : Promise.resolve([])), [codigo]);
+  // Correccion - Poll: sin senal la lista de cultivos fallaba aunque se hubiera visto antes; ahora usa la copia guardada.
+  const aptitud = useCargar(() => (codigo ? algolia.aptitudDeZona(codigo) : Promise.resolve([])), [codigo], codigo ? `tf-copia-aptitud-${codigo}` : undefined);
   const alertas = useCargar(() => (codigo ? algolia.alertas(codigo) : Promise.resolve([])), [codigo]);
 
   const lista = aptitud.datos ?? [];

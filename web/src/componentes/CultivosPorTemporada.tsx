@@ -14,7 +14,7 @@ type Vista = 'ahora' | 'todos';
  * - Todos los cultivos: todos, se siembren cuando se siembren, por puntaje.
  * `cultivos` llega ya ordenado del mejor al peor; `limite` corta la lista (la ficha del distrito muestra 8).
  */
-export default function CultivosPorTemporada({ cultivos, limite, alFinal }: { cultivos: RegistroAptitud[]; limite?: number; alFinal?: ReactNode }) {
+export default function CultivosPorTemporada({ cultivos, limite, alFinal, avisos }: { cultivos: RegistroAptitud[]; limite?: number; alFinal?: ReactNode; avisos?: Record<string, string> }) {
   const t = useT();
   const tt = t.temporada;
   const [vista, setVista] = useState<Vista>('ahora');
@@ -23,23 +23,25 @@ export default function CultivosPorTemporada({ cultivos, limite, alFinal }: { cu
   const { ahora, otrosMeses } = separarPorTemporada(cultivos);
   const meses = proximosMeses(MESES_AHORA);
   const rango = t.cursos.rangoMeses(t.meses[meses[0] - 1], t.meses[meses[meses.length - 1] - 1]);
-  const lista = (vista === 'ahora' ? ahora : cultivos).slice(0, limite);
+  // Correccion - Poll: "Todos los cultivos" se cortaba a los 8 mejores y decia "8 cultivos" aunque hubiera 13 (y la
+  // otra pestana ya prometia "otros 8"); ahora el limite solo aplica a "Para sembrar ahora" y "Todos" muestra todos.
+  const lista = vista === 'ahora' ? ahora.slice(0, limite) : cultivos;
 
   return (
     <>
-      <div className="interruptor" role="tablist" aria-label={tt.etiqueta}>
-        <button type="button" role="tab" aria-selected={vista === 'ahora'} onClick={() => setVista('ahora')}>
+      <div className="interruptor" role="group" aria-label={tt.etiqueta}>
+        <button type="button" aria-pressed={vista === 'ahora'} onClick={() => setVista('ahora')}>
           {tt.ahora}<small>{rango}</small>
         </button>
-        <button type="button" role="tab" aria-selected={vista === 'todos'} onClick={() => setVista('todos')}>
-          {tt.todos}<small>{tt.nCultivos(Math.min(cultivos.length, limite ?? Infinity))}</small>
+        <button type="button" aria-pressed={vista === 'todos'} onClick={() => setVista('todos')}>
+          {tt.todos}<small>{tt.nCultivos(cultivos.length)}</small>
         </button>
       </div>
       <p className="ayuda temporada-explica">{vista === 'ahora' ? tt.explicaAhora(rango) : tt.explicaTodos}</p>
 
       {lista.length > 0 ? (
         <div className="lista-tarjetas rejilla-productos">
-          {lista.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} />)}
+          {lista.map((a, i) => <TarjetaCultivo key={a.objectID} a={a} posicion={i + 1} aviso={avisos?.[a.cultivo_id]} />)}
           {alFinal}
         </div>
       ) : (

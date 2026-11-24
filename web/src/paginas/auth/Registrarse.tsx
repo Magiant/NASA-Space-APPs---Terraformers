@@ -1,4 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
+import { mensajeError } from '../../errores';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAvisar } from '../../componentes/Confirmar';
 import { Icono } from '../../componentes/Iconos';
@@ -44,6 +45,9 @@ export default function Registrarse() {
   const [distrito, setDistrito] = useState<string | null>(zonaElegida);
   const avisar = useAvisar();
   const [campoError, setCampoError] = useState<Campo | null>(null);
+  const [textoError, setTextoError] = useState('');
+  const errorDe = (campo: Campo) =>
+    campoError === campo ? <small className="campo-error" role="alert"><Icono nombre="alertas" tam={16} /> {textoError}</small> : null;
   const [confirmar, setConfirmar] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const campos = { nombre: useRef<HTMLInputElement>(null), correo: useRef<HTMLInputElement>(null), clave: useRef<HTMLInputElement>(null) };
@@ -70,8 +74,11 @@ export default function Registrarse() {
       : clave.length < 8 ? ['clave', te.claveCorta(clave.length)]
       : clave !== clave.trim() ? ['clave', te.claveEspacios]
       : [null, null];
+    // Correccion - Poll: al cerrar la ventana el campo quedaba marcado solo en rojo, sin decir que faltaba; ahora el
+    // texto del problema queda escrito debajo del campo, con un icono (no depende solo del color).
     if (campo && problema) {
       setCampoError(campo);
+      setTextoError(problema);
       // Ventana flotante con qué falta; al aceptar, el cursor queda en ese campo.
       await avisar({ titulo: t.avisos.revisarDato, texto: problema, tono: 'error' });
       campos[campo].current?.focus();
@@ -85,7 +92,8 @@ export default function Registrarse() {
     } catch (err) {
       // Si Supabase pide confirmar el correo, la cuenta sí se creó: no es un error.
       if ((err as { confirmarCorreo?: boolean }).confirmarCorreo) setConfirmar(true);
-      else avisar({ titulo: ta.noSeCreo, texto: (err as Error).message, tono: 'error' });
+      // Correccion - Poll: el error salia siempre en español; ahora se traduce al idioma de la app.
+      else avisar({ titulo: ta.noSeCreo, texto: mensajeError(t, err), tono: 'error' });
       setEnviando(false);
     }
   }
@@ -96,7 +104,7 @@ export default function Registrarse() {
       await auth.reenviarConfirmacion(correo);
       await avisar({ titulo: ta.reenviadoTitulo, texto: ta.reenviado(correo.trim()), tono: 'exito', icono: 'correo' });
     } catch (err) {
-      await avisar({ titulo: ta.noReenviado, texto: (err as Error).message, tono: 'error' });
+      await avisar({ titulo: ta.noReenviado, texto: mensajeError(t, err), tono: 'error' });
     }
   }
 
@@ -131,6 +139,7 @@ export default function Registrarse() {
               aria-invalid={campoError === 'nombre'} value={nombre} onChange={(e) => editar('nombre', e.target.value, setNombre)}
             />
           </span>
+          {errorDe('nombre')}
         </label>
 
         <label>
@@ -143,6 +152,7 @@ export default function Registrarse() {
               aria-invalid={campoError === 'correo'} value={correo} onChange={(e) => editar('correo', e.target.value, setCorreo)}
             />
           </span>
+          {errorDe('correo')}
         </label>
 
         <div className="campo-clave">
@@ -161,6 +171,7 @@ export default function Registrarse() {
               <Icono nombre={verClave ? 'ojoNo' : 'ojo'} tam={18} /> {verClave ? ta.ocultarClave : ta.mostrarClave}
             </button>
           </span>
+          {errorDe('clave')}
           <div className={`fuerza fuerza-${fuerza}`} aria-live="polite">
             <span className="fuerza-barras" aria-hidden><span /><span /><span /></span>
             <span className="fuerza-texto">{ta.fuerza(fuerza)}</span>

@@ -1,14 +1,16 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { mensajeError } from '../../errores';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import CampoArea, { formatoHa } from '../../componentes/CampoArea';
-import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
-import { Cargando, Vacio } from '../../componentes/Estados';
+import { useAvisar, useAvisoSinGuardar, useConfirmar } from '../../componentes/Confirmar';
+import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
+import { useAuth } from '../../contexto/AuthContext';
 import ListaSugerencias, { textoMotivo } from '../../componentes/ListaSugerencias';
 import { useT } from '../../contexto/PreferenciasContext';
 import { recomendarSiguiente } from '../../logica/recomendacion';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
-import { fuentesDeAgua, hoy, nombreCultivo, sumarDias, useCargar } from '../../utilidades';
+import { copiaPrivada, fecha, fuentesDeAgua, hoy, nombreCultivo, sumarDias, useCargar } from '../../utilidades';
 import { FotoCultivo, Icono, Tx } from '../../componentes/Iconos';
 
 export default function NuevaSiembra() {
@@ -16,14 +18,16 @@ export default function NuevaSiembra() {
   const ts = t.siembra;
   const navegar = useNavigate();
   const [params] = useSearchParams();
-  const fincas = useCargar(() => datos.misFincas(), []);
-  const siembras = useCargar(() => datos.misSiembras(), []);
+  const { usuario } = useAuth();
+  const fincas = useCargar(() => datos.misFincas(), [], copiaPrivada(usuario?.id, 'fincas'));
+  const siembras = useCargar(() => datos.misSiembras(), [], copiaPrivada(usuario?.id, 'siembras'));
   const [fincaId, setFincaId] = useState(params.get('finca') ?? '');
   const [cultivoId, setCultivoId] = useState(params.get('cultivo') ?? '');
   const [areaHa, setAreaHa] = useState<number | null>(null);
   const [fechaSiembra, setFechaSiembra] = useState(hoy());
   const [enviando, setEnviando] = useState(false);
   const avisar = useAvisar();
+  const confirmar = useConfirmar();
   // Lo que la persona eligió o escribió (la finca y el cultivo pueden venir ya puestos desde otra pantalla).
   useAvisoSinGuardar(!enviando && (areaHa !== null || cultivoId !== (params.get('cultivo') ?? '')));
 
@@ -57,6 +61,12 @@ export default function NuevaSiembra() {
     e.preventDefault();
     if (!cultivo || !finca) return;
     if (!areaHa) return void avisar({ titulo: t.avisos.revisarDato, texto: ts.faltaArea, tono: 'error' });
+    // Correccion - Poll: se podia poner una fecha de siembra del ano 3000 y la siembra se guardaba sin confirmar;
+    // ahora la fecha no puede ser futura y antes de guardar se muestra un resumen para revisarlo.
+    if (fechaSiembra > hoy()) return void avisar({ titulo: t.avisos.revisarDato, texto: ts.fechaFutura, tono: 'error' });
+    // Correccion - Poll: al tocar "Agrandar la finca", el cambio se guardaba enseguida, aunque despues se cancelara la
+    // siembra. Ahora se anota, aparece en el resumen de la confirmacion y se guarda solo al confirmar.
+    let agrandar = false;
     if (areaHa > finca.area_ha) {
       const ha = formatoHa(areaHa, t.locale);
       const r = await avisar({
@@ -65,29 +75,50 @@ export default function NuevaSiembra() {
         acciones: [{ id: 'corregir', texto: ts.corregir }, { id: 'agrandar', texto: ts.agrandar(finca.nombre, ha), principal: true }],
       });
       if (r !== 'agrandar') return;
+      agrandar = true;
+    }
+    const cosecha = sumarDias(fechaSiembra, Math.round((cultivo.ciclo_dias_min + cultivo.ciclo_dias_max) / 2));
+    const tns = t.confirmar.nuevaSiembra;
+    const nombre = nombreCultivo(t, cultivo.id, cultivo.nombre);
+    const ok = await confirmar({
+      titulo: tns.titulo(nombre.toLowerCase()),
+      texto: (
+        <>
+          <p><strong>{tns.resumen(formatoHa(areaHa, t.locale), finca.nombre, fecha(fechaSiembra), fecha(cosecha))}</strong></p>
+          {agrandar && <p>{tns.agrandara(finca.nombre, formatoHa(areaHa, t.locale))}</p>}
+          <p>{tns.texto}</p>
+        </>
+      ),
+      aceptar: tns.aceptar,
+    });
+    if (!ok) return;
+    setEnviando(true);
+    if (agrandar) {
       try {
         await datos.actualizarFinca(finca.id, { area_ha: areaHa });
       } catch (err) {
-        return void avisar({ titulo: t.avisos.noSeCambio, texto: (err as Error).message, tono: 'error' });
+        setEnviando(false);
+        return void avisar({ titulo: t.avisos.noSeCambio, texto: mensajeError(t, err), tono: 'error' });
       }
     }
-    setEnviando(true);
     try {
       const s = await datos.crearSiembra({
         finca_id: finca.id,
         cultivo_id: cultivo.id,
         area_ha: areaHa,
         fecha_siembra: fechaSiembra,
-        cosecha_esperada: sumarDias(fechaSiembra, Math.round((cultivo.ciclo_dias_min + cultivo.ciclo_dias_max) / 2)),
+        cosecha_esperada: cosecha,
       });
       navegar(`/siembras/${s.id}`, { replace: true });
     } catch (err) {
-      avisar({ titulo: t.avisos.noSeGuardo, texto: (err as Error).message, tono: 'error' });
+      avisar({ titulo: t.avisos.noSeGuardo, texto: mensajeError(t, err), tono: 'error' });
       setEnviando(false);
     }
   }
 
   if (fincas.cargando) return <Cargando />;
+  // Correccion - Poll: con un error de carga decia "Registre su primera finca" a quien si tiene; ahora muestra el error.
+  if (fincas.error) return <ErrorCarga mensaje={fincas.error} reintentar={fincas.recargar} />;
   if (!fincas.datos?.length) {
     return (
       <Vacio icono={<Icono nombre="finca" tam={48} />} titulo={t.fincas.primero}>
@@ -146,7 +177,7 @@ export default function NuevaSiembra() {
           />
           <label>
             {ts.fecha}
-            <input type="date" required value={fechaSiembra} onChange={(e) => setFechaSiembra(e.target.value)} />
+            <input type="date" required max={hoy()} value={fechaSiembra} onChange={(e) => setFechaSiembra(e.target.value)} />
           </label>
           <p className="ayuda">{ts.cosechaAyuda(cultivo.ciclo_dias_min, cultivo.ciclo_dias_max)}</p>
           <button className="boton boton-ancho" disabled={enviando}>{enviando ? t.comun.guardando : ts.guardar}</button>

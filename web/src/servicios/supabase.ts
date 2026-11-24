@@ -5,25 +5,42 @@ import type { Extraccion, Finca, RegistroPrecio, ReportePlaga, Rol, Seguimiento,
 import { datosDe, modoReal, SITIO_PUBLICO, supa } from './cliente';
 import * as demo from './demo';
 import { seriePrecio } from './publico';
+import { ErrorApp, errorServidor } from '../errores';
+import { guardar, leer } from './almacen';
 
 const db = () => supa!;
-const hoy = () => new Date().toISOString().slice(0, 10);
+// Correccion - Poll: fecha de hoy en la hora del telefono (antes UTC; de noche daba la de manana).
+const hoy = () => new Date().toLocaleDateString('en-CA');
 
 /** Fila de la tabla perfiles (migración 001). */
 interface FilaPerfil { id: string; nombre: string; correo: string | null; rol: Rol; codigo_distrito: string | null; creado: string }
 const aUsuario = (p: FilaPerfil, correo?: string | null): Usuario =>
   ({ id: p.id, nombre: p.nombre, correo: p.correo ?? correo ?? '', rol: p.rol, codigo_distrito: p.codigo_distrito, creado: String(p.creado).slice(0, 10) });
 
-/** Perfil (tabla perfiles) del usuario con sesión, o null. */
+/** Copia del perfil en el teléfono (prefijo privado: se borra al salir de la cuenta). */
+const clavePerfil = (id: string) => `tf-copia-priv-${id}-perfil`;
+
+/** Perfil (tabla perfiles) del usuario con sesión, o null. Si se lee bien, queda una copia para abrir sin señal. */
 async function perfilDe(id: string, correo?: string | null): Promise<Usuario | null> {
   const p = datosDe<FilaPerfil | null>(await db().from('perfiles').select('*').eq('id', id).maybeSingle(), 'Leer perfil');
-  return p ? aUsuario(p, correo) : null;
+  const u = p ? aUsuario(p, correo) : null;
+  if (u) guardar(clavePerfil(id), u);
+  return u;
+}
+
+/** ¿El error es por falta de señal? */
+const sinSenal = (e: unknown) => (e as { codigo?: string })?.codigo === 'sin_conexion' || !navigator.onLine;
+
+/** Usuario de la sesión guardada por Supabase en el teléfono (sirve si el token venció sin señal). */
+function idGuardado(): string | undefined {
+  const s = leer<{ user?: { id?: string } } | null>('tf-auth', null);
+  return s?.user?.id;
 }
 
 async function idActual(): Promise<string> {
   const { data } = await db().auth.getSession();
   const id = data.session?.user.id;
-  if (!id) throw new Error('Necesita iniciar sesión.');
+  if (!id) throw new ErrorApp('sesion');
   return id;
 }
 
@@ -31,35 +48,49 @@ async function idActual(): Promise<string> {
  * Mensajes de Supabase Auth en palabras simples, diciendo POR QUÉ no se acepta y qué hacer.
  * Supabase responde en inglés y a veces con un código (error.code); se revisan los dos.
  */
-function mensajeAuth(m: string, codigo?: string, correo?: string): string {
-  const c = correo ? `«${correo}»` : 'ese correo';
+// Correccion - Poll: estos mensajes estaban fijos en español (salian asi con la app en ingles) y el caso desconocido
+// mostraba el texto crudo del servidor ("No se pudo completar: <mensaje>"). Ahora devuelve un error con codigo que la
+// pantalla traduce, y el detalle desconocido solo va a la consola.
+function mensajeAuth(m: string, codigo?: string, correo?: string): ErrorApp {
+  const c = correo ?? '';
   const segundos = m.match(/after (\d+) seconds?/i)?.[1];
   const minimo = m.match(/at least (\d+) characters?/i)?.[1];
-  if (/invalid login credentials/i.test(m)) return 'Correo o contraseña incorrectos. Revise que el correo esté bien escrito y que la contraseña tenga las mayúsculas correctas.';
-  if (codigo === 'user_already_exists' || /already registered|already exists/i.test(m))
-    return `Ya existe una cuenta con ${c}. Si es suya, use «Entrar». Si no recuerda la contraseña, pida ayuda al equipo.`;
-  if (codigo === 'email_not_confirmed' || /email not confirmed/i.test(m))
-    return 'Falta confirmar el correo: abra el mensaje que le enviamos (revise también «Spam» o «Promociones») y toque el enlace. Después vuelva a entrar.';
+  if (/invalid login credentials/i.test(m)) return new ErrorApp('credenciales');
+  if (codigo === 'user_already_exists' || /already registered|already exists/i.test(m)) return new ErrorApp('ya_existe', { correo: c });
+  if (codigo === 'email_not_confirmed' || /email not confirmed/i.test(m)) return new ErrorApp('sin_confirmar');
   if (codigo === 'email_address_invalid' || /email address .* is invalid|invalid format|unable to validate email/i.test(m))
-    return `El servidor no acepta ${c}. Revise que esté bien escrito (nombre@dominio.com). Los correos inventados o de prueba (como @test.com o @example.com) no se aceptan: use uno real.`;
-  if (codigo === 'weak_password' || /should contain at least one character/i.test(m))
-    return 'La contraseña es muy débil: el servidor pide mezclar letras minúsculas, MAYÚSCULAS, números y algún símbolo (por ejemplo Finca#2026).';
-  if (minimo) return `La contraseña es muy corta: el servidor pide al menos ${minimo} caracteres.`;
-  if (codigo === 'over_email_send_rate_limit' || /email rate limit/i.test(m))
-    return 'Se pidieron demasiados correos de confirmación en poco tiempo (límite del servidor). Espere unos minutos e intente de nuevo.';
-  if (segundos) return `Por seguridad, espere ${segundos} segundos antes de intentarlo de nuevo.`;
-  if (codigo === 'signup_disabled' || /signups not allowed/i.test(m)) return 'Por ahora no se pueden crear cuentas nuevas. Avise al equipo.';
-  if (/database error saving new user/i.test(m)) return 'El servidor no pudo crear su perfil (error en la base de datos). Intente de nuevo y, si se repite, avise al equipo.';
-  if (/failed to fetch|network|load failed/i.test(m)) return 'No hay conexión con el servidor. Revise su señal o el wifi e intente de nuevo.';
-  return `No se pudo completar: ${m}`;
+    return new ErrorApp('correo_invalido', { correo: c });
+  if (codigo === 'weak_password' || /should contain at least one character/i.test(m)) return new ErrorApp('clave_debil');
+  if (minimo) return new ErrorApp('clave_corta', { minimo });
+  if (codigo === 'over_email_send_rate_limit' || /email rate limit/i.test(m)) return new ErrorApp('muchos_correos');
+  if (segundos) return new ErrorApp('esperar', { segundos });
+  if (codigo === 'signup_disabled' || /signups not allowed/i.test(m)) return new ErrorApp('registro_cerrado');
+  if (/database error saving new user/i.test(m)) return new ErrorApp('perfil_fallo');
+  return errorServidor('Cuenta', m);
 }
 
 const authReal = {
   /** Sesión guardada en el navegador (al abrir la app). */
+  // Correccion - Poll: al abrir la app sin senal, leer el perfil fallaba y la sesion aparecia cerrada: no se podia
+  // entrar a Mi finca ni enviar los reportes guardados. Ahora, sin senal, se usa la copia del perfil guardada la
+  // ultima vez que hubo senal (la banda "Sin senal" ya avisa que lo que se ve es lo guardado).
   sesion: async (): Promise<Usuario | null> => {
-    const { data } = await db().auth.getSession();
-    const u = data.session?.user;
-    return u ? perfilDe(u.id, u.email) : null;
+    let u: { id: string; email?: string } | undefined;
+    try {
+      const { data } = await db().auth.getSession();
+      u = data.session?.user;
+    } catch (e) {
+      if (!sinSenal(e)) throw e;
+    }
+    const id = u?.id ?? (!navigator.onLine ? idGuardado() : undefined);
+    if (!id) return null;
+    try {
+      return await perfilDe(id, u?.email);
+    } catch (e) {
+      const copia = leer<Usuario | null>(clavePerfil(id), null);
+      if (sinSenal(e) && copia) return copia;
+      throw e;
+    }
   },
   // Correccion - Poll: la pantalla no sabía si el problema era la contraseña o el correo sin confirmar. Ahora el error
   // lleva el motivo: con 'credenciales' se ofrece crear una cuenta; con 'sin_confirmar', reenviar el correo.
@@ -68,10 +99,10 @@ const authReal = {
     if (error) {
       const motivo = /invalid login credentials/i.test(error.message) ? 'credenciales'
         : error.code === 'email_not_confirmed' || /email not confirmed/i.test(error.message) ? 'sin_confirmar' : undefined;
-      throw Object.assign(new Error(mensajeAuth(error.message, error.code, correo.trim())), { motivo });
+      throw Object.assign(mensajeAuth(error.message, error.code, correo.trim()), { motivo });
     }
     const p = await perfilDe(data.user.id, data.user.email);
-    if (!p) throw new Error('La cuenta no tiene perfil. Avise al equipo.');
+    if (!p) throw new ErrorApp('sin_perfil');
     return p;
   },
   // Correccion - Poll: cuando Supabase pide confirmar el correo, la cuenta SI se creo, pero la pantalla lo mostraba
@@ -80,26 +111,38 @@ const authReal = {
   // Supabase) y no abría. Ahora se le dice a Supabase que vuelva a la página pública (SITIO_PUBLICO).
   /** Toda cuenta nueva es agricultor (lo asegura la base). Si Supabase pide confirmar el correo, lo avisa. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {
-    if (clave.length < 8) throw new Error(`La contraseña tiene ${clave.length} caracteres: necesita al menos 8.`);
+    if (clave.length < 8) throw new ErrorApp('clave_corta', { minimo: 8 });
     const { data, error } = await db().auth.signUp({
       email: correo.trim(), password: clave,
       options: { data: { nombre: nombre.trim(), codigo_distrito: codigoDistrito }, emailRedirectTo: SITIO_PUBLICO },
     });
-    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
+    if (error) throw mensajeAuth(error.message, error.code, correo.trim());
     // Con "Confirm email" activo, Supabase responde sin sesión. Si el correo ya existía, responde un usuario sin identidades.
-    if (data.user && data.user.identities?.length === 0) throw new Error(mensajeAuth('already registered', 'user_already_exists', correo.trim()));
+    if (data.user && data.user.identities?.length === 0) throw mensajeAuth('already registered', 'user_already_exists', correo.trim());
     if (!data.session || !data.user) {
-      const aviso = `Cuenta creada. Le enviamos un correo a «${correo.trim()}» para confirmarla: ábralo (revise también «Spam» o «Promociones»), toque el enlace y después entre.`;
-      throw Object.assign(new Error(aviso), { confirmarCorreo: true });
+      throw Object.assign(new ErrorApp('cuenta_creada', { correo: correo.trim() }), { confirmarCorreo: true });
     }
     const p = await perfilDe(data.user.id, data.user.email);
-    if (!p) throw new Error('No se pudo crear el perfil.');
+    if (!p) throw new ErrorApp('perfil_fallo');
     return p;
   },
   /** Vuelve a mandar el correo de confirmación (por ejemplo, si el primero llevaba a una dirección que no abría). */
   reenviarConfirmacion: async (correo: string): Promise<void> => {
     const { error } = await db().auth.resend({ type: 'signup', email: correo.trim(), options: { emailRedirectTo: SITIO_PUBLICO } });
-    if (error) throw new Error(mensajeAuth(error.message, error.code, correo.trim()));
+    if (error) throw mensajeAuth(error.message, error.code, correo.trim());
+  },
+  // Correccion - Poll: no habia forma de recuperar una contrasena olvidada (el mensaje decia "pida ayuda al equipo"
+  // sin decir como); ahora se manda un correo para elegir una nueva, y despues se guarda con cambiarClave.
+  /** Manda el correo para elegir una contraseña nueva. Al abrirlo, la app lleva a #/nueva-clave. */
+  olvideClave: async (correo: string): Promise<void> => {
+    const { error } = await db().auth.resetPasswordForEmail(correo.trim(), { redirectTo: SITIO_PUBLICO });
+    if (error) throw mensajeAuth(error.message, error.code, correo.trim());
+  },
+  /** Guarda la contraseña nueva de la sesión abierta con el enlace del correo. */
+  cambiarClave: async (clave: string): Promise<void> => {
+    if (clave.length < 8) throw new ErrorApp('clave_corta', { minimo: 8 });
+    const { error } = await db().auth.updateUser({ password: clave });
+    if (error) throw mensajeAuth(error.message, error.code);
   },
   salir: async (): Promise<void> => {
     await db().auth.signOut();
@@ -146,7 +189,7 @@ const datosReales = {
       await db().from('siembras').update({ ...r, estado: 'finalizada', fecha_cierre: hoy() }).eq('id', id).eq('estado', 'activa').select().maybeSingle(),
       'Cerrar siembra',
     );
-    if (!fila) throw new Error('Esta siembra ya está cerrada.');
+    if (!fila) throw new ErrorApp('ya_cerrada');
     return fila;
   },
   seguimiento: async (siembraId: string): Promise<Seguimiento[]> =>
@@ -180,7 +223,9 @@ const seriesReales = {
     for (const f of filas) if (f.fuente === 'nasa-power' && !porFecha.has(f.fecha)) porFecha.set(f.fecha, f.temp_media_c);
     for (const f of filas) if (f.fuente === 'open-meteo') porFecha.set(f.fecha, f.temp_media_c); // Open-Meteo manda si hay de las dos
     const serie = [...porFecha].sort(([a], [b]) => a.localeCompare(b)).map(([fecha, valor]) => ({ fecha, valor: Math.round(valor * 10) / 10 }));
-    return serie.length >= 2 ? serie : demo.series.temperatura(codigo, tempMedia, dias);
+    // Correccion - Poll: si la base tenia menos de 2 dias de temperatura del distrito se mostraba la serie inventada
+    // del modo demo como si fuera real; ahora se devuelve solo lo que hay y la pagina avisa que falta el dato.
+    return serie;
   },
   // Correccion - Poll: si la base tenia menos de 2 precios se mostraba una serie inventada (la del modo demo) como si
   // fuera real; ahora se devuelve lo que hay y, sin datos suficientes, no se dibuja el grafico.
@@ -212,7 +257,7 @@ const adminReal = {
       let q = db().from(tabla).select('*', { count: 'exact', head: true });
       if (filtro) q = q.eq(filtro[0], filtro[1]);
       const { count, error } = await q;
-      if (error) throw new Error(error.message);
+      if (error) throw errorServidor('Contar ' + tabla, error);
       return count ?? 0;
     };
     const [usuarios, fincas, siembrasActivas, reportesPendientes] = await Promise.all([

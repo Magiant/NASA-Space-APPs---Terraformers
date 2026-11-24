@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom';
-import { Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
+import { AvisoCopia, Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
 import { useAuth } from '../../contexto/AuthContext';
 import { usePreferencias } from '../../contexto/PreferenciasContext';
 import { catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
-import { fecha, nombreCultivo, useCargar, fuentesDeAgua } from '../../utilidades';
+import { copiaPrivada, fecha, nombreCultivo, useCargar, fuentesDeAgua } from '../../utilidades';
+import { formatoHa } from '../../componentes/CampoArea';
 import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 
+// Correccion - Poll: el area salia en crudo ("2.5 ha", "1.3974 ha"), con punto y hasta 4 decimales; ahora usa
+// formatoHa, con la coma de Costa Rica y 2 decimales como maximo.
 export default function MisFincas() {
   const { t } = usePreferencias();
   const tf = t.fincas;
   const { usuario } = useAuth();
-  const fincas = useCargar(() => datos.misFincas(), []);
-  const siembras = useCargar(() => datos.misSiembras(), []);
+  const fincas = useCargar(() => datos.misFincas(), [], copiaPrivada(usuario?.id, 'fincas'));
+  const siembras = useCargar(() => datos.misSiembras(), [], copiaPrivada(usuario?.id, 'siembras'));
 
   if (fincas.cargando) return <Cargando />;
   if (fincas.error) return <ErrorCarga mensaje={fincas.error} reintentar={fincas.recargar} />;
@@ -25,6 +28,7 @@ export default function MisFincas() {
         <h1>{tf.hola(usuario?.nombre.split(' ')[0] ?? '')}</h1>
         <p>{tf.subtitulo}</p>
       </header>
+      <AvisoCopia cuando={fincas.guardadoEl} />
       <FotoFranja foto="trabajadores" />
 
       <div className="accesos">
@@ -51,7 +55,7 @@ export default function MisFincas() {
                   <Link to={`/zona/${f.codigo_distrito}`} className="boton boton-pequeno boton-secundario">{tf.verZona}</Link>
                 </div>
                 <p className="ayuda">
-                  {zona ? `${zona.distrito}, ${zona.canton}` : f.codigo_distrito} · {f.area_ha} ha · {tf.agua}: {fuentesDeAgua(f).map((k) => tf.fuenteAgua[k]).join(', ')}
+                  {zona ? `${zona.distrito}, ${zona.canton}` : f.codigo_distrito} · {formatoHa(f.area_ha, t.locale)} ha · {tf.agua}: {fuentesDeAgua(f).map((k) => tf.fuenteAgua[k]).join(', ')}
                   {f.riego ? ` · ${tf.conRiego}` : ''}
                 </p>
 
@@ -65,7 +69,7 @@ export default function MisFincas() {
                       return (
                         <li key={s.id}>
                           <Link to={`/siembras/${s.id}`}>
-                            <span><IconoCultivo id={s.cultivo_id} /> {nombreCultivo(t, s.cultivo_id, c?.nombre)} · {s.area_ha} ha</span>
+                            <span><IconoCultivo id={s.cultivo_id} /> {nombreCultivo(t, s.cultivo_id, c?.nombre)} · {formatoHa(s.area_ha, t.locale)} ha</span>
                             <small>{tf.cosecha}: {fecha(s.cosecha_esperada)}</small>
                           </Link>
                         </li>

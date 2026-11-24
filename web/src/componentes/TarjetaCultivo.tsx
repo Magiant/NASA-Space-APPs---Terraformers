@@ -21,7 +21,8 @@ function cuandoSembrar(t: Textos, a: RegistroAptitud): string {
 }
 
 function frase(valor: number, frases: [string, string, string]) {
-  return valor >= 80 ? frases[0] : valor >= 60 ? frases[1] : frases[2];
+  // Correccion - Poll: las frases y colores de cada parte usaban 80 y 60, y los niveles 85 y 65; ahora los mismos cortes.
+  return valor >= 85 ? frases[0] : valor >= 65 ? frases[1] : frases[2];
 }
 
 /** Puntaje por partes explicado en palabras simples. */
@@ -37,7 +38,7 @@ export function DesgloseNotas({ notas }: { notas: Notas }) {
             <span>{frase(notas[p], t.desglose[p].frases)}</span>
           </div>
           <div className="barra" aria-hidden>
-            <span style={{ width: `${notas[p]}%` }} className={notas[p] >= 80 ? 'alta' : notas[p] >= 60 ? 'media' : 'baja'} />
+            <span style={{ width: `${notas[p]}%` }} className={notas[p] >= 85 ? 'alta' : notas[p] >= 65 ? 'media' : 'baja'} />
           </div>
         </li>
       ))}
@@ -54,7 +55,9 @@ export function DesgloseNotas({ notas }: { notas: Notas }) {
   );
 }
 
-export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; posicion?: number }) {
+// Correccion - Poll: el aviso de mucha siembra vecina ("Ojo: ya hay 64 ha de tomate") salia suelto bajo la lista y no se
+// ligaba con el cultivo; ahora la tarjeta lo muestra dentro (aviso).
+export default function TarjetaCultivo({ a, posicion, aviso }: { a: RegistroAptitud; posicion?: number; aviso?: string }) {
   const t = useT();
   const c = catalogo.cultivo(a.cultivo_id);
   const plagas = (c?.plagas ?? []).filter((id) => a.plagas_zona.includes(catalogo.plaga(id)?.nombre ?? ''));
@@ -80,6 +83,7 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
         </strong>
         <InsigniaNivel nivel={a.nivel} />
       </Link>
+      {aviso && <p className="aviso tc-aviso"><Icono nombre="alertas" tam={16} /> {aviso}</p>}
 
       {a.nivel === 'descartado' ? (
         <p className="motivo">{a.motivo_descarte}</p>
@@ -107,7 +111,10 @@ export default function TarjetaCultivo({ a, posicion }: { a: RegistroAptitud; po
           </dl>
           <details>
             <summary>{t.tarjeta.porQue}</summary>
+            {/* Correccion - Poll: el "88/100" y el nivel no se explicaban; ahora se dice que mide y los cortes. */}
+            <p className="ayuda">{t.tarjeta.quePuntaje(a.puntaje)}</p>
             <DesgloseNotas notas={a.notas} />
+            {a.estimado && <p className="ayuda">{t.tarjeta.estimado}</p>}
           </details>
         </>
       )}

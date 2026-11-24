@@ -129,7 +129,9 @@ export default function SelectorUbicacion({
     );
   }
 
-  const cargandoOpcion = <option value="">{t.ubicacion.cargando}</option>;
+  // Correccion - Poll: si la lista de lugares no cargaba, los selectores seguian diciendo "Cargando la lista…" para
+  // siempre y no habia como reintentar; ahora dicen que no se pudo cargar y hay un boton "Intentar de nuevo".
+  const cargandoOpcion = <option value="">{s.error ? t.ubicacion.noCargo : t.ubicacion.cargando}</option>;
 
   return (
     <div className="selector-ubicacion">
@@ -141,7 +143,12 @@ export default function SelectorUbicacion({
           <p className="separador"><span>{conMapa ? t.ubicacion.oMapaLista : t.ubicacion.oLista}</span></p>
         </>
       )}
-      {s.error && <p className="ayuda" role="alert">{t.ubicacion.errorLista}</p>}
+      {s.error && (
+        <div className="aviso aviso-error" role="alert">
+          <p>{t.ubicacion.errorLista}</p>
+          <button type="button" className="boton boton-secundario" onClick={() => window.location.reload()}>{t.comun.reintentar}</button>
+        </div>
+      )}
       <label className={siguiente === 'provincia' ? 'campo-siguiente' : undefined}>
         {t.ubicacion.provincia}
         <select value={s.provincia} disabled={sinLista} onChange={(e) => s.elegirProvincia(e.target.value)}>

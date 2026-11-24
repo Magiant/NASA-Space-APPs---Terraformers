@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Cargando, Vacio } from '../../componentes/Estados';
+import { AvisoCopia, Cargando, ErrorCarga, Vacio } from '../../componentes/Estados';
+import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
 import { catalogo } from '../../servicios/algolia';
 import { datos } from '../../servicios/supabase';
 import type { ResultadoSiembra } from '../../tipos';
-import { fecha, nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
+import { copiaPrivada, fecha, nombreCultivo, nombrePlaga, useCargar } from '../../utilidades';
+import { formatoHa } from '../../componentes/CampoArea';
 import { Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 
 const ICONO: Record<ResultadoSiembra, string> = { exitosa: '✔', regular: '◐', perdida: '✕' };
@@ -12,14 +14,19 @@ const RESULTADOS = Object.keys(ICONO) as ResultadoSiembra[];
 
 // Correccion - Poll: con una sola unidad cosechada se muestra en singular ("1 saco", no "1 sacos").
 // Correccion - Poll: dice "Cosecho 22 quintales" o "Perdio 3 sacos" segun el resultado, no solo el numero.
+// Correccion - Poll: el area de cada cosecha salia en crudo ("1 ha", "0.8 ha"); ahora usa formatoHa ("0,8 ha").
+// Correccion - Poll: si fallaba la carga (por ejemplo sin senal) decia "Todavia no tiene cosechas", como si no
+// hubiera ninguna; ahora muestra el error con "Intentar de nuevo", o la copia guardada si no hay senal.
 export default function MiHistorial() {
   const t = useT();
   const th = t.historial;
-  const siembras = useCargar(() => datos.misSiembras(), []);
-  const fincas = useCargar(() => datos.misFincas(), []);
-  const reportes = useCargar(() => datos.misReportes(), []);
+  const { usuario } = useAuth();
+  const siembras = useCargar(() => datos.misSiembras(), [], copiaPrivada(usuario?.id, 'siembras'));
+  const fincas = useCargar(() => datos.misFincas(), [], copiaPrivada(usuario?.id, 'fincas'));
+  const reportes = useCargar(() => datos.misReportes(), [], copiaPrivada(usuario?.id, 'reportes'));
 
   if (siembras.cargando || fincas.cargando) return <Cargando />;
+  if (siembras.error) return <ErrorCarga mensaje={siembras.error} reintentar={siembras.recargar} />;
   const pasadas = (siembras.datos ?? []).filter((s) => s.estado === 'finalizada').sort((a, b) => (b.fecha_cierre ?? '').localeCompare(a.fecha_cierre ?? ''));
   const cuenta = (r: ResultadoSiembra) => pasadas.filter((s) => s.resultado === r).length;
 
@@ -29,6 +36,7 @@ export default function MiHistorial() {
         <h1>{th.titulo}</h1>
         <p>{th.subtitulo}</p>
       </header>
+      <AvisoCopia cuando={siembras.guardadoEl} />
 
       {pasadas.length === 0 ? (
         <Vacio icono={<Icono nombre="libro" tam={48} />} titulo={th.vacio}>
@@ -58,7 +66,7 @@ export default function MiHistorial() {
                       <strong><IconoCultivo id={s.cultivo_id} /> {nombreCultivo(t, s.cultivo_id, c?.nombre)}</strong>
                       {s.resultado && <> — <Tx>{ICONO[s.resultado]}</Tx> {th.resultado[s.resultado]}</>}
                     </Link>
-                    {s.cantidad ? <p>{t.cerrar.cantidadFue(s.resultado === 'perdida', `${s.cantidad} ${(s.cantidad === 1 ? t.cerrar.unidadesUna : t.cerrar.unidades)[s.unidad ?? ''] ?? s.unidad}`)} {th.en} {s.area_ha} ha</p> : null}
+                    {s.cantidad ? <p>{t.cerrar.cantidadFue(s.resultado === 'perdida', `${s.cantidad} ${(s.cantidad === 1 ? t.cerrar.unidadesUna : t.cerrar.unidades)[s.unidad ?? ''] ?? s.unidad}`)} {th.en} {formatoHa(s.area_ha, t.locale)} ha</p> : null}
                     {s.motivo && <p className="ayuda">{s.motivo}</p>}
                   </li>
                 );
