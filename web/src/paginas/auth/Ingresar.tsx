@@ -1,4 +1,5 @@
 import { Icono, Tx } from '../../componentes/Iconos';
+import { mensajeError } from '../../errores';
 import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAvisar } from '../../componentes/Confirmar';
@@ -20,6 +21,7 @@ export default function Ingresar() {
   const [clave, setClave] = useState('');
   const [verClave, setVerClave] = useState(false);
   const [enviando, setEnviando] = useState(false);
+  const [pidiendo, setPidiendo] = useState(false);
   const avisar = useAvisar();
 
   async function enviar(e: FormEvent) {
@@ -36,12 +38,32 @@ export default function Ingresar() {
 
   // Correccion - Poll: con un correo sin cuenta solo decía "correo o contraseña incorrectos". Supabase no dice si un
   // correo existe (así nadie puede averiguar quién tiene cuenta), pero la ventana ofrece crearla con ese correo.
+  // Correccion - Poll: no habia "¿Olvido su contrasena?": quien la olvidaba quedaba sin salida. Ahora manda el correo
+  // para elegir una nueva (en la demo explica que no hay correos y cual es la contrasena de prueba).
+  // Correccion - Poll: el boton no mostraba que estaba enviando y se podia tocar varias veces (y llegar al limite de
+  // correos del servidor); ahora dice "Enviando…" y se bloquea mientras espera.
+  async function olvide() {
+    if (!modoReal) return void avisar({ titulo: ta.olvide, texto: ta.olvideDemo, tono: 'info' });
+    if (!correo.trim()) return void avisar({ titulo: ta.olvide, texto: ta.olvideSinCorreo, tono: 'info', icono: 'correo' });
+    if (pidiendo) return;
+    setPidiendo(true);
+    try {
+      await auth.olvideClave(correo);
+      await avisar({ titulo: ta.olvideEnviadoTitulo, texto: ta.olvideEnviado(correo.trim()), tono: 'exito', icono: 'correo' });
+    } catch (err) {
+      await avisar({ titulo: ta.olvide, texto: mensajeError(t, err), tono: 'error' });
+    } finally {
+      setPidiendo(false);
+    }
+  }
+
+  // Correccion - Poll: el texto del error salia siempre en español; ahora se traduce al idioma de la app.
   /** El error de entrar, en una ventana flotante con lo que se puede hacer. */
   async function explicar(err: Error & { motivo?: string }) {
     if (err.motivo === 'credenciales') {
       const r = await avisar({
         titulo: ta.noEntro, tono: 'error',
-        texto: <><p>{err.message}</p><p><strong>{ta.ofrecerCrear}</strong></p></>,
+        texto: <><p>{mensajeError(t, err)}</p><p><strong>{ta.ofrecerCrear}</strong></p></>,
         acciones: [{ id: 'otra', texto: ta.otraVez }, { id: 'crear', texto: ta.crearCuenta, principal: true }],
       });
       if (r === 'crear') navegar('/registrarse', { state: { ...(state ?? {}), correo: correo.trim() } });
@@ -49,7 +71,7 @@ export default function Ingresar() {
     }
     if (err.motivo === 'sin_confirmar') {
       const r = await avisar({
-        titulo: ta.faltaConfirmar, texto: err.message, tono: 'info', icono: 'correo',
+        titulo: ta.faltaConfirmar, texto: mensajeError(t, err), tono: 'info', icono: 'correo',
         acciones: [{ id: 'aceptar', texto: t.confirmar.aceptar }, { id: 'reenviar', texto: ta.reenviar, principal: true }],
       });
       if (r === 'reenviar') {
@@ -57,12 +79,12 @@ export default function Ingresar() {
           await auth.reenviarConfirmacion(correo);
           await avisar({ titulo: ta.reenviadoTitulo, texto: ta.reenviado(correo.trim()), tono: 'exito', icono: 'correo' });
         } catch (e2) {
-          await avisar({ titulo: ta.noReenviado, texto: (e2 as Error).message, tono: 'error' });
+          await avisar({ titulo: ta.noReenviado, texto: mensajeError(t, e2), tono: 'error' });
         }
       }
       return;
     }
-    await avisar({ titulo: ta.noEntro, texto: err.message, tono: 'error' });
+    await avisar({ titulo: ta.noEntro, texto: mensajeError(t, err), tono: 'error' });
   }
 
   const demo = (c: string) => {
@@ -102,6 +124,7 @@ export default function Ingresar() {
               <Icono nombre={verClave ? 'ojoNo' : 'ojo'} tam={18} /> {verClave ? ta.ocultarClave : ta.mostrarClave}
             </button>
           </span>
+          <button type="button" className="enlace" onClick={olvide} disabled={pidiendo}>{pidiendo ? ta.enviandoCorreo : ta.olvide}</button>
         </div>
 
         <button className="boton boton-ancho cuenta-boton" disabled={enviando}>
@@ -111,21 +134,23 @@ export default function Ingresar() {
         </button>
       </form>
 
+      {/* Correccion - Poll: con la base real se ofrecia agricultor@demo.cr con la contrasena publica demo1234: cualquiera
+          entraba a una cuenta compartida y mandaba reportes de plaga al tecnico real. Ahora las cuentas de prueba solo
+          se ofrecen en la demostracion (sin base de datos). */}
+      {!modoReal && (
       <details className="plegable demo cuenta-demo">
         <summary>{ta.demo}</summary>
         <ul>
           <li>
             <button type="button" className="enlace" onClick={() => demo('agricultor@demo.cr')}>agricultor@demo.cr</button> — {ta.demoAgricultor}
           </li>
-          {/* Con la base real, la cuenta admin NO es pública: su contraseña está solo en el .env del equipo. */}
-          {!modoReal && (
-            <li>
-              <button type="button" className="enlace" onClick={() => demo('admin@demo.cr')}>admin@demo.cr</button> — {ta.demoAdmin}
-            </li>
-          )}
+          <li>
+            <button type="button" className="enlace" onClick={() => demo('admin@demo.cr')}>admin@demo.cr</button> — {ta.demoAdmin}
+          </li>
         </ul>
         <p className="ayuda">{ta.demoClave}</p>
       </details>
+      )}
 
       <div className="cuenta-pie">
         <p>{ta.sinCuenta} <Link to="/registrarse" state={state}>{ta.crear}</Link></p>

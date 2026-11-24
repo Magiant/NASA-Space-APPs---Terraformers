@@ -7,7 +7,8 @@ export default function AvisoActualizado({ que, cuando, fuente }: { que?: string
   const t = useT();
   return (
     <p className="actualizado">
-      <Icono nombre="reloj" tam={16} /> {t.comun.actualizados(que ?? t.comun.datos)} <strong>{fecha(cuando)}</strong>
+      {/* Correccion - Poll: sin fecha se veia "—"; ahora dice "Sin fecha". */}
+      <Icono nombre="reloj" tam={16} /> {t.comun.actualizados(que ?? t.comun.datos)} <strong>{cuando ? fecha(cuando) : t.comun.sinFecha}</strong>
       {fuente && <> · {t.comun.fuente}: {fuente}</>}
     </p>
   );

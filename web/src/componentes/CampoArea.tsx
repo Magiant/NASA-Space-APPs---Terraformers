@@ -11,9 +11,11 @@ const HA_POR: Record<UnidadArea, number> = { ha: 1, m2: 0.0001, mz: 0.6987 };
 /** Hectáreas con hasta 4 decimales (1 m² = 0,0001 ha). */
 const redondear = (ha: number) => Math.round(ha * 10000) / 10000;
 
-/** "0,5" / "12" / "0,035": hectáreas como se leen en Costa Rica. */
+/** "0,5" / "12" / "1,4" / "0,035": hectáreas como se leen en Costa Rica. */
+// Correccion - Poll: un area escrita en manzanas se mostraba como "1,3974 ha"; ahora lleva 2 decimales como maximo,
+// y 4 solo en areas menores de 0,1 ha (huertas en m²), donde redondear a 2 las dejaria en 0.
 export function formatoHa(ha: number, locale = 'es-CR'): string {
-  return ha.toLocaleString(locale, { maximumFractionDigits: 4 });
+  return ha.toLocaleString(locale, { maximumFractionDigits: ha < 0.1 ? 4 : 2 });
 }
 
 export default function CampoArea({ etiqueta, alCambiar, ayuda }: {

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { supa } from '../servicios/cliente';
 import { auth } from '../servicios/supabase';
 import type { Usuario } from '../tipos';
+import { borrarCopiasPrivadas } from '../utilidades';
 
 interface ValorAuth {
   usuario: Usuario | null;
@@ -26,8 +27,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then((u) => vivo && setUsuario(u))
       .catch(() => vivo && setUsuario(null))
       .finally(() => vivo && setCargando(false));
-    const suscripcion = supa?.auth.onAuthStateChange((evento) => {
-      if (evento === 'SIGNED_OUT') setUsuario(null);
+    // Correccion - Poll: el enlace del correo "¿Olvido su contrasena?" abria la app sin pedir la contrasena nueva;
+    // ahora, al llegar con ese enlace, se carga la sesion temporal y se lleva a la pagina para elegirla.
+    const suscripcion = supa?.auth.onAuthStateChange((evento, sesion) => {
+      // Correccion - Poll: si la sesion vencia (sin tocar "Salir"), las copias de fincas y siembras quedaban en el telefono.
+      if (evento === 'SIGNED_OUT') { borrarCopiasPrivadas(); setUsuario(null); }
+      if (evento === 'PASSWORD_RECOVERY') {
+        if (sesion?.user) auth.sesion().then((u) => vivo && setUsuario(u)).catch(() => {});
+        window.location.hash = '#/nueva-clave';
+      }
     });
     return () => {
       vivo = false;
@@ -47,8 +55,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return u;
   }, []);
 
+  // Correccion - Poll: las copias sin senal de fincas y siembras quedaban en el telefono al salir; ahora se borran,
+  // para que otra persona que use el mismo telefono no las vea.
   const salir = useCallback(async () => {
     await auth.salir();
+    borrarCopiasPrivadas();
     setUsuario(null);
   }, []);
 

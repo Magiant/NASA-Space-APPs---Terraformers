@@ -1,4 +1,5 @@
 import CampoArea from '../../componentes/CampoArea';
+import { mensajeError } from '../../errores';
 import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Tx } from '../../componentes/Iconos';
 import { useState, type FormEvent } from 'react';
@@ -43,7 +44,7 @@ export default function NuevaFinca() {
       });
       navegar(`/siembras/nueva?finca=${f.id}`, { replace: true });
     } catch (err) {
-      avisar({ titulo: t.avisos.noSeGuardo, texto: (err as Error).message, tono: 'error' });
+      avisar({ titulo: t.avisos.noSeGuardo, texto: mensajeError(t, err), tono: 'error' });
       setEnviando(false);
     }
   }

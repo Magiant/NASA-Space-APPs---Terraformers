@@ -28,6 +28,8 @@ export interface PrecioReferencia {
 /** Índice `aptitud`: un distrito × un cultivo. */
 export interface RegistroAptitud {
   objectID: string;
+  /** Calculado en el navegador porque falta el estudio completo del distrito (solo con la base real). */
+  estimado?: boolean;
   cultivo: string;
   cultivo_id: string;
   familia: string;
@@ -106,6 +108,8 @@ export interface RegistroPrecio {
   unidad: string;
   precio: number;
   precio_anterior: number;
+  /** Fecha del precio con el que se compara (null si no hubo uno anterior). */
+  fecha_anterior: string | null;
   tendencia: 'sube' | 'baja' | 'estable';
   fecha: string;
 }

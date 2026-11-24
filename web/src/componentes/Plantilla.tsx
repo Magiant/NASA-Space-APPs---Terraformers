@@ -1,3 +1,4 @@
+import BotonVolver from './BotonVolver';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexto/AuthContext';
@@ -28,6 +29,16 @@ export default function Plantilla() {
     { a: '/mi-finca', icono: 'finca', texto: t.nav.miFinca },
   ] as const;
 
+  // Correccion - Poll: el candado de "Mi finca" era un emoji de 11 px y solo estaba en la barra de abajo; ahora es el
+  // icono de candado, mas grande, y tambien va en el menu de computadora y en el pie. El lector de pantalla dice
+  // "Necesita cuenta".
+  const candado = usuario ? null : (
+    <>
+      <span className="pestana-candado" aria-hidden><Icono nombre="candado" tam={14} /></span>
+      <span className="oculto">{t.comun.pideEntrar.replace('🔒', '')}</span>
+    </>
+  );
+
   // Al cambiar de pantalla, volver arriba.
   // (Con llaves: en Chrome reciente scrollTo devuelve una promesa y un efecto no puede devolverla.)
   useEffect(() => {
@@ -45,7 +56,11 @@ export default function Plantilla() {
   useEffect(() => {
     if (enLinea && usuario && cola.pendientes(usuario.id).length) {
       // Reportes que estaban guardados sin señal y ya se enviaron: aviso flotante con "Aceptar".
-      cola.enviar(usuario.id).then((n) => { if (n) avisar({ titulo: t.avisos.reportesEnviados, texto: t.conexion.enviados(n), tono: 'exito' }); });
+      // Correccion - Poll: si el servidor rechazaba un reporte varias veces, se perdia sin avisar; ahora se avisa.
+      cola.enviar(usuario.id).then(({ enviados, rechazados }) => {
+        if (enviados) avisar({ titulo: t.avisos.reportesEnviados, texto: t.conexion.enviados(enviados), tono: 'exito' });
+        if (rechazados) avisar({ titulo: t.avisos.noSeEnvio, texto: t.conexion.rechazados(rechazados), tono: 'error' });
+      });
     }
   }, [enLinea, usuario, avisar, t]);
 
@@ -62,6 +77,7 @@ export default function Plantilla() {
             {pestanas.map((p) => (
               <NavLink key={p.a} to={p.a} end={'fin' in p}>
                 <Icono nombre={p.icono} tam={20} /> {p.texto}
+                {p.a === '/mi-finca' && candado}
               </NavLink>
             ))}
           </nav>
@@ -88,6 +104,7 @@ export default function Plantilla() {
       )}
 
       <main className="contenido">
+        <BotonVolver />
         <Outlet />
       </main>
 
@@ -104,7 +121,7 @@ export default function Plantilla() {
           </div>
           <nav className="pie-columna" aria-label={t.comun.pieSecciones}>
             <strong>{t.comun.pieSecciones}</strong>
-            {pestanas.map((p) => <Link key={p.a} to={p.a}>{p.texto}</Link>)}
+            {pestanas.map((p) => <Link key={p.a} to={p.a}>{p.texto}{p.a === '/mi-finca' && candado}</Link>)}
           </nav>
           <div className="pie-columna">
             <strong>{t.comun.pieFuentes}</strong>
@@ -116,16 +133,21 @@ export default function Plantilla() {
       </footer>
 
       {usuario && !pathname.startsWith('/reportar-plaga') && (
+        // Correccion - Poll: en el celular la pildora de 245 px tapaba botones y texto; el nombre va en su propio
+        // span para que el CSS deje solo el icono en pantallas chicas (el lector de pantalla lo sigue leyendo).
         <Link to="/reportar-plaga" className="boton-flotante">
-          <Icono nombre="plaga" tam={22} /> {t.inicio.reportar}
+          <Icono nombre="plaga" tam={22} /> <span className="boton-flotante-texto">{t.inicio.reportar}</span>
         </Link>
       )}
 
       <nav className="pestanas" aria-label={t.nav.secciones}>
+        {/* Correccion - Poll: la pestana "Mi finca" se veia igual que las demas sin sesion y el aviso llegaba
+            despues de tocarla; ahora lleva un candado y el lector de pantalla dice que necesita cuenta. */}
         {pestanas.map((p) => (
           <NavLink key={p.a} to={p.a} end={'fin' in p}>
             <Icono nombre={p.icono} tam={26} />
             {p.texto}
+            {p.a === '/mi-finca' && candado}
           </NavLink>
         ))}
       </nav>

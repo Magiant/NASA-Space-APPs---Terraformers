@@ -105,6 +105,8 @@ export interface RegistroPrecio {
   unidad: string;
   precio: number;
   precio_anterior: number;
+  /** Fecha del precio con el que se compara (null si no hubo uno anterior). */
+  fecha_anterior: string | null;
   tendencia: 'sube' | 'baja' | 'estable';
   fecha: string;
 }

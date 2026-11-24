@@ -1,11 +1,11 @@
 import { FotoFranja, Icono, IconoCultivo, Tx } from '../../componentes/Iconos';
 import { useState } from 'react';
-import { Cargando, ErrorCarga } from '../../componentes/Estados';
+import { AvisoCopia, Cargando, ErrorCarga } from '../../componentes/Estados';
 import { useT } from '../../contexto/PreferenciasContext';
 import { cultivosDelCurso, epocaDelCurso, epocaDeLosMeses, esDeAgricultura, esParaCualquierCultivo, proximosMeses } from '../../logica/cursos';
 import { algolia, catalogo } from '../../servicios/algolia';
 import type { RegistroCapacitacion } from '../../tipos';
-import { nombreCultivo, nombrePlaga, useCargar, useZonaElegida } from '../../utilidades';
+import { nombreCultivo, nombrePlaga, traducirDato, useCargar, useZonaElegida } from '../../utilidades';
 
 type Vista = 'recomendados' | 'todos';
 
@@ -17,10 +17,13 @@ type Vista = 'recomendados' | 'todos';
  * En las dos se puede filtrar por cultivo y por tema.
  */
 // Correccion - Poll: los cultivos recomendados abrian la ficha del cultivo en vez de filtrar los cursos; ahora filtran.
+// Correccion - Poll: con la app en ingles los temas salian en español ("Plagas"); decia "1 cursos" y "1 horas"; y sin
+// cursos con los filtros no habia como quitarlos. Ahora los temas se traducen, el singular es correcto y hay un boton
+// "Quitar los filtros".
 export default function Capacitaciones() {
   const t = useT();
   const tc = t.cursos;
-  const cursos = useCargar(() => algolia.capacitaciones(), []);
+  const cursos = useCargar(() => algolia.capacitaciones(), [], 'tf-copia-cursos');
   const [vista, setVista] = useState<Vista>('recomendados');
   const [cultivo, setCultivo] = useState('');
   const [tema, setTema] = useState('');
@@ -63,11 +66,11 @@ export default function Capacitaciones() {
       </header>
       <FotoFranja foto="agricultor" />
 
-      <div className="interruptor" role="tablist" aria-label={tc.titulo}>
-        <button type="button" role="tab" aria-selected={vista === 'recomendados'} onClick={() => setVista('recomendados')}>
+      <div className="interruptor" role="group" aria-label={tc.titulo}>
+        <button type="button" aria-pressed={vista === 'recomendados'} onClick={() => setVista('recomendados')}>
           {tc.recomendados}<small>{rango}</small>
         </button>
-        <button type="button" role="tab" aria-selected={vista === 'todos'} onClick={() => setVista('todos')}>
+        <button type="button" aria-pressed={vista === 'todos'} onClick={() => setVista('todos')}>
           {tc.todosMeses}<small>{tc.nCursos(todos.length)}</small>
         </button>
       </div>
@@ -102,17 +105,19 @@ export default function Capacitaciones() {
           {tc.tema}
           <select value={tema} onChange={(e) => setTema(e.target.value)}>
             <option value="">{tc.todosTemas}</option>
-            {temas.map((x) => <option key={x}>{x}</option>)}
+            {temas.map((x) => <option key={x} value={x}>{traducirDato(t, x)}</option>)}
           </select>
         </label>
       </div>
 
       {cursos.cargando && <Cargando />}
       {cursos.error && <ErrorCarga mensaje={cursos.error} reintentar={cursos.recargar} />}
+      <AvisoCopia cuando={cursos.guardadoEl} />
       {!cursos.cargando && !cursos.error && lista.length === 0 && (
         <div className="aviso">
           <p>{vista === 'recomendados' ? tc.sinRecomendados : tc.sinCursos}</p>
           {vista === 'recomendados' && <button type="button" className="boton boton-secundario boton-pequeno" onClick={() => setVista('todos')}>{tc.verTodos}</button>}
+          {(cultivo || tema) && <button type="button" className="boton boton-secundario boton-pequeno" onClick={() => { setCultivo(''); setTema(''); }}>{tc.quitarFiltros}</button>}
         </div>
       )}
 
@@ -123,16 +128,18 @@ export default function Capacitaciones() {
           const porEpoca = vista === 'recomendados' && !!epoca && epocaDelCurso(c) === epoca;
           return (
             <article key={c.objectID} className="tarjeta tarjeta-curso">
-              <p className="etiqueta" title={c.tema}>{area}</p>
+              <p className="etiqueta" title={c.tema}>{traducirDato(t, area)}</p>
               <h2 className="tarjeta-h">{c.titulo}</h2>
               <ul className="datos-rapidos">
-                <li><Tx>{tc.modalidad[c.modalidad]}</Tx> · {c.duracion_horas} {tc.horas}{tipo ? ` · ${tipo}` : ''}</li>
-                <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>
+                <li><Tx>{tc.modalidad[c.modalidad]}</Tx>{c.duracion_horas ? ` · ${tc.horas(c.duracion_horas)}` : ''}{tipo ? ` · ${traducirDato(t, tipo)}` : ''}</li>
+                {/* Correccion - Poll: sin provincias se veia el icono solo; ahora la linea no aparece. */}
+                {c.provincias.length > 0 && <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>}
                 {para.length > 0 && <li className="curso-para"><Icono nombre="sembrar" tam={16} /> {tc.para} {para.map((id) => nombreCultivo(t, id)).join(' · ')}</li>}
                 {porEpoca && <li className="curso-para"><Icono nombre={epoca === 'seca' ? 'sol' : 'lluvia'} tam={16} /> {epoca === 'seca' ? tc.paraEpocaSeca : tc.paraEpocaLluviosa}</li>}
                 {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
               </ul>
-              <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">
+              {/* Correccion - Poll: el enlace del curso no se revisaba; solo se usa si es una direccion web (http o https). */}
+              <a className="boton boton-secundario" href={/^https?:\/\//i.test(c.url) ? c.url : undefined} target="_blank" rel="noreferrer">
                 {tc.verEn(c.institucion)}
               </a>
             </article>

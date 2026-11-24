@@ -9,7 +9,7 @@ import { SIGUIENTES } from '../../datos-ejemplo/publicos';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { series } from '../../servicios/supabase';
 import type { RegistroCultivo } from '../../tipos';
-import { colones, nombreCultivo, nombrePlaga, useCargar, porUnidad } from '../../utilidades';
+import { colones, nombreCultivo, nombrePlaga, traducirDato, useCargar, porUnidad } from '../../utilidades';
 import { Tendencia } from './Precios';
 import { FotoCultivo, FotoPlaga, Icono, IconoCultivo } from '../../componentes/Iconos';
 
@@ -37,7 +37,7 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
           <FotoCultivo id={c.id} prioridad />
           <div className="portada-cultivo-texto">
             <h1>{nombre}</h1>
-            <p><em>{c.nombre_cientifico}</em> · {tc.familia} {c.familia}</p>
+            <p><em>{c.nombre_cientifico}</em> · {tc.familia}: {traducirDato(t, c.familia)}</p>
           </div>
         </div>
       </header>
@@ -48,7 +48,10 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
             <section className="tarjeta">
               <h2 style={{ marginTop: 0 }}>{tc.en(catalogo.zona(enZona.codigo_distrito)?.distrito ?? '')}</h2>
               <p><InsigniaNivel nivel={enZona.nivel} /> <strong>{enZona.puntaje}/100</strong></p>
+              {/* Correccion - Poll: "Excelente 88/100" iba sin explicacion; ahora dice que mide y los cortes. */}
+              <p className="ayuda">{t.tarjeta.quePuntaje(enZona.puntaje)}</p>
               <DesgloseNotas notas={enZona.notas} />
+              {enZona.estimado && <p className="ayuda">{t.tarjeta.estimado}</p>}
             </section>
           )}
 
@@ -131,12 +134,16 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
           )}
 
           <h2>{tc.dondeMejor}</h2>
+          {/* Correccion - Poll: la nota "81/100" de cada distrito no se explicaba en la ficha del cultivo. */}
+          <p className="ayuda">{tc.notaDonde}</p>
           {zonas.cargando && <Cargando />}
           <ul className="lista-enlaces">
             {(zonas.datos ?? []).slice(0, 5).map((a) => (
               <li key={a.objectID}>
                 <Link to={`/zona/${a.codigo_distrito}`}>
-                  <span>{a.ubicacion.lvl2.split(' > ').reverse().join(', ')}</span>
+                  {/* Correccion - Poll: salia "Cartago, Cartago, Cartago" (distrito, canton y provincia con el mismo
+                      nombre) y sin puntaje; ahora no repite nombres y muestra la nota de 0 a 100. */}
+                  <span>{[...new Set(a.ubicacion.lvl2.split(' > ').reverse())].join(', ')} · {a.puntaje}/100</span>
                   <InsigniaNivel nivel={a.nivel} />
                 </Link>
               </li>
@@ -151,7 +158,8 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
                   <li key={k.objectID}>
                     <a href={k.url} target="_blank" rel="noreferrer">
                       <span><Icono nombre="cursos" tam={18} /> {k.titulo}</span>
-                      <small>{k.institucion} · {k.duracion_horas} h</small>
+                      {/* Correccion - Poll: sin horas se veia " · h" suelto. */}
+                      <small>{k.institucion}{k.duracion_horas ? ` · ${k.duracion_horas} h` : ''}</small>
                     </a>
                   </li>
                 ))}
@@ -168,7 +176,8 @@ export default function Cultivo() {
   const { t } = usePreferencias();
   const { id = '' } = useParams();
   const [params] = useSearchParams();
-  const cultivo = useCargar(() => algolia.cultivo(id), [id]);
+  // Correccion - Poll: sin senal la ficha del cultivo fallaba aunque se hubiera visto antes; ahora usa la copia guardada.
+  const cultivo = useCargar(() => algolia.cultivo(id), [id], `tf-copia-cultivo-${id}`);
   if (cultivo.cargando) return <Cargando />;
   if (cultivo.error) return <ErrorCarga mensaje={cultivo.error} reintentar={cultivo.recargar} />;
   if (!cultivo.datos) return <Vacio icono={<Icono nombre="sembrar" tam={48} />} titulo={t.cultivo.noExiste}><Link className="boton" to="/">{t.comun.irInicio}</Link></Vacio>;

@@ -231,6 +231,8 @@ export const PRECIOS: RegistroPrecio[] = BASE_PRECIOS.map(([id, producto, fuente
     producto, cultivo_id: id, fuente,
     mercado: fuente === 'PIMA' ? 'CENADA' : 'Precios de referencia CNP',
     unidad, precio, precio_anterior: anterior,
+    // PIMA publica cada día hábil y el CNP cada semana: el precio anterior es de un día o una semana antes.
+    fecha_anterior: new Date(Date.parse(fuente === 'PIMA' ? FECHA_PRECIOS : '2026-11-10') - (fuente === 'PIMA' ? 1 : 7) * 864e5).toISOString().slice(0, 10),
     tendencia: cambio > 0.02 ? 'sube' : cambio < -0.02 ? 'baja' : 'estable',
     fecha: fuente === 'PIMA' ? FECHA_PRECIOS : '2026-11-10',
   };
@@ -279,8 +281,11 @@ export const CAPACITACIONES: RegistroCapacitacion[] = [
 // ------------------------------------------------------------------
 const limitar = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
 
+// Correccion - Poll: la estimacion del navegador usaba 80 y 60 para los niveles, y el calculo real de los extractores
+// (extractores/src/aptitud/calcular.ts) usa 85 y 65: un 82 salia "Excelente" en un distrito y "Bueno" en otro.
+// Ahora los dos usan los mismos cortes.
 function nivelDe(puntaje: number): Nivel {
-  return puntaje >= 80 ? 'excelente' : puntaje >= 60 ? 'bueno' : 'no_recomendado';
+  return puntaje >= 85 ? 'excelente' : puntaje >= 65 ? 'bueno' : 'no_recomendado';
 }
 
 const NIVEL_RIESGO = { bajo: 10, medio: 25, alto: 45, muy_alto: 65 } as const;
@@ -359,8 +364,10 @@ export const SIEMBRAS_ZONA: RegistroSiembraZona[] = ZONAS.flatMap((z) =>
 // ------------------------------------------------------------------
 // Rotación: qué sembrar después (estudio del equipo, de ejemplo)
 // ------------------------------------------------------------------
+// Correccion - Poll: la frase de las solanaceas decia que el frijol "no comparte plagas" con la papa ni el tomate, pero
+// el propio catalogo les da la mosca blanca en comun; ahora habla solo de las plagas principales (tizon y polilla).
 export const SIGUIENTES: Record<string, { recomendados: string[]; evitar: string[]; porque: string }> = {
-  Solanáceas: { recomendados: ['frijol', 'maiz', 'repollo'], evitar: ['papa', 'tomate', 'chile'], porque: 'El frijol devuelve nitrógeno y no comparte plagas con la papa ni el tomate.' },
+  Solanáceas: { recomendados: ['frijol', 'maiz', 'repollo'], evitar: ['papa', 'tomate', 'chile'], porque: 'El frijol devuelve nitrógeno al suelo y no comparte las plagas principales de esta familia, como el tizón y la polilla.' },
   Fabáceas: { recomendados: ['maiz', 'papa', 'repollo'], evitar: ['frijol'], porque: 'El frijol dejó nitrógeno: aprovéchelo con un cultivo que lo necesite, como el maíz.' },
   Poáceas: { recomendados: ['frijol', 'papa', 'cebolla'], evitar: ['maiz', 'arroz'], porque: 'Cambiar de familia corta el ciclo del gusano cogollero.' },
   Brasicáceas: { recomendados: ['papa', 'frijol', 'zanahoria'], evitar: ['repollo'], porque: 'Evite repetir repollo para no aumentar la hernia de las crucíferas.' },

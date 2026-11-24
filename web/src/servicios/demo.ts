@@ -4,6 +4,9 @@
 // Cuando estén las tablas 001–008, cada función se cambia por la llamada real a
 // `@supabase/supabase-js` con la misma firma. Las comprobaciones de dueño y de rol
 // que se hacen aquí imitan lo que hará RLS en la base de datos.
+// Correccion - Poll: los errores de la demo estaban fijos en espanol (salian asi con la app en ingles); ahora usan
+// los mismos codigos que la base real y se traducen.
+import { ErrorApp } from '../errores';
 import { BASE_INICIAL, type BaseDemo } from '../datos-ejemplo/privados';
 import { semilla } from '../datos-ejemplo/publicos';
 import type {
@@ -18,7 +21,8 @@ const CLAVE_SESION = 'tf-sesion';
 
 const base = (): BaseDemo => leer(CLAVE_BASE, BASE_INICIAL);
 const escribir = (b: BaseDemo) => guardar(CLAVE_BASE, b);
-const hoy = () => new Date().toISOString().slice(0, 10);
+// Correccion - Poll: fecha de hoy en la hora del telefono (antes UTC; de noche daba la de manana).
+const hoy = () => new Date().toLocaleDateString('en-CA');
 const esperar = <T,>(v: T): Promise<T> => new Promise((ok) => setTimeout(() => ok(v), 200));
 
 function sinClave({ clave: _c, ...u }: BaseDemo['usuarios'][number]): Usuario {
@@ -28,25 +32,25 @@ function sinClave({ clave: _c, ...u }: BaseDemo['usuarios'][number]): Usuario {
 function usuarioActual(): Usuario {
   const id = leer<string | null>(CLAVE_SESION, null);
   const u = id ? base().usuarios.find((x) => x.id === id) : undefined;
-  if (!u) throw new Error('Necesita iniciar sesión.');
+  if (!u) throw new ErrorApp('sesion');
   return sinClave(u);
 }
 
 function exigirRol(...roles: Rol[]): Usuario {
   const u = usuarioActual();
-  if (!roles.includes(u.rol)) throw new Error('No tiene permiso para esto.');
+  if (!roles.includes(u.rol)) throw new ErrorApp('permiso');
   return u;
 }
 
 function fincaPropia(b: BaseDemo, fincaId: string, u: Usuario): Finca {
   const f = b.fincas.find((x) => x.id === fincaId);
-  if (!f || (f.usuario_id !== u.id && u.rol !== 'admin')) throw new Error('Finca no encontrada.');
+  if (!f || (f.usuario_id !== u.id && u.rol !== 'admin')) throw new ErrorApp('finca_no_encontrada');
   return f;
 }
 
 function siembraPropia(b: BaseDemo, siembraId: string, u: Usuario): Siembra {
   const s = b.siembras.find((x) => x.id === siembraId);
-  if (!s) throw new Error('Siembra no encontrada.');
+  if (!s) throw new ErrorApp('no_encontrada');
   fincaPropia(b, s.finca_id, u);
   return s;
 }
@@ -62,20 +66,28 @@ export const auth = {
 
   ingresar: async (correo: string, clave: string): Promise<Usuario> => {
     const u = base().usuarios.find((x) => x.correo.toLowerCase() === correo.trim().toLowerCase());
-    if (!u || u.clave !== clave) throw Object.assign(new Error('Correo o contraseña incorrectos.'), { motivo: 'credenciales' });
+    if (!u || u.clave !== clave) throw Object.assign(new ErrorApp('credenciales'), { motivo: 'credenciales' });
     guardar(CLAVE_SESION, u.id);
     return esperar(sinClave(u));
   },
 
   /** En modo demo no hay correos: las cuentas quedan confirmadas al crearlas. */
   reenviarConfirmacion: async (_correo: string): Promise<void> => {},
+  /** En modo demo no se mandan correos (la pantalla de Entrar lo avisa). */
+  olvideClave: async (_correo: string): Promise<void> => {},
+  cambiarClave: async (clave: string): Promise<void> => {
+    if (clave.length < 8) throw new ErrorApp('clave_corta', { minimo: 8 });
+    const b = base();
+    const u = b.usuarios.find((x) => x.id === usuarioActual().id);
+    if (u) { u.clave = clave; escribir(b); }
+  },
 
   /** Todo usuario nuevo es agricultor. Los roles técnico y admin solo los asigna un administrador. */
   registrarse: async (nombre: string, correo: string, clave: string, codigoDistrito: string | null): Promise<Usuario> => {
     const b = base();
     const c = correo.trim().toLowerCase();
-    if (b.usuarios.some((x) => x.correo.toLowerCase() === c)) throw new Error('Ya existe una cuenta con ese correo.');
-    if (clave.length < 8) throw new Error('La contraseña debe tener al menos 8 caracteres.');
+    if (b.usuarios.some((x) => x.correo.toLowerCase() === c)) throw new ErrorApp('ya_existe', { correo: c });
+    if (clave.length < 8) throw new ErrorApp('clave_corta', { minimo: 8 });
     const u = { id: nuevoId(), nombre: nombre.trim(), correo: c, clave, rol: 'agricultor' as const, codigo_distrito: codigoDistrito, creado: hoy() };
     b.usuarios.push(u);
     escribir(b);
@@ -140,7 +152,7 @@ export const datos = {
     const u = usuarioActual();
     const b = base();
     const s = siembraPropia(b, id, u);
-    if (s.estado === 'finalizada') throw new Error('Esta siembra ya está cerrada.');
+    if (s.estado === 'finalizada') throw new ErrorApp('ya_cerrada');
     Object.assign(s, r, { estado: 'finalizada', fecha_cierre: hoy() });
     escribir(b);
     return esperar(s);
@@ -223,10 +235,10 @@ export const admin = {
 
   cambiarRol: async (usuarioId: string, rol: Rol): Promise<void> => {
     const yo = exigirRol('admin');
-    if (usuarioId === yo.id) throw new Error('No puede cambiar su propio rol.');
+    if (usuarioId === yo.id) throw new ErrorApp('propio_rol');
     const b = base();
     const u = b.usuarios.find((x) => x.id === usuarioId);
-    if (!u) throw new Error('Usuario no encontrado.');
+    if (!u) throw new ErrorApp('usuario_no_encontrado');
     u.rol = rol;
     escribir(b);
   },

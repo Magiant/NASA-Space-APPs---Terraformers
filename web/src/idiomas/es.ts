@@ -2,6 +2,10 @@
 // Para agregar un texto: se agrega aquí y en en.ts (TypeScript avisa si falta).
 // Los datos que vienen de la base (síntomas, alertas, cursos…) no se traducen aquí.
 
+// Correccion - Poll: los decimales salian con punto ("19.5 °C", "pH 6.1", "2.5 ha"); estos textos ahora escriben
+// los numeros como en Costa Rica: coma decimal y espacio de miles.
+const num = (n: number, max = 1) => n.toLocaleString('es-CR', { maximumFractionDigits: max });
+
 export const es = {
   codigo: 'es',
   nombreIdioma: 'Español',
@@ -19,6 +23,7 @@ export const es = {
     datosEjemplo: 'Versión de prueba: los datos son de ejemplo.',
     datosReales: 'Datos reales: clima (NASA, Open-Meteo), suelo (SoilGrids), terreno (SRTM), cultivos (FAO, MAG) y precios (PIMA-CENADA). Las amenazas son estimadas y las fichas de plagas, de referencia.',
     sinDato: 'Sin dato',
+    sinFecha: 'Sin fecha',
     actualizados: (que: string) => `${que} actualizados:`,
     datos: 'Datos',
     precios: 'Precios',
@@ -27,12 +32,14 @@ export const es = {
     sinAcceso: 'No tiene acceso a esta parte',
     sinAccesoTexto: 'Esta sección es solo para el equipo de administración.',
     volverInicio: 'Volver al inicio',
-    pideEntrar: '🔒 Pide entrar',
+    // Correccion - Poll: "Pide entrar" parecia una accion o un pedido de la pagina; ahora dice lo que hace falta.
+    pideEntrar: '🔒 Necesita cuenta',
     temaClaro: 'Tema crema',
     temaOscuro: 'Tema azul oscuro',
     cambiarIdioma: 'Cambiar idioma',
     idioma: 'Idioma',
-    pie: 'Datos: NASA, Open-Meteo, PIMA, CNP, IMN, CNE, SoilGrids, GAEZ, INA.',
+    // Correccion - Poll: las siglas del pie no se explicaban; ahora cada una dice que es.
+    pie: 'Datos: NASA, Open-Meteo (pronóstico), PIMA (precios del CENADA, el mercado mayorista), CNP (Consejo Nacional de Producción), IMN (Instituto Meteorológico Nacional), CNE (Comisión Nacional de Emergencias), SoilGrids y GAEZ (suelos y cultivos), INA (Instituto Nacional de Aprendizaje).',
     pieLema: 'Datos de satélite al servicio del agricultor costarricense.',
     pieSecciones: 'Secciones',
     pieFuentes: 'Fuentes de datos',
@@ -58,6 +65,14 @@ export const es = {
           ? 'Tiene 1 reporte de plaga sin enviar en este teléfono. Se enviará cuando vuelva a entrar con esta misma cuenta.'
           : `Tiene ${n} reportes de plaga sin enviar en este teléfono. Se enviarán cuando vuelva a entrar con esta misma cuenta.`,
       aceptar: 'Cerrar sesión',
+    },
+    nuevaSiembra: {
+      titulo: (cultivo: string) => `¿Guardar la siembra de ${cultivo}?`,
+      resumen: (ha: string, finca: string, sembrada: string, cosecha: string) =>
+        `${ha} ha en ${finca}, sembrada el ${sembrada}. Cosecha esperada: ${cosecha}.`,
+      texto: 'Revise que los datos estén bien: la siembra queda en su finca y en su historial.',
+      aceptar: 'Sí, guardar la siembra',
+      agrandara: (finca: string, ha: string) => `La finca «${finca}» pasará a medir ${ha} ha.`,
     },
     cerrarSiembra: {
       titulo: (cultivo: string) => `¿Cerrar la siembra de ${cultivo}?`,
@@ -145,8 +160,10 @@ export const es = {
     conSenal: 'Con señal',
     sinSenalCorto: 'Sin señal',
     sinSenal: 'Sin señal. Está viendo lo último que se guardó',
+    copia: (cuando: string) => `Sin señal: lo que ve es la copia guardada del ${cuando}. Puede haber cambiado.`,
     porEnviar: (n: number) => `${n} reporte(s) por enviar`,
     enviados: (n: number) => `Se enviaron ${n} reporte(s) que estaban guardados.`,
+    rechazados: (n: number) => `${n === 1 ? '1 reporte de plaga guardado no se pudo enviar' : `${n} reportes de plaga guardados no se pudieron enviar`}: el servidor no los aceptó. Hágalo de nuevo en «Reportar una plaga».`,
   },
 
   niveles: {
@@ -195,8 +212,14 @@ export const es = {
     por: 'por',
     // Unidades del boletín del PIMA que no se entienden solas.
     java: 'java (caja de madera)',
+    envases: {} as Record<string, string>,
+    medidas: {} as Record<string, string>,
+    unidadCompuesta: (envase: string, n: string, medida: string) => `${envase} de ${n} ${medida}`,
     cuidado: 'Cuidado con:',
     porQue: '¿Por qué este puntaje?',
+    quePuntaje: (n: number) =>
+      `${n}/100 dice qué tan bien se da este cultivo en este distrito. Cuenta el clima (30 %), el agua (25 %), el suelo (20 %), los riesgos (15 %) y el precio en el mercado (10 %). 85 o más: Excelente · 65 a 84: Bueno · menos de 65: No recomendado.`,
+    estimado: 'Cálculo aproximado: todavía no tenemos el estudio completo de este distrito.',
   },
 
   // Cuándo sembrar, contado desde hoy (componentes/CultivosPorTemporada.tsx y la tarjeta de cada cultivo)
@@ -249,6 +272,7 @@ export const es = {
     cargando: 'Cargando la lista…',
     oMapaLista: 'o toque el mapa o elija en la lista',
     errorLista: 'No se pudo cargar la lista de lugares. Revise la señal e intente de nuevo.',
+    noCargo: 'No se pudo cargar',
   },
 
   mapa: {
@@ -342,7 +366,8 @@ export const es = {
     error: 'No se pudo cargar el pronóstico del tiempo. Revise la señal e intente de nuevo.',
     eligeLugar: 'Elija la provincia, el cantón y el distrito: el pronóstico aparece al elegir el distrito.',
     otroLugar: 'Ver otro lugar',
-    sensacion: (g: number) => `Sensación ${g}°`,
+    // Correccion - Poll: "Sensacion 23°" no se entendia; ahora dice "Se siente como 23°".
+    sensacion: (g: number) => `Se siente como ${g}°`,
     humedad: (p: number) => `Humedad ${p} %`,
     viento: (k: number) => `Viento ${k} km/h`,
     maxMin: (max: string, min: string) => `Hoy: máx. ${max} · mín. ${min}`,
@@ -360,8 +385,10 @@ export const es = {
     verMas: 'Ver por hora y alertas',
     semana: 'Pronóstico de 7 días',
     probLluvia: (p: number) => `${p} % de probabilidad de lluvia`,
-    fuente: (hora: string) => `Fuente: Open-Meteo · actualizado: ${hora}`,
-    guardado: (cuando: string) => `Sin señal: se muestra el pronóstico guardado (${cuando}).`,
+    fuente: (hora: string, hoy?: boolean) => `Fuente: Open-Meteo (servicio del tiempo en línea) · actualizado ${hoy ? 'hoy a las ' : 'el '}${hora}`,
+    // Correccion - Poll: no decia que el pronostico guardado puede haber cambiado.
+    guardado: (cuando: string) => `Sin señal: se muestra el pronóstico guardado (${cuando}). Puede haber cambiado.`,
+    lluviaCorta: 'Lluvia',
     cielo: {
       soleado: 'Soleado', despejado: 'Despejado', pocoNublado: 'Parcialmente nublado', nublado: 'Nublado', niebla: 'Neblina',
       llovizna: 'Llovizna', lluvia: 'Lluvia', lluviaFuerte: 'Lluvia fuerte', aguaceros: 'Aguaceros', tormenta: 'Tormenta eléctrica',
@@ -372,7 +399,7 @@ export const es = {
     altura: (m: string) => `${m} m de altura`,
     comoEsta: 'Cómo está la zona',
     temperatura: 'Temperatura',
-    entre: (a: number, b: number) => `Entre ${a} y ${b} °C`,
+    entre: (a: number, b: number) => `Entre ${num(a)} y ${num(b)} °C`,
     lluviaMes: 'Lluvia del mes',
     humedadAire: (n: number) => `Humedad del aire ${n} %`,
     humedadSuelo: 'Humedad del suelo',
@@ -380,6 +407,13 @@ export const es = {
     agua: 'Agua',
     aguaEstado: { falta: 'Falta agua: riegue', equilibrio: 'Agua suficiente', sobra: 'Sobra agua: cuide el drenaje' },
     balance: 'Balance',
+    // Correccion - Poll: "Balance +5 mm" y "pH 6.1" no se entendian; ahora se dicen en palabras.
+    balanceTexto: (mm: string, sobra: boolean) =>
+      sobra ? `Llovió ${mm} mm más de lo que usan las plantas` : `Llovió ${mm} mm menos de lo que usan las plantas`,
+    phTexto: (ph: string) => `Acidez del suelo (pH): ${ph}`,
+    riesgosQueHacer: 'Pregunte en la CNE o en la municipalidad cómo prepararse.',
+    // Correccion - Poll: sin riesgos decia "Sin dato", que se lee como que falta la informacion.
+    sinRiesgos: 'No hay riesgos registrados',
     suelo: 'Suelo',
     materiaOrganica: 'Materia orgánica',
     mo: { baja: 'baja', media: 'media', alta: 'alta' },
@@ -388,10 +422,13 @@ export const es = {
     protegida: (n: number) => `🌳 El ${n} % de la zona es área protegida: ahí no se puede sembrar.`,
     tempMes: 'Temperatura del último mes',
     tempMedia: 'Temperatura media diaria',
+    sinTemp: 'Todavía no hay datos de temperatura de este distrito.',
     mejores: 'Mejores cultivos aquí',
     vecinos: 'Lo que ya están sembrando sus vecinos',
     vecinosAyuda: 'Si muchos siembran lo mismo, puede haber mucha oferta y bajar el precio al cosechar.',
+    muchaOferta: (cultivo: string, ha: string) => `Ojo: en su zona ya hay ${ha} ha de ${cultivo} sembradas. Si todos cosechan a la vez, el precio puede bajar.`,
     tabla: { cultivo: 'Cultivo', hectareas: 'Hectáreas', fincas: 'Fincas', cosecha: 'Cosecha' },
+    yaPaso: '(ya pasó)',
     noExiste: 'No encontramos esa zona',
     elegirOtra: 'Elegir otra',
   },
@@ -405,10 +442,10 @@ export const es = {
     ciclo: (a: number, b: number) => `Está listo para cosechar en ${a} a ${b} días.`,
     necesita: 'Qué necesita',
     req: {
-      temp: (a: number, b: number) => `Temperatura: entre ${a} y ${b} °C`,
+      temp: (a: number, b: number) => `Temperatura: entre ${num(a)} y ${num(b)} °C`,
       altura: (a: string, b: string) => `Altura: de ${a} a ${b} m`,
       agua: (a: number, b: number) => `Agua en todo el ciclo: ${a} a ${b} mm`,
-      ph: (a: number, b: number) => `Suelo con pH entre ${a} y ${b}`,
+      ph: (a: number, b: number) => `Suelo con pH entre ${num(a)} y ${num(b)}`,
     },
     precio: 'Precio',
     sinPrecio: 'No hay precio de referencia para este cultivo.',
@@ -417,8 +454,10 @@ export const es = {
     control: { cultural: 'En la finca:', biologico: 'Con bichos y hongos buenos:', quimico: 'Último recurso:' },
     despues: 'Qué sembrar después',
     o: 'o',
-    evite: 'Evite:',
+    // Correccion - Poll: "Evite: Frijol" en la ficha del frijol no decia que se trata de no repetirlo en el mismo terreno.
+    evite: 'No siembre después en el mismo terreno:',
     dondeMejor: 'Dónde se da mejor',
+    notaDonde: 'La nota de 0 a 100 dice qué tan bien se da en cada distrito: 85 o más es Excelente; de 65 a 84, Bueno.',
     cursos: 'Cursos recomendados',
     foto: 'Foto',
     noExiste: 'No encontramos ese cultivo',
@@ -426,17 +465,23 @@ export const es = {
 
   precios: {
     titulo: 'Precios del mercado',
-    subtitulo: 'Toque un producto para ver cómo ha cambiado su precio.',
+    subtitulo: 'Precio al por mayor: lo que paga el comerciante en el mercado. Lo que recibe usted en la finca suele ser menor. Toque un producto para ver cómo ha cambiado su precio.',
+    fuentes: 'CENADA: mercado mayorista de Heredia, precio de cada día (lo publica el PIMA). CNP: Consejo Nacional de Producción, promedio nacional de cada semana.',
     pima: 'CENADA (PIMA)',
     cnp: 'CNP',
     diario: 'Cada día',
     semanal: 'Cada semana',
     buscar: 'Buscar producto…',
     noHay: 'No encontramos ese producto.',
+    noHayBusqueda: (b: string, fuente: string) => `No encontramos «${b}» en ${fuente}. Pruebe con otra palabra o en la otra pestaña.`,
+    sinPrecios: 'Todavía no hay precios de esta fuente. Vuelva a intentar más tarde.',
+    viejo: (dias: number) => `Hace ${dias} días: el precio puede haber cambiado.`,
     anterior: 'Precio anterior:',
+    anteriorDel: (f: string) => `Precio anterior (${f}):`,
     verCultivo: 'Ver el cultivo →',
-    sube: (n: number) => `Subió ${n} %`,
-    baja: (n: number) => `Bajó ${n} %`,
+    sinHistorial: 'Todavía no hay suficiente historial de este producto.',
+    sube: (n: number, desde?: string) => `Subió ${n} %${desde ? ` desde el ${desde}` : ''}`,
+    baja: (n: number, desde?: string) => `Bajó ${n} %${desde ? ` desde el ${desde}` : ''}`,
     estable: 'Se mantiene',
     min: 'Mín.',
     max: 'Máx.',
@@ -449,11 +494,15 @@ export const es = {
     pestanaTiempo: 'Tiempo',
     tituloAlertas: 'Alertas',
     cuantas: (n: number) => (n === 1 ? '1 alerta' : `${n} alertas`),
-    ayudaAlertas: 'Avisos oficiales de la CNE y del IMN.',
+    // Correccion - Poll: las siglas y los niveles no se explicaban; ahora se dice quien avisa y que significa cada nivel.
+    ayudaAlertas: 'Avisos oficiales de la CNE (Comisión Nacional de Emergencias) y del IMN (Instituto Meteorológico Nacional).',
+    leyendaNiveles: 'Vigilancia: esté pendiente · Atención: tome precauciones · Alerta: actúe hoy · Peligro: proteja su finca y su familia.',
     en: (z: string) => `En ${z}`,
     todoPais: 'Todo el país',
     noHay: 'No hay alertas',
-    noHayTexto: (miZona: boolean) => `Por ahora no hay avisos ${miZona ? 'para su zona' : 'en el país'}.`,
+    // Correccion - Poll: decia "para su zona" sin decir cual ni que podia haber avisos en otras zonas.
+    noHayTexto: (zona: string | null) =>
+      zona ? `Por ahora no hay avisos para ${zona}. Toque «Todo el país» para ver los de otras zonas.` : 'Por ahora no hay avisos en el país.',
     nivel: { verde: 'Vigilancia', amarilla: 'Atención', naranja: 'Alerta', roja: 'Peligro' },
     desde: 'Desde',
     hasta: 'hasta',
@@ -462,19 +511,20 @@ export const es = {
 
   cursos: {
     titulo: 'Cursos para el agricultor',
-    subtitulo: 'Capacitaciones del INA y otras instituciones. Filtre por lo que siembra.',
+    // Correccion - Poll: "INA" no se explicaba y "Ver en INA" no decia que abre otra pagina.
+    subtitulo: 'Cursos del INA (Instituto Nacional de Aprendizaje) y otras instituciones. Filtre por lo que siembra.',
     loQueSiembro: 'Lo que siembro',
     todos: 'Todos los cultivos',
     tema: 'Tema',
     todosTemas: 'Todos los temas',
-    horas: 'horas',
+    horas: (n: number) => (n === 1 ? '1 hora' : `${n} horas`),
     ayudaCon: 'Ayuda con:',
-    verEn: (i: string) => `Ver en ${i} ↗`,
+    verEn: (i: string) => `Ver el curso en la página del ${i} ↗`,
     modalidad: { presencial: '🏫 Presencial', virtual: '💻 Virtual', mixta: '🔀 Mixta' },
     // Recomendados para los próximos meses (logica/cursos.ts)
     recomendados: 'Recomendados',
     todosMeses: 'Todos los meses',
-    nCursos: (n: number) => `${n} cursos`,
+    nCursos: (n: number) => (n === 1 ? '1 curso' : `${n} cursos`),
     rangoMeses: (desde: string, hasta: string) => `${desde} a ${hasta}`,
     porQue: 'Por qué se recomiendan estos cursos',
     paraSembrar: (rango: string, lugar: string | null) => `Cultivos que se siembran de ${rango}${lugar ? ` y se dan bien en ${lugar}` : ''}:`,
@@ -486,6 +536,7 @@ export const es = {
     paraEpocaLluviosa: 'Para la época lluviosa',
     sinRecomendados: 'No hay cursos para los cultivos de estos meses con estos filtros.',
     sinCursos: 'No hay cursos con estos filtros.',
+    quitarFiltros: 'Quitar los filtros',
     verTodos: 'Ver todos los meses',
   },
 
@@ -536,6 +587,17 @@ export const es = {
     irEntrar: 'Ir a Entrar',
     // Ventanas flotantes al entrar o crear la cuenta
     noEntro: 'No se pudo entrar',
+    olvide: '¿Olvidó su contraseña?',
+    enviandoCorreo: 'Enviando el correo…',
+    olvideSinCorreo: 'Escriba arriba el correo de su cuenta y vuelva a tocar «¿Olvidó su contraseña?».',
+    olvideEnviadoTitulo: 'Revise su correo',
+    olvideEnviado: (c: string) => `Si «${c}» tiene una cuenta, le enviamos un correo para elegir una contraseña nueva. Ábralo (revise también «Spam» o «Promociones») y toque el enlace.`,
+    olvideDemo: 'En la demostración no se envían correos. Las cuentas de prueba usan la contraseña demo1234.',
+    nuevaClave: 'Elija una contraseña nueva',
+    nuevaClaveAyuda: 'Al menos 8 caracteres; mejor si mezcla letras, números y algún símbolo. Después entrará con esta contraseña.',
+    nuevaClaveGuardar: 'Guardar la contraseña',
+    nuevaClaveLista: 'Listo: su contraseña nueva quedó guardada.',
+    nuevaClaveVencida: 'El enlace venció o ya se usó. Vuelva a Entrar y toque «¿Olvidó su contraseña?» para pedir otro.',
     ofrecerCrear: '¿Todavía no tiene cuenta? Puede crearla con este correo.',
     crearCuenta: 'Crear una cuenta',
     otraVez: 'Intentar de nuevo',
@@ -633,6 +695,8 @@ export const es = {
       soloLluvia: 'Su finca depende solo de la lluvia: siembre cuando ya estén entrando las lluvias, para que a las plantas no les falte agua al principio.',
     },
     fecha: 'Fecha de siembra',
+    fechaFutura: 'La fecha de siembra no puede ser futura. Si va a sembrar pronto, regístrela ese día.',
+    ordenSugerencias: 'Ordenados según su finca: primero los que mejor van después de lo que sembró antes (rotación) y con el clima de su zona. Por eso un «Bueno» puede ir antes que un «Excelente».',
     cosechaAyuda: (a: number, b: number) => `Cosecha esperada: entre ${a} y ${b} días después de sembrar.`,
     guardar: 'Guardar siembra',
     elegir: (c: string) => `Elegir ${c}`,
@@ -661,11 +725,13 @@ export const es = {
     tipos: { riego: '💧 Riego', abono: '🧪 Abono', problema: '⚠️ Problema', otro: '📝 Nota' },
     quePaso: '¿Qué hizo o qué pasó?',
     agregar: 'Agregar nota',
+    notaSigue: 'Su nota sigue escrita: vuelva a tocar «Agregar nota» cuando tenga señal.',
     sinNotas: 'Todavía no hay notas.',
     resultado: { exitosa: '✔ Buena cosecha', regular: '◐ Cosecha regular', perdida: '✕ Se perdió' },
   },
 
   cerrar: {
+    sigue: 'Lo que escribió sigue aquí: vuelva a tocar «Guardar resultado» cuando tenga señal.',
     titulo: (c: string) => `¿Cómo le fue con ${c}?`,
     ayuda: 'Su resultado ayuda a mejorar las recomendaciones para su zona. No se muestra su nombre.',
     opciones: { exitosa: 'Buena cosecha', regular: 'Regular', perdida: 'Se perdió' },
@@ -701,6 +767,7 @@ export const es = {
     foto: 'Tomar o subir una foto',
     cambiarFoto: 'Cambiar foto',
     fotoAlt: 'Foto de la plaga',
+    fotoNoSeEnvia: 'La foto se queda en su teléfono: todavía no se envía al técnico. Describa bien el daño en el texto.',
     enviar: 'Enviar reporte',
     guardarDespues: 'Guardar para enviar después',
     eligeTipo: 'Elija qué tipo de daño ve.',
@@ -739,22 +806,24 @@ export const es = {
     sinVuelosTexto: 'Cuando se vuele un dron sobre su finca, aquí verá la salud de las plantas por parcela.',
     pedir: 'Pedir un vuelo (próximamente)',
     fechaVuelo: 'Vuelo',
-    vueloDel: (f: string) => `Vuelo del ${f}`,
-    hectareas: (n: number) => `${n} ha`,
+    vueloDel: (f: string, dias?: number) => `Vuelo del ${f}${dias === undefined ? '' : dias === 0 ? ' (hoy)' : dias === 1 ? ' (hace 1 día)' : ` (hace ${dias} días)`}`,
+    hectareas: (n: number) => `${num(n, 2)} ha`, // espacio que no se corta: "2,5 ha" no se parte en dos lineas
     resumen: { sana: 'Sus plantas están sanas', estres: 'Sus plantas tienen algo de estrés', critica: 'Sus plantas tienen problemas' },
+    sanaConRevisar: (n: number) => `En general sus plantas están bien, pero ${n === 1 ? '1 parcela necesita' : `${n} parcelas necesitan`} revisión`,
     estresTerreno: (n: number) => `${n} % del terreno tiene plantas con estrés.`,
     mejoro: (f: string) => `▲ Mejoró desde el vuelo del ${f}`,
     empeoro: (f: string) => `▼ Empeoró desde el vuelo del ${f}`,
     indiceVerde: 'Índice verde',
     deUno: (n: string) => `${n} de 1`,
-    indiceAyuda: 'Más cerca de 1 = plantas más verdes y sanas',
+    indiceAyuda: 'Más cerca de 1 = plantas más verdes y sanas. Desde 0,6 están sanas; menos de 0,4 tienen problemas.',
+    planoMejor: 'En el celular, toque «Plano» para elegir cada parcela con más precisión.',
     areaEstres: 'Área con estrés',
     parcelasRevisar: (n: number, total: number) => (n ? `${n} de ${total} parcelas para revisar` : 'Ninguna parcela para revisar'),
     pendiente: 'Pendiente',
-    pendienteFuerte: 'Fuerte: siembre en curvas de nivel',
-    pendienteSuave: 'Suave',
+    pendienteFuerte: 'Fuerte (más de 30 %): siembre en curvas de nivel, siguiendo el nivel del terreno y no cuesta abajo',
+    pendienteSuave: (p: number) => `Suave: baja unos ${p} m por cada 100 m. Desde 30 % se considera fuerte.`,
     mapa: 'Mapa de la finca',
-    mapaAyuda: (m2: number) => `Cada cuadro es una parcela de unos ${m2} m². Las letras son las filas y los números, las columnas. Toque una para ver qué tiene.`,
+    mapaAyuda: (m2: number) => `Cada cuadro es una parcela de unos ${num(m2)} m². Las letras son las filas y los números, las columnas. Toque una para ver qué tiene.`,
     mapaAyudaSinArea: 'Cada cuadro es una parcela. Las letras son las filas y los números, las columnas. Toque una para ver qué tiene.',
     mapaAria: 'Mapa de salud de las plantas por parcela',
     vistas: { salud: 'Salud', cambios: 'Cambios' },
@@ -781,13 +850,13 @@ export const es = {
     noSeCultiva: 'Esta parcela no es de cultivo: no cuenta en las parcelas para revisar.',
     proteccionLeyenda: 'Borde azul: zona de protección',
     proteccionParcela: (m: number) => `Está en la zona de protección (${m} m). No corte árboles y evite sembrar o fumigar aquí (Ley Forestal 7575, art. 33).`,
-    proteccionRio: (m: number, n: number) => `${n} parcelas quedan a menos de ${m} m de un río o quebrada (borde azul): es zona de protección. No corte árboles y evite sembrar o fumigar ahí (Ley Forestal 7575, art. 33).`,
+    proteccionRio: (m: number, n: number) => `${n} parcelas (borde azul) están a menos de ${m} m de un río o quebrada: no corte árboles ni siembre o fumigue ahí. Son otras que las de revisar. (Ley Forestal 7575, art. 33)`,
     proteccionNaciente: 'Hay una naciente: se protegen 100 m a su alrededor. No corte árboles ni use químicos cerca.',
     relieveMedido: 'Relieve medido por el dron (exagerado ×2 para que se note).',
     relieveAproximado: (p: number) => `Relieve aproximado con la pendiente medida por el dron (${p} %), exagerado ×2 para que se note.`,
     cambiosDesde: (f: string) => `Cómo cambió cada parcela desde el vuelo del ${f}.`,
     salud: { sana: 'Sanas', estres: 'Con algo de estrés', critica: 'Con problemas' },
-    leyenda: { sana: 'Sanas', estres: 'Algo de estrés (•)', critica: 'Con problemas (!)' },
+    leyenda: { sana: 'Sanas (sin marca)', estres: 'Algo de estrés (•)', critica: 'Con problemas (!)' },
     leyendaCambios: { mejor: 'Mejoró', igual: 'Igual', peor: 'Empeoró' },
     parcela: (n: string) => `Parcela ${n}`,
     parcelaAria: (n: string, estado: string, i: string) => `Parcela ${n}: ${estado}, índice verde ${i}`,
@@ -832,6 +901,41 @@ export const es = {
     confirmar: 'Confirmar plaga',
     ext: { extractor: 'Extractor', fecha: 'Fecha', estado: 'Estado', registros: 'Registros', detalle: 'Detalle' },
     estado: { ok: '✔ Bien', parcial: '◐ Parcial', error: '✕ Falló' },
+  },
+
+  // Correccion - Poll: los datos del catalogo (riesgos, suelos, familias, temas de cursos) quedaban en español con la
+  // app en ingles. En español se muestran tal cual; en.ts los traduce (ver traducirDato en utilidades.ts).
+  datos: {} as Record<string, string>,
+
+  // Correccion - Poll: los errores salian crudos y en ingles ("TypeError: Failed to fetch", "new row violates
+  // row-level security policy…") y los de la cuenta siempre en español. Ahora cada error tiene un codigo (errores.ts)
+  // y su texto aqui, en palabras simples y con que hacer.
+  errores: {
+    sin_conexion: 'No hay señal. Revise su conexión y toque «Intentar de nuevo».',
+    permiso: 'No tiene permiso para esto. Salga de su cuenta y vuelva a entrar; si se repite, avise al equipo.',
+    servidor: 'No se pudo completar. Intente de nuevo; si se repite, avise al equipo.',
+    sesion: 'Necesita entrar con su cuenta para hacer esto.',
+    sin_perfil: 'La cuenta no tiene perfil. Avise al equipo.',
+    ya_cerrada: 'Esta siembra ya estaba cerrada: no hace falta cerrarla de nuevo.',
+    credenciales: 'Correo o contraseña incorrectos. Revise que el correo esté bien escrito y que la contraseña tenga las mayúsculas correctas.',
+    ya_existe: (v: Record<string, string | number>) =>
+      `Ya existe una cuenta con «${v.correo}». Si es suya, use «Entrar». Si no recuerda la contraseña, toque «¿Olvidó su contraseña?» en la pantalla de Entrar.`,
+    sin_confirmar: 'Falta confirmar el correo: abra el mensaje que le enviamos (revise también «Spam» o «Promociones») y toque el enlace. Después vuelva a entrar.',
+    correo_invalido: (v: Record<string, string | number>) =>
+      `El servidor no acepta «${v.correo}». Revise que esté bien escrito (nombre@dominio.com). Los correos inventados o de prueba (como @test.com o @example.com) no se aceptan: use uno real.`,
+    clave_debil: 'La contraseña es muy débil: el servidor pide mezclar letras minúsculas, MAYÚSCULAS, números y algún símbolo (por ejemplo Finca#2026).',
+    clave_corta: (v: Record<string, string | number>) => `La contraseña es muy corta: necesita al menos ${v.minimo} caracteres.`,
+    muchos_correos: 'Se pidieron demasiados correos en poco tiempo (límite del servidor). Espere unos minutos e intente de nuevo.',
+    esperar: (v: Record<string, string | number>) => `Por seguridad, espere ${v.segundos} segundos antes de intentarlo de nuevo.`,
+    registro_cerrado: 'Por ahora no se pueden crear cuentas nuevas. Avise al equipo.',
+    perfil_fallo: 'El servidor no pudo crear su perfil. Intente de nuevo y, si se repite, avise al equipo.',
+    cuenta_creada: (v: Record<string, string | number>) =>
+      `Cuenta creada. Le enviamos un correo a «${v.correo}» para confirmarla: ábralo (revise también «Spam» o «Promociones»), toque el enlace y después entre.`,
+    no_encontrada: 'No encontramos esta siembra. Puede que se haya borrado o que el enlace esté mal.',
+    pantalla: 'No se pudo abrir esta pantalla. Revise su señal y toque «Intentar de nuevo».',
+    finca_no_encontrada: 'No encontramos esa finca.',
+    propio_rol: 'No puede cambiar su propio rol.',
+    usuario_no_encontrado: 'No encontramos ese usuario.',
   },
 };
 

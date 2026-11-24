@@ -7,7 +7,8 @@ import { guardar, leer } from './almacen';
 import { datosDe, supa } from './cliente';
 
 const db = () => supa!;
-const hoy = () => new Date().toISOString().slice(0, 10);
+// Correccion - Poll: fecha de hoy en la hora del telefono (antes UTC; de noche daba la de manana).
+const hoy = () => new Date().toLocaleDateString('en-CA');
 const haceDias = (n: number) => new Date(Date.now() - n * 864e5).toISOString().slice(0, 10);
 const r1 = (n: number) => Math.round(n * 10) / 10;
 const prom = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
@@ -44,7 +45,9 @@ export async function cargarDistritos(): Promise<RegistroZona[]> {
       datosDe<FilaDistrito[]>(await db().from('distritos').select('codigo_distrito,distrito,canton,provincia,lat,lng').order('codigo_distrito'), 'Leer distritos'),
       datosDe<{ fecha: string }[]>(await db().from('clima_diario').select('fecha').order('fecha', { ascending: false }).limit(1), 'Leer fecha'),
     ]);
-    const actualizado = ultimo[0]?.fecha ?? hoy();
+    // Correccion - Poll: sin datos de clima se ponia la fecha de hoy, como si todo estuviera al dia; ahora queda vacia
+    // y la pantalla dice "Sin fecha".
+    const actualizado = ultimo[0]?.fecha ?? '';
     const zonas = filas.map((d) => zonaBase(d, actualizado));
     if (zonas.length) guardar(CLAVE_CATALOGO, zonas);
     return zonas;
@@ -172,7 +175,8 @@ export async function alertasReales(codigo?: string): Promise<RegistroAlerta[]> 
     objectID: `${a.fuente}-${a.id_externo}`,
     fuente: a.fuente.toUpperCase() === 'CNE' ? 'CNE' : 'IMN',
     tipo: nombreTipo(a.tipo), nivel: a.nivel ?? 'verde' /* sin nivel (pronósticos) = informativo */, titulo: a.titulo, descripcion: a.descripcion ?? '',
-    codigos_distrito: a.codigos_distrito ?? [], inicio: a.inicio ?? hoy(), fin: a.fin,
+    // Correccion - Poll: un aviso sin fecha de inicio salia "Desde <hoy>"; ahora queda sin fecha y no se inventa.
+    codigos_distrito: a.codigos_distrito ?? [], inicio: a.inicio ?? '', fin: a.fin,
   }));
 }
 
@@ -223,6 +227,8 @@ export async function completarCultivos(): Promise<void> {
 interface FilaPrecio { fecha_dato: string; producto_original: string; cultivo_id: string | null; variedad: string; unidad: string; mercado: string; precio_promedio: number | null }
 
 /** Filas de un mismo producto, mercado y unidad (de la más nueva a la más vieja) → registro con su tendencia. */
+// Correccion - Poll: "Bajo 6 %" no decia contra que fecha se comparaba (un dia, un fin de semana o semanas en el
+// CNP); ahora el registro lleva la fecha del precio anterior para que la pantalla la diga.
 function aRegistro(fuente: RegistroPrecio['fuente'], [ultimo, anterior]: FilaPrecio[]): RegistroPrecio {
   const precio = Math.round(Number(ultimo.precio_promedio));
   const previo = anterior ? Math.round(Number(anterior.precio_promedio)) : precio;
@@ -230,7 +236,7 @@ function aRegistro(fuente: RegistroPrecio['fuente'], [ultimo, anterior]: FilaPre
   return {
     objectID: `precio-${fuente.toLowerCase()}-${ultimo.producto_original}-${ultimo.unidad}`,
     producto: ultimo.producto_original, cultivo_id: ultimo.cultivo_id, fuente, mercado: ultimo.mercado,
-    unidad: ultimo.unidad, precio, precio_anterior: previo,
+    unidad: ultimo.unidad, precio, precio_anterior: previo, fecha_anterior: anterior?.fecha_dato ?? null,
     tendencia: cambio > 0.02 ? 'sube' : cambio < -0.02 ? 'baja' : 'estable',
     fecha: ultimo.fecha_dato,
   };

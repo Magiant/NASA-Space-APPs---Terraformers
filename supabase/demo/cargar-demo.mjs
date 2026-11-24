@@ -3,22 +3,28 @@
 //
 //   node --env-file=.env supabase/demo/cargar-demo.mjs
 //
-// Necesita en .env: VITE_SUPABASE_URL (o SUPABASE_URL), SUPABASE_SERVICE_ROLE_KEY y DEMO_ADMIN_CLAVE.
-// La cuenta admin NO usa la contraseña pública de la demo: cualquiera que vea la pantalla de Entrar
-// podría usarla para ver los correos de los usuarios reales y cambiar roles.
+// Necesita en .env: VITE_SUPABASE_URL (o SUPABASE_URL), SUPABASE_SERVICE_ROLE_KEY, DEMO_ADMIN_CLAVE y DEMO_TECNICO_CLAVE,
+// y la migracion 019 ya aplicada (columna perfiles.es_demo).
+// Las cuentas admin y técnico NO usan la contraseña pública de la demo: con el admin cualquiera podría ver los
+// correos de los usuarios reales y cambiar roles, y con el técnico leería y confirmaría los reportes de plaga
+// reales de su distrito.
 import { createClient } from '@supabase/supabase-js'
 
 const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
 const llave = process.env.SUPABASE_SERVICE_ROLE_KEY
 const claveAdmin = process.env.DEMO_ADMIN_CLAVE
+// Correccion - Poll: el tecnico de la demo usaba la clave publica demo1234 y, por ser tecnico de CR30101, podia leer
+// y confirmar los reportes de plaga reales de ese distrito; ahora su clave sale del .env, como la del admin.
+const claveTecnico = process.env.DEMO_TECNICO_CLAVE
 if (!url || !llave) throw new Error('Faltan SUPABASE_URL (o VITE_SUPABASE_URL) y SUPABASE_SERVICE_ROLE_KEY en .env')
 if (!claveAdmin || claveAdmin.length < 12) throw new Error('Falta DEMO_ADMIN_CLAVE en .env (mínimo 12 caracteres)')
+if (!claveTecnico || claveTecnico.length < 12) throw new Error('Falta DEMO_TECNICO_CLAVE en .env (mínimo 12 caracteres)')
 const db = createClient(url, llave, { auth: { persistSession: false, autoRefreshToken: false } })
 
 const CLAVE_DEMO = 'demo1234'
 const USUARIOS = [
   { clave: 'agri', correo: 'agricultor@demo.cr', nombre: 'Ana Solano', rol: 'agricultor', distrito: 'CR30101', contrasena: CLAVE_DEMO },
-  { clave: 'tec', correo: 'tecnico@demo.cr', nombre: 'Luis Brenes', rol: 'tecnico', distrito: 'CR30101', contrasena: CLAVE_DEMO },
+  { clave: 'tec', correo: 'tecnico@demo.cr', nombre: 'Luis Brenes', rol: 'tecnico', distrito: 'CR30101', contrasena: claveTecnico },
   { clave: 'admin', correo: 'admin@demo.cr', nombre: 'Equipo Terraformes', rol: 'admin', distrito: null, contrasena: claveAdmin },
   { clave: 'agri2', correo: 'carlos@demo.cr', nombre: 'Carlos Mora', rol: 'agricultor', distrito: 'CR21001', contrasena: CLAVE_DEMO },
 ]
@@ -50,7 +56,9 @@ for (const u of USUARIOS) {
     console.log(`· cuenta ya existía: ${u.correo}`)
   }
   ids[u.clave] = usuario.id
-  ok(await db.from('perfiles').upsert({ id: usuario.id, nombre: u.nombre, correo: u.correo, rol: u.rol, codigo_distrito: u.distrito }), `perfil ${u.correo}`)
+  // Correccion - Poll: las cuentas de demostracion quedan marcadas con es_demo (migracion 019), que el usuario no puede
+  // cambiar; asi no se mezclan con los vecinos reales ni le mandan reportes al tecnico real.
+  ok(await db.from('perfiles').upsert({ id: usuario.id, nombre: u.nombre, correo: u.correo, rol: u.rol, codigo_distrito: u.distrito, es_demo: true }), `perfil ${u.correo}`)
 }
 
 // 2) Datos de cada agricultor, solo si todavía no tiene fincas (no duplica)
@@ -76,7 +84,7 @@ if (await sinFincas(ids.agri)) {
     { siembra_id: s1.id, fecha: '2026-10-15', tipo: 'riego', nota: 'Riego de 2 horas por poca lluvia.' },
     { siembra_id: s1.id, fecha: '2026-11-08', tipo: 'problema', nota: 'Manchas cafés en hojas de la parte baja.' },
   ], { defaultToNull: false }), 'notas de Ana')
-  ok(await db.from('reportes_plaga').insert({ usuario_id: ids.agri, siembra_id: s1.id, codigo_distrito: 'CR30101', tipo: 'hongo', plaga_id: 'tizon-tardio', sintomas: 'Manchas cafés en las hojas de abajo.', gravedad: 'moderada', con_foto: true, fecha: '2026-11-08' }), 'reporte de Ana')
+  ok(await db.from('reportes_plaga').insert({ usuario_id: ids.agri, siembra_id: s1.id, codigo_distrito: 'CR30101', tipo: 'hongo', plaga_id: 'tizon-tardio', sintomas: 'Manchas cafés en las hojas de abajo.', gravedad: 'moderada', con_foto: false, fecha: '2026-11-08' }), 'reporte de Ana')
   ok(await db.from('vuelos_dron').insert([
     { finca_id: f1.id, fecha: '2026-11-02', ndvi_promedio: 0.71, pendiente_pct: 12, area_estres_pct: 14, cuadricula: cuadricula(6, 8, 0.78, [[1, 5], [4, 2]]) },
     { finca_id: f1.id, fecha: '2026-10-05', ndvi_promedio: 0.64, pendiente_pct: 12, area_estres_pct: 8, cuadricula: cuadricula(6, 8, 0.68, [[2, 6]]) },

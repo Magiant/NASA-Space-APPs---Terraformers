@@ -68,7 +68,8 @@ function Lluvia({ t, prob, mm }: { t: Textos; prob: number | null; mm?: number |
   const milimetros = mm != null && mm >= 0.5 ? ` · ${Math.round(mm)} mm` : '';
   return (
     <span className="pronostico-prob" title={t.tiempo.probLluvia(prob)}>
-      <Icono nombre="gota" tam={12} /> {prob}%{milimetros}<span className="oculto"> {t.tiempo.probLluvia(prob)}</span>
+      {/* Correccion - Poll: en la fila de cada dia se leia "96% · 2 mm" sin decir que es lluvia; ahora dice "Lluvia". */}
+      <Icono nombre="gota" tam={12} /> {mm !== undefined && <span aria-hidden>{t.tiempo.lluviaCorta} </span>}{prob} %{milimetros}<span className="oculto"> {t.tiempo.probLluvia(prob)}</span>
     </span>
   );
 }
@@ -80,7 +81,11 @@ function PorHora({ t, p }: { t: Textos; p: Pronostico }) {
     <section aria-labelledby="pronostico-por-hora">
       <h3 id="pronostico-por-hora" className="pronostico-subtitulo">{t.tiempo.porHora}</h3>
       <ol className="pronostico-horas">
-        {p.horas.map((h, i) => {
+        {p.horas.map((hora, i) => {
+          // Correccion - Poll: arriba decia "Nublado" (cielo de ahora) y en la columna "Ahora" decia "Llovizna"
+          // (cielo de la hora en punto); ahora la columna "Ahora" usa el mismo cielo que la cabecera.
+          // Correccion - Poll: tambien la temperatura de "Ahora" es la de la cabecera (antes 21° abajo y 20° arriba).
+          const h = i === 0 ? { ...hora, codigo: p.ahora.codigo, esDia: p.ahora.esDia, temp: p.ahora.temp } : hora;
           const fecha = h.hora.slice(0, 10);
           const cambiaDia = i > 0 && fecha !== p.horas[i - 1].hora.slice(0, 10);
           return (
@@ -181,7 +186,10 @@ export function TarjetaPronostico({ lat, lng, lugar, extra, detalle = false }: {
   const hoy = d.dias[0];
   const cielo = tt.cielo[cieloDe(d.ahora.codigo, d.ahora.esDia)];
   const lluvia = avisoLluvia(t, d);
-  const pedido = new Date(d.pedido).toLocaleString(t.locale, { hour: 'numeric', minute: '2-digit', ...(Date.now() - d.pedido > 864e5 ? { day: 'numeric', month: 'short' } : {}) });
+  // Correccion - Poll: solo decia la hora ("3:33 p. m."); un pronostico guardado de ayer en la tarde parecia de hoy.
+  // Ahora, si no es de hoy, lleva el dia; y si es de hoy, dice "hoy".
+  const esHoy = new Date(d.pedido).toDateString() === new Date().toDateString();
+  const pedido = new Date(d.pedido).toLocaleString(t.locale, { hour: 'numeric', minute: '2-digit', ...(esHoy ? {} : { day: 'numeric', month: 'short' }) });
 
   return (
     <section className={`tarjeta pronostico${detalle ? ' pronostico-detalle' : ''}`}>
@@ -219,7 +227,7 @@ export function TarjetaPronostico({ lat, lng, lugar, extra, detalle = false }: {
       ) : <SieteDias t={t} p={d} />}
 
       <div className="pronostico-pie">
-        <span>{tt.fuente(pedido)}</span>
+        <span>{tt.fuente(pedido, esHoy)}</span>
         {extra}
       </div>
     </section>
