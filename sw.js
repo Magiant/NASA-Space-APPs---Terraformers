@@ -15,6 +15,9 @@ self.addEventListener('fetch', (e) => {
         caches.open(CACHE).then((c) => c.put(req, copia));
         return res;
       })
-      .catch(() => caches.match(req).then((r) => r || caches.match('./')))
+      // Correccion - Poll: sin copia de un archivo (por ejemplo el codigo de la pantalla del dron), se respondia con la
+      // pagina principal, y la app quedaba en blanco. Ahora la pagina principal solo reemplaza a otra pagina; para un
+      // archivo que falta se responde con un error, y la app muestra "No se pudo abrir esta pantalla".
+      .catch(() => caches.match(req).then((r) => r || (req.mode === 'navigate' ? caches.match('./') : Response.error())))
   );
 });
