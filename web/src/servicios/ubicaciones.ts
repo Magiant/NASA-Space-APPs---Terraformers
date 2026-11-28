@@ -112,10 +112,13 @@ export function masCercana(lista: Ubicacion[], lat: number, lng: number): Ubicac
   return lista.reduce((a, b) => (d(b) < d(a) ? b : a));
 }
 
+// Correccion - Poll: "Intentar de nuevo" recargaba toda la pagina y en Registrarse se perdia lo escrito; ahora vuelve a
+// pedir solo la lista de lugares.
 export function useUbicaciones() {
   const [estado, setEstado] = useState<{ lista: Ubicacion[]; cargando: boolean; error: boolean }>(() => ({
     lista: enMemoria ?? [], cargando: !enMemoria, error: false,
   }));
+  const [intento, setIntento] = useState(0);
   useEffect(() => {
     // Otro componente pudo cargarla entre el primer dibujo y este efecto: tomarla ya.
     if (enMemoria) {
@@ -124,12 +127,13 @@ export function useUbicaciones() {
       return;
     }
     let vivo = true;
+    if (intento) setEstado((e) => ({ ...e, cargando: true, error: false }));
     cargarUbicaciones()
       .then((lista) => vivo && setEstado({ lista, cargando: false, error: false }))
       .catch(() => vivo && setEstado({ lista: [], cargando: false, error: true }));
     return () => {
       vivo = false;
     };
-  }, []);
-  return estado;
+  }, [intento]);
+  return { ...estado, reintentar: () => setIntento((n) => n + 1) };
 }

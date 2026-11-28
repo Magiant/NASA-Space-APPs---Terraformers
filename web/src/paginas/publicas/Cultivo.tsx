@@ -75,7 +75,8 @@ function Contenido({ c, zona }: { c: RegistroCultivo; zona: string | null }) {
             <li><Icono nombre="montana" tam={18} /> {tc.req.altura(num(c.altitud_min_m), num(c.altitud_max_m))}</li>
             <li><Icono nombre="lluvia" tam={18} /> {tc.req.agua(c.lluvia_opt_min_mm, c.lluvia_opt_max_mm)}</li>
             <li><Icono nombre="tierra" tam={18} /> {tc.req.ph(c.ph_opt_min, c.ph_opt_max)}</li>
-            <li><Icono nombre="reciclar" tam={18} /> {c.efecto_suelo}</li>
+            {/* Correccion - Poll: en ingles el efecto en el suelo salia en español ("Gasta mucho potasio…"). */}
+            <li><Icono nombre="reciclar" tam={18} /> {traducirDato(t, c.efecto_suelo)}</li>
           </ul>
 
           {plagas.length > 0 && (

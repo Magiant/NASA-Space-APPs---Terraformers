@@ -14,6 +14,9 @@ import { Icono } from './Iconos';
 /** Pestañas principales: ahí no hace falta "Volver". */
 const PRINCIPALES = ['/', '/sembrar', '/precios', '/alertas', '/capacitaciones', '/mi-finca'];
 
+/** Formularios: ahí "Volver" no se queda pegado arriba, porque tapaba los campos y el botón de enviar. */
+const FORMULARIO = /^\/(ingresar|registrarse|nueva-clave|fincas\/nueva|siembras\/nueva|reportar-plaga)$|^\/siembras\/[^/]+\/cerrar$/;
+
 /** Página "de arriba" de cada subpágina. */
 function paginaDeArriba(ruta: string): string {
   if (ruta.startsWith('/zona/') || ruta.startsWith('/cultivo/')) return '/sembrar';
@@ -24,6 +27,8 @@ function paginaDeArriba(ruta: string): string {
   return '/';
 }
 
+// Correccion - Poll: "Volver" quedaba pegado arriba al bajar y tapaba el campo "Correo" y el boton "Crear cuenta";
+// ahora en los formularios se queda en su lugar y solo sigue fijo en las paginas de lectura.
 export default function BotonVolver() {
   const t = useT();
   const { pathname, key } = useLocation();
@@ -39,7 +44,7 @@ export default function BotonVolver() {
   };
 
   return (
-    <Link to={arriba} className="boton-volver" onClick={alTocar} aria-label={t.comun.volverAria}>
+    <Link to={arriba} className={`boton-volver${FORMULARIO.test(pathname) ? ' boton-volver-quieto' : ''}`} onClick={alTocar} aria-label={t.comun.volverAria}>
       <Icono nombre="flecha" tam={20} /> {t.comun.volver}
     </Link>
   );

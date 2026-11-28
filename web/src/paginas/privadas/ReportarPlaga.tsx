@@ -1,6 +1,6 @@
 import { FotoPlaga, Icono, NombreIcono, Tx } from '../../componentes/Iconos';
 import { mensajeError } from '../../errores';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAvisar, useAvisoSinGuardar } from '../../componentes/Confirmar';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
@@ -88,6 +88,8 @@ export default function ReportarPlaga() {
   const [sintomas, setSintomas] = useState('');
   const [gravedad, setGravedad] = useState<Gravedad>('moderada');
   const [foto, setFoto] = useState<string | null>(null);
+  // Correccion - Poll: la vista previa de la foto nunca se liberaba de la memoria; ahora se libera al cambiarla o al salir.
+  useEffect(() => () => { if (foto) URL.revokeObjectURL(foto); }, [foto]);
   const [enviado, setEnviado] = useState<{ enCola: boolean } | null>(null);
   const avisar = useAvisar();
   // Reporte empezado y sin enviar: avisar antes de salir.
@@ -210,6 +212,8 @@ export default function ReportarPlaga() {
           </div>
         </fieldset>
 
+        {/* Correccion - Poll: el aviso de que la foto no se envia llegaba despues de tomarla; ahora va antes del boton. */}
+        <p className="ayuda">{tp.fotoNoSeEnvia}</p>
         <label className="subir-foto">
           <Icono nombre="camara" tam={22} /> {foto ? tp.cambiarFoto : tp.foto}
           <input
@@ -221,7 +225,6 @@ export default function ReportarPlaga() {
             }}
           />
         </label>
-        <p className="ayuda">{tp.fotoNoSeEnvia}</p>
         {foto && <img src={foto} alt={tp.fotoAlt} className="vista-foto" />}
 
         <button className="boton boton-ancho">{enLinea ? tp.enviar : tp.guardarDespues}</button>

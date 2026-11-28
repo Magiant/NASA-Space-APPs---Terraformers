@@ -256,7 +256,7 @@ export const ALERTAS: RegistroAlerta[] = [
   },
   {
     objectID: 'alerta-imn-2', fuente: 'IMN', tipo: 'Sequía', nivel: 'naranja',
-    titulo: 'Déficit de lluvia en Guanacaste',
+    titulo: 'Déficit de lluvia en Liberia',
     descripcion: 'Lluvia por debajo de lo normal. Prefiera cultivos que aguanten sequía y riegue temprano en la mañana.',
     codigos_distrito: ['CR50101'], inicio: '2026-11-05T00:00:00-06:00', fin: null,
   },

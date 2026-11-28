@@ -42,12 +42,14 @@ const mayuscula = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const horaCorta = (t: Textos, iso: string) => new Date(iso).toLocaleTimeString(t.locale, { hour: 'numeric', minute: '2-digit' });
 
 /** Nombre del día. Corto (Hoy, Sáb, Dom…) para la fila; largo (Hoy, Mañana, Domingo 23…) para la lista. */
+// Correccion - Poll: en ingles el formato del navegador ponia el numero primero ("2 Wednesday"); ahora se arma igual
+// en los dos idiomas: nombre del dia y numero ("Miercoles 2", "Wednesday 2").
 function nombreDia(t: Textos, fecha: string, i: number, largo = false): string {
   if (i === 0) return t.tiempo.hoy;
   if (largo && i === 1) return t.tiempo.manana;
   const d = new Date(`${fecha}T12:00`);
   const n = largo
-    ? d.toLocaleDateString(t.locale, { weekday: 'long', day: 'numeric' }).replace(',', '')
+    ? `${d.toLocaleDateString(t.locale, { weekday: 'long' })} ${d.getDate()}`
     : d.toLocaleDateString(t.locale, { weekday: 'short' }).replace('.', '');
   return mayuscula(n);
 }

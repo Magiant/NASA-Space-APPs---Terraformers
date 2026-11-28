@@ -575,7 +575,10 @@ button.chip-cultivo { font: inherit; cursor: pointer; }
 /* ================= Zona y cultivo ================= */
 .cabecera-pagina h1 { margin-bottom: 0.2em; }
 .cabecera-pagina > p { color: var(--texto-suave); }
-.columnas { display: grid; gap: 0 40px; }
+/* Correccion - Poll: en celular la unica columna automatica crecia hasta el ancho de su contenido (54 a 94 px mas que
+   la pantalla) y la tarjeta "El tiempo" quedaba cortada; ahora la columna nunca pasa del ancho disponible. */
+.columnas { display: grid; gap: 0 40px; grid-template-columns: minmax(0, 1fr); }
+.col-principal, .col-lateral { min-width: 0; }
 @media (min-width: 1000px) {
   .columnas { grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr); align-items: start; }
   .col-lateral { position: sticky; top: 90px; }
@@ -634,7 +637,9 @@ button.chip-cultivo { font: inherit; cursor: pointer; }
 .tendencia { font-size: 0.85rem; font-weight: 700; }
 .tendencia-sube { color: var(--exc); }
 .tendencia-baja { color: var(--nor); }
-.tendencia-estable { color: var(--texto-suave); }
+.tendencia-estable, .tendencia-sin_comparar { color: var(--texto-suave); }
+/* Correccion - Poll: el consejo "En el celular, toque «Plano»" tambien salia en computadora. */
+@media (min-width: 600px) { .dron-plano-pista { display: none; } }
 
 .grafico { margin: 8px 0; }
 /* pan-y: con el dedo, arrastrar de lado recorre los días y arrastrar hacia arriba/abajo sigue moviendo la página */
@@ -1383,6 +1388,8 @@ body::before {
 }
 .pronostico-fila:first-child { background: var(--primario-suave); }
 .pronostico-fila-dia { grid-area: dia; font-weight: 700; }
+/* Correccion - Poll: la regla general que parte palabras largas cortaba "Miercole-s 2"; el nombre del dia no se parte. */
+.contenido .pronostico-fila-dia { overflow-wrap: normal; }
 .pronostico-fila .pronostico-dia-icono { grid-area: icono; height: auto; }
 .pronostico-fila-cielo { grid-area: cielo; color: var(--texto-suave); font-size: 0.9rem; }
 .pronostico-fila-temps { grid-area: temps; text-align: right; white-space: nowrap; }
@@ -1904,8 +1911,7 @@ body::before {
   box-shadow: var(--sombra);
 }
 .boton-volver:hover { border-color: var(--primario); color: var(--primario); }
-/* Las portadas a todo el ancho (dron, cultivo) suben por debajo del encabezado: el boton va encima de la foto. */
-.boton-volver { position: relative; z-index: 3; }
+
 .boton-volver .icono-svg, .boton-volver svg { transform: scaleX(-1); }
 
 /* Correccion - Poll: en computadora los enlaces del pie median 22 px de alto (menos del minimo de 24 px para tocar con
@@ -1915,3 +1921,6 @@ body::before {
 /* Correccion - Poll: el boton "Volver" desaparecia al bajar por la pagina; ahora se queda pegado justo debajo del
    encabezado (que ya es fijo) mientras se desplaza, por encima del contenido pero debajo del encabezado y sus menus. */
 .boton-volver { position: sticky; top: 72px; z-index: 20; display: flex; width: fit-content; }
+/* Correccion - Poll: en los formularios el boton pegado tapaba campos y el boton de enviar; ahi se queda en su lugar
+   (encima de la foto de portada, por eso conserva un z-index). Antes habia otra regla .boton-volver que esta pisaba. */
+.boton-volver.boton-volver-quieto { position: relative; top: auto; z-index: 3; }
