@@ -137,11 +137,14 @@ export const datos = {
 
   siembra: async (id: string): Promise<Siembra> => esperar(siembraPropia(base(), id, usuarioActual())),
 
+  // Correccion - Poll: igual que la base real (migracion 020), la demo no guarda una siembra que no cabe en la finca.
   crearSiembra: async (s: Pick<Siembra, 'finca_id' | 'cultivo_id' | 'area_ha' | 'fecha_siembra' | 'cosecha_esperada'>): Promise<Siembra> => {
     const u = usuarioActual();
     const b = base();
-    fincaPropia(b, s.finca_id, u);
-    const nueva: Siembra = { ...s, id: nuevoId(), estado: 'activa', resultado: null, cantidad: null, unidad: null, motivo: null, fecha_cierre: null };
+    const finca = fincaPropia(b, s.finca_id, u);
+    const ocupado = b.siembras.filter((x) => x.finca_id === s.finca_id && x.estado === 'activa').reduce((suma, x) => suma + x.area_ha, 0);
+    if (ocupado + s.area_ha > finca.area_ha + 1e-9) throw new ErrorApp('finca_sin_espacio');
+    const nueva: Siembra ={ ...s, id: nuevoId(), estado: 'activa', resultado: null, cantidad: null, unidad: null, motivo: null, fecha_cierre: null };
     b.siembras.push(nueva);
     escribir(b);
     return esperar(nueva);

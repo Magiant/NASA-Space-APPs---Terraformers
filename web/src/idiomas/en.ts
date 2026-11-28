@@ -905,6 +905,7 @@ export const en: Textos = {
     sesion: 'You need to sign in to your account to do this.',
     sin_perfil: 'The account has no profile. Tell the team.',
     ya_cerrada: 'This planting was already closed: there is no need to close it again.',
+    finca_sin_espacio: 'The planting does not fit on the farm: together with the active plantings it is bigger than the farm. Check the area or close the plantings you already harvested.',
     credenciales: 'Wrong email or password. Check that the email is spelled right and the password has the right capital letters.',
     ya_existe: (v) => `There is already an account with “${v.correo}”. If it is yours, use “Sign in”. If you forgot the password, tap “Forgot your password?” on the Sign in screen.`,
     sin_confirmar: 'You still need to confirm your email: open the message we sent you (also check “Spam” or “Promotions”) and tap the link. Then sign in again.',

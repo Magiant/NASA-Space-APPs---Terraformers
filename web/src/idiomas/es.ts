@@ -917,6 +917,7 @@ export const es = {
     sesion: 'Necesita entrar con su cuenta para hacer esto.',
     sin_perfil: 'La cuenta no tiene perfil. Avise al equipo.',
     ya_cerrada: 'Esta siembra ya estaba cerrada: no hace falta cerrarla de nuevo.',
+    finca_sin_espacio: 'La siembra no cabe en la finca: junto con las siembras activas pasa su tamaño. Revise el área o cierre las siembras que ya cosechó.',
     credenciales: 'Correo o contraseña incorrectos. Revise que el correo esté bien escrito y que la contraseña tenga las mayúsculas correctas.',
     ya_existe: (v: Record<string, string | number>) =>
       `Ya existe una cuenta con «${v.correo}». Si es suya, use «Entrar». Si no recuerda la contraseña, toque «¿Olvidó su contraseña?» en la pantalla de Entrar.`,
