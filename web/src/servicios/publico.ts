@@ -229,6 +229,8 @@ interface FilaPrecio { fecha_dato: string; producto_original: string; cultivo_id
 /** Filas de un mismo producto, mercado y unidad (de la más nueva a la más vieja) → registro con su tendencia. */
 // Correccion - Poll: "Bajo 6 %" no decia contra que fecha se comparaba (un dia, un fin de semana o semanas en el
 // CNP); ahora el registro lleva la fecha del precio anterior para que la pantalla la diga.
+// Correccion - Poll: un producto con un solo precio publicado salia "Se mantiene", como si se hubiera comparado; ahora
+// queda "sin_comparar" y la pantalla dice que todavia no hay precio anterior.
 function aRegistro(fuente: RegistroPrecio['fuente'], [ultimo, anterior]: FilaPrecio[]): RegistroPrecio {
   const precio = Math.round(Number(ultimo.precio_promedio));
   const previo = anterior ? Math.round(Number(anterior.precio_promedio)) : precio;
@@ -237,7 +239,7 @@ function aRegistro(fuente: RegistroPrecio['fuente'], [ultimo, anterior]: FilaPre
     objectID: `precio-${fuente.toLowerCase()}-${ultimo.producto_original}-${ultimo.unidad}`,
     producto: ultimo.producto_original, cultivo_id: ultimo.cultivo_id, fuente, mercado: ultimo.mercado,
     unidad: ultimo.unidad, precio, precio_anterior: previo, fecha_anterior: anterior?.fecha_dato ?? null,
-    tendencia: cambio > 0.02 ? 'sube' : cambio < -0.02 ? 'baja' : 'estable',
+    tendencia: !anterior ? 'sin_comparar' : cambio > 0.02 ? 'sube' : cambio < -0.02 ? 'baja' : 'estable',
     fecha: ultimo.fecha_dato,
   };
 }

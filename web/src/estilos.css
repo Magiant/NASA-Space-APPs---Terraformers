@@ -637,7 +637,7 @@ button.chip-cultivo { font: inherit; cursor: pointer; }
 .tendencia { font-size: 0.85rem; font-weight: 700; }
 .tendencia-sube { color: var(--exc); }
 .tendencia-baja { color: var(--nor); }
-.tendencia-estable { color: var(--texto-suave); }
+.tendencia-estable, .tendencia-sin_comparar { color: var(--texto-suave); }
 
 .grafico { margin: 8px 0; }
 /* pan-y: con el dedo, arrastrar de lado recorre los días y arrastrar hacia arriba/abajo sigue moviendo la página */

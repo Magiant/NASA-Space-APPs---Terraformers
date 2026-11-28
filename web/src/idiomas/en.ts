@@ -460,6 +460,7 @@ export const en: Textos = {
     sube: (n, desde) => `Up ${n} %${desde ? ` since ${desde}` : ''}`,
     baja: (n, desde) => `Down ${n} %${desde ? ` since ${desde}` : ''}`,
     estable: 'Steady',
+    sinComparar: 'No earlier price to compare yet',
     min: 'Min.',
     max: 'Max.',
   },

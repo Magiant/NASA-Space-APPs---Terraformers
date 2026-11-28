@@ -484,6 +484,7 @@ export const es = {
     sube: (n: number, desde?: string) => `Subió ${n} %${desde ? ` desde el ${desde}` : ''}`,
     baja: (n: number, desde?: string) => `Bajó ${n} %${desde ? ` desde el ${desde}` : ''}`,
     estable: 'Se mantiene',
+    sinComparar: 'Aún sin precio anterior para comparar',
     min: 'Mín.',
     max: 'Máx.',
   },

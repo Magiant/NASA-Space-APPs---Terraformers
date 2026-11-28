@@ -11,14 +11,15 @@ import type { RegistroPrecio } from '../../tipos';
 import { colones, fecha, hoy, useCargar, porUnidad } from '../../utilidades';
 
 // Correccion - Poll: "Bajo 6 %" no decia desde cuando; ahora dice "Bajo 6 % desde el 12-11-2026".
+// Correccion - Poll: sin precio anterior decia "Se mantiene"; ahora dice que aun no hay con que comparar.
 export function Tendencia({ p }: { p: RegistroPrecio }) {
   const t = useT();
   const dif = p.precio - p.precio_anterior;
   const pct = p.precio_anterior ? Math.abs(Math.round((dif / p.precio_anterior) * 100)) : 0;
   // Correccion - Poll: la fecha se partia en el guion ("desde el 12-" / "11-2026"); ahora usa guiones que no se cortan.
   const desde = p.fecha_anterior ? fecha(p.fecha_anterior).replace(/-/g, '‑') : undefined;
-  const texto = { sube: t.precios.sube(pct, desde), baja: t.precios.baja(pct, desde), estable: t.precios.estable }[p.tendencia];
-  const icono = { sube: '▲', baja: '▼', estable: '●' }[p.tendencia];
+  const texto = { sube: t.precios.sube(pct, desde), baja: t.precios.baja(pct, desde), estable: t.precios.estable, sin_comparar: t.precios.sinComparar }[p.tendencia];
+  const icono = { sube: '▲', baja: '▼', estable: '●', sin_comparar: '–' }[p.tendencia];
   return (
     <span className={`tendencia tendencia-${p.tendencia}`}>
       <span aria-hidden>{icono}</span> {texto}
@@ -30,6 +31,7 @@ export function Tendencia({ p }: { p: RegistroPrecio }) {
 // nada si habia menos de 2 precios; ahora muestra el error con "Intentar de nuevo" o avisa que falta historial.
 // Correccion - Poll: en el CNP no se veia de que mercado era cada precio (productor, feria, CENADA), y el precio
 // anterior no decia su fecha; ahora se ven los dos.
+// Correccion - Poll: sin precio anterior mostraba "Precio anterior" igual al actual; ahora esa linea solo sale si existe.
 function FilaPrecio({ p }: { p: RegistroPrecio }) {
   const t = useT();
   const [abierto, setAbierto] = useState(false);
@@ -58,7 +60,8 @@ function FilaPrecio({ p }: { p: RegistroPrecio }) {
             <GraficoLinea puntos={historico.datos} formato={colones} etiqueta={p.producto} />
           )}
           <p className="ayuda">
-            {p.mercado} · {p.fecha_anterior ? t.precios.anteriorDel(fecha(p.fecha_anterior)) : t.precios.anterior} {colones(p.precio_anterior)}
+            {p.mercado}
+            {p.fecha_anterior && <> · {t.precios.anteriorDel(fecha(p.fecha_anterior))} {colones(p.precio_anterior)}</>}
           </p>
           {p.cultivo_id && <Link to={`/cultivo/${p.cultivo_id}`}>{t.precios.verCultivo}</Link>}
         </div>
