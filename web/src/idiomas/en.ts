@@ -199,7 +199,7 @@ export const en: Textos = {
     precio: 'Price:',
     por: 'per',
     java: 'java (wooden crate)',
-    envases: { saco: 'sack', caja: 'box', rollo: 'bundle', quintal: 'quintal', docena: 'dozen', fanega: 'fanega', kilo: 'kilo', unidad: 'unit' },
+    envases: { saco: 'sack', caja: 'box', rollo: 'roll', quintal: 'quintal', docena: 'dozen', fanega: 'fanega', kilo: 'kilo', unidad: 'unit' },
     medidas: { unidades: 'units', manojos: 'bunches' },
     // Correccion - Poll: salia "per 100 units box"; en ingles natural es "per box of 100 units".
     unidadCompuesta: (envase, n, medida) => `${envase} of ${n.replace(',', '.')} ${medida}`,
