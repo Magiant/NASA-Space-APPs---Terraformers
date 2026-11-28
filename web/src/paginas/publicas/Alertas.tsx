@@ -7,7 +7,7 @@ import { PronosticoZona } from '../../componentes/Pronostico';
 import { useT } from '../../contexto/PreferenciasContext';
 import { algolia, catalogo } from '../../servicios/algolia';
 import type { RegistroAlerta } from '../../tipos';
-import { fecha, useCargar, useZonaElegida } from '../../utilidades';
+import { fecha, traducirDato, useCargar, useZonaElegida } from '../../utilidades';
 
 /**
  * Pestaña "Tiempo" (ruta /alertas): dos botones juntos, "Tiempo" y "Alertas", que cambian la vista:
@@ -116,7 +116,8 @@ export default function Alertas() {
                   </span>
                 </div>
                 <div className="alerta-cuerpo">
-                  <p className="alerta-fuente">{a.fuente} <span aria-hidden>·</span> {a.tipo}</p>
+                  {/* Correccion - Poll: en ingles el tipo de aviso salia en español ("SEQUIA", "VOLCAN"). */}
+                  <p className="alerta-fuente">{a.fuente} <span aria-hidden>·</span> {traducirDato(t, a.tipo)}</p>
                   <h3>{a.titulo}</h3>
                   <p className="alerta-descripcion">{resumen(a.descripcion)}</p>
                   {a.descripcion.length > 150 && (
