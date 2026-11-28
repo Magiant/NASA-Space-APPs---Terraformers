@@ -264,7 +264,10 @@ export default function EscaneoDron() {
             <span className="ficha-titulo">{td.pendiente}</span>
             <strong className="ficha-valor">{v.pendiente_pct} %</strong>
             {/* Correccion - Poll: "12 % — Suave" no decia que significa ni desde cuanto es fuerte. */}
-            <span className="ficha-detalle">{v.pendiente_pct > 30 ? td.pendienteFuerte : td.pendienteSuave(v.pendiente_pct)}</span>
+            {/* Correccion - Poll: solo habia "suave" y "fuerte": 25 % decia "Suave"; ahora hay un nivel moderado. */}
+            <span className="ficha-detalle">
+              {v.pendiente_pct > 30 ? td.pendienteFuerte : v.pendiente_pct >= 15 ? td.pendienteModerada(v.pendiente_pct) : td.pendienteSuave(v.pendiente_pct)}
+            </span>
           </div>
         </div>
       </section>
