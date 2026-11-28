@@ -575,7 +575,10 @@ button.chip-cultivo { font: inherit; cursor: pointer; }
 /* ================= Zona y cultivo ================= */
 .cabecera-pagina h1 { margin-bottom: 0.2em; }
 .cabecera-pagina > p { color: var(--texto-suave); }
-.columnas { display: grid; gap: 0 40px; }
+/* Correccion - Poll: en celular la unica columna automatica crecia hasta el ancho de su contenido (54 a 94 px mas que
+   la pantalla) y la tarjeta "El tiempo" quedaba cortada; ahora la columna nunca pasa del ancho disponible. */
+.columnas { display: grid; gap: 0 40px; grid-template-columns: minmax(0, 1fr); }
+.col-principal, .col-lateral { min-width: 0; }
 @media (min-width: 1000px) {
   .columnas { grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr); align-items: start; }
   .col-lateral { position: sticky; top: 90px; }
