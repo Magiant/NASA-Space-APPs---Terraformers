@@ -1907,8 +1907,7 @@ body::before {
   box-shadow: var(--sombra);
 }
 .boton-volver:hover { border-color: var(--primario); color: var(--primario); }
-/* Las portadas a todo el ancho (dron, cultivo) suben por debajo del encabezado: el boton va encima de la foto. */
-.boton-volver { position: relative; z-index: 3; }
+
 .boton-volver .icono-svg, .boton-volver svg { transform: scaleX(-1); }
 
 /* Correccion - Poll: en computadora los enlaces del pie median 22 px de alto (menos del minimo de 24 px para tocar con
@@ -1918,3 +1917,6 @@ body::before {
 /* Correccion - Poll: el boton "Volver" desaparecia al bajar por la pagina; ahora se queda pegado justo debajo del
    encabezado (que ya es fijo) mientras se desplaza, por encima del contenido pero debajo del encabezado y sus menus. */
 .boton-volver { position: sticky; top: 72px; z-index: 20; display: flex; width: fit-content; }
+/* Correccion - Poll: en los formularios el boton pegado tapaba campos y el boton de enviar; ahi se queda en su lugar
+   (encima de la foto de portada, por eso conserva un z-index). Antes habia otra regla .boton-volver que esta pisaba. */
+.boton-volver.boton-volver-quieto { position: relative; top: auto; z-index: 3; }
