@@ -771,7 +771,7 @@ export const es = {
     queVeEjemplo: 'Ej.: hojas con manchas cafés, gusanos en el cogollo…',
     cuanto: '¿Cuánto está dañado?',
     gravedad: { leve: 'Pocas plantas', moderada: 'Una parte', grave: 'Casi todo' },
-    foto: 'Tomar o subir una foto',
+    foto: 'Ver una foto del daño (solo en su teléfono)',
     cambiarFoto: 'Cambiar foto',
     fotoAlt: 'Foto de la plaga',
     fotoNoSeEnvia: 'La foto se queda en su teléfono: todavía no se envía al técnico. Describa bien el daño en el texto.',

@@ -737,7 +737,7 @@ export const en: Textos = {
     queVeEjemplo: 'E.g.: leaves with brown spots, worms in the whorl…',
     cuanto: 'How much is damaged?',
     gravedad: { leve: 'A few plants', moderada: 'Part of it', grave: 'Almost all' },
-    foto: 'Take or upload a photo',
+    foto: 'See a photo of the damage (only on your phone)',
     cambiarFoto: 'Change photo',
     fotoAlt: 'Photo of the pest',
     fotoNoSeEnvia: 'The photo stays on your phone: it is not sent to the technician yet. Describe the damage well in the text.',
