@@ -132,7 +132,9 @@ export default function Plantilla() {
         <div className="pie-final">© 2026 TerraFarm · Together we grow · NASA Space Apps Challenge · Costa Rica</div>
       </footer>
 
-      {usuario && !pathname.startsWith('/reportar-plaga') && (
+      {/* Correccion - Poll: el boton flotante tapaba "Ver zona", "Cosecho 22 quintales" y el texto del dron; ahora no
+          sale en Mi finca, Historial y Dron, que ya tienen su propio acceso a reportar o estan a un toque de el. */}
+      {usuario && !/^\/(reportar-plaga|mi-finca|dron|historial)/.test(pathname) && (
         // Correccion - Poll: en el celular la pildora de 245 px tapaba botones y texto; el nombre va en su propio
         // span para que el CSS deje solo el icono en pantallas chicas (el lector de pantalla lo sigue leyendo).
         <Link to="/reportar-plaga" className="boton-flotante">
