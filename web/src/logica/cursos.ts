@@ -14,16 +14,21 @@ const CULTIVOS_POR_TITULO: [RegExp, string[]][] = [
   [/ra[ií]ces y tub[eé]rculos/i, ['papa', 'yuca']],
   [/\bpapa\b/i, ['papa']], [/\byuca\b/i, ['yuca']], [/cebolla/i, ['cebolla']], [/zanahoria/i, ['zanahoria']], [/repollo/i, ['repollo']],
   [/culantro|hierbas arom[aá]ticas/i, ['culantro']],
-  [/frijol/i, ['frijol']], [/\bma[ií]z\b/i, ['maiz']], [/\barroz\b/i, ['arroz']], [/granos b[aá]sicos/i, ['frijol', 'maiz', 'arroz']],
+  [/frijol/i, ['frijol']], [/\bma[ií]z\b/i, ['maiz']], [/\barroz\b/i, ['arroz']],
   [/\bpiña\b/i, ['pina']],
   // En Costa Rica el invernadero y la hidroponía se usan sobre todo para tomate, chile dulce y hierbas.
   [/ambiente protegido|hidropon/i, ['tomate', 'chile', 'culantro']],
 ];
 
+const GRANOS_BASICOS = ['frijol', 'maiz', 'arroz'];
+
 /** Cultivos del catálogo con los que ayuda un curso (vacío si es general o de otra cosa). */
+// Correccion - Poll: "Granos basicos: frijol y maiz" salia tambien "Para: Arroz", porque "granos basicos" sumaba los
+// tres granos; ahora solo se suman cuando el titulo no nombra ya cuales son.
 export function cultivosDelCurso(c: Pick<RegistroCapacitacion, 'titulo' | 'cultivo_id'>): string[] {
   const ids = new Set<string>(c.cultivo_id ? [c.cultivo_id] : []);
   for (const [re, cultivos] of CULTIVOS_POR_TITULO) if (re.test(c.titulo)) cultivos.forEach((x) => ids.add(x));
+  if (/granos b[aá]sicos/i.test(c.titulo) && !GRANOS_BASICOS.some((x) => ids.has(x))) GRANOS_BASICOS.forEach((x) => ids.add(x));
   return [...ids];
 }
 
