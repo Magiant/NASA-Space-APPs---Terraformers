@@ -638,6 +638,8 @@ button.chip-cultivo { font: inherit; cursor: pointer; }
 .tendencia-sube { color: var(--exc); }
 .tendencia-baja { color: var(--nor); }
 .tendencia-estable, .tendencia-sin_comparar { color: var(--texto-suave); }
+/* Correccion - Poll: el consejo "En el celular, toque «Plano»" tambien salia en computadora. */
+@media (min-width: 600px) { .dron-plano-pista { display: none; } }
 
 .grafico { margin: 8px 0; }
 /* pan-y: con el dedo, arrastrar de lado recorre los días y arrastrar hacia arriba/abajo sigue moviendo la página */

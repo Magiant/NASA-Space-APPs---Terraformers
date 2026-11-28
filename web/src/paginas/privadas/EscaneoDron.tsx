@@ -69,7 +69,8 @@ export default function EscaneoDron() {
   const [elegido, setElegido] = useState(0);
   const [vista, setVista] = useState<Vista>('salud');
   const [parcela, setParcela] = useState<[number, number] | null>(null);
-  const [modo, setModoEstado] = useState<Modo>(() => leer<Modo>(CLAVE_MODO, '3d'));
+  // Correccion - Poll: en el celular el mapa 3D deja parcelas de unos 25 x 12 px; en pantallas chicas abre en "Plano".
+  const [modo, setModoEstado] = useState<Modo>(() => leer<Modo>(CLAVE_MODO, window.matchMedia('(max-width: 480px)').matches ? 'plano' : '3d'));
   const setModo = (m: Modo) => { setModoEstado(m); guardar(CLAVE_MODO, m); };
 
   const propias = fincas.datos ?? [];
