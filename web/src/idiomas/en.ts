@@ -495,7 +495,7 @@ export const en: Textos = {
     todosTemas: 'All topics',
     horas: (n) => (n === 1 ? '1 hour' : `${n} hours`),
     ayudaCon: 'Helps with:',
-    verEn: (i) => `See the course on the ${i} website ↗`,
+    verEn: (i) => `See the course on the ${i} website ↗`,
     sinEnlace: (i) => (i === 'INA' ? 'Ask the INA (National Learning Institute) for more information.' : `Ask ${i} for more information.`),
     comoInscribirse: 'To sign up, open the course page and follow the instructions of the institution.',
     modalidad: { presencial: '🏫 In person', virtual: '💻 Online', mixta: '🔀 Blended' },
