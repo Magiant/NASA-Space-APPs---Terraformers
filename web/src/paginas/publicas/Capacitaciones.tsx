@@ -133,7 +133,8 @@ export default function Capacitaciones() {
               <p className="etiqueta" title={c.tema}>{traducirDato(t, area)}</p>
               <h2 className="tarjeta-h">{c.titulo}</h2>
               <ul className="datos-rapidos">
-                <li><Tx>{tc.modalidad[c.modalidad]}</Tx>{c.duracion_horas ? ` · ${tc.horas(c.duracion_horas)}` : ''}{tipo ? ` · ${traducirDato(t, tipo)}` : ''}</li>
+                {/* Correccion - Poll: una modalidad desconocida dejaba la linea vacia (" · 40 horas"). */}
+                <li><Tx>{tc.modalidad[c.modalidad] ?? c.modalidad}</Tx>{c.duracion_horas ? ` · ${tc.horas(c.duracion_horas)}` : ''}{tipo ? ` · ${traducirDato(t, tipo)}` : ''}</li>
                 {/* Correccion - Poll: sin provincias se veia el icono solo; ahora la linea no aparece. */}
                 {c.provincias.length > 0 && <li><Icono nombre="pin" tam={16} /> {c.provincias.join(', ')}</li>}
                 {para.length > 0 && <li className="curso-para"><Icono nombre="sembrar" tam={16} /> {tc.para} {para.map((id) => nombreCultivo(t, id)).join(' · ')}</li>}
