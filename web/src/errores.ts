@@ -18,7 +18,10 @@ function texto(t: Textos, codigo: CodigoError, v: Valores): string {
 }
 
 /** Qué clase de falla es, según el mensaje (en inglés) que devuelve el servidor o el navegador. */
+// Correccion - Poll: la base ahora rechaza siembras que no caben en la finca (migracion 020); ese rechazo salia como
+// "No se pudo completar" y ahora se explica.
 export function clasificar(mensaje: string): CodigoError {
+  if (/finca_sin_espacio/.test(mensaje)) return 'finca_sin_espacio';
   if (/failed to fetch|network|load failed|fetch failed|timeout/i.test(mensaje)) return 'sin_conexion';
   if (/row-level security|permission denied|not authorized|jwt/i.test(mensaje)) return 'permiso';
   return 'servidor';

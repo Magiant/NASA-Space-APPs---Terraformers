@@ -280,16 +280,6 @@ export const en: Textos = {
 
   fondos: {
     credito: 'Photo',
-    satelite: {
-      titulo: 'We see your area from space',
-      texto: 'We use NASA satellites to measure rain, temperature, soil moisture and plant health in every district of Costa Rica.',
-      cifras: [{ numero: '492', texto: 'districts' }, { numero: '7', texto: 'provinces' }, { numero: '13', texto: 'crops' }, { numero: '10+', texto: 'data sources' }],
-    },
-    dron: {
-      titulo: 'Drones that measure your farm',
-      texto: 'A drone flight shows, plot by plot, where water is lacking, where a pest is spreading or where plants are weak.',
-      boton: 'See the drone scan',
-    },
     ndvi: {
       titulo: 'How the drone sees your farm',
       texto: 'A special drone camera measures the green index (NDVI): each color shows how healthy the plants are, revealing stressed areas before they are visible to the eye.',
@@ -335,11 +325,8 @@ export const en: Textos = {
     buscando: 'Finding the best crops…',
     ninguno: 'We found no recommended crops for this area.',
     noConviene: (n) => `Crops not advisable here (${n})`,
-    paraFinca: 'For your farm',
     reportar: 'Report a pest',
-    fincas: 'My farms and plantings',
     dron: 'Drone scan',
-    preciosHoy: 'Today’s prices',
     eligeZona: 'Choose an area to see what to plant',
     eligeZonaTexto: 'Use your location or choose province, canton and district.',
     sinDatos: (d: string) => `We do not have crop recommendations for ${d} yet. We are loading data for every district.`,
@@ -658,6 +645,11 @@ export const en: Textos = {
     masGrande: 'The planting is bigger than the farm',
     masGrandeTexto: (siembra, finca, haFinca) =>
       `You typed ${siembra} ha, but the farm “${finca}” is registered with ${haFinca} ha. If the farm is actually bigger, change its size; if not, correct the planted area.`,
+    areaLibre: (finca, haFinca, ocupado, libre) =>
+      `The farm “${finca}” measures ${haFinca} ha and already has ${ocupado} ha planted: the planting can take up to ${libre} ha.`,
+    sinEspacio: 'There is not that much free space on the farm',
+    sinEspacioTexto: (siembra, finca, haFinca, ocupado, libre) =>
+      `You typed ${siembra} ha, but the farm “${finca}” measures ${haFinca} ha and already has ${ocupado} ha planted: only ${libre} ha are free. If the farm is actually bigger, change its size; if not, correct the planted area.`,
     agrandar: (finca, ha) => `Change “${finca}” to ${ha} ha`,
     corregir: 'Correct the area',
     consejos: {
@@ -913,6 +905,7 @@ export const en: Textos = {
     sesion: 'You need to sign in to your account to do this.',
     sin_perfil: 'The account has no profile. Tell the team.',
     ya_cerrada: 'This planting was already closed: there is no need to close it again.',
+    finca_sin_espacio: 'The planting does not fit on the farm: together with the active plantings it is bigger than the farm. Check the area or close the plantings you already harvested.',
     credenciales: 'Wrong email or password. Check that the email is spelled right and the password has the right capital letters.',
     ya_existe: (v) => `There is already an account with “${v.correo}”. If it is yours, use “Sign in”. If you forgot the password, tap “Forgot your password?” on the Sign in screen.`,
     sin_confirmar: 'You still need to confirm your email: open the message we sent you (also check “Spam” or “Promotions”) and tap the link. Then sign in again.',

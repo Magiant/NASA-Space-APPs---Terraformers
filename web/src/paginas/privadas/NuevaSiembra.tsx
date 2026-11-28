@@ -36,6 +36,9 @@ export default function NuevaSiembra() {
   }, [fincas.datos, fincaId]);
 
   const finca = fincas.datos?.find((f) => f.id === fincaId);
+  // Lo que ya ocupan las siembras activas de esta finca y lo que queda libre para la nueva.
+  const ocupado = (siembras.datos ?? []).filter((s) => s.finca_id === fincaId && s.estado === 'activa').reduce((suma, s) => suma + Number(s.area_ha), 0);
+  const libre = finca ? Math.max(0, Math.round((finca.area_ha - ocupado) * 10000) / 10000) : 0;
   const aptitud = useCargar(() => (finca ? algolia.aptitudDeZona(finca.codigo_distrito) : Promise.resolve([])), [finca?.codigo_distrito]);
 
   // El cultivo anterior de esta finca (la siembra más reciente) define la rotación.
@@ -57,6 +60,8 @@ export default function NuevaSiembra() {
   // Correccion - Poll: si la siembra era más grande que la finca, el navegador solo decía "el valor debe ser menor o
   // igual a 0.5", sin explicar por qué ni cómo seguir. Ahora el campo dice desde el inicio cuánto mide la finca y, si se
   // pasa, una ventana lo explica y deja cambiar el tamaño de la finca ahí mismo (el área se puede escribir en ha, m² o mz).
+  // Correccion - Poll: se comparaba cada siembra con toda la finca, sin restar las siembras activas, y en una finca de
+  // 1 ha se podian registrar dos siembras de 1 ha. Ahora la siembra nueva solo puede ocupar lo que queda libre.
   async function enviar(e: FormEvent) {
     e.preventDefault();
     if (!cultivo || !finca) return;
@@ -67,12 +72,20 @@ export default function NuevaSiembra() {
     // Correccion - Poll: al tocar "Agrandar la finca", el cambio se guardaba enseguida, aunque despues se cancelara la
     // siembra. Ahora se anota, aparece en el resumen de la confirmacion y se guarda solo al confirmar.
     let agrandar = false;
-    if (areaHa > finca.area_ha) {
+    // Tamaño que tendría que tener la finca para que quepan las siembras activas y la nueva.
+    const necesario = Math.round((ocupado + areaHa) * 10000) / 10000;
+    if (areaHa > libre + 1e-9) {
       const ha = formatoHa(areaHa, t.locale);
+      const haFinca = formatoHa(finca.area_ha, t.locale);
       const r = await avisar({
-        titulo: ts.masGrande, tono: 'error', icono: 'finca',
-        texto: ts.masGrandeTexto(ha, finca.nombre, formatoHa(finca.area_ha, t.locale)),
-        acciones: [{ id: 'corregir', texto: ts.corregir }, { id: 'agrandar', texto: ts.agrandar(finca.nombre, ha), principal: true }],
+        titulo: ocupado > 0 ? ts.sinEspacio : ts.masGrande, tono: 'error', icono: 'finca',
+        texto: ocupado > 0
+          ? ts.sinEspacioTexto(ha, finca.nombre, haFinca, formatoHa(ocupado, t.locale), formatoHa(libre, t.locale))
+          : ts.masGrandeTexto(ha, finca.nombre, haFinca),
+        acciones: [
+          { id: 'corregir', texto: ts.corregir },
+          { id: 'agrandar', texto: ts.agrandar(finca.nombre, formatoHa(necesario, t.locale)), principal: true },
+        ],
       });
       if (r !== 'agrandar') return;
       agrandar = true;
@@ -85,7 +98,7 @@ export default function NuevaSiembra() {
       texto: (
         <>
           <p><strong>{tns.resumen(formatoHa(areaHa, t.locale), finca.nombre, fecha(fechaSiembra), fecha(cosecha))}</strong></p>
-          {agrandar && <p>{tns.agrandara(finca.nombre, formatoHa(areaHa, t.locale))}</p>}
+          {agrandar && <p>{tns.agrandara(finca.nombre, formatoHa(necesario, t.locale))}</p>}
           <p>{tns.texto}</p>
         </>
       ),
@@ -95,7 +108,7 @@ export default function NuevaSiembra() {
     setEnviando(true);
     if (agrandar) {
       try {
-        await datos.actualizarFinca(finca.id, { area_ha: areaHa });
+        await datos.actualizarFinca(finca.id, { area_ha: necesario });
       } catch (err) {
         setEnviando(false);
         return void avisar({ titulo: t.avisos.noSeCambio, texto: mensajeError(t, err), tono: 'error' });
@@ -173,14 +186,19 @@ export default function NuevaSiembra() {
           <CampoArea
             etiqueta={ts.area}
             alCambiar={setAreaHa}
-            ayuda={finca ? ts.areaMax(finca.nombre, formatoHa(finca.area_ha, t.locale)) : undefined}
+            ayuda={
+              !finca ? undefined
+                : ocupado > 0 ? ts.areaLibre(finca.nombre, formatoHa(finca.area_ha, t.locale), formatoHa(ocupado, t.locale), formatoHa(libre, t.locale))
+                : ts.areaMax(finca.nombre, formatoHa(finca.area_ha, t.locale))
+            }
           />
           <label>
             {ts.fecha}
             <input type="date" required max={hoy()} value={fechaSiembra} onChange={(e) => setFechaSiembra(e.target.value)} />
           </label>
           <p className="ayuda">{ts.cosechaAyuda(cultivo.ciclo_dias_min, cultivo.ciclo_dias_max)}</p>
-          <button className="boton boton-ancho" disabled={enviando}>{enviando ? t.comun.guardando : ts.guardar}</button>
+          {/* Mientras cargan las siembras no se sabe cuánto espacio queda libre en la finca. */}
+          <button className="boton boton-ancho" disabled={enviando || siembras.cargando}>{enviando ? t.comun.guardando : ts.guardar}</button>
         </form>
       )}
     </>

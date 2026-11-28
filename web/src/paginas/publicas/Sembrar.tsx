@@ -2,14 +2,13 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import AvisoActualizado from '../../componentes/AvisoActualizado';
 import { Cargando, ErrorCarga } from '../../componentes/Estados';
-import { Icono, Tx } from '../../componentes/Iconos';
+import { Icono } from '../../componentes/Iconos';
 import SeccionFondo from '../../componentes/SeccionFondo';
 import MapaUbicacion from '../../componentes/MapaUbicacion';
 import { PronosticoZona } from '../../componentes/Pronostico';
 import SelectorUbicacion, { useSeleccionUbicacion } from '../../componentes/SelectorUbicacion';
 import TarjetaCultivo from '../../componentes/TarjetaCultivo';
 import CultivosPorTemporada from '../../componentes/CultivosPorTemporada';
-import { useAuth } from '../../contexto/AuthContext';
 import { useT } from '../../contexto/PreferenciasContext';
 import { algolia, catalogo } from '../../servicios/algolia';
 import { useCargar, useZonaElegida } from '../../utilidades';
@@ -18,7 +17,6 @@ import { useCargar, useZonaElegida } from '../../utilidades';
 export default function Sembrar() {
   const t = useT();
   const [codigo, setCodigo] = useZonaElegida();
-  const { usuario } = useAuth();
   const zona = codigo ? catalogo.zona(codigo) : undefined; // datos de ejemplo (solo algunos distritos)
 
   // Mapa y lista comparten la misma selección. Al elegir un distrito, la página baja sola al
@@ -49,13 +47,6 @@ export default function Sembrar() {
   const lista = aptitud.datos ?? [];
   const buenos = lista.filter((a) => a.nivel === 'excelente' || a.nivel === 'bueno');
   const otros = lista.filter((a) => a.nivel === 'no_recomendado' || a.nivel === 'descartado');
-
-  const accesos = [
-    { a: '/reportar-plaga', icono: 'plaga', texto: t.inicio.reportar, privado: true, foto: 'cultivos/tomate.jpg' },
-    { a: '/mi-finca', icono: 'finca', texto: t.inicio.fincas, privado: true, foto: 'trabajadores.jpg' },
-    { a: '/dron', icono: 'dron', texto: t.inicio.dron, privado: true, foto: 'fondos/dron.jpg' },
-    { a: '/precios', icono: 'precios', texto: t.inicio.preciosHoy, privado: false, foto: 'mercado.jpg' },
-  ] as const;
 
   return (
     <>
@@ -128,37 +119,6 @@ export default function Sembrar() {
           )}
         </section>
       )}
-
-      <SeccionFondo foto="satelite" titulo={t.fondos.satelite.titulo} etiquetaCredito={t.fondos.credito}>
-        <p>{t.fondos.satelite.texto}</p>
-        <ul className="cifras">
-          {t.fondos.satelite.cifras.map((c) => (
-            <li key={c.texto}><strong>{c.numero}</strong> {c.texto}</li>
-          ))}
-        </ul>
-      </SeccionFondo>
-
-      <SeccionFondo foto="dron" titulo={t.fondos.dron.titulo} etiquetaCredito={t.fondos.credito}>
-        <p>{t.fondos.dron.texto}</p>
-        <Link to="/dron" className="boton">
-          <Icono nombre="dron" tam={20} /> {t.fondos.dron.boton}
-          {!usuario && <small className="boton-nota"><Tx>{t.comun.pideEntrar}</Tx></small>}
-        </Link>
-      </SeccionFondo>
-
-      <section>
-        <h2>{t.inicio.paraFinca}</h2>
-        <div className="accesos">
-          {accesos.map((x) => (
-            <Link key={x.a} to={x.a} className="acceso acceso-con-foto">
-              <img className="acceso-foto" src={`./imagenes/${x.foto}`} alt="" aria-hidden loading="lazy" />
-              <span className="acceso-icono" aria-hidden><Icono nombre={x.icono} tam={28} /></span>
-              {x.texto}
-              {x.privado && !usuario && <small><Tx>{t.comun.pideEntrar}</Tx></small>}
-            </Link>
-          ))}
-        </div>
-      </section>
 
       <SeccionFondo foto="cafetal" titulo={t.fondos.cafetal.titulo} etiquetaCredito={t.fondos.credito} alto="bajo">
         <p>{t.fondos.cafetal.texto}</p>
