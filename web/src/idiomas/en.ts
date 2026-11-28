@@ -206,7 +206,7 @@ export const en: Textos = {
     cuidado: 'Watch out for:',
     porQue: 'Why this score?',
     quePuntaje: (n) =>
-      `${n}/100 says how well this crop grows in this district. It counts climate (30 %), water (25 %), soil (20 %), risks (15 %) and market price (10 %). 85 or more: Excellent · 65 to 84: Good · under 65: Not recommended.`,
+      `${n}/100 says how well this crop grows in this district. It counts climate (30 %), water (25 %), soil (20 %), risks (15 %) and market price (10 %). 85 or more: Excellent · 65 to 84: Good · under 65: Not recommended. It does not count what your neighbors already planted: if there is a warning note, keep it in mind.`,
     estimado: 'Approximate calculation: we do not have the full study of this district yet.',
   },
 

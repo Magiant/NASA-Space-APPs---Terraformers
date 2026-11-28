@@ -219,7 +219,7 @@ export const es = {
     cuidado: 'Cuidado con:',
     porQue: '¿Por qué este puntaje?',
     quePuntaje: (n: number) =>
-      `${n}/100 dice qué tan bien se da este cultivo en este distrito. Cuenta el clima (30 %), el agua (25 %), el suelo (20 %), los riesgos (15 %) y el precio en el mercado (10 %). 85 o más: Excelente · 65 a 84: Bueno · menos de 65: No recomendado.`,
+      `${n}/100 dice qué tan bien se da este cultivo en este distrito. Cuenta el clima (30 %), el agua (25 %), el suelo (20 %), los riesgos (15 %) y el precio en el mercado (10 %). 85 o más: Excelente · 65 a 84: Bueno · menos de 65: No recomendado. No cuenta lo que ya sembraron sus vecinos: si aparece un aviso «Ojo», téngalo en cuenta.`,
     estimado: 'Cálculo aproximado: todavía no tenemos el estudio completo de este distrito.',
   },
 
