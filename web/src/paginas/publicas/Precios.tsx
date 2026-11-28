@@ -32,7 +32,9 @@ export function Tendencia({ p }: { p: RegistroPrecio }) {
 // Correccion - Poll: en el CNP no se veia de que mercado era cada precio (productor, feria, CENADA), y el precio
 // anterior no decia su fecha; ahora se ven los dos.
 // Correccion - Poll: sin precio anterior mostraba "Precio anterior" igual al actual; ahora esa linea solo sale si existe.
-function FilaPrecio({ p }: { p: RegistroPrecio }) {
+// Correccion - Poll: un producto con su ultimo precio de hace semanas se veia igual que uno de ayer; ahora la fila dice
+// la fecha de su precio cuando no es la misma de la fuente.
+function FilaPrecio({ p, fechaFuente }: { p: RegistroPrecio; fechaFuente?: string }) {
   const t = useT();
   const [abierto, setAbierto] = useState(false);
   const historico = useCargar(() => (abierto ? series.precio(p) : Promise.resolve(null)), [abierto]);
@@ -41,7 +43,10 @@ function FilaPrecio({ p }: { p: RegistroPrecio }) {
       <button className="fila-precio-boton" aria-expanded={abierto} onClick={() => setAbierto(!abierto)}>
         <span>
           <strong>{p.producto}</strong>
-          <small>{porUnidad(t, p.unidad)}{p.fuente === 'CNP' && p.mercado ? ` · ${p.mercado}` : ''}</small>
+          <small>
+            {porUnidad(t, p.unidad)}{p.fuente === 'CNP' && p.mercado ? ` · ${p.mercado}` : ''}
+            {fechaFuente && p.fecha !== fechaFuente ? ` · ${t.precios.delDia(fecha(p.fecha))}` : ''}
+          </small>
         </span>
         <span className="fila-precio-valor">
           <strong>{colones(p.precio)}</strong>
@@ -76,6 +81,8 @@ const sinTildes = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '
 // Correccion - Poll: la busqueda no ignoraba las tildes ("pina" no encontraba "Piña"); la fecha mostrada era la del
 // primer producto de la lista y no avisaba si era vieja; y con error o sin datos decia "No encontramos ese
 // producto". Ahora busca sin tildes, muestra la fecha mas reciente con aviso si es vieja, y cada caso tiene su texto.
+// Correccion - Poll: el aviso de precio viejo ("Hace 14 dias: …") iba en letra chica y no decia que hacer; ahora es un
+// aviso con la fecha y el consejo de confirmar con el comprador.
 export default function Precios() {
   const t = useT();
   const precios = useCargar(() => algolia.precios(), [], 'tf-copia-precios');
@@ -115,12 +122,12 @@ export default function Precios() {
 
       <AvisoCopia cuando={precios.guardadoEl} />
       {fechaFuente && <AvisoActualizado que={t.comun.precios} cuando={fechaFuente} fuente={fuente} />}
-      {fechaFuente && viejo && <p className="ayuda">{t.precios.viejo(diasDato)}</p>}
+      {fechaFuente && viejo && <p className="aviso" role="note">{t.precios.viejo(diasDato, fecha(fechaFuente))}</p>}
       {precios.cargando && <Cargando />}
       {precios.error && <ErrorCarga mensaje={precios.error} reintentar={precios.recargar} />}
 
       <ul className="lista-precios">
-        {lista.map((p) => <FilaPrecio key={p.objectID} p={p} />)}
+        {lista.map((p) => <FilaPrecio key={p.objectID} p={p} fechaFuente={fechaFuente} />)}
       </ul>
       {!precios.cargando && !precios.error && lista.length === 0 && (
         <p>{busca.trim() && deFuente.length ? t.precios.noHayBusqueda(busca.trim(), fuente === 'PIMA' ? t.precios.pima : t.precios.cnp) : t.precios.sinPrecios}</p>
