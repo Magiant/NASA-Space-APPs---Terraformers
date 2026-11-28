@@ -121,7 +121,8 @@ export default function Precios() {
       </label>
 
       <AvisoCopia cuando={precios.guardadoEl} />
-      {fechaFuente && <AvisoActualizado que={t.comun.precios} cuando={fechaFuente} fuente={fuente} />}
+      {/* Correccion - Poll: la pestaña decia "CENADA (PIMA)" y la fuente solo "PIMA"; ahora usan el mismo nombre. */}
+      {fechaFuente && <AvisoActualizado que={t.comun.precios} cuando={fechaFuente} fuente={fuente === 'PIMA' ? t.precios.pima : t.precios.cnp} />}
       {fechaFuente && viejo && <p className="aviso" role="note">{t.precios.viejo(diasDato, fecha(fechaFuente))}</p>}
       {precios.cargando && <Cargando />}
       {precios.error && <ErrorCarga mensaje={precios.error} reintentar={precios.recargar} />}
