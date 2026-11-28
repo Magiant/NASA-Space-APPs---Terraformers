@@ -14,6 +14,7 @@ export interface SeleccionUbicacion {
   lista: Ubicacion[];
   cargando: boolean;
   error: boolean;
+  reintentar: () => void;
   provincia: string; // código, '' si no hay
   canton: string;
   distrito: string | null;
@@ -33,7 +34,7 @@ function unicos(lista: Ubicacion[], codigo: keyof Ubicacion, nombre: keyof Ubica
 }
 
 export function useSeleccionUbicacion(valor: string | null, alCambiar: (codigo: string | null) => void): SeleccionUbicacion {
-  const { lista, cargando, error } = useUbicaciones();
+  const { lista, cargando, error, reintentar } = useUbicaciones();
   const actual = valor ? lista.find((u) => u.codigo_distrito === valor) : undefined;
   const [provincia, setProvincia] = useState(actual?.codigo_provincia ?? '');
   const [canton, setCanton] = useState(actual?.codigo_canton ?? '');
@@ -51,7 +52,7 @@ export function useSeleccionUbicacion(valor: string | null, alCambiar: (codigo: 
   const distritos = useMemo(() => unicos(lista.filter((u) => u.codigo_canton === canton), 'codigo_distrito', 'distrito'), [lista, canton]);
 
   return {
-    lista, cargando, error, provincia, canton, distrito: actual ? valor : null,
+    lista, cargando, error, reintentar, provincia, canton, distrito: actual ? valor : null,
     provincias, cantones, distritos,
     elegirProvincia: (c) => { setProvincia(c); setCanton(''); alCambiar(null); },
     elegirCanton: (c) => { setCanton(c); alCambiar(null); },
@@ -146,7 +147,7 @@ export default function SelectorUbicacion({
       {s.error && (
         <div className="aviso aviso-error" role="alert">
           <p>{t.ubicacion.errorLista}</p>
-          <button type="button" className="boton boton-secundario" onClick={() => window.location.reload()}>{t.comun.reintentar}</button>
+          <button type="button" className="boton boton-secundario" onClick={s.reintentar}>{t.comun.reintentar}</button>
         </div>
       )}
       <label className={siguiente === 'provincia' ? 'campo-siguiente' : undefined}>
