@@ -645,6 +645,11 @@ export const en: Textos = {
     masGrande: 'The planting is bigger than the farm',
     masGrandeTexto: (siembra, finca, haFinca) =>
       `You typed ${siembra} ha, but the farm “${finca}” is registered with ${haFinca} ha. If the farm is actually bigger, change its size; if not, correct the planted area.`,
+    areaLibre: (finca, haFinca, ocupado, libre) =>
+      `The farm “${finca}” measures ${haFinca} ha and already has ${ocupado} ha planted: the planting can take up to ${libre} ha.`,
+    sinEspacio: 'There is not that much free space on the farm',
+    sinEspacioTexto: (siembra, finca, haFinca, ocupado, libre) =>
+      `You typed ${siembra} ha, but the farm “${finca}” measures ${haFinca} ha and already has ${ocupado} ha planted: only ${libre} ha are free. If the farm is actually bigger, change its size; if not, correct the planted area.`,
     agrandar: (finca, ha) => `Change “${finca}” to ${ha} ha`,
     corregir: 'Correct the area',
     consejos: {

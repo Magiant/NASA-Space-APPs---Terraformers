@@ -675,6 +675,11 @@ export const es = {
     masGrande: 'La siembra es más grande que la finca',
     masGrandeTexto: (siembra: string, finca: string, haFinca: string) =>
       `Escribió ${siembra} ha, pero la finca «${finca}» está registrada con ${haFinca} ha. Si la finca en realidad es más grande, cambie su tamaño; si no, corrija el área sembrada.`,
+    areaLibre: (finca: string, haFinca: string, ocupado: string, libre: string) =>
+      `La finca «${finca}» mide ${haFinca} ha y ya tiene ${ocupado} ha sembradas: la siembra puede ocupar hasta ${libre} ha.`,
+    sinEspacio: 'No queda tanto espacio libre en la finca',
+    sinEspacioTexto: (siembra: string, finca: string, haFinca: string, ocupado: string, libre: string) =>
+      `Escribió ${siembra} ha, pero la finca «${finca}» mide ${haFinca} ha y ya tiene ${ocupado} ha sembradas: solo quedan ${libre} ha libres. Si la finca en realidad es más grande, cambie su tamaño; si no, corrija el área sembrada.`,
     agrandar: (finca: string, ha: string) => `Cambiar «${finca}» a ${ha} ha`,
     corregir: 'Corregir el área',
     // Consejos según lo que la persona dijo de su finca (tipo de suelo, de dónde saca el agua, si tiene riego).
