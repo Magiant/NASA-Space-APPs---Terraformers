@@ -169,7 +169,8 @@ export default function EscaneoDron() {
     </p>
   );
 
-  if (!v) {
+  // Correccion - Poll: un vuelo sin parcelas rompia la pantalla al leer la primera fila; se trata como sin vuelo.
+  if (!v || !v.cuadricula.length || !v.cuadricula[0]?.length) {
     return (
       <>
         {portada}
