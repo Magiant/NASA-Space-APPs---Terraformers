@@ -1386,6 +1386,8 @@ body::before {
 }
 .pronostico-fila:first-child { background: var(--primario-suave); }
 .pronostico-fila-dia { grid-area: dia; font-weight: 700; }
+/* Correccion - Poll: la regla general que parte palabras largas cortaba "Miercole-s 2"; el nombre del dia no se parte. */
+.contenido .pronostico-fila-dia { overflow-wrap: normal; }
 .pronostico-fila .pronostico-dia-icono { grid-area: icono; height: auto; }
 .pronostico-fila-cielo { grid-area: cielo; color: var(--texto-suave); font-size: 0.9rem; }
 .pronostico-fila-temps { grid-area: temps; text-align: right; white-space: nowrap; }
