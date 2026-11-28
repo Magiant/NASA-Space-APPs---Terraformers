@@ -6,7 +6,8 @@ import { useAuth } from '../../contexto/AuthContext';
 import MapaFinca3D from '../../componentes/MapaFinca3D';
 import { guardar, leer } from '../../servicios/almacen';
 import { useT } from '../../contexto/PreferenciasContext';
-import { datos, modoReal } from '../../servicios/supabase';
+import { datos } from '../../servicios/supabase';
+import { modoRealActual } from '../../servicios/cliente';
 import { BASE_INICIAL } from '../../datos-ejemplo/privados';
 import type { Finca, VueloDron } from '../../tipos';
 import { clave, esArea, esLinea, esPunto, ESTILO, usosNoAgricolas, zonasProteccion } from '../../logica/elementosFinca';
@@ -74,7 +75,9 @@ export default function EscaneoDron() {
   const setModo = (m: Modo) => { setModoEstado(m); guardar(CLAVE_MODO, m); };
 
   const propias = fincas.datos ?? [];
-  const ejemplos = modoReal ? FINCAS_EJEMPLO : [];
+  // Correccion - Poll: en el modo demo aislado las fincas de la demo ya son las de ejemplo y salian dos veces
+  // ("La Esperanza" y "La Esperanza (ejemplo)"); solo se suman con la base real.
+  const ejemplos = modoRealActual() ? FINCAS_EJEMPLO : [];
   const todas = [...propias, ...ejemplos];
 
   // Sin finca en la URL: abrir la primera propia (o la primera de ejemplo si todavía no tiene fincas).
