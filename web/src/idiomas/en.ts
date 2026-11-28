@@ -280,16 +280,6 @@ export const en: Textos = {
 
   fondos: {
     credito: 'Photo',
-    satelite: {
-      titulo: 'We see your area from space',
-      texto: 'We use NASA satellites to measure rain, temperature, soil moisture and plant health in every district of Costa Rica.',
-      cifras: [{ numero: '492', texto: 'districts' }, { numero: '7', texto: 'provinces' }, { numero: '13', texto: 'crops' }, { numero: '10+', texto: 'data sources' }],
-    },
-    dron: {
-      titulo: 'Drones that measure your farm',
-      texto: 'A drone flight shows, plot by plot, where water is lacking, where a pest is spreading or where plants are weak.',
-      boton: 'See the drone scan',
-    },
     ndvi: {
       titulo: 'How the drone sees your farm',
       texto: 'A special drone camera measures the green index (NDVI): each color shows how healthy the plants are, revealing stressed areas before they are visible to the eye.',
@@ -335,11 +325,8 @@ export const en: Textos = {
     buscando: 'Finding the best crops…',
     ninguno: 'We found no recommended crops for this area.',
     noConviene: (n) => `Crops not advisable here (${n})`,
-    paraFinca: 'For your farm',
     reportar: 'Report a pest',
-    fincas: 'My farms and plantings',
     dron: 'Drone scan',
-    preciosHoy: 'Today’s prices',
     eligeZona: 'Choose an area to see what to plant',
     eligeZonaTexto: 'Use your location or choose province, canton and district.',
     sinDatos: (d: string) => `We do not have crop recommendations for ${d} yet. We are loading data for every district.`,

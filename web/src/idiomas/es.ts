@@ -295,16 +295,6 @@ export const es = {
 
   fondos: {
     credito: 'Foto',
-    satelite: {
-      titulo: 'Vemos su zona desde el espacio',
-      texto: 'Usamos satélites de la NASA para medir la lluvia, la temperatura, la humedad del suelo y qué tan sanas están las plantas en cada distrito de Costa Rica.',
-      cifras: [{ numero: '492', texto: 'distritos' }, { numero: '7', texto: 'provincias' }, { numero: '13', texto: 'cultivos' }, { numero: '+10', texto: 'fuentes de datos' }],
-    },
-    dron: {
-      titulo: 'Drones que miden su finca',
-      texto: 'Un vuelo de dron muestra, parcela por parcela, dónde falta agua, dónde hay una plaga o dónde las plantas están débiles.',
-      boton: 'Ver el escaneo con dron',
-    },
     ndvi: {
       titulo: 'Así ve el dron su finca',
       texto: 'Una cámara especial del dron mide el índice verde (NDVI): cada color dice qué tan sanas están las plantas, y así se ven las zonas con estrés antes de que se noten a simple vista.',
@@ -350,11 +340,8 @@ export const es = {
     buscando: 'Buscando los mejores cultivos…',
     ninguno: 'No encontramos cultivos recomendados para esta zona.',
     noConviene: (n: number) => `Cultivos que no conviene sembrar aquí (${n})`,
-    paraFinca: 'Para su finca',
     reportar: 'Reportar una plaga',
-    fincas: 'Mis fincas y siembras',
     dron: 'Escaneo con dron',
-    preciosHoy: 'Precios de hoy',
     eligeZona: 'Elija una zona para ver qué sembrar',
     eligeZonaTexto: 'Use su ubicación o elija provincia, cantón y distrito.',
     sinDatos: (d: string) => `Todavía no tenemos los cultivos recomendados para ${d}. Estamos cargando los datos de todos los distritos.`,
