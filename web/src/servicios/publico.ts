@@ -247,7 +247,8 @@ function aRegistro(fuente: RegistroPrecio['fuente'], [ultimo, anterior]: FilaPre
 function agrupar(filas: FilaPrecio[], clave: (f: FilaPrecio) => string): Map<string, FilaPrecio[]> {
   const grupos = new Map<string, FilaPrecio[]>();
   for (const f of filas) {
-    if (f.precio_promedio == null) continue;
+    // Correccion - Poll: un precio en 0 se mostraba como "₡0"; se descarta igual que uno vacio.
+    if (f.precio_promedio == null || Number(f.precio_promedio) <= 0) continue;
     const k = clave(f);
     if (!grupos.has(k)) grupos.set(k, []);
     grupos.get(k)!.push(f);
