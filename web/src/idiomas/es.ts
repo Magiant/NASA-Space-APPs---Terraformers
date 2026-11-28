@@ -858,7 +858,7 @@ export const es = {
     noSeCultiva: 'Esta parcela no es de cultivo: no cuenta en las parcelas para revisar.',
     proteccionLeyenda: 'Borde azul: zona de protección',
     proteccionParcela: (m: number) => `Está en la zona de protección (${m} m). No corte árboles y evite sembrar o fumigar aquí (Ley Forestal 7575, art. 33).`,
-    proteccionRio: (m: number, n: number) => `${n} parcelas (borde azul) están a menos de ${m} m de un río o quebrada: no corte árboles ni siembre o fumigue ahí. Son otras que las de revisar. (Ley Forestal 7575, art. 33)`,
+    proteccionRio: (m: number, n: number) => `${n === 1 ? '1 parcela (borde azul) está' : `${n} parcelas (borde azul) están`} a menos de ${m} m de un río o quebrada: no corte árboles ni siembre o fumigue ahí.`,
     proteccionNaciente: 'Hay una naciente: se protegen 100 m a su alrededor. No corte árboles ni use químicos cerca.',
     relieveMedido: 'Relieve medido por el dron (exagerado ×2 para que se note).',
     relieveAproximado: (p: number) => `Relieve aproximado con la pendiente medida por el dron (${p} %), exagerado ×2 para que se note.`,

@@ -824,7 +824,7 @@ export const en: Textos = {
     noSeCultiva: 'This plot is not cropland: it does not count among the plots to check.',
     proteccionLeyenda: 'Blue border: protected zone',
     proteccionParcela: (m) => `It is inside the protected zone (${m} m). Do not cut trees and avoid planting or spraying here (Forestry Law 7575, art. 33).`,
-    proteccionRio: (m, n) => `${n} plots (blue border) are less than ${m} m from a river or stream: do not cut trees, plant or spray there. They are different from the plots to check. (Forestry Law 7575, art. 33)`,
+    proteccionRio: (m, n) => `${n === 1 ? '1 plot (blue border) is' : `${n} plots (blue border) are`} less than ${m} m from a river or stream: do not cut trees, plant or spray there.`,
     proteccionNaciente: 'There is a spring: 100 m around it are protected. Do not cut trees or use chemicals nearby.',
     relieveMedido: 'Relief measured by the drone (exaggerated ×2 so it shows).',
     relieveAproximado: (p) => `Approximate relief from the slope measured by the drone (${p} %), exaggerated ×2 so it shows.`,
