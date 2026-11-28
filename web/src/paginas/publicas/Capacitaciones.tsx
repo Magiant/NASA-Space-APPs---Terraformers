@@ -63,6 +63,8 @@ export default function Capacitaciones() {
       <header className="cabecera-pagina">
         <h1>{tc.titulo}</h1>
         <p>{tc.subtitulo}</p>
+        {/* Correccion - Poll: no se decia como inscribirse en un curso. */}
+        <p className="ayuda">{tc.comoInscribirse}</p>
       </header>
       <FotoFranja foto="agricultor" />
 
@@ -139,9 +141,14 @@ export default function Capacitaciones() {
                 {c.plaga_id && <li><Icono nombre="plaga" tam={16} /> {tc.ayudaCon} {nombrePlaga(t, c.plaga_id)}</li>}
               </ul>
               {/* Correccion - Poll: el enlace del curso no se revisaba; solo se usa si es una direccion web (http o https). */}
-              <a className="boton boton-secundario" href={/^https?:\/\//i.test(c.url) ? c.url : undefined} target="_blank" rel="noreferrer">
-                {tc.verEn(c.institucion)}
-              </a>
+              {/* Correccion - Poll: sin direccion valida quedaba un boton que no hacia nada; ahora se dice donde preguntar. */}
+              {/^https?:\/\//i.test(c.url) ? (
+                <a className="boton boton-secundario" href={c.url} target="_blank" rel="noreferrer">
+                  {tc.verEn(c.institucion)}
+                </a>
+              ) : (
+                <p className="ayuda">{tc.sinEnlace(c.institucion)}</p>
+              )}
             </article>
           );
         })}

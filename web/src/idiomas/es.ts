@@ -523,6 +523,8 @@ export const es = {
     horas: (n: number) => (n === 1 ? '1 hora' : `${n} horas`),
     ayudaCon: 'Ayuda con:',
     verEn: (i: string) => `Ver el curso en la página del ${i} ↗`,
+    sinEnlace: (i: string) => (i === 'INA' ? 'Pida más información en el INA (Instituto Nacional de Aprendizaje).' : `Pida más información en ${i}.`),
+    comoInscribirse: 'Para inscribirse, entre a la página del curso y siga las instrucciones de la institución.',
     modalidad: { presencial: '🏫 Presencial', virtual: '💻 Virtual', mixta: '🔀 Mixta' },
     // Recomendados para los próximos meses (logica/cursos.ts)
     recomendados: 'Recomendados',
